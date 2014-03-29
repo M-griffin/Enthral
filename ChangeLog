@@ -1,0 +1,185 @@
+
+/=/====================================================================================================
+$ Rewrite / fixes and updates since Build 428-R1 Alpha through Currnet 628 Alpha have been too numerious.
+  Since there have been no publix releases all changes have been rolled into this current new release
+  going forward changes and updates will get logged.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 428-R1 Alpha
++ Updated source and project files to recompile on latest distribution with latest g++ 4.4.2+
+
+/=/====================================================================================================
+$ Fixes and updates since Build 428 Alpha
++ Added Perl Detection into configure script, not yet embedded into the software though.
++ Fixed Ansi Aborted on all Ansi's, no longer will it abort and display unparsed mci codes.
++ Fixed crashing with message posting or replying to a message on first join to message menu.
++ Fixed problem with Sysop access to system notices, should read from the config file properly now.
++ Removed Check on Invalid Emails in New User Application, all Email Address will now work.
++ Added checks for \r Carriage Return along with \n Newline to register as [ENTER] Key.
++ Updated Python checking, it will not longer try to include header files etc if not installed,
+  this will let you compile the program without python support if desired.
++ Created new Autogen.sh script, this will re-run all libtool's and (GNU Automake) to generate a
+  proper multi-platform configure script to detect python in various distributions.
++ Updated Install.pl install script, will not remove any temporary macro's and will also
+  run the new autogen.sh script to regenerate a proper config file with (GNU Automake).
++ Added some read/write error messages to help narrow down any permission problems.
++ Previous Build, Split Usrlist (UserList INI) and Created Seperate eUsrList (Email User List) ini files.
+  Now each use listing can have it's own headers and x/y coords.
++ Small Bug fix on Config.ini, Source was checked in with Test Handle, Updated Back to "Mercyful Fate"
+  So the install.pl script would do a search replace properly.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 426 Alpha
++ Fixed problem with Sysop Name in config.ini not hacing posting access to System Announcement/Notices.  This is now fixed.
++ Fixed some generic buffer problems in the message reader with Field Names and Subject Lengths.
++ Updated config files, if you have a make error, run the following command in root folder. cmd:
++ Project Files updated and fixed to Work with new python detection properly now.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 424 Alpha
++ Added Python Detection into configure scripts, will detect and import paths and lib locations. Tested on Linux and BSD!
+  ./configure --disable-python is still a WIP and will let someone compile and run the bbs without python.
++ Disabled Read/Bypass/Ignore on Message NewScan, this comes up and shows total Messages in Area,
+  This is will a work in progress and wasn't meant to be enabled yet since it's unfinished.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 423 Alpha
++ Various ANSI Template Updates, Language.txt String Updates.
++ Fixed Mread3.ans and Logoff.ans for Proper NewLine Formats.
++ Updates some Login Strings, removed forced centering on Ansi Detection Propmts, Prompts other then
+  Copyright etc shouldn't be forced center, lets the sysop customize the string easier.
++ Updated UserList / EmailUserList, not combines ini anymore.  Added new eusrlist.ini for Email User Selection.
++ Fixed ENTER on Node Mesage Prompt, will no longer bring up empty node message bar to no node.
++ Fixed '%' Key Crash/Error in FSE.  Found bug in vsprintf handeling strings with '%' in them.
++ Added config.ini file, it will now load and be read by the software, it will also contain the
+  sysop name, no longer a need to edit the logon.cpp file manually anymore. Make sure to add your name into the config.ini
++ Removed flush() on all key input, oopsi, should help with lost key presses in general.
+
+{ Wip, incompleted but release this build early, this will get finished next release with configurability.}
++ Added new Ansifile 'newfound.ans' This new File will display prompt or ansi file when there are
+  new messages in an area in a newscan, it will prompt ENTER to Read, B, to Bypass and leave Unread, or I to Ignore and mark all read.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 420 Alpha
++ Fixed Area List Lightbar Scrolling, Will Now Scroll up Properly on Last Page.
++ Fixed Change Area by #, Will now change to the properly the page and highlight the selected area.
++ Fixed Crashing While Editing Messages that contained Tags and Original Lines, The Editor usually
+  Will remove all Tags and Origin Lines from the Original Message, Then re-add them once the message
+  is re-saved is avoid any forgery on the actual origin of the message. The Code to clean up and Blank
+  Lines at the bottom of the message had to be fixed.
+  - I beleive this also fixed crashing while saving edited messages as well.
++ Fixed Default Page Number of 0 in UserList, Also The Show More Field displaying incorrectly.
++ Updated Node Messaging, HotKey will Stay the Same with Letters, Digits will now let you
+  Enter multiple digits followed by ENTER to select which node you want to send a message, ie for Nodes 10 and up.
++ Fixed UserList/EmailUserList Scrolling up and down now updated to work like Message Area,
+  Also the changing or quick selection by # is now fixed as well and will scroll the page and display
+  the page properly, especially if it's the last page which scrolls down to fill the entire box.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 418 Alpha
++ Fixed Problem in FSE with Message Reply, Scrolling to the top of Editor wasn't letting
+  you scroll back down to last line in message.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 417 Alpha
++ Fixed Memory Clear() in Data Areas.
++ Fixed Choice Lightbar sleection, reset on menu changes now back to 0 so the lightbar will always start at the top properly.
++ Fixed Project files looking for menus.cpp/h files.
++ Fixed Message Scrolling Reading to add 1 line after a screen pause so it displays the lightbar prompts propely with a line(row) between them.
++ Removed |UT Mci Code for System Uptime 'calls uptime in shell' ( Code was having problems, will re-add lateron. )
+
+/=/====================================================================================================
+$ Fixes and updates since Build 415 Alpha
++ Fixed Bug, Enter Message Area # in Area List to Change to Area, then Read Messages was reading for previous area.
++ Added Clear of all Drop Files per each node directory on user logoff of that node, fix for doors.
++ Fixed Bugs in Message Edit, and Usersig Editor that was adding preceding line before all text.
++ Fixed Menu Crashes on Hi/Low String lengths.
++ Rewrote menu system to allocate and clear memory dynamically like data areas, This rewrite all makes all
+  - string size allocation on the fly with std::string types instead of char type.
+  - Also added in Better Memory checking on allocation and removal when completed.
++ Rewrote Large portion on the Dynamic Linklists, these are the core of the message interfaces
+  - Fixed several bugs with lines being added in the beginning and the end of message text along with area lists.
+  - Switch from a full circle list to a Start and End with forward and backward iterators.
+  - Also fixed up list counts
+   to be more accurate now.
+  - Also added in Better Memory checking on allocation and removal when completed.
++ Fixed several bugs in the Full Screen Editor.
+  - CTRL+N Will now insert a blank line in the middle of the text properly again.
+  - Backspace through to the beginning of the line will now move up, and to the end of the previous line properly
+  - Backspace on beginning of line will more accurately cut the current line and place as many words that will
+    fit on the line above it.  Some small tweaks still needed but much better now!!
++ Added Initial Import function's for Initializing Python scripting language.
+  - Created a few callouts for basic functions of Display Text, Text w/ Pipe Codes, Get Input, And Run Animated Pause.
+    Python is not active in the system though, more function's tied into the system will be created and then
+    I will tie it into the menu system to execute scripts as menu command, and as through he language file where you
+    can run scripts instead of displaying prompts.. ie Like Mystic / Iniquity BBS’s.  WIP!
++ Fixed Crashing with Memory allocation in Builder 414 Alpha.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 401 Alpha
++ Added new File Header Maco's for Revision User tracking, Tx Frank!
++ Fixed Problem when Message Reader Changing Themes, it wasn't re-reading the new light bar prompts for new/selected theme.
++ Added User Sigs in message, hit S to Enter the Editor, Must Add Command to Reader Prompts '!S' Menu Command for Reader Menu's Only.
+  - This will be expanded later on to work from any menu.  for now it works when reading normal or email messages.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 400 Alpha
++ Fixed slow downs in Message Board Editor, when modifying an Area.
++ Merged Pause display into single string output instead of 2, hopefully will remove shadow effects.
++ Various Code Fixup's.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 399 Alpha
++ Fixed New Message Count MCI Code Totals
++ Fixed NewScan Problems where it wasn't resetting the LastRead Properly on Each Message Area.
++ Fixed NewScan Problems where if an area had 0 messages, it would stop scanning there and not goto the next area.
++ Fixed PageUP/PageDN missing in Email Reader/Scan with Full Screen Message Reader Themes.
++ Fixed Theme Switching Messages, Will now Say when you hit the highest or lowest theme in Message Reader.
++ Fixed msg_rprompt2.txt - ESC Passing = "TRUE" - so the up and down arrows work again for pgup/pgdn in Msg Theme #2
+
+/=/====================================================================================================
+$ Fixes and updates since Build 398 Alpha
++ Added in new Error/System Logging Function.
++ Right now logging is setup to track all message area scans and get and set last read pointers to detect any problems.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 397 Alpha
++ Fixed Ignore and Bypass in message Reader, will now skip properly, and move to next area in newscan.
++ Pulls Operating System from uname now, no longer hard coded.
++ Moved Sysop name and email in connect header to language file.
++ Moved all ANSI/ASCII detection strings to language file.
++ Moved various system prompts to language file.
+
+/=/====================================================================================================
+$ Fixes and updates since Build 396 Alpha
++ Fixed Filename Doorinfo#.def to Dorinfo#.def drop filename. :) opps.
++ Cleaned up MSG API open() and close() area calls.
++ SysOp's now have access to delete all messages in all areas.
++ Fixed Problem with Ansi Screen's that had |PA {Pause} were displaying twice!
++ Fixed some of the New Line / CR Problems with Mtelnet, Mtelnet need \r\n instead o just \n on some system.
+  This will probably need to be set to a user toggle depending on terminal etc...
++ Fixed Pause Display, if the current Y Location is over 60 Chars, almost at the of the screen, the
+  Pause prompt will now move 1 line down to avoid half of the pause prompt or script going across (2) rows.
++ Fixed Reverse Email Scanning, when you were at the first message it would lock up if you hit previous message.
++ Add SysOp able to delete any messages in an area.
++ Add New SysOp Scan Email Scan MenuCmd *E, so the sysop can read through all email messages. (mainly testing, but for admin too)
++ Added some new last read checking, need more testing but i think the newscan problem is fixed.
++ Added Gosub Menu command.  Use MenuCmd -/ to go to a menu, then MenuCmd -! to return to the original menu. (Still needs some Testing).
+
+/=/====================================================================================================
+$ Fixes and updates since Build 376 Alpha
+(upgrading to gcc 4.x generation. Update to get this working correctly.)
++ Fixed bugs that were crashing matrix logon sequence. for new change to gcc 4.x caught this.
++ Reworked some node path code, as it wasn't reading current user correctly,
++ Added check for user, creator to delete private emails they receive or send. (need to add sysop check still to delete all)
++ Rewrote Parts of Message Area Scan's. Both Current Area, and All Message Areas.
++ Fixed bug in new message counts in area list on refresh after posting new message, or going to a new menu the coming back to area list.
++ Added isSysop checking to Sysop Only Menu commands instead of commenting them out in a menu.
++ Updated and reworked the Message Forum Editor.  Added Several new features to help configure the message system.
+- Added better listing and fixed all bugs with insert, delete, edit, move that weren't hitting the correct areas.
+- Built in support for toggle sysop message areas, off limits to normal users.
+- the area view will also show any areas that are marked sysop only.
+- the message listing now displayed in pages, if there are more then 14 areas, you can use [ or ] to go to the next or prev page of areas.
+- new compile feature, this will generate automatically the forums2.dat that normal users will see there areas in.
+- the new compile feature must be kicked off anytime changes are made!,  there is also a toggle sysop view, this will let you see the area that
+  normal users will be allowed to see, you can use this to verify your work.

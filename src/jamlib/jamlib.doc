@@ -1,0 +1,1422 @@
+                               JAMLIB
+
+                       A JAM subroutine library
+
+                         by Björn Stenberg
+
+                     modifications by Johan Billing
+                     
+                     Updated for G++ by Michael Griffin
+
+                            version 1.3.2
+
+                              2014-01-01
+
+
+GENERAL
+=======
+
+History
+-------
+JAMLIB 1.0 was originally released by Björn Stenberg 1996-03-06. Since
+the original license did not permit modification of the library,
+Johan Billing contacted Björn Stenberg and asked him to change the
+license. Björn Stenberg agreed to change the license to the GNU Lesser
+General Public License 1999-12-21 (see the accompanying file LICENSE).
+
+  After that, some minor additions and bug fixes were made by Johan
+Billing and JAMLIB 1.1 was released under the new license.
+
+Changes in 1.3.2:
+
+ * Updated the Win32-specific parts of the code to make it compatible with
+   newer versions of MinGW (tested with 3.1.0-1).
+
+Changes in 1.3.1:
+
+ * Backported the following bugfixes and improvements from JAMLIB 1.4.7 while
+   retaining the platform-independence and high portability of the early
+   versions of JAMLIB.
+
+   - JAMLIB now uses calloc() instead of malloc() followed by memset()
+
+   - JAM_OpenMB() and JAM_CreateMB() will set (*NewArea_PPS) to NULL if
+     calloc() failed
+
+   - JAM_CreateMB() no longer attempts indefinitely to lock the newly created
+     messagebase. If the first attempt fails, it will return an error.
+
+   - jam_Lock() now sets Base_PS->Errno under Linux
+
+   - JAM_NewSubPacket() and JAM_PutSubField() would give memory leaks under
+     conditions of low memory conditions. Fixed.
+
+   - JAM_ReadMsgHeader() would give memory leaks on failure. Fixed.
+
+   - Added JAM_DeleteMessage()
+
+   Big thanks to Sir Raorn (and others?) for finding and fixing these bugs!
+
+ * JAM_CreateMB() would never unlock or close the newly created messagebase
+   upon failure. Fixed.
+
+ * Improved handling of ActiveMsgs counter. JAM_AddMessage() now only
+   increases ActiveMsgs if the added message does not have MSG_DELETED set.
+   JAM_ChangeMsgHeader() decreases ActiveMsgs if MSG_DELETED is set and the
+   message wasn't already deleted. JAM_DeleteMessage() now only decreases
+   ActiveMsgs if the message wasn't already deleted.
+
+ * Updated the documentation to reflect the need to free() memory after
+   JAM_CloseMB() and failed calls to JAM_OpenMB() and JAM_CreateMB().
+
+ * Eliminated compiler warnings
+
+Changes in 1.3:
+
+ * JAM_AddMessage() would fail when trying to add an empty message
+   to the messagebase under Linux. Fixed.
+
+Changes in 1.2:
+
+ * Since JAM_GetSubField() is not reentrant and cannot be used in
+   multi-threaded applications, JAM_GetSubField_R() was added as a
+   replacement for cases where a reentrant function is needed.
+
+Changes in 1.1:
+
+ * Added support for Win32 and Linux
+
+ * Added JAM_AddEmptyMessage()
+
+ * Rewrote the Makefiles
+
+ * Rewrote the CRC32 routine
+
+ * Fixed broken JAM_FindUser()
+
+ * Fixed broken JAM_GetSubfield()
+
+ * Changed JAM_OpenMB so that files are opened in binary mode. This is
+   necessary to use JAMLIB under Windows.
+
+ * Improved JAM_ReadMsgHeader() to give the error JAM_NO_MESSAGE if
+   the message no longer exists in the messagebase and JAM_CORRUPT_MSG
+   if the subfields of the message have been corrupted.
+
+ * Improved portability by changing JAMLIB so that it no longer reads
+   and writes stuctures directly using fread() and fwrite().
+
+ * Improved ANSI-C compatibilty by no longer including the non-ANSI
+   header file memory.h and using feof() to check for EOF instead of
+   errno == EPASTEOF.
+
+ * Added an #ifdef so that ushort and ulong are no longer defined in
+   jam.h when compiling under Linux. These are normally already defined
+   in the standard header files.
+
+
+License
+-------
+JAMLIB - A JAM subroutine library
+Copyright (C) 1999 Björn Stenberg
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA  
+
+
+Description
+-----------
+These are a collection of subroutines that encapsulate much of the
+format-specific and tedious details of the JAM message base format. The
+idea is that application programmers by using these routines can
+concentrate on the more high-level issues of their programs instead of
+worrying about their JAM routines.
+
+  I [Björn Stenberg] wrote these routines primarily because I needed 
+them myself. I was trying to implement JAM support in my FrexxLink BBS 
+system and was frustrated by the poor level of documentation supplied in 
+the JAMAPI archive distributed by the JAM authors. Finally, I dove into 
+the JAMAPI source code in a desperate attempt at finding out how to use it. 
+To my despair, I discovered that the JAMAPI is targeted at a very low level. 
+I would need to implement a lot of JAM-handling code into my own program.
+
+  This library is an attempt to do two things:
+
+  Firstly, provide an, at least sparingly, _documented_ API, allowing
+application programmers to easily implement JAM into their programs.
+
+  Secondly, raise the level of functionality above that of the original
+JAMAPI package, so that the application programmer does not have to learn
+and understand all the internals of the JAM message base format to
+implement support for it.
+
+  I have not succeded completely on any of the two points, of course.
+Documentation can never be too good, and there are still a few things about
+JAM you must know in order to use it. But I think I have made it somewhat
+easier than perhaps was the case before.
+
+
+References
+----------
+If you are extra curious about the JAM message format, I suggest you get
+a hold of an archive called JAMAPI.ARJ. That archive contains a file called
+JAM.DOC which is the file I have used as reference for the development of
+these routines.
+
+
+Credits
+-------
+All original code except for the CRC32 routine was written by Björn
+Stenberg. The CRC32 code was rewritten by Johan Billing for JAMLIB 1.1
+to replace the original CRC32 code whose origin and copyright was unclear.
+The jam.h header file is a compilation of the best from the various header
+files in the JAMAPI package with some of additions by Björn Stenberg as well.
+Additions and modifications by Johan Billing.
+
+  The JAM message base proposal is:
+
+  JAM(mbp) - Copyright 1993 Joaquim Homrighausen, Andrew Milner,
+                            Mats Birch, Mats Wallin.
+                            ALL RIGHTS RESERVED
+
+
+Contact Information
+-------------------
+For questions about JAMLIB, please contact:
+
+   Johan Billing
+
+   E-mail: billing@df.lth.se
+
+  If you wish to contact Björn Stenberg, his current e-mail address (as of
+1999-12-21) is bjorn@haxx.nu.
+
+
+THE LIBRARY
+===========
+
+The Source Code
+---------------
+  I made a point of making this library as system independant as I could.
+Only one function needs to be altered when porting this to another system:
+The file locking. ANSI C does not include file locking so there is not much
+I can do about it.
+  The choice of C over C++ is a part of this philosophy aswell. More
+systems have C compilers than C++ compilers, and more people know C than
+C++. Also, converting this library to a C++ class should be fairly simple.
+If you do, send me a copy.
+
+  I use some naming conventions throughout the code and in the examples.
+These are invented by myself as a reaction to the stunningly ugly and
+hard-to-read Hungarian Notation promoted by some people. The rules of my
+notation are simple:
+
+  * All library-global identifiers are prefixed with 'JAM_'. All
+    file-global identifiers are prefixed with 'jam_'. Local identifiers do
+    not have prefixes.
+
+  * All variables have a suffix describing their basic type. Suffixes used
+    in this library are:
+    _I - integer                        (int      Example_I)
+    _C - character                      (char     Example_C)
+    _S - struct                         (struct   Example_S)
+    _P - pointer                        (void*    Example_P)
+    _A - array
+
+    Suffixes are then combined, to show the correct type:
+    _PI  - pointer to integer           (int*     Example_PI)
+    _PC  - pointer to char              (char*    Example_PC)
+    _AC  - array of char                (char     Example_AC[x])
+    _PPS - pointer to pointer to struct (struct** Example_PPS)
+
+  * Functions do not have suffixes
+
+  The whole idea is that it is quicker to read and comprehend a variable
+called 'Text_PC' than one called 'pszText'. We read from left to right, and
+thus the most important information - the name - should be the leftmost
+data in the word. The variable type is additional information and is
+therefore added to the end where it does not disturb the reader.
+
+
+The Functions
+-------------
+  The library is divided into five groups:
+
+  * Message base functions
+  * Message functions
+  * Subfield functions
+  * LastRead functions
+  * Miscellanous functions
+
+
+--------------------------------------------------------------------------
+
+                      Message base functions
+                      ----------------------
+
+  These functions handle JAM message bases, by opening, locking, scanning
+etc the contents of a message base. These are fairly straight-forward and
+simple routines that you should have little, if any, trouble with.
+
+  A message base is identified by a message base handle, which is obtained
+from either JAM_OpenMB() och JAM_CreateMB(). All functions that read or
+write from the message base take this handle as parameter, to know which
+message base to use.
+
+================================
+JAM_OpenMB - Open a message base
+================================
+
+Syntax
+        int JAM_OpenMB( uchar* Basename_PC, t_JamBase** NewBase_PPS );
+
+Description
+        Opens a message base. Only one message base can be open at a time.
+
+Parameters
+        Basename_PC     The path and base filename of the message base.
+                        "Base filename" means the filename without the
+                        JAM-specific extension.
+
+        NewBase_PPS     A pointer to a message base handle where the new
+                        message base handle will be written. On error you
+                        must free() this memory if (*NewBase_PPS) not NULL.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_BAD_PARAM   if NewBas_PPS is NULL
+
+Example
+        {
+          int Result_I;
+
+          Result_I = JAM_OpenMB( "c:\\jam\\mybase", &Base_PS );
+          if ( Result_I )
+            printf("JAM_OpenMB returned %d.\n", Result_I );
+        }
+
+
+
+================================
+JAM_CloseMB - Close message base
+================================
+
+Syntax
+        int JAM_CloseMB( Base_PS );
+
+Description
+        Unlocks (if locked) and closes the currently open message base.
+
+Parameters
+        Base_PS         The message base to close. Note, that you must
+                        free() this memory by yourself.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_LOCK_FAILED if the message base could not be unlocked
+
+Example
+        {
+          int Result_I;
+
+          Result_I = JAM_CloseMB( Base_PS );
+          if ( Result_I )
+            printf("JAM_CloseMB returned %d.\n", Result_I );
+        }
+
+
+
+========================================
+JAM_CreateMB - Create a new message base
+========================================
+
+Syntax
+        int JAM_CreateMB( uchar*      Basename_PC,
+                          ulong       BaseMsg_I,
+                          s_JamBase** NewBase_PPS );
+
+Description
+        Creates the necessary files for a new message base and writes a
+        new message base header.
+        If the message base already exists, its contents are destroyed.
+
+Parameters
+        Basename_PC     The path and base filename of the new message base.
+
+        BaseMsg_I       The base message number (first message #) for the
+                        new message base. This number is used when
+                        calculating new messages' unique message number. It
+                        should not be set to 0.
+
+        NewBase_PPS     A pointer to a message base handle where the new
+                        message base handle will be written. On error you
+                        must free() this memory if (*NewBase_PPS) not NULL.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_BAD_PARAM   if BaseMsg_I is 0 or NewBase_PPS is NULL
+
+Example
+        {
+          int Result_I;
+
+          Result_I = JAM_CreateMB( "c:\\jam\\mybase", 1, &Base_PS );
+          if ( Result_I )
+            printf("JAM_CreateMB returned %d.\n", Result_I );
+        }
+
+
+
+====================================
+JAM_RemoveMB - Remove a message base
+====================================
+
+Syntax
+        int JAM_RemoveMB( ErrorBase_PS, uchar* Basename_PC );
+
+Description
+        Deletes all files associated with a message base. No checking is
+        done as to whether the message base is currently open or not.
+
+Parameters
+        ErrorBase_PS    The message base in which to store the I/O error,
+                        if any. This parameter does *NOT* specify the
+                        message to be removed, it is only used for error
+                        tracking purposes. If an i/o error occurs when
+                        removing the message base files, this message base
+                        handler will simply hold the error code.
+
+        Basename_PC     The path and base filename of the message base to
+                        remove.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_BAD_PARAM   if ErrorBase_PS is NULL
+
+Example
+        {
+          int        Result_I;
+
+          Result_I = JAM_RemoveMB( Base_PS, "c:\\jam\\mybase" );
+          if ( Result_I ) {
+            printf("JAM_RemoveMB returned %d.\n", Result_I );
+            if ( Result_I == JAM_IO_ERROR )
+              printf( "i/o error %d\n", JAM_Errno( ErrorBase_PS ) );
+          }
+        }
+
+
+
+===================================================
+JAM_LockMB - Lock message base for exclusive access
+===================================================
+
+Syntax
+        int JAM_LockMB( t_JamBase* Base_PS );
+
+Description
+        Locks the currently open message base so that no other programs may
+        modify it. The message base should be locked for only small periods
+        of time, or the performance of tossers and other software may be
+        affected.
+
+Parameters
+        Base_PS         The message base to lock
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_LOCK_FAILED if the message base is currently locked by another
+                        process
+        JAM_BAD_PARAM   if Base_PS is NULL
+
+Example
+        {
+            int        Result_I;
+
+            while ( 1 ) {
+                Result_I = JAM_LockMB( Base_PS );
+                if ( Result_I ) {
+
+                   if ( Result_I == JAM_LOCK_FAILED )
+                       /* base locked by someone else, wait for unlock */
+                       sleep( 1 );
+
+                   else {
+                       /* error */
+                       printf("JAM_LockMB returned %d.\n", Result_I );
+                       return -1;
+                   }
+                }
+            }
+        }
+
+
+
+==================================
+JAM_UnlockMB - Unlock message base
+==================================
+
+Syntax
+        int JAM_UnlockMB( s_JamBase* Base_PS );
+
+Description
+        Unlocks message base, allowing other programs to modify it.
+
+Parameters
+        Base_PS         The message base to unlock
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_BAD_PARAM   if Base_PS is NULL
+
+Example
+        {
+          int Result_I;
+
+          Result_I = JAM_UnlockMB( Base_PS );
+          if ( Result_I )
+            printf("JAM_UnlockMB returned %d.\n", Result_I );
+        }
+
+
+
+===========================================
+JAM_ReadMBHeader - Read message base header
+===========================================
+
+Syntax
+        int JAM_ReadMBHeader( s_JamBase*       Base_PS,
+                              s_JamBaseHeader* Header_PS );
+
+Description
+        Reads the message base header from the start of the JAM header
+        file.
+
+Parameters
+        Base_PS         The message base to use
+
+        Header_PS       A pointer to a base header structure where the base
+                        header will be stored.
+
+Returns
+        0               if successful
+        JAM_BAD_PARAM   if Base_PS or Header_PS is NULL
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+
+Example
+        {
+          s_JamBaseHeader BaseHeader_S;
+          int             Result_I;
+
+          Result_I = JAM_ReadMBHeader( Base_PS, &BaseHeader_S );
+          if ( Result_I )
+            printf("JAM_ReadMBHeader returned %d.\n", Result_I );
+        }
+
+
+
+=============================================
+JAM_WriteMBHeader - Write message base header
+=============================================
+
+Syntax
+        int JAM_WriteMBHeader( s_JamBase*       Base_PS,
+                               s_JamBaseHeader* Header_PS );
+
+Description
+        Increases the ModCounter field by one, resets the header signature
+        and writes the message base header to the start of the JAM header
+        file.
+
+Parameters
+        Base_PS         The message base to use
+
+        Header_PS       A pointer to the base header to be stored
+
+Returns
+        0               if successful
+        JAM_BAD_PARAM   if Base_PS or Header_PS is NULL
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_NOT_LOCKED  if the message base is not locked
+
+Example
+        {
+          s_JamBaseHeader BaseHeader_S;
+          int             Result_I;
+
+          /* modify header here */
+
+          Result_I = JAM_WriteMBHeader( &BaseHeader_S );
+          if ( Result_I )
+            printf("JAM_WriteMBHeader returned %d.\n", Result_I );
+        }
+
+
+
+=====================================
+JAM_FindUser - Find message to a user
+=====================================
+
+Syntax
+        int JAM_FindUser( s_JamBase* Base_PS,
+                          ulong      UserCrc_I,
+                          ulong      StartMsg_I,
+                          ulong*     MsgNo_PI );
+
+Description
+        Scans the message base looking for a message written to a specific
+        user.
+
+Parameters
+        Base_PS         The message base to use
+
+        UserCrc_I       The CRC32 value for the searched name
+
+        StartMsg_I      The first message number to look at. This value is
+                        not the message's unique number, but rather the
+                        absolute position of the message in the message
+                        base. Message 0 therefore means the first message.
+
+        MsgNo_PI        A pointer to a variable where the message number
+                        for the found message will be stored. This number
+                        is the absolute message position in the message
+                        base. Message 0 means the first message.
+
+Returns
+        0               if a message was found
+        JAM_NO_USER     if no message was found
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+
+Example
+        {
+          uchar Name_AC[32];
+          int   Result_I;
+          ulong Crc_I;
+          ulong Msg_I;
+
+          strcpy( Name_AC, "Bjorn Stenberg" );
+
+          Crc_I = JAM_Crc32( Name_AC, strlen( Name_AC ) );
+
+          Result_I = JAM_FindUser( Base_PS, Crc_I, 0, &Msg_I );
+
+          switch ( Result_I ) {
+            case JAM_NO_USER:
+              printf("No message for me.\n");
+              break;
+
+            case JAM_IO_ERROR:
+              printf("IO error %d\n", JAM_Errno() );
+              break;
+          }
+        }
+
+
+
+==========================================================
+JAM_GetMBSize - Get the number of messages in message base
+==========================================================
+
+Syntax
+        int JAM_GetMBSize( s_JamBase* Base_PS,
+                           ulong*     Messages_PI );
+
+Description
+        Finds out the number of messages (deleted and undeleted) in the
+        message base.
+
+Parameters
+        Base_PS         The message base to use
+
+        Messages_PI     A pointer to a variable where the number of
+                        messages will be stored.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+
+Example
+        {
+          int   Result_I;
+          ulong Size_I;
+
+          Result_I = JAM_GetMBSize( Base_PS, &Size_I );
+          if ( Result_I )
+            printf("JAM_GetMBSize returned %d.\n", Result_I );
+         }
+
+
+
+
+
+--------------------------------------------------------------------------
+
+                         Message functions
+                         -----------------
+
+  These functions handle individual JAM messages. A JAM message contains of
+three parts:
+
+  * Message Header
+  * Message Header Subfields
+  * Message Text
+
+  The message header is a simple C structure and the message text is a
+simple text buffer.
+  The subfields, however, are a bit more tricky. These contain everything
+that is not covered by the header, including the TO, FROM, SUBJECT fields,
+origin and destination network adresses etc. There can be an unlimited
+number of subfields to a message.
+  In this routine library the subfields are encapsulated by a 'subfield
+packet', which is handled by its own set of routines. See a later section
+of this document for an explanation of those.
+
+=============================================================
+JAM_ReadMsgHeader - Read a message's header and its subfields
+=============================================================
+
+Syntax
+        int JAM_ReadMsgHeader( s_JamBase*       Base_PS,
+                               ulong            MsgNo_I,
+                               s_JamMsgHeader*  Header_PS,
+                               s_JamSubPacket** Subfields_PPS );
+
+Description
+        Reads a message header and (optionally) the message header
+        subfields.
+
+Parameters
+        Base_PS         The message base to use
+
+        MsgNo_I         The message number, i.e. the absolute position of
+                        the message in the message base. Message 0 is the
+                        first message.
+
+        Header_PS       A pointer to a message header structure where the
+                        message header will be stored.
+
+        Subfields_PPS   A pointer to a subpacket pointer, where the
+                        subfield packet handle will be stored.
+                        If this parameter is NULL, no subfields are read.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_NO_MEMORY   if a memory allocation failed
+        JAM_NO_MESSAGE  if message has been removed
+        JAM_CORRUPT_MSG if message subfields are corrupted
+
+Example
+        {
+          s_JamMsgHeader  Header_S;
+          s_JamSubPacket* SubPack_PS
+          int             Result_I;
+
+          Result_I = JAM_ReadMsgHeader( 0, &Header_S, &SubPack_PS );
+          if ( Result_I )
+            printf("JAM_ReadMsgHeader returned %d.\n", Result_I );
+        }
+
+
+
+=======================================
+JAM_ReadMsgText - Read a message's text
+=======================================
+
+Syntax
+        int JAM_ReadMsgText( s_JamBase* Base_PS,
+                             ulong      Offset_I,
+                             ulong      Length_I,
+                             uchar*     Buffer_PC );
+
+Description
+        Reads the body text associated with a message.
+
+Parameters
+        Base_PS         The message base to use
+
+        Offset_I        The text position in the text file. This
+                        information is stored in the message header.
+
+        Length_I        The text length. This information is stored in the
+                        message header.
+
+        Buffer_PC       A pointer to where the text should be stored.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+
+Example
+        {
+          s_JamMsgHeader Header_S;
+          uchar*         Buffer_PC;
+          int            Result_I;
+
+          /* read msg header */
+          Result_I = JAM_ReadMsgHeader( Base_PS, 0, &Header_S, &SubPack_PS );
+          if ( Result_I ) {
+            printf("JAM_ReadMsgHeader returned %d.\n", Result_I );
+            return;
+          }
+
+          /* allocate buffer text */
+          Buffer_PC = (uchar*) malloc( Header_S.TxtLen );
+          if ( !Buffer_PC ) {
+            printf("malloc failed.\n");
+            return;
+          }
+
+          /* read text */
+          Result_I = JAM_ReadMsgText( Base_PS,
+                                      Header_S.TxtOffset,
+                                      Header_S.TxtLen,
+                                      Buffer_PC );
+          if ( Result_I )
+            printf("JAM_ReadMsgText returned %d.\n", Result_I );
+
+          free( Buffer_PC );
+        }
+
+
+
+==============================================
+JAM_AddMessage - Add a message to message base
+==============================================
+
+Syntax
+        int JAM_AddMessage( s_JamBase*      Base_PS,
+                            s_JamMsgHeader* Header_PS,
+                            s_JamSubPacket* SubPack_PS,
+                            uchar*          Text_PC,
+                            ulong           TextLen_I );
+
+Description
+        Adds a message to the message base. Fully automatic.
+
+Parameters
+        Base_PS         The message base to use
+
+        Header_PS       A pointer to the message header struct. The
+                        function will set the following header fields:
+                        Signature, Revision, TxtOffset, TxtLen, SubfieldLen
+                        and MsgNum. Whatever you set these fields to will
+                        be overwritten.
+
+        SubPack_PS      A subfield packet handler, containing all subfields
+                        for the message.
+
+        Text_PC         A pointer to the first byte of the message text.
+
+        TextLen_I       The length of the message text, excluding any zero
+                        termination characters.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_NOT_LOCKED  if the message base is not locked
+
+Example
+        {
+          s_JamSubPacket*   SubPacket_PS;
+          s_JamSubfield     Subfield_S;
+          s_JamMsgHeader    Header_S;
+          uchar             Text_AC[64];
+          uchar             Field_AC[64];
+
+          /*
+          **  Fix message header
+          */
+
+          JAM_ClearMsgHeader( &Header_S );
+          Header_S.DateWritten = time(NULL);
+
+          /*
+          **  Create subfield packet
+          */
+
+          SubPacket_PS = JAM_NewSubPacket();
+          if ( !SubPacket_PS ) {
+              printf("JAM_NewSubPacket returned NULL.\n" );
+              return;
+          }
+
+          /* set up subfield 1 */
+          strcpy( Field_AC, "This is field #1" );
+          Subfield_S.LoID   = JAMSFLD_SENDERNAME;
+          Subfield_S.HiID   = 0;
+          Subfield_S.DatLen = strlen( Field_AC );
+          Subfield_S.Buffer = Field_AC;
+          JAM_PutSubfield( SubPacket_PS, &Subfield_S );
+
+          /* set up subfield 2 */
+          strcpy( Field_AC, "This is field #2" );
+          Subfield_S.LoID   = JAMSFLD_RECVRNAME;
+          Subfield_S.HiID   = 0;
+          Subfield_S.DatLen = strlen( Field_AC );
+          Subfield_S.Buffer = Field_AC;
+          JAM_PutSubfield( SubPacket_PS, &Subfield_S );
+
+
+          /*
+          **  Add message
+          */
+
+          strcpy( Text_AC, "Hello world!\nThis is a test.");
+
+          /* [lock the message base] */
+
+          Result_I = JAM_AddMessage( Base_PS, &Header_S, SubPacket_PS,
+                                     Text_AC, strlen( Text_AC ) );
+          if ( Result_I  ) {
+            printf("JAM_AddMessage returned %d.\n", Result_I );
+            return;
+          }
+
+          /* [unlock the message base] */
+
+          JAM_DelSubPacket( SubPacket_PS );
+        }
+
+
+
+=================================================================
+JAM_AddEmptyMessage - Add a empty message entry to a message base
+=================================================================
+Syntax
+        int JAM_AddEmptyMessage( s_JamBase*      Base_PS);
+
+Description
+        Adds an empty message header to the message base. Useful
+        when writing a messagebase maintenance utility.
+
+Parameters
+        Base_PS         The message base to use
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_NOT_LOCKED  if the message base is not locked
+
+Example
+        none
+
+
+
+===============================================
+JAM_ChangeMsgHeader - Change a message's header
+===============================================
+
+Syntax
+        int JAM_ChangeMsgHeader( s_JamBase*      Base_PS,
+                                 ulong           MsgNo_I,
+                                 s_JamMsgHeader* Header_PS );
+
+Description
+        Writes over an old message header with a new one. Only the header -
+        not the subfields - can be changed due to the subfields' dynamic
+        size.
+        NOTE! Use this function with caution. It is easy to corrupt a
+        message by giving it an incorrect header.
+
+Parameters
+        Base_PS         The message base to use
+
+        MsgNo_I         The absolute message number. Message #0 is the
+                        first in the message base.
+
+        Header_PS       A pointer to the header structure to write.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_NOT_LOCKED  if the message base is not locked
+
+Example
+        {
+          s_JamMsgHeader  Header_S;
+          int             Result_I;
+
+          /* [lock the message base] */
+
+          Result_I = JAM_ReadMsgHeader( Base_PS, 0, &Header_S, NULL );
+          if ( Result_I )
+            printf("JAM_ReadMsgHeader returned %d.\n", Result_I );
+
+          Header_S.TimesRead++;
+
+          Result_I = JAM_ChangeMsgHeader( Base_PS, 0, &Header_S );
+          if ( Result_I )
+            printf("JAM_ChangeMsgHeader returned %d.\n", Result_I );
+
+          /* [unlock the message base] */
+        }
+
+
+
+=====================================================
+JAM_ClearMsgHeader - Clear a message header structure
+=====================================================
+
+Syntax
+        int JAM_ClearMsgHeader( s_JamMsgHeader* Header_PS );
+
+Description
+        Clears a message header structure and prepares it for use. This
+        includes setting the Signature field and the Revision field to
+        their correct values, and setting the CRC fields to JAM_NO_CRC.
+
+Parameters
+        Header_PS       A pointer to the structure to prepare.
+
+Returns
+        0               if successful
+        JAM_BAD_PARAM   if Header_PS is NULL
+
+
+
+===================================================
+JAM_DeleteMessage - Delete message from messagebase
+===================================================
+
+Syntax
+        int JAM_DeleteMessage( s_JamBase*        Base_PS,
+                               ulong             MsgNo_I );
+
+
+Description
+        Deletes message from messagebase by setting HdrOffset and UserCRC
+        in index to 0xFFFFFFFF. ActiveMsgs in base header also updated.
+
+Parameters
+        Base_PS         The message base to use
+
+        MsgNo_I         The absolute message number. Message #0 is the
+                        first in the message base.
+
+Returns
+        0               if successful
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_NOT_LOCKED  if the message base is not locked
+
+Example
+        none
+
+
+
+--------------------------------------------------------------------------
+
+                      Subfield packet functions
+                      -------------------------
+
+  As described earlier, a subfield is a part of the message header. Due to
+the complexity of the different network types in use, it is not feasible to
+try and cram all data into one header struct. Therefore, JAM uses a fairly
+small header struct and instead marks all additional data fields as
+'subfields'.
+  In order to make life a little more easy, I have used the concept of a
+container for all subfields. I call it a 'Subfield Packet'. It is
+identified by a struct pointer, and should be looked upon as a file or a
+list that you manipulate via the following four functions:
+
+
+===============================================
+JAM_NewSubPacket - Create a new subfield packet
+===============================================
+
+Syntax
+        s_JamSubPacket* JAM_NewSubPacket( void );
+
+Description
+        Creates a new, empty, subfield packet.
+
+Parameters
+        None
+
+Returns
+        The subpacket handle, if successful, or NULL if a memory allocation
+        failed.
+
+Example
+        {
+          s_JamSubPacket*   SubPacket_PS;
+
+          SubPacket_PS = JAM_NewSubPacket();
+          if ( !SubPacket_PS ) {
+              printf("JAM_NewSubPacket returned NULL.\n" );
+              return;
+          }
+        }
+
+
+
+===========================================
+JAM_DelSubPacket - Delete a subfield packet
+===========================================
+
+Syntax
+        int JAM_DelSubPacket( s_JamSubPacket* SubPack_PS );
+
+Description
+        Frees all memory used by a subfield packet. All subfields in the
+        packet will be lost and the packet handle will not be valid any
+        more.
+
+Parameters
+        SubPack_PS      The subfield packet to delete
+
+Returns
+        0               if successful
+        JAM_BAD_PARAM   if SubPack_PS is NULL.
+
+Example
+        {
+          s_JamSubPacket*   SubPacket_PS;
+
+          SubPacket_PS = JAM_NewSubPacket();
+          if ( !SubPacket_PS ) {
+              printf("JAM_NewSubPacket returned NULL.\n" );
+              return;
+          }
+
+          SubPacket_PS = JAM_DelSubPacket();
+          if ( !SubPacket_PS ) {
+              printf("JAM_DelSubPacket returned NULL.\n" );
+              return;
+          }
+        }
+
+
+
+=======================================================================
+JAM_GetSubfield - Get a subfield from a subfield packet (not reentrant)
+=======================================================================
+
+Syntax
+        s_JamSubfield* JAM_GetSubfield( s_JamSubPacket* SubPack_PS );
+
+Description
+        Returns a pointer to the first/next subfield struct in the subfield
+        packet.
+
+        WARNING: This function is not reentrant and should not be used in
+        multi-threaded applications unless you know what you are doing.
+
+        Use JAM_GetSubfield_R instead when a reentrant function is needed.
+
+Parameter
+        SubPack_PS      The subfield packet to use. If this parameter is
+                        NULL, the next subfield from the subfield packet
+                        previously scanned will be returned.
+
+Returns
+        A pointer to a subfield, if successful, or NULL if there are no
+        more subfields in the packet.
+
+Example
+        {
+          s_JamSubPacket* SubPack_PS;
+          s_JamSubfield*  Subfield_PS;
+          s_JamMsgHeader  Header_S;
+          int             Result_I;
+
+          Result_I = JAM_ReadMsgHeader( 0, &Header_S, &SubPack_PS );
+          if ( Result_I )
+            printf("JAM_ReadMsgHeader returned %d.\n", Result_I );
+
+          for ( Subfield_PS = JAM_GetSubfield( SubPack_PS ); Subfield_PS;
+                Subfield_PS = JAM_GetSubfield( NULL ) )
+            printf("Subfield id %d\n", Subfield_PS->LoID );
+
+          JAM_DelSubPacket( SubPack_PS );
+        }
+
+
+
+=====================================================================
+JAM_GetSubfield_R - Get a subfield from a subfield packet (reentrant)
+=====================================================================
+
+Syntax
+        s_JamSubfield* JAM_GetSubfield( s_JamSubPacket* SubPack_PS,
+                                        ulong*          Count_PI );
+
+Description
+        Returns a pointer to the first/next subfield struct in the subfield
+        packet.
+
+        This function is a reentrant replacement for JAM_GetSubfield.
+
+Parameter
+        SubPack_PS      The subfield packet to use.
+
+        Count_PI        Pointer to a variable that contains the number of
+                        the subfield to retrieve. The variable should be
+                        set to zero the first time the function is called
+                        and is then automatically increased by the function
+                        for any subsequent calls.
+
+Returns
+        A pointer to a subfield, if successful, or NULL if there are no
+        more subfields in the packet.
+
+Example
+        {
+          s_JamSubPacket* SubPack_PS;
+          s_JamSubfield*  Subfield_PS;
+          s_JamMsgHeader  Header_S;
+          ulong           Count_I;
+          int             Result_I;
+
+          Result_I = JAM_ReadMsgHeader( 0, &Header_S, &SubPack_PS );
+          if ( Result_I )
+            printf("JAM_ReadMsgHeader returned %d.\n", Result_I );
+
+          Count_I = 0;
+
+          while( ( Subfield_PS = JAM_GetSubfield_R( SubPack_PS , &Count_I ) ) )
+            printf("Subfield id %d\n", Subfield_PS->LoID );
+
+          JAM_DelSubPacket( SubPack_PS );
+        }
+
+=======================================================
+JAM_PutSubfield - Put a subfield into a subfield packet
+=======================================================
+
+Syntax
+        int JAM_PutSubfield( s_JamSubPacket* SubPack_PS,
+                             s_JamSubfield*  Subfield_PS );
+
+Description
+        Puts a subfield into a subfield packet. The subfield is copied
+        before being put into the subfield packet.
+
+Parameters
+        SubPack_PS      The subfield packet to add to
+
+        Subfield_PS     The subfield to put in the packet
+
+Returns
+        0               if successful
+        JAM_NO_MEMORY   if a memory allocation failed
+
+Example
+        {
+          s_JamSubPacket*   SubPacket_PS;
+          s_JamSubfield     Subfield_S;
+          uchar             Field_AC[64];
+
+          SubPacket_PS = JAM_NewSubPacket();
+          if ( !SubPacket_PS ) {
+              printf("JAM_NewSubPacket returned NULL.\n" );
+              return;
+          }
+
+          /* set up subfield 1 */
+          strcpy( Field_AC, "This is field #1" );
+          Subfield_S.LoID   = JAMSFLD_SENDERNAME;
+          Subfield_S.HiID   = 0;
+          Subfield_S.DatLen = strlen( Field_AC );
+          Subfield_S.Buffer = Field_AC;
+          JAM_PutSubfield( SubPacket_PS, &Subfield_S );
+
+          /* set up subfield 2 */
+          strcpy( Field_AC, "This is field #2" );
+          Subfield_S.LoID   = JAMSFLD_RECVRNAME;
+          Subfield_S.HiID   = 0;
+          Subfield_S.DatLen = strlen( Field_AC );
+          Subfield_S.Buffer = Field_AC;
+          JAM_PutSubfield( SubPacket_PS, &Subfield_S );
+
+          JAM_DelSubPacket( SubPacket_PS );
+        }
+
+
+
+
+
+--------------------------------------------------------------------------
+
+                       LastRead functions
+                       ------------------
+
+  JAM implements the often-used concept of high water marking for
+remembering which user read how many messages in each area.
+  Personally I think this concept stinks, since it does not store *which*
+messages a user has read, only the number of the highest message he has
+read. But since it's a part of JAM and it's fairly straightforward and
+easy, I've implemented two support functions for it.
+  I would, however, strongly recommend all BBS programmers to use proper
+message mapping systems instead, so your users can read their messages in
+whatever order they wish.
+
+
+=========================================
+JAM_ReadLastRead - Read a lastread record
+=========================================
+
+Syntax
+        int JAM_ReadLastRead( s_JamBase*     Base_PS,
+                              ulong          User_I,
+                              s_JamLastRead* Record_PS );
+
+Description
+        Reads a lastread record from the lastread file.
+
+Parameter
+        Base_PS         The message base to use
+
+        User_I          A system-unique user number.
+
+        Record_PS       A pointer to the lastread struct where the record
+                        will be stored.
+
+Returns
+        0               if successful
+        JAM_BAD_PARAM   if Record_PS is NULL
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+        JAM_NO_USER     if the user number was not found
+
+Example
+        {
+          int           Result_I;
+          s_JamLastRead LastRead_S;
+
+          Result_I = JAM_ReadLastRead( Base_PS, 4711, &LastRead_S );
+          if ( Result_I )
+            printf("JAM_ReadLastRead returned %d\n", Result_I );
+        }
+
+
+
+===========================================
+JAM_WriteLastRead - Write a lastread record
+===========================================
+
+Syntax
+        int JAM_WriteLastRead( s_JamBase*     Base_PS,
+                               ulong          User_I,
+                               s_JamLastRead* Record_PS );
+
+Description
+        Writes a lastread record to the lastread file. If the user number
+        could not be found, the record will be appended to the end of the
+        file.
+
+Parameter
+        Base_PS         The message base to use
+
+        User_I          A system-unique user number
+
+        Record_PS       A pointer to the lastread struct to be written
+
+Returns
+        0               if successful
+        JAM_BAD_PARAM   if Record_PS is NULL
+        JAM_IO_ERROR    if an I/O error occured. see JAM_Errno()
+
+Example
+        {
+          int           Result_I;
+          s_JamLastRead LastRead_S;
+
+          Result_I = JAM_WriteLastRead( Base_PS, 4711, &LastRead_S );
+          if ( Result_I )
+            printf("JAM_WriteLastRead returned %d\n", Result_I );
+        }
+
+
+
+
+--------------------------------------------------------------------------
+
+                      Miscellanous functions
+                      ----------------------
+
+
+==============================================
+JAM_Crc32 - Calculate CRC32 on a block of data
+==============================================
+
+Syntax
+        ulong JAM_Crc32( uchar* Buffer_PC,
+                         ulong  Length_I );
+
+Description
+        Calculates the Crc32 value for a block of data. All ASCII
+        characters are converted to lowercase before calculating
+        the CRC (the input data is unchanged).
+
+Parameters
+        Buffer_PC       A pointer to the first byte of the data block
+
+        Length_I        The number of bytes in the data block
+
+Returns
+        The Crc32 value
+
+Example
+        {
+          ulong Crc_I;
+          uchar Text_AC[32];
+
+          strcpy( Text_AC, "Hello world!\n");
+
+          Crc_I = JAM_Crc32( Text_AC, strlen( Text_AC ) );
+        }
+
+
+
+=============================
+JAM_Errno - Specify I/O error
+=============================
+
+Syntax
+        int JAM_Errno( s_JamBase* Base_PS );
+
+Description
+        When any of these library routines return JAM_IO_ERROR, you can
+        call this function to find out exactly what went wrong.
+
+Parameters
+        Base_PS         The message base to use
+
+Returns
+        Standard 'errno' values, as the C compiler generated them, or if
+        the I/O error was system specific, the return code is (10000 +
+        system status code).
+
+Examples
+        {
+          int   Result_I;
+          uchar Text_AC[10];
+
+          /* generate an I/O error */
+          Result_I = JAM_ReadMsgText( 0xffffffff, 10, Text_AC );
+          if ( Result_I ) {
+              errno = JAM_Errno( Base_PS );
+              perror("JAM i/o error");
+          }
+        }
+
+
+
+

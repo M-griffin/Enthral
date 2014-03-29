@@ -1,0 +1,163 @@
+/=/====================================================================================================
+
+Enthral BBS - 18/10/2010 Build 429 Alpha.
+
+
+Notes:
+
+Menu Command Added MF for Force Message Scan, this will now return to previous area, 
+ ie after a force scan on system announcement.
+
+
+
+
+/=/====================================================================================================
+There are two ways to install Enthral.  The manual way (which some people
+enjoy since they get a kick out of having full control) and the automated
+way via the install.pl script.
+
+We have detailed instructions for both steps as well as an auto update
+scripts that will update and compile your current Enthral install via
+the svn.
+
+/=/====================================================================================================
+Auto Install.
+
+For those of you that would rather have every dependancy and the sysop name/
+bbs name changed in the code for you we have an automated perl script that
+will do all the heavy lifting for you.  If you interested in having your
+system do everything for you, all you need to do is run the following:
+
+./install.pl
+
+You need to have perl installed on your system to use the install script.
+
+/=/====================================================================================================
+Manual Install.
+
+Remember things are still very incomplete so still there are not a lot of
+options for many things, but I'm working on it.. :)
+
+You can get the source through svn thanks to Netsurge.
+
+ $ svn --username svn co http://svn.enthralbbs.com /your/path/enthral
+
+If it asks for a password just hit ENTER or leave it blank.
+
+Before you can compile you need the Husky SMAPI lib, this is for jam message
+support.
+
+You can get the latest 2.4 RC5 from here:
+http://sourceforge.net/projects/husky/
+
+ *Note, Some people have had problem with 2.4, if you get crashes in message
+ scanning, please switch to 2.2-Stable Release.
+
+Go into the source directory, rename makefile.lnx to Makefile (case sensitive)
+and run make. This will generate the libsmapilnx.a which is needed by the bbs,
+copy this to the src directory for enthral and your all set.
+
+*Note, Both BSD and Linux will compile correctly with the makefile.lnx
+
+After smapi is all set and compiles cleanly:
+
+You have to edit the config.ini file located in the ini folder.  Here you will
+add the handle/username of your sysop user.  It should match exactly case and
+all.  Soon there will be a user editor where you can assign a sysop flag.
+
+Now that we have made all the necessary changes to the code, we can now run
+configure and make.  At a shell just type the following...
+
+/=/====================================================================================================
+
+# First run autogen.sh to generate a multi-platform configure script.
+
+./autogen.sh
+
+# Now run configure and make to build the system, if you have any pronlems,
+# try running 'make distclean' then re-run 'make', make sure the libsmapilnx.a library
+# is placed in your src folder before running make, it's a dependancy.
+
+./configure && make
+
+We still have two small binaries to build to ensure that Enthral runs nice and
+smooth.  Stats is used to generate top callers and posters and Snoop allows
+you to see what's going on when a user is logged in.
+
+/=/====================================================================================================
+For Stats
+
+Stats is located in src/stats.  You will need to change the path statement in
+main.cpp to match the path of your enthral setup. Inside of main.cpp change
+the following line to your path.
+
+ Line 19 - PATH = "/home/merc/enthral/src/";
+
+Once you have made the change run the following at a prompt to compile stats.
+
+    g++ -o stats main.cpp process2.cpp userdat.cpp
+
+You will also need to edit [CommandRec009] in src/menu/logon.txt to the proper
+location of the stats binary we just compiled.
+
+/=/====================================================================================================
+For Snoop
+
+Go to the src/snoop directory and execute the following from a prompt.
+
+    g++ -o snoop snoop.cpp
+
+/=/====================================================================================================
+Post Compile.
+
+The first thing you'll want to do it connect to the bbs,  and create your
+sysop user, the name should match exactly what you updated in the logon.cpp.
+
+Now once your at the main menu, as a Sysop you can hit * from the main menu
+to go into the message forum editor.
+
+You will want to create an email area as your first area, and a system
+announcements as your second area.  Your system annoucements area must be
+named "system" (no quotes) to ensure that only a sysop can post in it.  This
+will be fixed later on.
+
+After these 2 areas, you can create general message and as many areas as you
+like.
+
+Once you are done creating your areas, hit C to compile them.
+
+Once everything is compiled and working, you'll want to setup xindetd, and
+telnetd to login to the bbs.  If your unsure how to set either one of them
+up, send me a message and i'll email you some sample scripts.  ddtelnetd is
+automatically setup for you when running the install.pl script.
+
+Your all done.
+
+If you have any questions feel free to email me or Netsurge and we'll try
+to help you out.
+
+/=/====================================================================================================
+Auto update
+
+There is a script in the root dir called update.pl.  This script will
+automatically update your to the latest build via svn and replace all the
+instances of the default sysop and bbs name in the source code.  It will also
+run configure, make clean, and make for you.  This should make updating your
+installation a lot easier.
+
+/=/====================================================================================================
+One last note
+
+You can also add |IP MCI Code for ip address in the matrix ansi
+file, i took this out while I was hunting a bug a while back and forgot to
+add it back in.. ;)
+
+You can always pop into #enthral on irc.bbs-scene.org and ask for help.  I try
+to pop in nightly and answer any questions, but you can also chat with
+Netsurge, Esc, and even pook who have also setup the bbs for testing.
+
+
+Mike  -Mercyful Fate
+Frank -Netsurge
+
+http://www.enthralbbs.com

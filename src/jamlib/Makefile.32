@@ -1,0 +1,30 @@
+#CC = g++ -march=i386 -D__LINUX__ -Wall
+CC = g++ -D__LINUX__ -Wall
+AR = ar -ru
+RM = rm -f
+
+OBJS = crc32.o mbase.o message.o lastread.o subpack.o structrw.o
+
+jamlib.a : $(OBJS) 
+	$(AR) jamlib.a $(OBJS)
+
+crc32.o:    crc32.c jam.h
+	$(CC) -c crc32.c -o crc32.o
+
+mbase.o:    mbase.c jam.h
+	$(CC) -c mbase.c -o mbase.o
+
+message.o:  message.c jam.h
+	$(CC) -c message.c -o message.o
+
+lastread.o: lastread.c jam.h
+	$(CC) -c lastread.c -o lastread.o
+
+subpack.o:  subpack.c jam.h
+	$(CC) -c subpack.c -o subpack.o
+
+structrw.o:  structrw.c jam.h
+	$(CC) -c structrw.c -o structrw.o
+
+clean:
+	$(RM) *.o *.a

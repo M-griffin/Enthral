@@ -1,0 +1,220 @@
+# Autoconfig problems, run this!  'rm -f m4/{lt,lib}*.m4; autoreconf -svif'
+
+
+AC_INIT(configure.in)
+
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
+
+dnl Seems to be needed!
+m4_include([m4/boost.m4])
+
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(Enthral, 001)
+
+
+AC_LANG_CPLUSPLUS
+AC_PROG_CXX
+
+m4_pattern_allow([^AM_PROG_LIBTOOL$])
+AM_PROG_LIBTOOL
+
+
+AC_ARG_ENABLE(python,
+[  --disable-python        don't build the python plugin],
+        python=$enableval, python=yes)
+
+AC_ARG_ENABLE(perl,
+[  --disable-perl          don't build the perl plugin],
+        perl=$enableval, perl=yes)
+
+AC_PATH_PROG(sedpath, sed)
+if test "_$sedpath" = _; then
+    AC_MSG_ERROR("Cannot find sed: I need it\!")
+fi
+
+AH_VERBATIM([USING_FREEBSD],[#undef USING_FREEBSD])
+AH_VERBATIM([USING_LINUX],[#undef USING_LINUX])
+AH_VERBATIM([OLD_PERL],[#undef OLD_PERL])
+
+
+dnl *********************************************************************
+dnl ** BOOST & BOOST PYTHON *********************************************
+dnl *********************************************************************
+
+dnl Then look for specific Boost libraries you need:
+BOOST_REQUIRE([1.34])
+
+
+BOOST_ARRAY
+dnl BOOST_PYTHON
+BOOST_FILESYSTEM
+dnl BOOST_DATE_TIME
+
+
+AC_LANG_PUSH([C++])
+
+echo Detecting Boost ...
+
+AC_CHECK_HEADERS([boost/lexical_cast.hpp], [],
+    [AC_MSG_ERROR(You need the boost libraries.)])
+
+
+AC_CHECK_HEADERS([boost/filesystem.hpp], [],
+    [AC_MSG_ERROR(You need the boost libraries.)])
+
+
+dnl echo Detecting Boost Python ...
+
+dnl AC_CHECK_HEADERS([boost/python.hpp], [],
+dnl     [AC_MSG_NOTICE([Boost_Python not available, not searching for.)])
+
+AC_LANG_POP([C++])
+
+
+
+dnl *********************************************************************
+dnl ** PYTHON ***********************************************************
+dnl *********************************************************************
+
+echo Detecting Python ...
+
+echo Prefix: ${prefix}
+
+AC_PATH_PROG(pythonpath, python2)
+echo Pythonpath: $pythonpath
+
+AC_PATH_PROG(pythonpath, python)
+echo Pythonpath: $pythonpath
+
+
+if test "$python" = yes; then
+       AC_PATH_PROG(pythonpath, python2)
+        if test "_$pythonpath" = _ ; then
+                AC_PATH_PROG(pythonpath, python)
+        fi
+        if test "_$pythonpath" = _ ; then
+                python=no
+        else
+                AC_MSG_CHECKING(Python version)
+                changequote(<<, >>)dnl
+                PY_VER=`$pythonpath -c 'import distutils.sysconfig; print distutils.sysconfig.get_config_vars("VERSION")[0];'`
+                PY_LIB=`$pythonpath -c 'import distutils.sysconfig; print distutils.sysconfig.get_python_lib(standard_lib=1);'`
+                PY_INC=`$pythonpath -c 'import distutils.sysconfig; print distutils.sysconfig.get_config_vars("INCLUDEPY")[0];'`
+                $pythonpath -c "import sys; map(int,sys.version[:3].split('.')) >= [2,2] or sys.exit(1)"
+                changequote([, ])dnl
+                AC_MSG_RESULT($PY_VER)
+                if test "$?" != "1"; then
+                        AC_MSG_CHECKING(Python compile flags)
+                        PY_PREFIX=`$pythonpath -c 'import sys; print sys.prefix'`
+                        PY_EXEC_PREFIX=`$pythonpath -c 'import sys; print sys.exec_prefix'`
+                        if test -f $PY_INC/Python.h; then
+
+                                # Check for BSD on This one Might be needed w/ config.
+                                #PY_LIBS="-L$PY_LIB/config -lpython$PY_VER -lpthread -lutil"
+                                #PY_LIBS="-L$PY_LIB -lpython$PY_VER -lpthread -lutil -lm"
+
+
+				#PY_LIBS="-L$PY_LIB/config -L$PY_LIB -lpython$PY_VER -lutil -lpthread -lm"
+
+				# Boost_Python now used for Embedding
+				#PY_LIBS="-L$PY_LIB/config -L$PY_LIB -lpython$PY_VER -lpthread -lutil $BOOST_PYTHON_LIBS"
+				PY_LIBS="-L$PY_LIB/config -L$PY_LIB -lpython$PY_VER -lpthread -lutil -lboost_python"
+                                PY_CFLAGS="-I$PY_INC"
+                                AC_MSG_RESULT(ok)
+
+                                AH_BOTTOM([#define HAVE_PYTHON 1])
+
+                        else
+                                python=no
+                                AC_MSG_RESULT([Can't find Python.h])
+                        fi
+                else
+                        echo "Python too old. Only 2.2 or above is supported."
+                        python=no
+                fi
+
+                CFLAGS+=" -I$PY_INC "
+                CXXFLAGS+=" -I$PY_INC "
+
+        fi
+fi
+
+
+dnl *********************************************************************
+dnl ** PERL *************************************************************
+dnl *********************************************************************
+
+dnl if test "$perl" = yes; then
+dnl     AC_PATH_PROG(perlpath, perl)
+dnl     AC_MSG_CHECKING(for Perl compile flags)
+dnl     PERL_CFLAGS=`$perlpath -MExtUtils::Embed -e ccopts 2>/dev/null`
+dnl     if test "_$PERL_CFLAGS" = _ ; then
+dnl         AC_MSG_RESULT([not found, building without perl.])
+dnl         perl=no
+dnl     else
+dnl         PERL_LDFLAGS=`$perlpath -MExtUtils::Embed -e ldopts |$sedpath 's/-lgdbm //'`
+dnl         PERL_LDFLAGS=`echo $PERL_LDFLAGS |$sedpath 's/-ldb //'`
+dnl         PERL_LDFLAGS=`echo $PERL_LDFLAGS |$sedpath 's/-lndbm //'`
+dnl         if test "$system" = "Linux"; then
+dnl             PERL_LDFLAGS=`echo $PERL_LDFLAGS |$sedpath 's/-lnsl //'`
+dnl             PERL_LDFLAGS=`echo $PERL_LDFLAGS |$sedpath 's/-lposix //'`
+dnl         fi
+dnl         PERL_LDFLAGS=`echo $PERL_LDFLAGS |$sedpath 's/-lc //'`
+dnl         AC_MSG_RESULT(ok)
+dnl         AC_MSG_CHECKING(for perl >= 5.8.0)
+dnl         PERL_VER=`$perlpath -e 'print $]>= 5.008?"yes":"no"'`
+dnl         if test "$PERL_VER" = "yes"; then
+dnl             AC_MSG_RESULT(yes)
+dnl             AC_MSG_CHECKING(if perl plugin will be backward compatible)
+dnl             if test "$perl_old" = "yes"; then
+dnl                       AC_MSG_RESULT(yes)
+dnl                       AC_DEFINE(OLD_PERL)
+
+dnl                     CFLAGS+=" -I$PERL_CFLAGS"
+dnl                     CXXFLAGS+=" -I$PERL_LDFLAGS -l$PY_VER"
+dnl                     #LDFLAGS+=" -l$PY_VER"
+
+dnl             else
+dnl                       AC_MSG_RESULT(no)
+dnl             fi
+dnl         else
+dnl             AC_MSG_RESULT(no)
+dnl             echo "perl version too old, building without perl."
+dnl             perl=no
+dnl         fi
+dnl     fi
+dnl fi
+
+AM_CONDITIONAL(DO_PYTHON, test "x$python" = "xyes")
+dnl AM_CONDITIONAL(DO_PERL, test "x$perl" = "xyes")
+
+echo =[Boost]=======
+dnl echo BOOST_PYTHON_LIBS: $BOOST_PYTHON_LIBS
+
+echo =[Python]=======
+echo PLUGINS:   Python: $python
+echo PLUGINS:   Python: $PY_VER
+echo PLUGINS:   Python: $PY_LIB
+echo PLUGINS:   Python: $PY_INC
+
+dnl echo =[Perl - WIP]===
+dnl echo PLUGINS: Perl: $perl
+dnl echo PLUGINS: Perl: $PERL_CFLAGS
+dnl echo PLUGINS: Perl: $PERL_LDFLAGS
+dnl echo =[Done]=========
+
+AC_SUBST(PY_CFLAGS)
+AC_SUBST(PY_LIBS)
+AC_SUBST(BOOST_PYTHON_LIB)
+
+dnl AC_SUBST(PERL_CFLAGS)
+dnl AC_SUBST(PERL_LDFLAGS)
+
+
+CFLAGS+=" -U_FORTIFY_SOURCE -std=c++0x -Wall"
+CXXFLAGS+=" -U_FORTIFY_SOURCE -std=c++0x -Wall"
+
+
+AC_OUTPUT(Makefile src/Makefile)
+
