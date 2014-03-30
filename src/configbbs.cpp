@@ -176,7 +176,7 @@ void checkcfg(std::string cfgdata)
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
 		// String to Int
-        istringstream ( temp ) >> MAX_NODES; 
+        istringstream ( temp1 ) >> MAX_NODES; 
 		return;
     }
 

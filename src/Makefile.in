@@ -323,8 +323,6 @@ enthral_SOURCES = configbbs.cpp conio.cpp console.cpp data_areas.cpp dtfunc.cpp 
 	mb_jam.cpp mb_api.cpp pyenthral.cpp
 
 
-# plenthral.cpp pyenthral.cpp
-
 # set the include path found by configure
 INCLUDES = -I$(top_srcdir)/src $(all_includes) $(PY_CFLAGS)
 
@@ -701,8 +699,6 @@ uninstall-am: uninstall-binPROGRAMS
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
-
-# pyenthral.h plenthral.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
