@@ -245,7 +245,7 @@ BOOST_PYTHON_MODULE(bbs_io)
 			
 	 
 	// Terminal
-	def("pyGetTermHight"  , pyGetTermHeight);
+	def("pyGetTermHeight"  , pyGetTermHeight);
 	def("pyGetTermWidth"  , pyGetTermWidth);
 
 	// Base I/o Input
