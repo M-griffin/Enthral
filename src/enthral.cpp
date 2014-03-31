@@ -337,7 +337,7 @@ int main(int argc, char *argv[])
     sprintf(NODEPATH,"%snode/",BBSPATH);   // Nodes
     sprintf(LOCKPATH,"%slock/",BBSPATH);  // r/w Lock Files
     sprintf(SCRIPTS,"%sscripts/",BBSPATH);  // scripts path.  ie python
-    sprintf(ENTHRALTMP,"/tmp/enthral2");   // Tmp, Sockets, IPC
+    sprintf(ENTHRALTMP,"/tmp/enthral");   // Tmp, Sockets, IPC
 
     // Do Error Checking if CONFIG.CFG File exists, if not creates it
     if(configdataexists() == false)

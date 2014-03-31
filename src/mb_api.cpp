@@ -594,6 +594,34 @@ void mbapi_jam::stripCRONLY(char *ostr)
 }
 
 /**
+ * Message API - Parse Out MCI Codes That are Not Pipe Color Codes
+ */
+void mbapi_jam::parseMCI(std::string &msgtext)
+{
+	
+	std::string::size_type id1;
+	std::string::size_type id2;
+	std::string temp;
+
+	id2 = 0;
+	while (1)
+	{
+		id1 = msgtext.find("|",id2);
+		if (id1 == std::string::npos)
+			break;
+		else
+		{
+			// Only Allow Colors, otherwise erase pipe.
+			temp = msgtext.substr(id1+1,2);
+			if (isdigit(temp[0]) && isdigit(temp[1]))
+				id2 = id1+1;
+			else
+				msgtext.erase(id1,1);
+		}
+	}
+}
+
+/**
  * Message API - Setup Message Text, Populates Link List (msg_readll)
  */
 void mbapi_jam::MsgSetupTxt()
@@ -613,6 +641,9 @@ void mbapi_jam::MsgSetupTxt()
     std::string sTrunc;
     std::string MsgText = buff; // Get Message Buffer!
 	
+	
+	// Parse Out MCI Codes from Message Text, Only Allow Color Pipe Codes.
+	parseMCI(MsgText);
 	
 	// errlog2((char *)MsgText.c_str());
 	int MAX_LEN  = TERM_WIDTH;	  // Max length to write messages lines to

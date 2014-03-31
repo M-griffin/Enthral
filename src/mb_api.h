@@ -247,6 +247,7 @@ public:
     void stripCR(char *ostr);
     void stripCRONLY(char *ostr);
 
+	void parseMCI(std::string &msgtext);
 	void MsgSetupTxt();
     void MsgSetupQuoteTxt();
     void MsgShowTxt2();
