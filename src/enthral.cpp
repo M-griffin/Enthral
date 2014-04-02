@@ -69,12 +69,17 @@ char SYSOP_NAME[80]   = {0};
 char SYSTEM_NAME[80]  = {0};
 char CLIENT_TERM[255] = {0};
 
+// Startup Python Scripts 
+char STARTUP_SCRIPT[255]  = {0};
+char STARTUP_SCRIPT2[255] = {0};
+
 int  NODE_NUM         = 0;
 int  UserLoggedIn     = FALSE;
 int  TERM_HEIGHT      = 25;
 int  TERM_WIDTH       = 80;
 int  MAX_NODES        = 5;  
-	
+
+
 
 // Ansi Terminal Detected.
 int isANSI = FALSE;
@@ -82,7 +87,6 @@ int isANSI = FALSE;
 static UserRec user;
 
 struct termios old_termios;
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -371,6 +375,7 @@ int main(int argc, char *argv[])
         }
     }
 
+	_io.errlog2((char *)" *** MAX_NODES: %i ",MAX_NODES);
 
 	// Check if Node umber great then Max Node Number
 	// Add this to config file.

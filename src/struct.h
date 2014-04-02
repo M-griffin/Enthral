@@ -26,7 +26,7 @@
 
 using namespace std;
 
-# define BBSVERSION            "Enthral BBS [v.630/Alpha]"
+# define BBSVERSION            "Enthral BBS [v.631/Alpha]"
 extern char OSSYSTEM[1024];
 extern int UTF8Output;
 
@@ -111,6 +111,9 @@ extern char SYSOP_NAME[80];
 extern char SYSTEM_NAME[80];
 
 extern char CLIENT_TERM[255];
+
+extern char STARTUP_SCRIPT[255];
+extern char STARTUP_SCRIPT2[255];
 
 extern int  isANSI;				// Detected and useing ANSI Terminal.
 extern int  isANSIMATION;

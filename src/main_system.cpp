@@ -105,7 +105,8 @@ void main_system::start(UserRec *user)
 	
 	// Need to Add variable / Config item for pre-startup script.
 	// Make Startup 1 py. Then Startup 2 py after detection.
-	pybbs_run("startup.py", &tmp);
+	if (strlen(STARTUP_SCRIPT) > 0)
+		pybbs_run(STARTUP_SCRIPT, &tmp);
 	
 
 	// Set Char Set in Console default CP437.	
@@ -241,8 +242,8 @@ void main_system::start(UserRec *user)
 
 	pipe2ansi((char *)"|CS");
 
-	
-	pybbs_run("startup2.py", &tmp);
+	if (strlen(STARTUP_SCRIPT2) > 0)
+		pybbs_run(STARTUP_SCRIPT2, &tmp);
 
 	pipe2ansi((char *)"|CS");
 	

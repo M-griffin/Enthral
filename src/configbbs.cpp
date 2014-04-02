@@ -89,6 +89,13 @@ void createconfig()
 	outStream2 << "#" << endl;
 	outStream2 << "# MAX Nodes for Logins" << endl; 
 	outStream2 << "Set MAX_NODES    ""5"" " << endl;
+	outStream2 << "#" << endl;
+	outStream2 << "# MAX Nodes for Logins" << endl; 
+	outStream2 << "Set STARTUP_SCRIPT  ""startup.py"" " << endl;
+	outStream2 << "#" << endl;
+	outStream2 << "# MAX Nodes for Logins" << endl; 
+	outStream2 << "Set STARTUP_SCRIPT2  ""startup2.py"" " << endl;
+
 
     outStream2.close();
     return;
@@ -176,10 +183,49 @@ void checkcfg(std::string cfgdata)
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
 		// String to Int
+
+		
         istringstream ( temp1 ) >> MAX_NODES; 
 		return;
     }
 
+	id1 = 0;
+    id1 = temp.find("Set STARTUP_SCRIPT ", 0);
+    if (id1 != std::string::npos)
+    {
+        std::string temp1;
+
+        st1 = temp.find('"', 0);
+        st2 = temp.find('"', st1+1);
+        ++st1;
+        temp1 = temp.substr(st1,st2);
+        ct = st2 - st1;
+        if (temp1.length() > ct)
+            temp1.erase(ct,temp1.length());
+		
+        sprintf(STARTUP_SCRIPT,"%s",(char *)temp1.c_str());
+		return;
+    }
+
+	id1 = 0;
+    id1 = temp.find("Set STARTUP_SCRIPT2 ", 0);
+    if (id1 != std::string::npos)
+    {
+        std::string temp1;
+
+        st1 = temp.find('"', 0);
+        st2 = temp.find('"', st1+1);
+        ++st1;
+        temp1 = temp.substr(st1,st2);
+        ct = st2 - st1;
+        if (temp1.length() > ct)
+            temp1.erase(ct,temp1.length());
+		
+        sprintf(STARTUP_SCRIPT2,"%s",(char *)temp1.c_str());
+		return;
+    }
+
+	
 }
 
 /**
