@@ -23,6 +23,7 @@
 
 #include <string>
 #include <stdint.h> // int32_t etc type for 32/64 Bit.
+#include <limits.h>
 
 using namespace std;
 
@@ -75,20 +76,20 @@ extern std::string screen_buffer;
 //________________________________________________________________
 
 
-extern char BBSPATH[255];
-extern char DATAPATH[255];
-extern char MENUPATH[255];
-extern char ANSIPATH[255];
-extern char MESGPATH[255];
-extern char FILEPATH[255];
-extern char LOCKPATH[255];
-extern char INIPATH[255];
-extern char DAPATH[255];
-extern char NODEPATH[255];
-extern char NODEDIR[10];
-extern char USRSIG[255];
-extern char SCRIPTS[255];
-extern char ENTHRALTMP[255];
+extern char BBSPATH[PATH_MAX];
+extern char DATAPATH[PATH_MAX];
+extern char MENUPATH[PATH_MAX];
+extern char ANSIPATH[PATH_MAX];
+extern char MESGPATH[PATH_MAX];
+extern char FILEPATH[PATH_MAX];
+extern char LOCKPATH[PATH_MAX];
+extern char INIPATH[PATH_MAX];
+extern char DAPATH[PATH_MAX];
+extern char NODEPATH[PATH_MAX];
+extern char NODEDIR[PATH_MAX];
+extern char USRSIG[PATH_MAX];
+extern char SCRIPTS[PATH_MAX];
+extern char ENTHRALTMP[PATH_MAX];
 
 extern char UsersIP[1024];
 extern char UsersHOST[1024];

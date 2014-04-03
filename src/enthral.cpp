@@ -40,6 +40,7 @@
 # include <cstring>
 # include <cstdlib>
 
+# include <limits.h>
 # include <unistd.h>
 # include <pty.h>     // Struct Winsize
 # include <termios.h>
@@ -48,20 +49,20 @@
 
 using namespace std;
 
-char BBSPATH[255]     = {0};
-char DATAPATH[255]    = {0};
-char MENUPATH[255]    = {0};
-char ANSIPATH[255]    = {0};
-char MESGPATH[255]    = {0};
-char FILEPATH[255]    = {0};
-char LOCKPATH[255]    = {0};
-char INIPATH[255]     = {0};
-char DAPATH[255]      = {0};
-char NODEPATH[255]    = {0};
-char NODEDIR[10]      = {0};
-char USRSIG[255]      = {0};
-char SCRIPTS[255]     = {0};
-char ENTHRALTMP[255]  = {0};
+char BBSPATH[PATH_MAX]     = {0};
+char DATAPATH[PATH_MAX]    = {0};
+char MENUPATH[PATH_MAX]    = {0};
+char ANSIPATH[PATH_MAX]    = {0};
+char MESGPATH[PATH_MAX]    = {0};
+char FILEPATH[PATH_MAX]    = {0};
+char LOCKPATH[PATH_MAX]    = {0};
+char INIPATH[PATH_MAX]     = {0};
+char DAPATH[PATH_MAX]      = {0};
+char NODEPATH[PATH_MAX]    = {0};
+char NODEDIR[PATH_MAX]     = {0};
+char USRSIG[PATH_MAX]      = {0};
+char SCRIPTS[PATH_MAX]     = {0};
+char ENTHRALTMP[PATH_MAX]  = {0};
 
 char UsersIP[1024]    = {0};
 char UsersHOST[1024]  = {0};
