@@ -97,7 +97,8 @@
 /*
 **  Header file information block, stored first in all .JHR files
 */
-typedef struct {
+typedef struct
+{
     uint8_t  Signature[4];      /* <J><A><M> followed by <NUL> */
     uint32_t  DateCreated;       /* Creation date */
     uint32_t  ModCounter;        /* Last processed counter */
@@ -143,7 +144,8 @@ typedef struct {
 /*
 **  Message header
 */
-typedef struct {
+typedef struct
+{
     uint8_t  Signature[4];              /* <J><A><M> followed by <NUL> */
     uint16_t Revision;                  /* CURRENTREVLEV */
     uint16_t ReservedWord;              /* Reserved */
@@ -194,14 +196,16 @@ typedef struct {
 /*
 **  Message header Subfield
 */
-typedef struct {
+typedef struct
+{
     uint16_t LoID;       /* Field ID, 0 - 0xffff */
     uint16_t HiID;       /* Reserved for future use */
     uint32_t  DatLen;     /* Length of buffer that follows */
     uint8_t* Buffer;     /* DatLen bytes of data */
 } s_JamSubfield;
 
-typedef struct {
+typedef struct
+{
     uint16_t LoID;       /* Field ID, 0 - 0xffff */
     uint16_t HiID;       /* Reserved for future use */
     uint32_t  DatLen;     /* Length of buffer that follows */
@@ -210,7 +214,8 @@ typedef struct {
 /*
 **  Message index record
 */
-typedef struct {
+typedef struct
+{
     uint32_t  UserCRC;    /* CRC-32 of destination username */
     uint32_t  HdrOffset;  /* Offset of header in .JHR file */
 } s_JamIndex;
@@ -218,7 +223,8 @@ typedef struct {
 /*
 **  Lastread structure, one per user
 */
-typedef struct {
+typedef struct
+{
     uint32_t  UserCRC;     /* CRC-32 of user name (lowercase) */
     uint32_t  UserID;      /* Unique UserID */
     uint32_t  LastReadMsg; /* Last read message number */
@@ -228,7 +234,8 @@ typedef struct {
 /*
 **  JAMLIB message base handle
 */
-typedef struct {
+typedef struct
+{
     FILE* HdrFile_PS;      /* File handle for .JHR file */
     FILE* TxtFile_PS;      /* File handle for .JDT file */
     FILE* IdxFile_PS;      /* File handle for .JDX file */
@@ -242,7 +249,8 @@ typedef struct {
 /*
 **  JAMLIB subfield packet
 */
-typedef struct {
+typedef struct
+{
     s_JamSubfield** Fields;
     uint32_t	    NumFields;
     uint32_t	    NumAlloc;
@@ -255,62 +263,62 @@ typedef struct {
 
 /* mbase.c */
 int JAM_OpenMB          ( uint8_t* 		Basename_PC,
-			  s_JamBase** 		NewArea_PPS );
+                          s_JamBase** 		NewArea_PPS );
 
 int JAM_CloseMB         ( s_JamBase* 		Area_PS );
 
 int JAM_CreateMB        ( uint8_t* 		Basename_PC,
-			  uint32_t 		BaseMsg_I,
-			  s_JamBase**		NewArea_PPS );
+                          uint32_t 		BaseMsg_I,
+                          s_JamBase**		NewArea_PPS );
 
 int JAM_RemoveMB        ( s_JamBase* 		Area_PS,
-			  uint8_t* 		Basename_PC );
+                          uint8_t* 		Basename_PC );
 
 int JAM_LockMB		( s_JamBase* 		Area_PS,
-			  int			Timeout_I );
+                      int			Timeout_I );
 
 int JAM_UnlockMB	( s_JamBase* 		Area_PS );
 
 int JAM_ReadMBHeader	( s_JamBase* 		Area_PS,
-			  s_JamBaseHeader* 	Header_PS );
+                          s_JamBaseHeader* 	Header_PS );
 
 int JAM_WriteMBHeader	( s_JamBase* 		Area_PS,
-			  s_JamBaseHeader* 	Header_PS );
+                          s_JamBaseHeader* 	Header_PS );
 
 int JAM_FindUser	( s_JamBase* 		Area_PS,
-			  uint32_t 		UserCrc_I,
-			  uint32_t 		StartMsg_I,
-			  uint32_t* 		MsgNo_PI );
+                      uint32_t 		UserCrc_I,
+                      uint32_t 		StartMsg_I,
+                      uint32_t* 		MsgNo_PI );
 
 int JAM_GetMBSize	( s_JamBase* 		Area_PS,
- 			  uint32_t* 		Messages_PI );
+                      uint32_t* 		Messages_PI );
 
 /* message.c */
 
 int JAM_ReadMsgHeader	( s_JamBase* 		Area_PS,
-			  uint32_t 		MsgNo_I,
-			  s_JamMsgHeader*	Header_PS,
-			  s_JamSubPacket** 	SubfieldPack_PPS );
+                          uint32_t 		MsgNo_I,
+                          s_JamMsgHeader*	Header_PS,
+                          s_JamSubPacket** 	SubfieldPack_PPS );
 
 int JAM_ReadMsgText	( s_JamBase* 		Area_PS,
-			  uint32_t 		Offset_I,
-			  uint32_t 		Length_I,
-			  uint8_t* 		Buffer_PC );
+                      uint32_t 		Offset_I,
+                      uint32_t 		Length_I,
+                      uint8_t* 		Buffer_PC );
 
 int JAM_AddMessage	( s_JamBase* 		Area_PS,
-			  s_JamMsgHeader*	Header_PS,
-			  s_JamSubPacket*	SubPack_PS,
-			  uint8_t*		Text_PC,
-			  uint32_t			TextLen_I );
+                      s_JamMsgHeader*	Header_PS,
+                      s_JamSubPacket*	SubPack_PS,
+                      uint8_t*		Text_PC,
+                      uint32_t			TextLen_I );
 
 int JAM_AddEmptyMessage	( s_JamBase* 		Area_PS );
 
 int JAM_DeleteMessage	( s_JamBase*		Base_PS,
-			  uint32_t			MsgNo_I );
+                          uint32_t			MsgNo_I );
 
 int JAM_ChangeMsgHeader	( s_JamBase* 		Area_PS,
-			  uint32_t 		MsgNo_I,
-			  s_JamMsgHeader* 	Header_PS );
+                          uint32_t 		MsgNo_I,
+                          s_JamMsgHeader* 	Header_PS );
 
 int JAM_ClearMsgHeader	( s_JamMsgHeader* 	Header_PS );
 
@@ -319,12 +327,12 @@ int JAM_Errno		( s_JamBase* 		Area_PS );
 /* lastread.c */
 
 int JAM_ReadLastRead	( s_JamBase* 		Area_PS,
-			  uint32_t 		User_I,
-			  s_JamLastRead* 	Record_PS );
+                          uint32_t 		User_I,
+                          s_JamLastRead* 	Record_PS );
 
 int JAM_WriteLastRead	( s_JamBase* 		Area_PS,
-			  uint32_t 		User_I,
-			  s_JamLastRead* 	Record_PS );
+                          uint32_t 		User_I,
+                          s_JamLastRead* 	Record_PS );
 
 /* subpacket.c */
 
@@ -335,10 +343,10 @@ int 		JAM_DelSubPacket	( s_JamSubPacket* SubPack_PS );
 s_JamSubfield* 	JAM_GetSubfield		( s_JamSubPacket* SubPack_PS );
 
 s_JamSubfield*	JAM_GetSubfield_R	( s_JamSubPacket* SubPack_PS ,
-					  uint32_t* Count_PI);
+                                      uint32_t* Count_PI);
 
 int 		JAM_PutSubfield		( s_JamSubPacket* SubPack_PS,
-					  s_JamSubfield*  Field_PS );
+                                  s_JamSubfield*  Field_PS );
 
 /* crc32.c */
 

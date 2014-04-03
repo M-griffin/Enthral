@@ -15,12 +15,12 @@
     You should have received a copy of the GNU Lesser General Public
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
+
     Changes Made by Michael Griffin 2014-01-01:
     Updated for Enthral BBS
     - Recasted types to compile in g++
     - Rolled latest updated from Debian releases for 64 bit fixes.
-    - 
+    -
 
     Changes made by Johan Billing 2000-04-16:
 
@@ -134,19 +134,20 @@ int JAM_OpenMB( uint8_t* Basename_PC, s_JamBase** NewArea_PPS )
     int 	Status_I;
 
     if ( !NewArea_PPS )
-	return JAM_BAD_PARAM;
+        return JAM_BAD_PARAM;
 
     *NewArea_PPS = NULL;
 
     Base_PS = (s_JamBase*) calloc( 1, sizeof( s_JamBase ) );
     if (!Base_PS)
-	return JAM_NO_MEMORY;
+        return JAM_NO_MEMORY;
 
     *NewArea_PPS = Base_PS;
 
     Status_I = jam_Open( Base_PS, Basename_PC, (char *)"r+b" );
-    if ( Status_I ) {
-	return Status_I;
+    if ( Status_I )
+    {
+        return Status_I;
     }
 
     return 0;
@@ -158,27 +159,27 @@ int JAM_OpenMB( uint8_t* Basename_PC, s_JamBase** NewArea_PPS )
 **
 ***********************************************************************/
 int JAM_CreateMB( uint8_t* 	Basename_PC,
-		  uint32_t 	BaseMsg_I,
-		  s_JamBase** 	NewArea_PPS )
+                  uint32_t 	BaseMsg_I,
+                  s_JamBase** 	NewArea_PPS )
 {
     s_JamBaseHeader	Base_S;
     int 		Status_I;
     s_JamBase*  	Base_PS;
 
     if ( !NewArea_PPS || !BaseMsg_I )
-	return JAM_BAD_PARAM;
+        return JAM_BAD_PARAM;
 
     *NewArea_PPS = NULL;
 
     Base_PS = (s_JamBase*) calloc( 1, sizeof( s_JamBase ) );
     if (!Base_PS)
-	return JAM_NO_MEMORY;
+        return JAM_NO_MEMORY;
 
     *NewArea_PPS = Base_PS;
 
     Status_I = jam_Open( Base_PS, Basename_PC, (char *)"w+b" );
     if ( Status_I )
-	return Status_I;
+        return Status_I;
 
     Base_S.DateCreated = time(NULL);
     Base_S.ModCounter  = 0;
@@ -188,16 +189,18 @@ int JAM_CreateMB( uint8_t* 	Basename_PC,
     memset( &Base_S.RSRVD, 0, sizeof( Base_S.RSRVD ) );
 
     Status_I = JAM_LockMB( Base_PS, 0 ); /* If the new base cannot be locked directly, something is seriously wrong */
-    if ( Status_I ) {
+    if ( Status_I )
+    {
         JAM_CloseMB(Base_PS);
-	return Status_I;
+        return Status_I;
     }
 
     Status_I = JAM_WriteMBHeader( Base_PS, &Base_S );
-    if ( Status_I ) {
+    if ( Status_I )
+    {
         JAM_UnlockMB( Base_PS );
         JAM_CloseMB(Base_PS);
-	return Status_I;
+        return Status_I;
     }
 
     JAM_UnlockMB( Base_PS );
@@ -212,16 +215,22 @@ int JAM_CreateMB( uint8_t* 	Basename_PC,
 ***********************************************************************/
 int JAM_CloseMB( s_JamBase* Base_PS )
 {
-    if ( Base_PS->Locked_I ) {
-	int Status_I = JAM_UnlockMB( Base_PS );
-	if ( Status_I )
-	    return Status_I;
+    if ( Base_PS->Locked_I )
+    {
+        int Status_I = JAM_UnlockMB( Base_PS );
+        if ( Status_I )
+            return Status_I;
     }
-    if ( Base_PS->HdrFile_PS ) {
-	fclose( Base_PS->HdrFile_PS ); Base_PS->HdrFile_PS = NULL;
-	fclose( Base_PS->TxtFile_PS ); Base_PS->TxtFile_PS = NULL;
-	fclose( Base_PS->IdxFile_PS ); Base_PS->IdxFile_PS = NULL;
-	fclose( Base_PS->LrdFile_PS ); Base_PS->LrdFile_PS = NULL;
+    if ( Base_PS->HdrFile_PS )
+    {
+        fclose( Base_PS->HdrFile_PS );
+        Base_PS->HdrFile_PS = NULL;
+        fclose( Base_PS->TxtFile_PS );
+        Base_PS->TxtFile_PS = NULL;
+        fclose( Base_PS->IdxFile_PS );
+        Base_PS->IdxFile_PS = NULL;
+        fclose( Base_PS->LrdFile_PS );
+        Base_PS->LrdFile_PS = NULL;
     }
     Base_PS->Locked_I = 0;
     return 0;
@@ -241,28 +250,28 @@ int JAM_RemoveMB( s_JamBase* Base_PS, uint8_t* Basename_PC )
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_HDRFILE );
     Status_AI[0] = remove( (char *)Filename_AC );
     if ( Status_AI[0] )
-	Base_PS->Errno_I = errno;
+        Base_PS->Errno_I = errno;
 
     /* .JDT file */
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_TXTFILE );
     Status_AI[1] = remove( (char *)Filename_AC );
     if ( Status_AI[1] )
-	Base_PS->Errno_I = errno;
+        Base_PS->Errno_I = errno;
 
     /* .JDX file */
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_IDXFILE );
     Status_AI[2] = remove( (char *)Filename_AC );
     if ( Status_AI[2] )
-	Base_PS->Errno_I = errno;
+        Base_PS->Errno_I = errno;
 
     /* .JLR file */
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_LRDFILE );
     Status_AI[3] = remove( (char *)Filename_AC );
     if ( Status_AI[3] )
-	Base_PS->Errno_I = errno;
+        Base_PS->Errno_I = errno;
 
     if (Status_AI[0] || Status_AI[1] || Status_AI[2] || Status_AI[3])
-	return JAM_IO_ERROR;
+        return JAM_IO_ERROR;
 
     return 0;
 }
@@ -278,15 +287,17 @@ int JAM_GetMBSize( s_JamBase* Base_PS, uint32_t* Messages_PI )
     long Offset_I;
 
     /* go to end of index file */
-    if ( fseek( Base_PS->IdxFile_PS, 0, SEEK_END ) ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( fseek( Base_PS->IdxFile_PS, 0, SEEK_END ) )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     Offset_I = ftell( Base_PS->IdxFile_PS );
-    if ( Offset_I == -1 ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( Offset_I == -1 )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     *Messages_PI = Offset_I / sizeof( s_JamIndex );
@@ -302,39 +313,39 @@ int JAM_GetMBSize( s_JamBase* Base_PS, uint32_t* Messages_PI )
 ***********************************************************************/
 int JAM_LockMB( s_JamBase* Base_PS, int Timeout_I )
 {
-   if ( Base_PS->Locked_I )
-		return 0;
+    if ( Base_PS->Locked_I )
+        return 0;
 
-   switch ( Timeout_I )
-	{
-		/* unlimited timeout */
-      case -1:
-			while ( jam_Lock( Base_PS, 1 ) == JAM_LOCK_FAILED )
-	   	   JAM_Sleep( 1 );
-			return 0;
+    switch ( Timeout_I )
+    {
+    /* unlimited timeout */
+    case -1:
+        while ( jam_Lock( Base_PS, 1 ) == JAM_LOCK_FAILED )
+            JAM_Sleep( 1 );
+        return 0;
 
-		/* no timeout */
-      case 0:
-			return jam_Lock( Base_PS, 1 );
+    /* no timeout */
+    case 0:
+        return jam_Lock( Base_PS, 1 );
 
-		/* X seconds timeout */
-      default:
-			{
-		   time_t Time_I = time(NULL) + Timeout_I;
+    /* X seconds timeout */
+    default:
+    {
+        time_t Time_I = time(NULL) + Timeout_I;
 
-	   	while ( time(NULL) < Time_I )
-			{
-	      	int Result_I;
+        while ( time(NULL) < Time_I )
+        {
+            int Result_I;
 
-	      	Result_I = jam_Lock( Base_PS, 1 );
+            Result_I = jam_Lock( Base_PS, 1 );
 
-	      	if ( Result_I == JAM_LOCK_FAILED )
-		   		JAM_Sleep( 1 );
-	      	else
-		   		return Result_I;
-	   	}
-			return JAM_LOCK_FAILED;
-      	}
+            if ( Result_I == JAM_LOCK_FAILED )
+                JAM_Sleep( 1 );
+            else
+                return Result_I;
+        }
+        return JAM_LOCK_FAILED;
+    }
     }
 }
 
@@ -361,16 +372,18 @@ int JAM_UnlockMB( s_JamBase* Base_PS )
 int JAM_ReadMBHeader( s_JamBase* Base_PS, s_JamBaseHeader* Header_PS )
 {
     if ( !Header_PS || !Base_PS )
-	return JAM_BAD_PARAM;
+        return JAM_BAD_PARAM;
 
-    if ( fseek( Base_PS->HdrFile_PS, 0, SEEK_SET ) ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( fseek( Base_PS->HdrFile_PS, 0, SEEK_SET ) )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
-    if ( 1 > freadjambaseheader(Base_PS->HdrFile_PS,Header_PS) ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( 1 > freadjambaseheader(Base_PS->HdrFile_PS,Header_PS) )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     return 0;
@@ -385,23 +398,25 @@ int JAM_ReadMBHeader( s_JamBase* Base_PS, s_JamBaseHeader* Header_PS )
 int JAM_WriteMBHeader( s_JamBase* Base_PS, s_JamBaseHeader* Header_PS )
 {
     if ( !Header_PS || !Base_PS )
-	return JAM_BAD_PARAM;
+        return JAM_BAD_PARAM;
 
     if ( !Base_PS->Locked_I )
-	return JAM_NOT_LOCKED;
+        return JAM_NOT_LOCKED;
 
-    if ( fseek( Base_PS->HdrFile_PS, 0, SEEK_SET ) ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( fseek( Base_PS->HdrFile_PS, 0, SEEK_SET ) )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     /* ensure header looks right */
     memcpy( Header_PS->Signature, HEADERSIGNATURE, 4 );
     Header_PS->ModCounter++;
 
-    if ( 1 > fwritejambaseheader(Base_PS->HdrFile_PS,Header_PS) ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( 1 > fwritejambaseheader(Base_PS->HdrFile_PS,Header_PS) )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     fflush( Base_PS->HdrFile_PS );
@@ -415,34 +430,37 @@ int JAM_WriteMBHeader( s_JamBase* Base_PS, s_JamBaseHeader* Header_PS )
 **
 ***********************************************************************/
 int JAM_FindUser( s_JamBase*	Base_PS,
-		  uint32_t 	UserCrc_I,
-		  uint32_t 	StartMsg_I,
-		  uint32_t* 	MsgNo_PI )
+                  uint32_t 	UserCrc_I,
+                  uint32_t 	StartMsg_I,
+                  uint32_t* 	MsgNo_PI )
 {
     uint32_t MsgNo_I;
 
     /* go to start message */
     if ( fseek( Base_PS->IdxFile_PS, StartMsg_I * sizeof( s_JamIndex ),
-	        SEEK_SET ) ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+                SEEK_SET ) )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     /* scan file */
-    for ( MsgNo_I = StartMsg_I; ; MsgNo_I++ ) {
+    for ( MsgNo_I = StartMsg_I; ; MsgNo_I++ )
+    {
 
-	s_JamIndex Index_S;
+        s_JamIndex Index_S;
 
-        if ( 1 > freadjamindex(Base_PS->IdxFile_PS,&Index_S) ) {
+        if ( 1 > freadjamindex(Base_PS->IdxFile_PS,&Index_S) )
+        {
 
             if ( feof(Base_PS->IdxFile_PS) )
-		return JAM_NO_USER;
+                return JAM_NO_USER;
 
-	    Base_PS->Errno_I = errno;
-	    return JAM_IO_ERROR;
-	}
+            Base_PS->Errno_I = errno;
+            return JAM_IO_ERROR;
+        }
 
-	if ( Index_S.UserCRC == UserCrc_I )
+        if ( Index_S.UserCRC == UserCrc_I )
             break;
     }
 
@@ -464,29 +482,31 @@ int jam_Lock( s_JamBase* Base_PS, int DoLock_I )
     int      Handle_I;
 
     Handle_I = fileno( Base_PS->HdrFile_PS );
-    if ( Handle_I == -1 ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( Handle_I == -1 )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     Area_S.lOffset = 0;
     Area_S.lRange  = 1;
 
     if ( DoLock_I )
-	Status_I = DosSetFileLocks( Handle_I, NULL, &Area_S, Timeout_I, 0 );
+        Status_I = DosSetFileLocks( Handle_I, NULL, &Area_S, Timeout_I, 0 );
     else
-	Status_I = DosSetFileLocks( Handle_I, &Area_S, NULL, Timeout_I, 0 );
-    if ( Status_I ) {
-	if ( 232 == Status_I )
-	    return JAM_LOCK_FAILED;
+        Status_I = DosSetFileLocks( Handle_I, &Area_S, NULL, Timeout_I, 0 );
+    if ( Status_I )
+    {
+        if ( 232 == Status_I )
+            return JAM_LOCK_FAILED;
 
-	Base_PS->Errno_I = Status_I + OS_ERROR_OFFSET;
-	return JAM_IO_ERROR;
+        Base_PS->Errno_I = Status_I + OS_ERROR_OFFSET;
+        return JAM_IO_ERROR;
     }
     if ( DoLock_I )
-	Base_PS->Locked_I = 1;
+        Base_PS->Locked_I = 1;
     else
-	Base_PS->Locked_I = 0;
+        Base_PS->Locked_I = 0;
 
     return 0;
 #elif defined(__WIN32__)
@@ -495,9 +515,10 @@ int jam_Lock( s_JamBase* Base_PS, int DoLock_I )
     fseek(Base_PS->HdrFile_PS,0,SEEK_SET); /* Lock from start of file */
 
     Handle_I = fileno( Base_PS->HdrFile_PS );
-    if ( Handle_I == -1 ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( Handle_I == -1 )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     if ( DoLock_I )
@@ -506,12 +527,12 @@ int jam_Lock( s_JamBase* Base_PS, int DoLock_I )
         Status_I = _locking(Handle_I,_LK_UNLCK,1);
 
     if ( Status_I )
-       return JAM_LOCK_FAILED;
+        return JAM_LOCK_FAILED;
 
     if ( DoLock_I )
-	Base_PS->Locked_I = 1;
+        Base_PS->Locked_I = 1;
     else
-	Base_PS->Locked_I = 0;
+        Base_PS->Locked_I = 0;
 
     return 0;
 #elif defined(__LINUX__)
@@ -521,9 +542,10 @@ int jam_Lock( s_JamBase* Base_PS, int DoLock_I )
     fseek(Base_PS->HdrFile_PS,0,SEEK_SET); /* Lock from start of file */
 
     Handle_I = fileno( Base_PS->HdrFile_PS );
-    if ( Handle_I == -1 ) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if ( Handle_I == -1 )
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     if(DoLock_I) fl.l_type=F_WRLCK;
@@ -536,15 +558,16 @@ int jam_Lock( s_JamBase* Base_PS, int DoLock_I )
 
     Status_I=fcntl(Handle_I,F_SETLK,&fl);
 
-    if ( Status_I ) {
+    if ( Status_I )
+    {
         Base_PS->Errno_I = errno;
         return JAM_LOCK_FAILED;
     }
 
     if ( DoLock_I )
-	Base_PS->Locked_I = 1;
+        Base_PS->Locked_I = 1;
     else
-	Base_PS->Locked_I = 0;
+        Base_PS->Locked_I = 0;
 
     return 0;
 #else
@@ -564,39 +587,49 @@ int jam_Open( s_JamBase* Base_PS, uint8_t* Basename_PC, char* Mode_PC )
     /* .JHR file */
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_HDRFILE );
     Base_PS->HdrFile_PS = fopen( (char *)Filename_AC, Mode_PC );
-    if (!Base_PS->HdrFile_PS) {
-	Base_PS->Errno_I = errno;
-	return JAM_IO_ERROR;
+    if (!Base_PS->HdrFile_PS)
+    {
+        Base_PS->Errno_I = errno;
+        return JAM_IO_ERROR;
     }
 
     /* .JDT file */
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_TXTFILE );
     Base_PS->TxtFile_PS = fopen( (char *)Filename_AC, Mode_PC );
-    if (!Base_PS->TxtFile_PS) {
-	Base_PS->Errno_I = errno;
-	fclose( Base_PS->HdrFile_PS ); Base_PS->HdrFile_PS = NULL;
-	return JAM_IO_ERROR;
+    if (!Base_PS->TxtFile_PS)
+    {
+        Base_PS->Errno_I = errno;
+        fclose( Base_PS->HdrFile_PS );
+        Base_PS->HdrFile_PS = NULL;
+        return JAM_IO_ERROR;
     }
 
     /* .JDX file */
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_IDXFILE );
     Base_PS->IdxFile_PS = fopen( (char *)Filename_AC, Mode_PC );
-    if (!Base_PS->IdxFile_PS) {
-	Base_PS->Errno_I = errno;
-	fclose( Base_PS->HdrFile_PS ); Base_PS->HdrFile_PS = NULL;
-	fclose( Base_PS->TxtFile_PS ); Base_PS->TxtFile_PS = NULL;
-	return JAM_IO_ERROR;
+    if (!Base_PS->IdxFile_PS)
+    {
+        Base_PS->Errno_I = errno;
+        fclose( Base_PS->HdrFile_PS );
+        Base_PS->HdrFile_PS = NULL;
+        fclose( Base_PS->TxtFile_PS );
+        Base_PS->TxtFile_PS = NULL;
+        return JAM_IO_ERROR;
     }
 
     /* .JLR file */
     sprintf( (char *)Filename_AC, "%s%s", Basename_PC, EXT_LRDFILE );
     Base_PS->LrdFile_PS = fopen( (char *)Filename_AC, Mode_PC );
-    if (!Base_PS->LrdFile_PS) {
-	Base_PS->Errno_I = errno;
-	fclose( Base_PS->HdrFile_PS ); Base_PS->HdrFile_PS = NULL;
-	fclose( Base_PS->TxtFile_PS ); Base_PS->TxtFile_PS = NULL;
-	fclose( Base_PS->IdxFile_PS ); Base_PS->IdxFile_PS = NULL;
-	return JAM_IO_ERROR;
+    if (!Base_PS->LrdFile_PS)
+    {
+        Base_PS->Errno_I = errno;
+        fclose( Base_PS->HdrFile_PS );
+        Base_PS->HdrFile_PS = NULL;
+        fclose( Base_PS->TxtFile_PS );
+        Base_PS->TxtFile_PS = NULL;
+        fclose( Base_PS->IdxFile_PS );
+        Base_PS->IdxFile_PS = NULL;
+        return JAM_IO_ERROR;
     }
 
     return 0;
