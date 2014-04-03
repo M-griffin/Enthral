@@ -6,13 +6,11 @@
  *
  * - Michael Griffin 2011-2014 <mrmisticismo@hotmail.com>
  *
- * Used Code::Blocks IDE for MultiPlatform
- * Or the following for manual compilation
- * g++ -o entelnetd entelnetd.cpp config.cpp -lutil -std=c++0x
+ * Compiler: (Boost library is required for unique GUID creation)
+ * g++ -o entelnetd entelnetd.cpp config.cpp -lutil -std=c++0x -lboost_system
  *
  *
  * Based on ddtelnetd, based on utelnetd, see credits below.
- *
  * ddtelnetd by Bo Simonsen <bo@geekworld.dk>
  *
  * ---------------------------------------------------------------------------
@@ -38,7 +36,6 @@
 // $LastChangedDate$
 // $LastChangedRevision$
 // $LastChangedBy$
-
 
 //#include <sys/time.h>
 //#include <sys/wait.h>
@@ -770,11 +767,6 @@ int main(int argc, char **argv)
 	std::string hostaddr_string;
 	std::string hostname_string;
 
-    //_ent.errlog((char *)"getuuid");
-
-    // Unique filename to pass to BBS for
-    // Reading in Detected Client Terminal.
-    term_passing += _ent.make_uuid();
 
 	struct sockaddr_in from;
 	socklen_t fromlen;
@@ -808,6 +800,14 @@ int main(int argc, char **argv)
     // If Config Exists Run
     if (configdataexists())
         parseconfig();
+
+
+    //_ent.errlog((char *)"getuuid");
+
+    // Unique filename to pass to BBS for
+    // Reading in Detected Client Terminal.
+    term_passing += _ent.make_uuid();
+
 
 	// Parameter for Login Program and User Login ID.
 	for (;;)
@@ -1112,4 +1112,3 @@ int main(int argc, char **argv)
 
 	_exit(0);
 }
-

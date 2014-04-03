@@ -27,7 +27,7 @@
 
 using namespace std;
 
-# define BBSVERSION            "Enthral BBS [v.631/Alpha]"
+# define BBSVERSION            "Enthral BBS [v.632/Alpha]"
 extern char OSSYSTEM[1024];
 extern int UTF8Output;
 
