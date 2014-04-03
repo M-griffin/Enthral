@@ -540,7 +540,7 @@ void SESSION::inputfield(char *text, int &len)
     {
         if (USE_CHAR)
         {
-            repeat += "Â±";
+            repeat += "±";
         }
         else
         {
@@ -1234,8 +1234,8 @@ RESTART:
                 {
                     if (USE_CHAR)
                     {
-                        //write(0,"\x1b[DÂ±\x1b[D",7);
-                        console_putsn((char *)"\x1b[DÂ±\x1b[D",7);
+                        //write(0,"\x1b[D±\x1b[D",7);
+                        console_putsn((char *)"\x1b[D±\x1b[D",7);
                     }
                     else
                     {
@@ -1286,13 +1286,13 @@ RESTART:
             {
                 if (USE_CHAR)
                 {
-                    //write(0,"\x1b[DÂ±\x1b[D",7);
-                    console_putsn((char *)"\x1b[DÂ±\x1b[D",7);
+                    //write(0,"\x1b[D±\x1b[D",7);
+                    console_putsn((char *)"\x1b[D±\x1b[D",7);
                 }
                 else
                 {
                     //write(0,"\x1b[D \x1b[D",7);
-                    console_putsn((char *)"\x1b[D \x1b[D",7);
+                    console_putsn((char *)"\x1b[D±\x1b[D",7);
                 }
             }
             i = 0;
@@ -1320,7 +1320,7 @@ RESTART:
                         i = Col;
                         for (;i != 0; i--) {
                             if (USE_CHAR) {
-                                write(0,"\x1b[DÂ±\x1b[D",7);
+                                write(0,"\x1b[D±\x1b[D",7);
                             }
                             else {
                                 write(0,"\x1b[D \x1b[D",7);
@@ -1346,8 +1346,8 @@ RESTART:
             {
                 if (USE_CHAR)
                 {
-                    //write(0,"\x1b[DÂ±\x1b[D",7);
-                    console_putsn((char *)"\x1b[DÂ±\x1b[D",7);
+                    //write(0,"\x1b[D±\x1b[D",7);
+                    console_putsn((char *)"\x1b[D±\x1b[D",7);
                 }
                 else
                 {

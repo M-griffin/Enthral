@@ -715,9 +715,8 @@ BOOL jamapi_purgemsg(mb_list_rec *area, uint32_t msgnum)
     --msgnum; // Messages Start at 0, 1 through HighWater are passed.
 
 //	_s.errlog((char *)"jamapi_purgemsg() - LockMB");
-    //std::string path = (char *)MESGPATH;
-    //path += (char *)area->mbfile;
-	
+    std::string path = (char *)MESGPATH;
+    path += (char *)area->mbfile;
     if(JAM_LockMB(ja->Base_PS,10))
     {
 //      _s.errlog((char *)"Timeout when trying to lock JAM messagebase \"%s\"",(char *)path.c_str());
@@ -1087,7 +1086,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     {
 //        _s.errlog((char *)"3. MB_JAM() - msgsize == 0");
         JAM_CloseMB(ja->Base_PS);
-        //delete msgtext;   // Not allocated on 0 size.
+        delete msgtext;
         free(ja->Base_PS);
         delete ja;
         ja = 0;
