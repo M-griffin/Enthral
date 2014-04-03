@@ -624,7 +624,13 @@ void data_area::process_data_area()
     }
 
     // If all Commands are FIRSTCMD's then return after execution.
-    if (exe == noc) return;
+    if (exe == noc) 
+	{
+		delete [] execnum;
+		execnum = 0;
+		return;
+	}
+		
 
     // Setup of first Command, Highlited menu lightbar
     output.erase();
@@ -766,7 +772,12 @@ void data_area::process_data_area()
                 // Executed == 0, Then Key Pressed was not valid! :)
                 // Pass through the ESC then
                 //if (tScroll) p->Active = false;
-                if (executed > 0) return;
+                if (executed > 0) 
+				{				
+					delete [] execnum;
+					execnum = 0;
+					return;
+				}	
             }
 
 
@@ -1439,6 +1450,7 @@ void data_area::create_ansifile()
                     if (!temp)
                     {
                         //elog("Unable to Allocate Temp for MCI Parsing: %i",fileArray[input].size());
+						return;
                     }
                     // MCI Translation .
                     sprintf(temp,"%s",(char *)fileArray[input].c_str());

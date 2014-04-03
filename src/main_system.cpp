@@ -293,7 +293,7 @@ void main_system::start(UserRec *user)
     putline((char *)"\r\n");
     _lang.lang_get(text,1);
     //cspacing(text);
-    sprintf(text,"%s\r\n",text);
+    strcat(text,(char *)"\r\n");
     pipe2ansi(text);
 
     sleep (1);
@@ -308,7 +308,7 @@ void main_system::start(UserRec *user)
         //cspacing(text);
         //sprintf(text,"%s\r\n\r\n",sCmd);
 
-        sprintf(text,"%s\r\n\r\n",text);
+        strcat(text,(char *)"\r\n\r\n");
         putline(text);
 
         _lang.lang_get(text2,52);
