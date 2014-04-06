@@ -146,7 +146,7 @@ void clear_nodes()
 
     char buff[512] = {0};
 
-    tcsetattr(0, TCSANOW, &oldtty);
+    //tcsetattr(0, TCSANOW, &oldtty);
 
     finalize_console();
     snprintf(buff, sizeof(buff), "%s/enthral%dr", ENTHRALTMP, NODE_NUM);
