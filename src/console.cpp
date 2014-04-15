@@ -56,13 +56,26 @@ std::string screen_buffer;
  * CP437 is a tuple of length 256, mapping equivalent unicode
  * characters for each CP437(n), where n is index of CP437.
  */
+/**
+ * Wijnand Modderman-Lenstra
+ * CP437 is a tuple of length 256, mapping equivalent unicode
+ * characters for each CP437(n), where n is index of CP437.
+ *
+ * Characters 1-31 remapped for CP437 control Codes to UTF-8 Glyphs
+ * http://en.wikipedia.org/wiki/Code_page_437#Characters
+ * 
+ * Excluded from Translation to Glyphs.
+ * 13 is mapped to CR   Excluded 'Music Note'
+ * 27 is mapped to ESC  Excluded 'Left Arrow' 
+ * -- Micahel Griffin 
+ */
 wchar_t CP437TABLE[] = {
-    L'\u0000', L'\u0001', L'\u0002', L'\u0003', L'\u0004', L'\u0005',
-    L'\u0006', L'\u0007', L'\u0008', L'\u0009', L'\u000A', L'\u000B',
-    L'\u000C', L'\u000D', L'\u000E', L'\u000F', L'\u0010', L'\u0011',
-    L'\u0012', L'\u0013', L'\u0014', L'\u0015', L'\u0016', L'\u0017',
-    L'\u0018', L'\u0019', L'\u001A', L'\u001B', L'\u001C', L'\u001D',
-    L'\u001E', L'\u001F', L'\u0020', L'\u0021', L'\u0022', L'\u0023',
+    L'\u0000', L'\u263A', L'\u263B', L'\u2665', L'\u2666', L'\u2663', // 5
+    L'\u2660', L'\u2022', L'\u0008', L'\u0009', L'\u000A', L'\u2642', // 11
+    L'\u2640', L'\u000D', L'\u266C', L'\u263C', L'\u25BA', L'\u25C4', // 17
+	L'\u2195', L'\u203C', L'\u00B6', L'\u00A7', L'\u25AC', L'\u21A8', // 23
+    L'\u2191', L'\u2193', L'\u2192', L'\u001B', L'\u221F', L'\u2194', // 29
+    L'\u25B2', L'\u25BC', L'\u0020', L'\u0021', L'\u0022', L'\u0023',
     L'\u0024', L'\u0025', L'\u0026', L'\u0027', L'\u0028', L'\u0029',
     L'\u002A', L'\u002B', L'\u002C', L'\u002D', L'\u002E', L'\u002F',
     L'\u0030', L'\u0031', L'\u0032', L'\u0033', L'\u0034', L'\u0035',
