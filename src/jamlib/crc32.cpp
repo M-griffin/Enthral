@@ -71,15 +71,15 @@ uint32_t crc32tab[] =   /* CRC polynomial 0xedb88320 */
 **
 ***********************************************************************/
 
-uint32_t JAM_Crc32(uint8_t *Buffer_PC, uint32_t Length_I)
+uint32_t JAM_Crc32 ( uint8_t *Buffer_PC, uint32_t Length_I )
 {
     uint32_t Crc_I;
     uint32_t c;
 
     Crc_I=0xffffffff;
 
-    for(c=0; c < Length_I; c++)
-        Crc_I=(Crc_I>>8) ^ crc32tab[(uint8_t)Crc_I ^ tolower(Buffer_PC[c])];
+    for ( c=0; c < Length_I; c++ )
+        Crc_I= ( Crc_I>>8 ) ^ crc32tab[ ( uint8_t ) Crc_I ^ tolower ( Buffer_PC[c] )];
 
-    return(Crc_I);
+    return ( Crc_I );
 }

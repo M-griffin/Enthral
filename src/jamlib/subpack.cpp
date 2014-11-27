@@ -1,6 +1,6 @@
 /*
     JAMLIB - A JAM subroutine library
-    Copyright (C) 1999 Björn Stenberg
+    Copyright (C) 1999 BjÃ¶rn Stenberg
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -46,7 +46,7 @@
 **
 **  SUBPACKET.C -- Subfield packet handling
 **
-**  Author: Bj”rn Stenberg (bjorn.stenberg@sth.frontec.se)
+**  Author: BjÂ”rn Stenberg (bjorn.stenberg@sth.frontec.se)
 **
 ***********************************************************************/
 #include <stdio.h>
@@ -60,12 +60,13 @@
 **  JAM_NewSubPacket - Create a new subfield packet
 **
 ***********************************************************************/
-s_JamSubPacket* JAM_NewSubPacket( void )
+s_JamSubPacket* JAM_NewSubPacket ( void )
 {
     s_JamSubPacket* Sub_PS;
 
     /* allocate packet struct */
-    Sub_PS = (s_JamSubPacket*) malloc( sizeof( s_JamSubPacket ) );
+    Sub_PS = ( s_JamSubPacket* ) malloc ( sizeof ( s_JamSubPacket ) );
+
     if ( !Sub_PS )
         return NULL;
 
@@ -73,11 +74,12 @@ s_JamSubPacket* JAM_NewSubPacket( void )
     Sub_PS->NumFields = 0;
 
     /* allocate pointer array */
-    Sub_PS->Fields    = (s_JamSubfield**) calloc( Sub_PS->NumAlloc,
-                        sizeof( s_JamSubfield* ) );
+    Sub_PS->Fields    = ( s_JamSubfield** ) calloc ( Sub_PS->NumAlloc,
+                        sizeof ( s_JamSubfield* ) );
+
     if ( !Sub_PS->Fields )
     {
-        free (Sub_PS);
+        free ( Sub_PS );
         return NULL;
     }
 
@@ -89,11 +91,11 @@ s_JamSubPacket* JAM_NewSubPacket( void )
 **  JAM_DelSubPacket - Free the data associated with a subfield packet
 **
 ***********************************************************************/
-int JAM_DelSubPacket( s_JamSubPacket* SubPack_PS )
+int JAM_DelSubPacket ( s_JamSubPacket* SubPack_PS )
 {
     uint32_t i;
 
-    if (!SubPack_PS)
+    if ( !SubPack_PS )
         return JAM_BAD_PARAM;
 
     for ( i=0; i < SubPack_PS->NumFields; i++ )
@@ -101,11 +103,13 @@ int JAM_DelSubPacket( s_JamSubPacket* SubPack_PS )
         s_JamSubfield* Field_PS = SubPack_PS->Fields[i];
 
         if ( Field_PS->Buffer )
-            free( Field_PS->Buffer );
-        free( Field_PS );
+            free ( Field_PS->Buffer );
+
+        free ( Field_PS );
     }
-    free( SubPack_PS->Fields );
-    free( SubPack_PS );
+
+    free ( SubPack_PS->Fields );
+    free ( SubPack_PS );
 
     return 0;
 }
@@ -116,7 +120,7 @@ int JAM_DelSubPacket( s_JamSubPacket* SubPack_PS )
 **                     (not reentrant)
 **
 ***********************************************************************/
-s_JamSubfield* JAM_GetSubfield( s_JamSubPacket* SubPack_PS )
+s_JamSubfield* JAM_GetSubfield ( s_JamSubPacket* SubPack_PS )
 {
     static s_JamSubPacket* LastPack_PS = NULL;
     static uint32_t           NextIndex_I = 0;
@@ -139,10 +143,10 @@ s_JamSubfield* JAM_GetSubfield( s_JamSubPacket* SubPack_PS )
 **                       (reentrant)
 **
 ***********************************************************************/
-s_JamSubfield* JAM_GetSubfield_R( s_JamSubPacket* SubPack_PS , uint32_t* Count_PI)
+s_JamSubfield* JAM_GetSubfield_R ( s_JamSubPacket* SubPack_PS , uint32_t* Count_PI )
 {
     if ( *Count_PI < SubPack_PS->NumFields )
-        return SubPack_PS->Fields[ (*Count_PI)++ ];
+        return SubPack_PS->Fields[ ( *Count_PI ) ++ ];
 
     return NULL;
 }
@@ -152,10 +156,10 @@ s_JamSubfield* JAM_GetSubfield_R( s_JamSubPacket* SubPack_PS , uint32_t* Count_P
 **  JAM_PutSubfield -- Add a subfield to a subfield packet
 **
 ***********************************************************************/
-int JAM_PutSubfield( s_JamSubPacket* SubPack_PS, s_JamSubfield* Field_PS )
+int JAM_PutSubfield ( s_JamSubPacket* SubPack_PS, s_JamSubfield* Field_PS )
 {
-    s_JamSubfield* 	NewField_PS;
-    uint8_t*		NewBuf_PC;
+    s_JamSubfield*     NewField_PS;
+    uint8_t* NewBuf_PC;
 
     /* do we have to expand the array? */
     if ( SubPack_PS->NumFields == SubPack_PS->NumAlloc )
@@ -163,9 +167,10 @@ int JAM_PutSubfield( s_JamSubPacket* SubPack_PS, s_JamSubfield* Field_PS )
         s_JamSubfield** Fields_PPS;
 
         SubPack_PS->NumAlloc *= 2;
-        Fields_PPS = (s_JamSubfield**) realloc( SubPack_PS->Fields,
-                                                SubPack_PS->NumAlloc *
-                                                sizeof( s_JamSubfield* ) );
+        Fields_PPS = ( s_JamSubfield** ) realloc ( SubPack_PS->Fields,
+                     SubPack_PS->NumAlloc *
+                     sizeof ( s_JamSubfield* ) );
+
         if ( !Fields_PPS )
             return JAM_NO_MEMORY;
 
@@ -177,20 +182,23 @@ int JAM_PutSubfield( s_JamSubPacket* SubPack_PS, s_JamSubfield* Field_PS )
     */
 
     /* allocate a new subfield */
-    NewField_PS = (s_JamSubfield*) malloc( sizeof( s_JamSubfield ) );
+    NewField_PS = ( s_JamSubfield* ) malloc ( sizeof ( s_JamSubfield ) );
+
     if ( !NewField_PS )
         return JAM_NO_MEMORY;
 
     /* allocate a new buffer */
     if ( Field_PS->DatLen )
     {
-        NewBuf_PC = (uint8_t*) malloc( Field_PS->DatLen );
+        NewBuf_PC = ( uint8_t* ) malloc ( Field_PS->DatLen );
+
         if ( !NewBuf_PC )
         {
-            free (NewField_PS);
+            free ( NewField_PS );
             return JAM_NO_MEMORY;
         }
-        memcpy( NewBuf_PC, Field_PS->Buffer, Field_PS->DatLen );
+
+        memcpy ( NewBuf_PC, Field_PS->Buffer, Field_PS->DatLen );
     }
     else
         NewBuf_PC = NULL;

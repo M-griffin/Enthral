@@ -34,77 +34,85 @@ using namespace std;
 /**
  *  Lock for Message History File
  */
-int msg_stats::hist_lockSet(int onoff, char *area)
+int msg_stats::hist_lockSet ( int onoff, char *area )
 {
 
     std::string path = LOCKPATH;
     path   += area;
     path   += "_stats.lck";
 
-    if (!onoff)
+    if ( !onoff )
     {
-        remove((char *)path.c_str());
+        remove ( ( char * ) path.c_str() );
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
+
+    while ( 1 )
     {
-        stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
+        stream = fopen ( path.c_str(),"rb+" );
+
+        if ( stream == NULL )
         {
-            stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
+            stream = fopen ( path.c_str(), "wb" );
+
+            if ( stream == NULL )
             {
                 //elog("Error history.lck!");
                 return FALSE;
             }
             else
             {
-                fclose(stream);
+                fclose ( stream );
                 return TRUE;
             }
         }
-        fclose(stream);
-        usleep(10*20000);
+
+        fclose ( stream );
+        usleep ( 10*20000 );
     }
 }
 
 /**
  *  Write Data
  */
-int msg_stats::hist_write(MsgStats *stats, char *area)
+int msg_stats::hist_write ( MsgStats *stats, char *area )
 {
 
     std::string path = MESGPATH;
     path   += area;
     path   += ".sts";
     int x   = 0;
-    hist_lockSet(TRUE,area);
+    hist_lockSet ( TRUE,area );
 
-    FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
+    FILE *stream = fopen ( path.c_str(),"rb+" );
+
+    if ( stream == NULL )
     {
-        stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
+        stream = fopen ( path.c_str(), "wb" );
+
+        if ( stream == NULL )
         {
             //elog("Error hist_write!");
-            hist_lockSet(FALSE,area);
+            hist_lockSet ( FALSE,area );
             return x;
         }
     }
-    if(fseek(stream,0,SEEK_SET)==0)
-        x = fwrite(stats,sizeof(MsgStats),1,stream);
-    fclose(stream);
-    hist_lockSet(FALSE,area);
+
+    if ( fseek ( stream,0,SEEK_SET ) ==0 )
+        x = fwrite ( stats,sizeof ( MsgStats ),1,stream );
+
+    fclose ( stream );
+    hist_lockSet ( FALSE,area );
     return x;
 }
 
 /**
  *  Read Data
  */
-int msg_stats::hist_read(MsgStats *stats, char *area)
+int msg_stats::hist_read ( MsgStats *stats, char *area )
 {
 
     std::string path = MESGPATH;
@@ -112,26 +120,29 @@ int msg_stats::hist_read(MsgStats *stats, char *area)
     path   += ".sts";
     int x   = 0;
 
-    hist_lockSet(TRUE,area);
-    FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
+    hist_lockSet ( TRUE,area );
+    FILE *stream = fopen ( path.c_str(),"rb+" );
+
+    if ( stream == NULL )
     {
-        stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
+        stream=fopen ( path.c_str(), "wb" );
+
+        if ( stream == NULL )
         {
             //elog("Error hist_read!");
-            hist_lockSet(FALSE,area);
+            hist_lockSet ( FALSE,area );
             return x;
         }
     }
-    fclose(stream);
 
-    stream = fopen(path.c_str(), "rb");
-    if(fseek(stream,0,SEEK_SET)==0)
-        x = fread(stats,sizeof(MsgStats),1,stream);
-    fclose(stream);
-    hist_lockSet(FALSE,area);
+    fclose ( stream );
+
+    stream = fopen ( path.c_str(), "rb" );
+
+    if ( fseek ( stream,0,SEEK_SET ) ==0 )
+        x = fread ( stats,sizeof ( MsgStats ),1,stream );
+
+    fclose ( stream );
+    hist_lockSet ( FALSE,area );
     return x;
 }
-
-

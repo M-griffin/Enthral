@@ -253,7 +253,7 @@ void files::fileidx_display()
     {
 
      // fix this!!
-        		if (fil.size < 1000) {
+                if (fil.size < 1000) {
                     sprintf(fs,"%+4ld B.",fil.size);
                     fsize = fs;
                 }

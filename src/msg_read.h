@@ -77,9 +77,9 @@ typedef struct msgread_ini
     // Message Read .ini File
     int  msg_exists();
     void msg_create();
-    void msg_chkpar(std::string &data);
-    void msg_check(std::string cfgdata);
-    int  msg_parse(int idx = 0);
+    void msg_chkpar ( std::string &data );
+    void msg_check ( std::string cfgdata );
+    int  msg_parse ( int idx = 0 );
 
 } msgread_ini;
 
@@ -96,15 +96,15 @@ class msg_read : private
 private:
 
     int  tTop,
-    tBot,
-    firstscan,    // Firstscan of current area
-	gblNewScan;   // Global NewScan
+         tBot,
+         firstscan,    // Firstscan of current area
+         gblNewScan;   // Global NewScan
 
     ulong Views;
 
     ulong MsgsLeft,
-    CurMsgs,
-    TotMsgs;
+          CurMsgs,
+          TotMsgs;
 
     std::vector<ulong> *msgidx_translation;
     ulong current_msgidx;
@@ -113,52 +113,52 @@ private:
 
 public:
     msg_read();
-    void start(UserRec *user);
+    void start ( UserRec *user );
 
     // Change Ansi Themes
-    int change_theme(int idx=0);
+    int change_theme ( int idx=0 );
 
     // Parsing the Message Header
-    void ansi_file(char *filename);
+    void ansi_file ( char *filename );
 
-	// Read in Message Only, for replying from title scan
-	void ReadInMsgOnly(ulong marea);
-		
+    // Read in Message Only, for replying from title scan
+    void ReadInMsgOnly ( ulong marea );
+
     // Process both Normal and email/netmail message reading.
-    int  ReadMsg(ulong mbnum, int showit, int newmsg, int private_area=FALSE);
+    int  ReadMsg ( ulong mbnum, int showit, int newmsg, int private_area=FALSE );
 
     // Use this for quick message find lateron!
-    int  ScanPosters(ulong marea);
+    int  ScanPosters ( ulong marea );
 
-    int  NewScanMsgs(int newmsg,ulong marea);
-    int  ScanMessages(ulong marea);
-    int  ReadMessages(ulong marea);
+    int  NewScanMsgs ( int newmsg,ulong marea );
+    int  ScanMessages ( ulong marea );
+    int  ReadMessages ( ulong marea );
 
     void JumpToMessage();
-    void IgnoreTheRest(ulong marea);
-    int  DelCurMsg(ulong mbnum, ulong msgnum);
+    void IgnoreTheRest ( ulong marea );
+    int  DelCurMsg ( ulong mbnum, ulong msgnum );
     int  NextAreaScan();
 
-    int  verify_username(char *text, char *name);
+    int  verify_username ( char *text, char *name );
 
-    int  read_usersig(std::string &tmp);
-    void write_usersig(std::string &tmp);
+    int  read_usersig ( std::string &tmp );
+    void write_usersig ( std::string &tmp );
     int  SetupUserSig();
 
-    void get_address(XMSG *xm);
+    void get_address ( XMSG *xm );
 //    void get_address(struct MemMessage *xm);
 
-    void DoPostEmail(int Reply);
-    void DoPost(int mbnum, int Reply);
+    void DoPostEmail ( int Reply );
+    void DoPost ( int mbnum, int Reply );
     void SetupMsgPost();
-    void DoEdit(int mbnum);
+    void DoEdit ( int mbnum );
     void EditMessage();
 
     // Title Scan
-    long title_scan(int newmsg, int multiscan = FALSE, char *mString='\0');
+    long title_scan ( int newmsg, int multiscan = FALSE, char *mString='\0' );
 
     // Message Reader
-    int  StartReader(int newmsg, ulong msgidx);
+    int  StartReader ( int newmsg, ulong msgidx );
 
 
 };

@@ -11,7 +11,7 @@
 
 /*--------------------------------------------------------------------------------*/
 // Reads and Gets all users data from Users.dat
-int userread(UserRec * user, int idx);
+int userread ( UserRec * user, int idx );
 
 /*--------------------------------------------------------------------------------*/
 // Reads Users.dat and gets Total number of Users in that file

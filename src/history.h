@@ -27,15 +27,14 @@
 class history
 {
 public:
-    int  daily_lockSet(int onoff);
-    int  daily_write(History *hist);
-    int  daily_read(History *hist);
+    int  daily_lockSet ( int onoff );
+    int  daily_write ( History *hist );
+    int  daily_read ( History *hist );
 
-    int  hist_lockSet(int onoff);
-    int  hist_write(History *hist);
-    int  hist_read(History *hist);
+    int  hist_lockSet ( int onoff );
+    int  hist_write ( History *hist );
+    int  hist_read ( History *hist );
 };
 
 
 # endif
-

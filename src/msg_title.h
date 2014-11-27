@@ -63,9 +63,9 @@ typedef struct msgtitle_ini
     // Message Read .ini File
     bool mtitle_exists();
     void mtitle_create();
-    void mtitle_chkpar(std::string &data);
-    void mtitle_check(std::string cfgdata);
-    int  mtitle_parse(int idx=0);
+    void mtitle_chkpar ( std::string &data );
+    void mtitle_check ( std::string cfgdata );
+    int  mtitle_parse ( int idx=0 );
 
 } msgtitle_ini;
 
@@ -85,16 +85,16 @@ public:
     msg_title();
 
     std::vector<list_bar>
-    build_titlelist(vector<unsigned long> &elist);//, Query &qry);
+    build_titlelist ( vector<unsigned long> &elist ); //, Query &qry);
 
-    void  ParseHeader(char *filename);
-    int   change_theme(int idx);
-    void  SetupList(UserRec *user, int isPrivate);
+    void  ParseHeader ( char *filename );
+    int   change_theme ( int idx );
+    void  SetupList ( UserRec *user, int isPrivate );
 
-    int   StartTitleList(int newscan,
-                        unsigned long marea,
-                        vector<unsigned long> &elist,
-                        unsigned long currmsg);
+    int   StartTitleList ( int newscan,
+                           unsigned long marea,
+                           vector<unsigned long> &elist,
+                           unsigned long currmsg );
 
 };
 

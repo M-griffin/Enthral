@@ -59,9 +59,9 @@ typedef struct filearea_ini
     // Message Read .ini File
     bool filea_exists();
     void filea_create();
-    void filea_chkpar(std::string &data);
-    void filea_check(std::string cfgdata);
-    int  filea_parse(int idx=0);
+    void filea_chkpar ( std::string &data );
+    void filea_check ( std::string cfgdata );
+    int  filea_parse ( int idx=0 );
 
 } filearea_ini;
 
@@ -76,10 +76,10 @@ public:
     int tBot;
 
     file_area();
-    void ParseHeader(char *filename);
-    int  change_theme(int idx);
-    void SetupList(UserRec *user);
-    char *StartList(char *OrgMsg);
+    void ParseHeader ( char *filename );
+    int  change_theme ( int idx );
+    void SetupList ( UserRec *user );
+    char *StartList ( char *OrgMsg );
 
 };
 

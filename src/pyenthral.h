@@ -33,8 +33,7 @@ using namespace std;
 //------------------------------------------------------------------------------
 //void main( void )
 
-void pybbs_run(std::string scripts, UserRec *usr);
+void pybbs_run ( std::string scripts, UserRec *usr );
 
 
 # endif
-

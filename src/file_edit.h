@@ -35,23 +35,22 @@ private:
 
 public:
 
-    char *faddr2char(char *s,fidoaddr *fa);
+    char *faddr2char ( char *s,fidoaddr *fa );
     void fbeditmenu();
-    void kill_fbase(int fbnum);
+    void kill_fbase ( int fbnum );
     void delete_fbase();
-    void poke_fbase(int pokenum);
-    void init_fbase(fb_list_rec *fb);
-    int  list_file_bases(int page);
+    void poke_fbase ( int pokenum );
+    void init_fbase ( fb_list_rec *fb );
+    int  list_file_bases ( int page );
     void insert_fbase();
-    void edit_aka(fb_list_rec *fr);
+    void edit_aka ( fb_list_rec *fr );
     //void ACS(ACSrec *acs, char *fstr);
-    void mod_fbase(int fbnum);
+    void mod_fbase ( int fbnum );
     void modify_fbase();
-    void swap_fbase(int iFrom, int iTo);
+    void swap_fbase ( int iFrom, int iTo );
     void move_fbase();
 
 };
 
 
 # endif
-

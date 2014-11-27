@@ -62,9 +62,9 @@ typedef struct usrlist_ini
     // Message Read .ini File
     bool usrl_exists();
     void usrl_create();
-    void usrl_chkpar(std::string &data);
-    void usrl_check(std::string cfgdata);
-    int  usrl_parse(int idx=0);
+    void usrl_chkpar ( std::string &data );
+    void usrl_check ( std::string cfgdata );
+    int  usrl_parse ( int idx=0 );
 
 } usrlist_ini;
 
@@ -85,17 +85,17 @@ public:
 
 
     std::vector<UserRec> read_users();
-    std::vector<list_bar> build_userlist(UserRec *usr, std::string &temp);//, Query &qry);
+    std::vector<list_bar> build_userlist ( UserRec *usr, std::string &temp ); //, Query &qry);
 
-    void ParseHeader(char *filename);
-    int  change_theme(int idx);
-    void SetupList(UserRec *user);
-    void SetupEmailList(UserRec *user);
+    void ParseHeader ( char *filename );
+    int  change_theme ( int idx );
+    void SetupList ( UserRec *user );
+    void SetupEmailList ( UserRec *user );
 
-    void UserList(std::string &tmp);
+    void UserList ( std::string &tmp );
 
-    BOOL StartUserEditor(ulong usernum);
-    int  StartList(int email=TRUE);
+    BOOL StartUserEditor ( ulong usernum );
+    int  StartList ( int email=TRUE );
 
 };
 

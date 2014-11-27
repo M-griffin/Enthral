@@ -24,7 +24,7 @@
 //# include <time.h>
 
 # include "struct.h"
-# include "mb_api.h"		// Mainly for SESSION and i/o functions.
+# include "mb_api.h"        // Mainly for SESSION and i/o functions.
 # include "msgs.h"
 
 // pickup thisuser and session from msg_api
@@ -55,7 +55,7 @@ typedef struct msgemail_ini
     // Message Read .ini File
     bool msga_exists();
     void msga_create();
-    void msga_check(std::string cfgdata);
+    void msga_check ( std::string cfgdata );
     void msga_parse();
 
 } msgemail_ini;
@@ -72,9 +72,9 @@ public:
     int tBot;
 
     msg_email();
-    void ParseHeader(char *filename);
+    void ParseHeader ( char *filename );
     //void SetupList();
-    void SetupList(UserRec *user);
+    void SetupList ( UserRec *user );
     char *StartList();
 
 };

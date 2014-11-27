@@ -107,7 +107,7 @@ extern int  TERM_HEIGHT;
 extern int  TERM_WIDTH;
 extern int  MAX_NODES;
 
-extern int  isSysop;			// Exclusive Message Board Access to Sysop Areas!  HACK!!
+extern int  isSysop;     // Exclusive Message Board Access to Sysop Areas!  HACK!!
 extern char SYSOP_NAME[80];
 extern char SYSTEM_NAME[80];
 
@@ -116,10 +116,10 @@ extern char CLIENT_TERM[255];
 extern char STARTUP_SCRIPT[255];
 extern char STARTUP_SCRIPT2[255];
 
-extern int  isANSI;				// Detected and useing ANSI Terminal.
+extern int  isANSI;      // Detected and useing ANSI Terminal.
 extern int  isANSIMATION;
 extern int  TOGGLE_BACKSPACE;
-extern int  PAUSE_SCROLING;		// Used to Pause Scrolling Text during Node Messages / Notifications.
+extern int  PAUSE_SCROLING; // Used to Pause Scrolling Text during Node Messages / Notifications.
 
 extern  struct termios old_termios;
 
@@ -166,12 +166,12 @@ typedef struct LineRec
 
 } LineRec;
 
-typedef struct __attribute__((packed)) FILEAREA
+typedef struct __attribute__ ( ( packed ) ) FILEAREA
 {
-    uint32_t  idx;			// Index in Dat files
-    uint32_t  num;			// Number of Files in Base
-    uint8_t   name[30];		// Base Name
-    uint8_t   path[255];	// Path to files
+    uint32_t  idx;         // Index in Dat files
+    uint32_t  num;         // Number of Files in Base
+    uint8_t   name[30];    // Base Name
+    uint8_t   path[255];   // Path to files
     // SL
     // Password
 } FILEAREA;
@@ -183,22 +183,22 @@ struct ListItem
 };
 
 /// Just a rough draft, redo file layout!
-typedef struct __attribute__((packed)) FILES
+typedef struct __attribute__ ( ( packed ) ) FILES
 {
 
-    uint32_t idx;		// Index in Dat files
-    uint8_t name[80];	// Filename
-    //long Date;	// Date Uploaded
-    uint32_t size;		// File Size in bytes
-    uint8_t sSize;		// Converted size to KB, MEG, GIG
+    uint32_t idx;         // Index in Dat files
+    uint8_t name[80];     // Filename
+    //long Date;          // Date Uploaded
+    uint32_t size;        // File Size in bytes
+    uint8_t sSize;        // Converted size to KB, MEG, GIG
     // Flag - Valid / Invalid
 } FILES;
 
 typedef struct list_bar
 {
-    uint16_t     x; // Screen Cords
-    uint16_t     y; // Screen Cord
-    uint32_t isnew; // has new / or count of total.
+    uint16_t     x;  // Screen Cords
+    uint16_t     y;  // Screen Cord
+    uint32_t isnew;  // has new / or count of total.
     uint32_t msgnum;
     uint32_t msgid;  // CRC32
     uint32_t repid;  // CRC32
@@ -224,13 +224,13 @@ struct ListItem2
     struct ListItem *next;
 };
 
-typedef struct __attribute__((packed)) LangRec
+typedef struct __attribute__ ( ( packed ) ) LangRec
 {
     uint8_t Lang[1024];
 
 } LangRec;
 
-typedef struct __attribute__((packed)) MenuFlags
+typedef struct __attribute__ ( ( packed ) ) MenuFlags
 {
     bool ClrScrBefore;  // clear screen before menu display
     bool NoMenuPrompt;  // no menu prompt whatsoever?
@@ -279,27 +279,27 @@ typedef struct CommandRec
 // Used for passing menu commands between threads for scrolling
 typedef struct PASSING
 {
-    bool 						Active;
+    bool                         Active;
     CommandRec                  *cmdr2;
 
 } PASSING;
 
 
-typedef struct __attribute__((packed)) Callers
+typedef struct __attribute__ ( ( packed ) ) Callers
 {
     uint32_t idx;
     uint32_t dtLastOn;
 
 } Callers;
 
-typedef struct __attribute__((packed)) UserIdx
+typedef struct __attribute__ ( ( packed ) ) UserIdx
 {
     uint8_t  handle[30];
     uint32_t num;
 
 } UserIdx;
 
-typedef struct __attribute__((packed)) UserRec
+typedef struct __attribute__ ( ( packed ) ) UserRec
 {
     uint32_t
     idx,
@@ -325,7 +325,7 @@ typedef struct __attribute__((packed)) UserRec
     dtfirston,
     dtlaston;
 
-	uint32_t
+    uint32_t
     lastmbarea,
     lastmsg,
     // History
@@ -358,7 +358,7 @@ typedef struct __attribute__((packed)) UserRec
 } UserRec;
 
 
-typedef struct __attribute__((packed)) fidoaddr
+typedef struct __attribute__ ( ( packed ) ) fidoaddr
 {
     uint16_t
     zone,
@@ -371,7 +371,7 @@ typedef struct __attribute__((packed)) fidoaddr
 
 } fidoaddr;
 
-typedef struct __attribute__((packed)) mbareaflags
+typedef struct __attribute__ ( ( packed ) ) mbareaflags
 {
     uint8_t mbrealname;
     uint8_t mbvisible;       // Sysop Only!!
@@ -387,7 +387,7 @@ typedef struct __attribute__((packed)) mbareaflags
 
 } mbareaflags;
 
-typedef struct __attribute__((packed)) mb_list_rec
+typedef struct __attribute__ ( ( packed ) ) mb_list_rec
 {
     uint16_t idx;
     uint16_t Type;
@@ -418,7 +418,7 @@ typedef struct __attribute__((packed)) mb_list_rec
 } mb_list_rec;
 
 
-typedef struct __attribute__((packed)) fb_list_rec
+typedef struct __attribute__ ( ( packed ) ) fb_list_rec
 {
     uint16_t idx;
     uint16_t Type;               // JAM
@@ -449,16 +449,16 @@ typedef struct __attribute__((packed)) fb_list_rec
 
 } fb_list_rec;
 
-typedef struct __attribute__((packed)) LastRead
+typedef struct __attribute__ ( ( packed ) ) LastRead
 {
     uint32_t UserCRC;     // CRC-32 of user name (lowercase)  (1)
     uint32_t UserID;      // Unique UserID
-    uint32_t MsgID;            // CRC MSGID  Unique Msg #
-    uint32_t RepID; // CRC REPLY  Reply to Topic,.
+    uint32_t MsgID;       // CRC MSGID  Unique Msg #
+    uint32_t RepID;       // CRC REPLY  Reply to Topic,.
 
 } LastRead;
 
-typedef struct __attribute__((packed)) EmailIdx
+typedef struct __attribute__ ( ( packed ) ) EmailIdx
 {
     uint32_t  UserID;      // Unique UserID of Email TO:
     uint16_t  New;         // Read / Unread Message
@@ -466,10 +466,10 @@ typedef struct __attribute__((packed)) EmailIdx
 
 } EmailIdx;
 
-typedef struct __attribute__((packed)) JamIndex
+typedef struct __attribute__ ( ( packed ) ) JamIndex
 {
-    uint32_t CRC;     // CRC-32 of user name (lowercase)  (1)
-    uint32_t OffSet;  // Message Text Offset
+    uint32_t CRC;          // CRC-32 of user name (lowercase)  (1)
+    uint32_t OffSet;       // Message Text Offset
 
 } JamIndex;
 
@@ -485,7 +485,7 @@ typedef struct __attribute__((packed)) MsgStats {
 } MsgStats; */
 
 
-typedef struct __attribute__((packed)) NewScan
+typedef struct __attribute__ ( ( packed ) ) NewScan
 {
     uint16_t set;      // TRUE / FALSE if this area is to be scanned.
 
@@ -498,32 +498,32 @@ typedef struct DataArea
     std::string     AreaFileName;
     std::string     AnsiFile;
     std::string     AnsiMid;
-    uint16_t    NumOfRecs;    // 0 Unlimited / 1 or More to Limit for Lists
-    uint16_t    PageBreak;    // 0 Ignore, else break on this man for next page.
+    uint16_t        NumOfRecs;  // 0 Unlimited / 1 or More to Limit for Lists
+    uint16_t        PageBreak;  // 0 Ignore, else break on this man for next page.
 
 } DataArea;
 
 
 typedef struct DataRec
 {
-    uint16_t idx;                    // Command #, Used Internal for Input Record #.
+    uint16_t idx;               // Command #, Used Internal for Input Record #.
     std::string Desc;           // # Description
     std::string Prompt;         // # Text Prompt To Display on Input Commands.
-    uint32_t Size;         // # Max Number of Chars on Input
+    uint32_t Size;              // # Max Number of Chars on Input
     std::string CKeys;          // # Accepted Input Keys
     std::string CmdType;        // # Command Type
     std::string MString;        // # Data to be Written {UserName}
     std::string MciCode;        // # MCI Code in ANSI For this Field
     std::string HiString;       // # LightBar High String
     std::string LoString;       // # LightBar Low String
-    uint16_t Xcoord;                 // # X Coord of Lightbar
-    uint16_t Ycoord;                 // # Y Coord of Lightbar
-    uint16_t LBarCmd;                // # Is This a Lightbar Command?
-    uint16_t MCICmd;                 // # Is This a MCI Code, Skip Input and Translate.
+    uint16_t Xcoord;            // # X Coord of Lightbar
+    uint16_t Ycoord;            // # Y Coord of Lightbar
+    uint16_t LBarCmd;           // # Is This a Lightbar Command?
+    uint16_t MCICmd;            // # Is This a MCI Code, Skip Input and Translate.
 
 } DataRec;
 
-typedef struct __attribute__((packed)) History
+typedef struct __attribute__ ( ( packed ) ) History
 {
     uint32_t Calls;
     uint32_t Emails;
@@ -544,7 +544,7 @@ typedef struct __attribute__((packed)) History
 } History;
 
 
-typedef struct __attribute__((packed)) MsgStats
+typedef struct __attribute__ ( ( packed ) ) MsgStats
 {
     uint32_t Unread;
     uint32_t Posts;
@@ -556,7 +556,7 @@ typedef struct __attribute__((packed)) MsgStats
 
 } MsgStats;
 
-typedef struct __attribute__((packed)) FileIdx
+typedef struct __attribute__ ( ( packed ) ) FileIdx
 {
     uint32_t idx;   // Extended Description Index
     uint32_t size;  // File Size
@@ -574,19 +574,19 @@ typedef struct __attribute__((packed)) FileIdx
  */
 
 // Message Base Structes
-typedef struct __attribute__((packed)) ACSrecL
+typedef struct __attribute__ ( ( packed ) ) ACSrecL
 {
     unsigned long onn,off;
 
 } ACSrecL;
 
-typedef struct __attribute__((packed)) ACSrecS
+typedef struct __attribute__ ( ( packed ) ) ACSrecS
 {
     unsigned short onn,off;
 
 } ACSrecS;
 
-typedef struct __attribute__((packed)) ACSrec
+typedef struct __attribute__ ( ( packed ) ) ACSrec
 {
     ACSrecL mgroup,
     fgroup;
@@ -613,7 +613,7 @@ typedef struct __attribute__((packed)) ACSrec
 
 } ACSrec;
 
-typedef struct __attribute__((packed)) fidoaddr_OLD
+typedef struct __attribute__ ( ( packed ) ) fidoaddr_OLD
 {
     unsigned
     short  zone,
@@ -626,7 +626,7 @@ typedef struct __attribute__((packed)) fidoaddr_OLD
 
 } fidoaddr_OLD;
 
-typedef struct __attribute__((packed)) mbareaflags_OLD
+typedef struct __attribute__ ( ( packed ) ) mbareaflags_OLD
 {
     char mbrealname;
     char mbvisible;       // Sysop Only!!
@@ -642,7 +642,7 @@ typedef struct __attribute__((packed)) mbareaflags_OLD
 
 } mbareaflags_OLD;
 
-typedef struct __attribute__((packed)) mb_list_rec_OLD
+typedef struct __attribute__ ( ( packed ) ) mb_list_rec_OLD
 {
     int idx;
     int Type;
@@ -680,4 +680,3 @@ typedef struct __attribute__((packed)) mb_list_rec_OLD
 } mb_list_rec_OLD;
 
 # endif
-

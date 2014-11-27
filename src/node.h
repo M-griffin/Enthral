@@ -26,13 +26,13 @@
 typedef struct node
 {
 
-    int  node_lockSet(int onoff);
-    int  node_remove(int nodenum);
-    int  node_remove_dropfiles(int nodenum);
-    int  node_exists(int nodenum);
-    int  node_socket_exists(int nodenum);
-    int  node_read(UserRec *user, int nodenum);
-    int  node_write(UserRec *user, int nodenum);
+    int  node_lockSet ( int onoff );
+    int  node_remove ( int nodenum );
+    int  node_remove_dropfiles ( int nodenum );
+    int  node_exists ( int nodenum );
+    int  node_socket_exists ( int nodenum );
+    int  node_read ( UserRec *user, int nodenum );
+    int  node_write ( UserRec *user, int nodenum );
 
     void whoisonline();
 
@@ -47,4 +47,3 @@ typedef struct node
 } node;
 
 # endif
-

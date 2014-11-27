@@ -53,10 +53,10 @@ int  console_active();
 int  init_console();
 void open_console();
 void close_console();
-int  console_select_input(int, fd_set *);
-int  console_pending_input(fd_set *);
+int  console_select_input ( int, fd_set * );
+int  console_pending_input ( fd_set * );
 int  console_getc();
-int  console_putsn(char *, size_t n, int buffering=TRUE);
+int  console_putsn ( char *, size_t n, int buffering=TRUE );
 void finalize_console();
 
 #endif

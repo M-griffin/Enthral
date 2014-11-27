@@ -586,5 +586,3 @@ void purgeArea(s_area *area)
 }
 
 */
-
-

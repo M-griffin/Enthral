@@ -107,15 +107,15 @@ public:
          * is not read into memory.                 */
 
         byte __ftsc_date[20];       /* Obsolete date information.  If it weren't
-		                             * for the fact that FTSC standards say that
-		                             * one cannot modify an in-transit message,
-		                             * I'd be VERY tempted to axe this field
-		                             * entirely, and recreate an FTSC-compatible
-		                             * date field using the information in
-		                             * 'date_written' upon export.  Nobody should
-		                             * use this field, except possibly for tossers
-		                             * and scanners.  All others should use one
-		                             * of the two binary datestamps, above. */
+                                     * for the fact that FTSC standards say that
+                                     * one cannot modify an in-transit message,
+                                     * I'd be VERY tempted to axe this field
+                                     * entirely, and recreate an FTSC-compatible
+                                     * date field using the information in
+                                     * 'date_written' upon export.  Nobody should
+                                     * use this field, except possibly for tossers
+                                     * and scanners.  All others should use one
+                                     * of the two binary datestamps, above. */
     }
     XMSG;
 
@@ -148,10 +148,10 @@ public:
         /* Function pointers for manipulating messages within this area. */
     };
 
-# define MSG_QUOTE	0
-# define MSG_TEXT	1
-# define MSG_TEAR	2
-# define MSG_ORIGIN	3
+# define MSG_QUOTE    0
+# define MSG_TEXT    1
+# define MSG_TEAR    2
+# define MSG_ORIGIN    3
 
     typedef enum {LOCAL, NETMAIL, ECHOMAIL, EMAIL, NEWS} MSGTYPE;
     typedef enum {PUBLIC, PRIVATE} POSTTYPE;
@@ -217,52 +217,52 @@ public:
     mbapi_jam()
     {
 
-        start_session(thisuser);
+        start_session ( thisuser );
     }
 
     // Message Posting Functions
-    char *faddr2char(char *s,fidoaddr *fa);
-    int  SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply);
-    void MakeCtrlHdr(char *reply);
-    void GetMsgID(char *reply);
-    void fill_xmsg(char *from, char *to, char *subj);
+    char *faddr2char ( char *s,fidoaddr *fa );
+    int  SaveMsg ( unsigned long msgarea, unsigned long msgnum, int NewReply );
+    void MakeCtrlHdr ( char *reply );
+    void GetMsgID ( char *reply );
+    void fill_xmsg ( char *from, char *to, char *subj );
 
     // Message Main Setup functions
     void Add2MsgInfo();
-    void mm2MsgInfo(struct MemMessage *mm);
+    void mm2MsgInfo ( struct MemMessage *mm );
 
-    void MessageDeleted(MemMessage *mm);
-    void MessageNotFound(MemMessage *mm);
+    void MessageDeleted ( MemMessage *mm );
+    void MessageNotFound ( MemMessage *mm );
 
-	// Main Read Message Per Area Function
-	int ReadMsgArea(unsigned long mbnum, int email = FALSE);
-	
+    // Main Read Message Per Area Function
+    int ReadMsgArea ( unsigned long mbnum, int email = FALSE );
+
 //   time_t stampToTimeT(struct _stamp *st);
 //   struct _stamp *timeTToStamp(time_t tt);
-	
-    void FidoFlags(char *fflags);
+
+    void FidoFlags ( char *fflags );
     void SetupMsgHdr();
 
-	char *strrepl(char *Str, size_t BufSiz, const char *OldStr, const char *NewStr);
-    void stripCR(char *ostr);
-    void stripCRONLY(char *ostr);
+    char *strrepl ( char *Str, size_t BufSiz, const char *OldStr, const char *NewStr );
+    void stripCR ( char *ostr );
+    void stripCRONLY ( char *ostr );
 
-	void parseMCI(std::string &msgtext);
-	void MsgSetupTxt();
+    void parseMCI ( std::string &msgtext );
+    void MsgSetupTxt();
     void MsgSetupQuoteTxt();
     void MsgShowTxt2();
 
     int  GetMsgInfo();
     int  GetMsg();
 
-    void SetLastRead(unsigned long usr, unsigned long lr);
+    void SetLastRead ( unsigned long usr, unsigned long lr );
 
     unsigned
-    long GetLastRead(unsigned long usr);
+    long GetLastRead ( unsigned long usr );
 
     // Message Packing Functions
-    void doArea(int marea, char *cmp);
-    int  packmsgarea(int marea);
+    void doArea ( int marea, char *cmp );
+    int  packmsgarea ( int marea );
 };
 
 # endif

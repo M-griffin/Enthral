@@ -38,8 +38,7 @@ extern std::string term_passing;
 
 bool configdataexists();
 void createconfig();
-void checkcfg(std::string cfgdata);
+void checkcfg ( std::string cfgdata );
 void parseconfig();
 
 # endif
-

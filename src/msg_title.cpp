@@ -51,37 +51,39 @@ bool msgtitle_ini::mtitle_exists()
     iTop = 0;
     iBot = 0;
 
-    strcpy(sPAGENUM,"");
-    strcpy(sPAGETOTAL,"");
-    strcpy(sMOREUP,"");
-    strcpy(sMOREUP_CHAR,"");
-    strcpy(sMOREDOWN,"");
-    strcpy(sMOREDOWN_CHAR,"");
-    strcpy(sMOREMSG_ON,"");
-    strcpy(sMOREMSG_WORD_ON,"");
-    strcpy(sMOREMSG_OFF,"");
-    strcpy(sMOREMSG_WORD_OFF,"");
-    strcpy(sINPUT_BOX,"");
-    strcpy(sTEXT_COLOR,"");
-    strcpy(sTEXT_HILIGHT,"");
-    strcpy(sMAX_AREAS,"");
-    strcpy(sANSI_FILE,"");
-    strcpy(sANSI_HELP,"");
-    strcpy(sTHEME_NAME,"");
-    strcpy(sMENU_PROMPT,"");
-    strcpy(sMENU_PROMPT2,"");
+    strcpy ( sPAGENUM,"" );
+    strcpy ( sPAGETOTAL,"" );
+    strcpy ( sMOREUP,"" );
+    strcpy ( sMOREUP_CHAR,"" );
+    strcpy ( sMOREDOWN,"" );
+    strcpy ( sMOREDOWN_CHAR,"" );
+    strcpy ( sMOREMSG_ON,"" );
+    strcpy ( sMOREMSG_WORD_ON,"" );
+    strcpy ( sMOREMSG_OFF,"" );
+    strcpy ( sMOREMSG_WORD_OFF,"" );
+    strcpy ( sINPUT_BOX,"" );
+    strcpy ( sTEXT_COLOR,"" );
+    strcpy ( sTEXT_HILIGHT,"" );
+    strcpy ( sMAX_AREAS,"" );
+    strcpy ( sANSI_FILE,"" );
+    strcpy ( sANSI_HELP,"" );
+    strcpy ( sTHEME_NAME,"" );
+    strcpy ( sMENU_PROMPT,"" );
+    strcpy ( sMENU_PROMPT2,"" );
 
     std::string path = INIPATH;
     path += sININAME;
 
     FILE *stream;
-    stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
+    stream = fopen ( path.c_str(),"rb+" );
+
+    if ( stream == NULL )
     {
-        printf("Error unable to read msgtitle.ini, check permissions!");
+        printf ( "Error unable to read msgtitle.ini, check permissions!" );
         return false;
     }
-    fclose(stream);
+
+    fclose ( stream );
     return true;
 }
 
@@ -95,10 +97,11 @@ void msgtitle_ini::mtitle_create()
     name += sININAME;
 
     ofstream outStream2;
-    outStream2.open( name.c_str(), ofstream::out | ofstream::trunc );
-    if (!outStream2.is_open())
+    outStream2.open ( name.c_str(), ofstream::out | ofstream::trunc );
+
+    if ( !outStream2.is_open() )
     {
-        printf( "\nError Creating: %s \n", name.c_str());
+        printf ( "\nError Creating: %s \n", name.c_str() );
         return;
     }
 
@@ -110,145 +113,148 @@ void msgtitle_ini::mtitle_create()
 /**
  * Parse Helper
  */
-void msgtitle_ini::mtitle_chkpar(std::string &data)
+void msgtitle_ini::mtitle_chkpar ( std::string &data )
 {
     std::string temp1;
     std::string::size_type st1 = 0;
     std::string::size_type st2 = 0;
     std::string::size_type  ct = 0;
 
-    st1 = data.find('"', 0);
-    st2 = data.find('"', st1+1);
+    st1 = data.find ( '"', 0 );
+    st2 = data.find ( '"', st1+1 );
     ++st1;
-    temp1 = data.substr(st1,st2);
+    temp1 = data.substr ( st1,st2 );
     ct = st2 - st1;
-    if (temp1.length() > ct)
-        temp1.erase(ct,temp1.length());
+
+    if ( temp1.length() > ct )
+        temp1.erase ( ct,temp1.length() );
+
     data = temp1;
 }
 
 /**
  * Get INI Values
  */
-void msgtitle_ini::mtitle_check(std::string cfgdata)
+void msgtitle_ini::mtitle_check ( std::string cfgdata )
 {
 
     std::string::size_type id1 = 0;
     std::string temp = cfgdata;
-    if (temp[0] == '#') return;
-    else if (temp.find("set TOP ", 0) != std::string::npos)
+
+    if ( temp[0] == '#' ) return;
+    else if ( temp.find ( "set TOP ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        id1 = atoi(temp.c_str());
+        mtitle_chkpar ( temp );
+        id1 = atoi ( temp.c_str() );
         iTop = id1;
     }
-    else if (temp.find("set BOT ", 0) != std::string::npos)
+    else if ( temp.find ( "set BOT ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        id1 = atoi(temp.c_str());
+        mtitle_chkpar ( temp );
+        id1 = atoi ( temp.c_str() );
         iBot = id1;
     }
-    else if (temp.find("set THEME_NAME ", 0) != std::string::npos)
+    else if ( temp.find ( "set THEME_NAME ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sTHEME_NAME,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sTHEME_NAME, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set ANSI_FILE ", 0) != std::string::npos)
+    else if ( temp.find ( "set ANSI_FILE ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sANSI_FILE,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sANSI_FILE, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set ANSI_HELP ", 0) != std::string::npos)
+    else if ( temp.find ( "set ANSI_HELP ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sANSI_HELP,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sANSI_HELP, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MENU_PROMPT ", 0) != std::string::npos)
+    else if ( temp.find ( "set MENU_PROMPT ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMENU_PROMPT,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMENU_PROMPT, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MENU_PROMPT2 ", 0) != std::string::npos)
+    else if ( temp.find ( "set MENU_PROMPT2 ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMENU_PROMPT2,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMENU_PROMPT2, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set PAGENUM ", 0) != std::string::npos)
+    else if ( temp.find ( "set PAGENUM ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sPAGENUM,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sPAGENUM, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set PAGETOTAL ", 0) != std::string::npos)
+    else if ( temp.find ( "set PAGETOTAL ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sPAGETOTAL,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sPAGETOTAL, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREUP ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREUP ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREUP,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREUP, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREUP_CHAR ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREUP_CHAR ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREUP_CHAR,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREUP_CHAR, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREDOWN ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREDOWN ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREDOWN,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREDOWN, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREDOWN_CHAR ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREDOWN_CHAR ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREDOWN_CHAR,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREDOWN_CHAR, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREMSG_ON ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREMSG_ON ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREMSG_ON,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREMSG_ON, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREMSG_WORD_ON ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREMSG_WORD_ON ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREMSG_WORD_ON,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREMSG_WORD_ON, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREMSG_OFF ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREMSG_OFF ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREMSG_OFF,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREMSG_OFF, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MOREMSG_WORD_OFF ", 0) != std::string::npos)
+    else if ( temp.find ( "set MOREMSG_WORD_OFF ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMOREMSG_WORD_OFF,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMOREMSG_WORD_OFF, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set INPUT_BOX ", 0) != std::string::npos)
+    else if ( temp.find ( "set INPUT_BOX ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sINPUT_BOX,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sINPUT_BOX, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set TEXT_COLOR ", 0) != std::string::npos)
+    else if ( temp.find ( "set TEXT_COLOR ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sTEXT_COLOR,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sTEXT_COLOR, ( char * ) temp.c_str() );
     }
-    else if (temp.find("set MAX_AREAS ", 0) != std::string::npos)
+    else if ( temp.find ( "set MAX_AREAS ", 0 ) != std::string::npos )
     {
-        mtitle_chkpar(temp);
-        strcpy(sMAX_AREAS,(char *)temp.c_str());
+        mtitle_chkpar ( temp );
+        strcpy ( sMAX_AREAS, ( char * ) temp.c_str() );
     }
 }
 
 /**
  * Read / Parse INI File
  */
-int msgtitle_ini::mtitle_parse(int idx)
+int msgtitle_ini::mtitle_parse ( int idx )
 {
 
-    if (!mtitle_exists())
+    if ( !mtitle_exists() )
     {
-        printf("Error unable to parse msgtitle.ini, check permissions!");
+        printf ( "Error unable to parse msgtitle.ini, check permissions!" );
     }
 
     //mtitle_create();
@@ -257,36 +263,42 @@ int msgtitle_ini::mtitle_parse(int idx)
     char name2[255] = {0};
 
     // Set for Theme, check idx number for Themeing,.
-    sprintf(name, "%s%s",INIPATH,sININAME);
-    sprintf(name2,"%s%s%i.ini",INIPATH,sININAME,idx);
+    sprintf ( name, "%s%s",INIPATH,sININAME );
+    sprintf ( name2,"%s%s%i.ini",INIPATH,sININAME,idx );
 
-    if (idx != 0) strcpy(name,name2);
+    if ( idx != 0 ) strcpy ( name,name2 );
 
     // Check if Theme Exists, if not return FALSE.
     FILE *stream;
-    stream = fopen(name,"rb+");
-    if(stream == NULL)
+    stream = fopen ( name,"rb+" );
+
+    if ( stream == NULL )
     {
         // File is not Present
         return FALSE;
     }
-    fclose(stream);
+
+    fclose ( stream );
 
     ifstream inStream;
-    inStream.open( name );
-    if (!inStream.is_open())
+    inStream.open ( name );
+
+    if ( !inStream.is_open() )
     {
-        printf("Couldn't Open Config File: %s\n", name);
+        printf ( "Couldn't Open Config File: %s\n", name );
         return FALSE;
     }
 
     std::string cfgdata;
-    for (;;)
+
+    for ( ;; )
     {
-        std::getline(inStream,cfgdata,'\n');
-        mtitle_check(cfgdata);
-        if(inStream.eof()) break;
+        std::getline ( inStream,cfgdata,'\n' );
+        mtitle_check ( cfgdata );
+
+        if ( inStream.eof() ) break;
     }
+
     inStream.close();
     return TRUE;
 }
@@ -307,7 +319,7 @@ msg_title::msg_title()
 /**
  * Title Scan - Parse ANSI Template
  */
-void msg_title::ParseHeader(char *filename)
+void msg_title::ParseHeader ( char *filename )
 {
 
     std::string temp;
@@ -324,94 +336,100 @@ void msg_title::ParseHeader(char *filename)
     std::string buff;
 
     // Reads in Ansi file into Buffer Only
-    readinAnsi(filename, buff);
+    readinAnsi ( filename, buff );
 
     /* NOTE
     MAKE THIS THE USERLIST!!!
     */
-    read_mbaselist(&mr, CURRENT_MAREA);
+    read_mbaselist ( &mr, CURRENT_MAREA );
 
     std::string::size_type id1 = 0;
-    while (id1 != std::string::npos)
+
+    while ( id1 != std::string::npos )
     {
         // parse justify spacing right / left passing in string before
         // replacing mci code. to Properly Space Output Ansi.
-        id1 = buff.find("%", 0);
-        if (id1 == std::string::npos) break;
-        memset(&MCI,0,sizeof(MCI));
+        id1 = buff.find ( "%", 0 );
+
+        if ( id1 == std::string::npos ) break;
+
+        memset ( &MCI,0,sizeof ( MCI ) );
         space = 0;
+
         // Check if MCI Code is Justified then Process this.
-        if (buff[id1+3] == '{')
+        if ( buff[id1+3] == '{' )
         {
             // Left Justify
             //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
             MCI[1] = buff[id1+5]; // Get Second Digit
-            space  = atoi(MCI);
+            space  = atoi ( MCI );
             foundr = FALSE;
             foundl = TRUE;
         }
-        else if (buff[id1+3] == '}')
+        else if ( buff[id1+3] == '}' )
         {
             // Right Justify
             //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
             MCI[1] = buff[id1+5]; // Get Second Digit
-            space  = atoi(MCI);
+            space  = atoi ( MCI );
             //elog("right justify: %i",space);
             foundl = FALSE;
             foundr = TRUE;
         }
+
         // Now Get MCI Code
         MCI[0] = buff[id1+1]; // Get first Digit
         MCI[1] = buff[id1+2]; // Get Second Digit
 
-        memset(&sTemp,0,sizeof(sTemp));
+        memset ( &sTemp,0,sizeof ( sTemp ) );
         // Insert MCI Parsing here so we can reaplace full result with propering spacing.
 
-        if (strcmp(MCI,"M#") == 0)
+        if ( strcmp ( MCI,"M#" ) == 0 )
         {
-            sprintf(sTemp,"%lu", (ulong)CURRENT_MAREA+1);
+            sprintf ( sTemp,"%lu", ( ulong ) CURRENT_MAREA+1 );
         }
-        else if (strcmp(MCI,"MA") == 0)
+        else if ( strcmp ( MCI,"MA" ) == 0 )
         {
-            sprintf(sTemp,"%s", (char *)mr.mbdisplay);
+            sprintf ( sTemp,"%s", ( char * ) mr.mbdisplay );
         }
-        else if (strcmp(MCI,"TH") == 0)
+        else if ( strcmp ( MCI,"TH" ) == 0 )
         {
-            sprintf(sTemp,"%s", (char *)sTHEME_NAME);
+            sprintf ( sTemp,"%s", ( char * ) sTHEME_NAME );
         }
 
         // MCI Translation .
-        if (foundl == TRUE)
+        if ( foundl == TRUE )
         {
-            lspacing(sTemp,space);
+            lspacing ( sTemp,space );
         }
-        else if (foundr == TRUE)
+        else if ( foundr == TRUE )
         {
-            rspacing(sTemp,space);
+            rspacing ( sTemp,space );
         }
 
         //If we Parsed Justify, then Erase that MCI Code as well.
-        (space != 0) ?
-        	buff.replace(id1,6,sTemp):
-        	buff.replace(id1,3,sTemp);
+        ( space != 0 ) ?
+        buff.replace ( id1,6,sTemp ) :
+        buff.replace ( id1,3,sTemp );
     }
+
     //elog("Finished Parsing MCI Codes...");
-    pipe2ansi((char *)buff.c_str());
+    pipe2ansi ( ( char * ) buff.c_str() );
 }
 
 /**
  * Title Scan - Setup Reading INI File and init Theme
  */
-void msg_title::SetupList(UserRec *user, int isPrivate)
+void msg_title::SetupList ( UserRec *user, int isPrivate )
 {
 
-	// Still WIP, Need to update .ans pull from ini file.
-	// Use a different theme ansi for Public vs Private Title Scans
-	(isPrivate) ?
-    	sprintf(sININAME,"%s",(char *)"msgtitle_private.ini"):
-		sprintf(sININAME,"%s",(char *)"msgtitle_public.ini");
+    // Still WIP, Need to update .ans pull from ini file.
+    // Use a different theme ansi for Public vs Private Title Scans
+    ( isPrivate ) ?
+    sprintf ( sININAME,"%s", ( char * ) "msgtitle_private.ini" ) :
+    sprintf ( sININAME,"%s", ( char * ) "msgtitle_public.ini" );
 
 
     thisuser = user;
@@ -419,10 +437,11 @@ void msg_title::SetupList(UserRec *user, int isPrivate)
     //this->start_session(thisuser);
 
     // Check What Theme user has selected.
-    if (mtitle_parse(thisuser->readertheme) == FALSE)
+    if ( mtitle_parse ( thisuser->readertheme ) == FALSE )
     {
         mtitle_parse();
     }
+
     tTop = iTop;
     tBot = iBot;
 }
@@ -431,21 +450,22 @@ void msg_title::SetupList(UserRec *user, int isPrivate)
 /**
  * Title Scan - Change ANSI Template Theme
  */
-int msg_title::change_theme(int idx)
+int msg_title::change_theme ( int idx )
 {
     // Check What Theme user has selected.
-    if (mtitle_parse(idx) == FALSE)
+    if ( mtitle_parse ( idx ) == FALSE )
     {
         // Theme Doesn't Exist.
         return FALSE;
     }
+
     thisuser->readertheme = idx;
 
     // Save User Settings.
     UserRec usr;
     usr = *thisuser;
     users _usr;
-    _usr.users_write(&usr,usr.idx);
+    _usr.users_write ( &usr,usr.idx );
 
     tTop = iTop;
     tBot = iBot;
@@ -454,19 +474,19 @@ int msg_title::change_theme(int idx)
     return TRUE;
 }
 
- 
+
 /**
  * Title Scan - Build Title Scan with List of Messages
  * This function creates 4 versions of each line,
  * one for default, defeault selected, new, then new selected.
  * This doesn't mark which are new or to be used.
  */
-vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //, Query &qry) {
+vector< list_bar > msg_title::build_titlelist ( vector< unsigned long > &elist ) //, Query &qry) {
 {
     list_bar                 tbar;
     std::vector<list_bar>    result;
 
-    SESSION       s(thisuser); // Pass User Incase there are MCI Codes for User Info.
+    SESSION       s ( thisuser ); // Pass User Incase there are MCI Codes for User Info.
 
 // WIP Private vs Public Title Scan Themes!!
 // Need to check here for ini file and if private area, pull ansi filename
@@ -499,81 +519,98 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
     std::string ans4 = "";
 
     // Prefetch ansi lightbar themes
-	// These ansi are used as the light bars to be displayed,
-	// We rotate between 4 ansi lightbars.
-	//
-	// 1. Unread Messages
-	// 2. New Messages
-	// 3. Current Selection of Unread
-	// 4. Current Selection of New
-	//
-	// We cache array with all four choices so we can
-	// easily switch between them in the listing.
+    // These ansi are used as the light bars to be displayed,
+    // We rotate between 4 ansi lightbars.
+    //
+    // 1. Unread Messages
+    // 2. New Messages
+    // 3. Current Selection of Unread
+    // 4. Current Selection of New
+    //
+    // We cache array with all four choices so we can
+    // easily switch between them in the listing.
 
 
     path = ANSIPATH;
     path += "mtitlemid1.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
+
+    if ( ( inStream = fopen ( path.c_str(), "r+" ) ) ==  NULL )
     {
         return result;
     }
-    while (c != EOF)
+
+    while ( c != EOF )
     {
-        c = getc(inStream);
-        if (c != EOF) ans1 += c;
+        c = getc ( inStream );
+
+        if ( c != EOF ) ans1 += c;
     }
-    fclose(inStream);
+
+    fclose ( inStream );
     c = '\0';
 
     path = ANSIPATH;
     path += "mtitlemid2.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
+
+    if ( ( inStream = fopen ( path.c_str(), "r+" ) ) ==  NULL )
     {
         return result;
     }
-    while (c != EOF)
+
+    while ( c != EOF )
     {
-        c = getc(inStream);
-        if (c != EOF) ans2 += c;
+        c = getc ( inStream );
+
+        if ( c != EOF ) ans2 += c;
     }
-    fclose(inStream);
+
+    fclose ( inStream );
     c = '\0';
 
     path = ANSIPATH;
     path += "mtitlemid3.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
+
+    if ( ( inStream = fopen ( path.c_str(), "r+" ) ) ==  NULL )
     {
         return result;
     }
-    while (c != EOF)
+
+    while ( c != EOF )
     {
-        c = getc(inStream);
-        if (c != EOF) ans3 += c;
+        c = getc ( inStream );
+
+        if ( c != EOF ) ans3 += c;
     }
-    fclose(inStream);
+
+    fclose ( inStream );
     c = '\0';
 
     path = ANSIPATH;
     path += "mtitlemid4.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
+
+    if ( ( inStream = fopen ( path.c_str(), "r+" ) ) ==  NULL )
     {
         return result;
     }
-    while (c != EOF)
+
+    while ( c != EOF )
     {
-        c = getc(inStream);
-        if (c != EOF) ans4 += c;
+        c = getc ( inStream );
+
+        if ( c != EOF ) ans4 += c;
     }
-    fclose(inStream);
+
+    fclose ( inStream );
 
 
     mb_list_rec mr;
     msgs _msgf;
 
-    _msgf.read_mbaselist(&mr, thisuser->lastmbarea);
+    _msgf.read_mbaselist ( &mr, thisuser->lastmbarea );
 
     int areakind;
-    if (mr.Pubpriv == PRIVATE)
+
+    if ( mr.Pubpriv == PRIVATE )
         areakind = TRUE;
     else
         areakind = FALSE;
@@ -587,51 +624,53 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
     char timestr[81] = {0};
 
     ulong current_msg = 0;  // Read Message Number
-	ulong max_titles = elist.size();
+    ulong max_titles = elist.size();
 
     // Get Last Read, to tell which are new.
-	// Not used yet, if we want to compile list of only new messages
-	// instead of entire message area, we should use num_titles = cnt
-	// instead of cnt = 0 on new scans only!
+    // Not used yet, if we want to compile list of only new messages
+    // instead of entire message area, we should use num_titles = cnt
+    // instead of cnt = 0 on new scans only!
 
-    ulong cnt = JamAreaGetLast(thisuser->idx, &mr);
+    ulong cnt = JamAreaGetLast ( thisuser->idx, &mr );
 
     ulong num_titles = 0;
-    while(num_titles < max_titles)
+
+    while ( num_titles < max_titles )
     {
-        if (num_titles == max_titles) break;
+        if ( num_titles == max_titles ) break;
 
         current_msg = elist[num_titles];
 
 //        s . errlog2((char *)"build_titlelist current %lu, num %lu, max %lu", current_msg, num_titles, max_titles);
 
-        res = jamapi_readmsg(&mr, current_msg, &mm, areakind, thisuser);
-        if (res)
+        res = jamapi_readmsg ( &mr, current_msg, &mm, areakind, thisuser );
+
+        if ( res )
         {
 
-			// Should get here anymore, deleted and not found messages are now skipped
-			// over when in the readmsg function above.
+            // Should get here anymore, deleted and not found messages are now skipped
+            // over when in the readmsg function above.
 
             // Check return value,  if messaege = NO_MESSAGE, then deleted, skip to next!
             // And there are more messages in this area.
-            if (res == JAM_NO_MESSAGE && current_msg <= mm.HighWater)
+            if ( res == JAM_NO_MESSAGE && current_msg <= mm.HighWater )
             {
-				//++num_titles;
-				//continue; // Skip and goto next message
+                //++num_titles;
+                //continue; // Skip and goto next message
 //                errlog2((char *)" *** res == JAM_NO_MESSAGE && num_titles < mm.HighWater");
-                MessageDeleted(&mm); // Populated Generic Deleted Message.
+                MessageDeleted ( &mm ); // Populated Generic Deleted Message.
             }
             else
             {
-				//++num_titles;
-				//continue;  // Skip and goto next message
+                //++num_titles;
+                //continue;  // Skip and goto next message
 //                errlog2((char *)" *** 2. ReadMsgArea: !jamapi_readmsg(&mr, thisuser->lastmsg %lu, &mm) ",thisuser->lastmsg);
-                MessageNotFound(&mm); // Populated Generic Deleted Message.
+                MessageNotFound ( &mm ); // Populated Generic Deleted Message.
             }
         }
 
-//		errlog((char *)"2 *** ReadMsgArea: Done, Populate mm2MsgInfo(); ");
-        mm2MsgInfo(&mm);
+//        errlog((char *)"2 *** ReadMsgArea: Done, Populate mm2MsgInfo(); ");
+        mm2MsgInfo ( &mm );
 
         ans = ans2; // Display HighLight None. Current Selection
         ans = ans1; // Dispaly Lowlight None
@@ -641,240 +680,265 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
 
         temp3.erase();
 
-        for (int icnt = 0; icnt < 4; icnt++)
+        for ( int icnt = 0; icnt < 4; icnt++ )
         {
 
-            switch (icnt)
+            switch ( icnt )
             {
-            case 0:
-                ans = ans2;
-                break; // Display HighLight None.  ON
-            case 1:
-                ans = ans1;
-                break; // Dispaly Lowlight None    OFF
+                case 0:
+                    ans = ans2;
+                    break; // Display HighLight None.  ON
 
-            case 2:
-                ans = ans4;
-                break; // Dispaly HighLight (Selected)  ON
-            case 3:
-                ans = ans3;
-                break; // Dispaly LowLight (Selected)   OFF
-            default:
-                break;
+                case 1:
+                    ans = ans1;
+                    break; // Dispaly Lowlight None    OFF
+
+                case 2:
+                    ans = ans4;
+                    break; // Dispaly HighLight (Selected)  ON
+
+                case 3:
+                    ans = ans3;
+                    break; // Dispaly LowLight (Selected)   OFF
+
+                default:
+                    break;
             }
 
             i = 0;
             c = 0;
 
-			// Parse MCI Codes per each light bar ansi file
+            // Parse MCI Codes per each light bar ansi file
             do
             {
-                memset(&MCI,0,sizeof(MCI));
+                memset ( &MCI,0,sizeof ( MCI ) );
                 c = ans[i];
-                if (c == '\0') break;
+
+                if ( c == '\0' ) break;
 
                 // Check for Spacing MCI Code
-                switch (c)
+                switch ( c )
                 {
-                case '{' : // Left Justify
-                    MCI[0] = ans[++i];
-                    MCI[1] = ans[++i];
-                    space = atoi(MCI);
+                    case '{' : // Left Justify
+                        MCI[0] = ans[++i];
+                        MCI[1] = ans[++i];
+                        space = atoi ( MCI );
 
-                    if (space != 0)
-                    {
-                        foundl = TRUE;
-                    }
-                    else
-                    {
-                        temp3 += c;
-                        temp3 += MCI;
-                    }
-                    break;
-
-                case '}' : // Right Justify
-                    MCI[0] = ans[++i];
-                    MCI[1] = ans[++i];
-                    space = atoi(MCI);
-
-                    if (space != 0)
-                    {
-                        foundr = TRUE;
-                    }
-                    else
-                    {
-                        temp3 += c;
-                        temp3 += MCI;
-                    }
-                    break;
-
-                case '|' : // Pipe Codes
-                    MCI[0] = ans[++i];
-                    MCI[1] = ans[++i];
-                    if (strcmp(MCI,"M#") == 0)
-                    {
-                        sprintf(temp2,"%lu",num_titles+1);
-                        if (foundl)
+                        if ( space != 0 )
                         {
-                            s.lspacing(temp2,space);
-                            foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
-                            s.rspacing(temp2,space);
-                            foundr = FALSE;
-                        }
-
-//							errlog((char *)" ### mm.Curm CurrentMsg, cnt, num_titles %lu, %lu, %lu, %lu) ",mm.CurrMsg,current_msg, cnt, num_titles);
-                        // New Messages Setup count
-                        if (num_titles < cnt)
-                        {
-                            tbar.isnew = FALSE;
+                            foundl = TRUE;
                         }
                         else
                         {
-                            tbar.isnew = TRUE;
+                            temp3 += c;
+                            temp3 += MCI;
                         }
 
-                        temp3 += temp2;
-                    }
-                    else if (strcmp(MCI,"FR") == 0)
-                    {
-                        sprintf(temp2,"%s",MI.From);
-                        if (foundl)
-                        {
-                            s.lspacing(temp2,space);
-                            foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
-                            s.rspacing(temp2,space);
-                            foundr = FALSE;
-                        }
-                        temp3 += temp2;
-                    }
-                    else if (strcmp(MCI,"TO") == 0)
-                    {
-                        sprintf(temp2,"%s",MI.To);
-                        if (foundl)
-                        {
-                            s.lspacing(temp2,space);
-                            foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
-                            s.rspacing(temp2,space);
-                            foundr = FALSE;
-                        }
-                        temp3 += temp2;
-                    }
-                    else if (strcmp(MCI,"SU") == 0)
-                    {
-                        sprintf(temp2,"%s",MI.Subj);
-                        if (foundl)
-                        {
-                            s.lspacing(temp2,space);
-                            foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
-                            s.rspacing(temp2,space);
-                            foundr = FALSE;
-                        }
-                        temp3 += temp2;
-                    }
-                    else if (strcmp(MCI,"DT") == 0)
-                    {
-                        tmt = stampToTimeT(&MI.date_written);
-                        mtm=localtime(&tmt);
-                        strftime(timestr,81,"%x",mtm);
-                        sprintf(temp2,"%s",timestr);
-                        if (foundl)
-                        {
-                            s.lspacing(temp2,space);
-                            foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
-                            s.rspacing(temp2,space);
-                            foundr = FALSE;
-                        }
-                        temp3 += temp2;
+                        break;
 
-                    }
-                    else if (strcmp(MCI,"TM") == 0)
-                    {
-                        tmt = stampToTimeT(&MI.date_written);
-                        mtm=localtime(&tmt);
-                        strftime(timestr,81,"%I:%M %p",mtm);
-                        sprintf(temp2,"%s",timestr);
-                        if (foundl)
-                        {
-                            s.lspacing(temp2,space);
-                            foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
-                            s.rspacing(temp2,space);
-                            foundr = FALSE;
-                        }
-                        temp3 += temp2;
+                    case '}' : // Right Justify
+                        MCI[0] = ans[++i];
+                        MCI[1] = ans[++i];
+                        space = atoi ( MCI );
 
-                        /*
-                        // New Messages Setup count
-                        if (cnt == 0) { // no new
-                        	tbar.isnew = FALSE;
+                        if ( space != 0 )
+                        {
+                            foundr = TRUE;
                         }
-                        else {
-                        	tbar.isnew = TRUE;
-                        }*/
+                        else
+                        {
+                            temp3 += c;
+                            temp3 += MCI;
+                        }
 
-                        //temp3 += temp2;
-                    }
-                    else
-                    {
+                        break;
+
+                    case '|' : // Pipe Codes
+                        MCI[0] = ans[++i];
+                        MCI[1] = ans[++i];
+
+                        if ( strcmp ( MCI,"M#" ) == 0 )
+                        {
+                            sprintf ( temp2,"%lu",num_titles+1 );
+
+                            if ( foundl )
+                            {
+                                s.lspacing ( temp2,space );
+                                foundl = FALSE;
+                            }
+                            else if ( foundr )
+                            {
+                                s.rspacing ( temp2,space );
+                                foundr = FALSE;
+                            }
+
+//                            errlog((char *)" ### mm.Curm CurrentMsg, cnt, num_titles %lu, %lu, %lu, %lu) ",mm.CurrMsg,current_msg, cnt, num_titles);
+                            // New Messages Setup count
+                            if ( num_titles < cnt )
+                            {
+                                tbar.isnew = FALSE;
+                            }
+                            else
+                            {
+                                tbar.isnew = TRUE;
+                            }
+
+                            temp3 += temp2;
+                        }
+                        else if ( strcmp ( MCI,"FR" ) == 0 )
+                        {
+                            sprintf ( temp2,"%s",MI.From );
+
+                            if ( foundl )
+                            {
+                                s.lspacing ( temp2,space );
+                                foundl = FALSE;
+                            }
+                            else if ( foundr )
+                            {
+                                s.rspacing ( temp2,space );
+                                foundr = FALSE;
+                            }
+
+                            temp3 += temp2;
+                        }
+                        else if ( strcmp ( MCI,"TO" ) == 0 )
+                        {
+                            sprintf ( temp2,"%s",MI.To );
+
+                            if ( foundl )
+                            {
+                                s.lspacing ( temp2,space );
+                                foundl = FALSE;
+                            }
+                            else if ( foundr )
+                            {
+                                s.rspacing ( temp2,space );
+                                foundr = FALSE;
+                            }
+
+                            temp3 += temp2;
+                        }
+                        else if ( strcmp ( MCI,"SU" ) == 0 )
+                        {
+                            sprintf ( temp2,"%s",MI.Subj );
+
+                            if ( foundl )
+                            {
+                                s.lspacing ( temp2,space );
+                                foundl = FALSE;
+                            }
+                            else if ( foundr )
+                            {
+                                s.rspacing ( temp2,space );
+                                foundr = FALSE;
+                            }
+
+                            temp3 += temp2;
+                        }
+                        else if ( strcmp ( MCI,"DT" ) == 0 )
+                        {
+                            tmt = stampToTimeT ( &MI.date_written );
+                            mtm=localtime ( &tmt );
+                            strftime ( timestr,81,"%x",mtm );
+                            sprintf ( temp2,"%s",timestr );
+
+                            if ( foundl )
+                            {
+                                s.lspacing ( temp2,space );
+                                foundl = FALSE;
+                            }
+                            else if ( foundr )
+                            {
+                                s.rspacing ( temp2,space );
+                                foundr = FALSE;
+                            }
+
+                            temp3 += temp2;
+
+                        }
+                        else if ( strcmp ( MCI,"TM" ) == 0 )
+                        {
+                            tmt = stampToTimeT ( &MI.date_written );
+                            mtm=localtime ( &tmt );
+                            strftime ( timestr,81,"%I:%M %p",mtm );
+                            sprintf ( temp2,"%s",timestr );
+
+                            if ( foundl )
+                            {
+                                s.lspacing ( temp2,space );
+                                foundl = FALSE;
+                            }
+                            else if ( foundr )
+                            {
+                                s.rspacing ( temp2,space );
+                                foundr = FALSE;
+                            }
+
+                            temp3 += temp2;
+
+                            /*
+                            // New Messages Setup count
+                            if (cnt == 0) { // no new
+                                tbar.isnew = FALSE;
+                            }
+                            else {
+                                tbar.isnew = TRUE;
+                            }*/
+
+                            //temp3 += temp2;
+                        }
+                        else
+                        {
+                            temp3 += c;
+                            temp3 += MCI;
+                        }
+
+                        break;
+
+                    case '\n' :
+                        //  temp3 += '\r';
+                        break;
+
+                    default :
                         temp3 += c;
-                        temp3 += MCI;
-                    }
-                    break;
-
-                case '\n' :
-                    //  temp3 += '\r';
-                    break;
-
-                default :
-                    temp3 += c;
-                    break;
+                        break;
                 }
+
                 ++i;
 
             }
-            while (c != '\0');
+            while ( c != '\0' );
 
             temp3 += "\r";
-            switch (icnt)
+
+            switch ( icnt )
             {
-            case 0:
-                tbar . ansi_2 = temp3;
-                break; // Display HighLight None.  ON
-            case 1:
-                tbar . ansi_1 = temp3;
-                break; // Dispaly Lowlight None    OFF
-            case 2:
-                tbar . ansi_4 = temp3;
-                break; // Dispaly HighLight (New Messages)  ON
-            case 3:
-                tbar . ansi_3 = temp3;
-                break; // Dispaly LowLight (New Messages)   OFF
-            default:
-                break;
+                case 0:
+                    tbar . ansi_2 = temp3;
+                    break; // Display HighLight None.  ON
+
+                case 1:
+                    tbar . ansi_1 = temp3;
+                    break; // Dispaly Lowlight None    OFF
+
+                case 2:
+                    tbar . ansi_4 = temp3;
+                    break; // Dispaly HighLight (New Messages)  ON
+
+                case 3:
+                    tbar . ansi_3 = temp3;
+                    break; // Dispaly LowLight (New Messages)   OFF
+
+                default:
+                    break;
             }
 
-             temp3.erase();
+            temp3.erase();
 
         } // End of (4) Look for each string.
 
-		// Testing only!
+        // Testing only!
         //      s . errlog((char *)"mbar: 1 %s",tbar . ansi_1.c_str());
         //      s . errlog((char *)"mbar: 2 %s",tbar . ansi_2.c_str());
         //      s . errlog((char *)"mbar: 3 %s",tbar . ansi_3.c_str());
@@ -888,7 +952,7 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
 
         //s . startpause();
 
-        result . push_back(tbar);
+        result . push_back ( tbar );
         temp3.erase();
 
         ++num_titles;
@@ -905,17 +969,17 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
 /**
  * Title Scan - Start Interface
  */
-int msg_title::StartTitleList(int newscan,
-                               unsigned long marea,
-                               vector<unsigned long> &elist,
-                               unsigned long currmsg)
+int msg_title::StartTitleList ( int newscan,
+                                unsigned long marea,
+                                vector<unsigned long> &elist,
+                                unsigned long currmsg )
 {
     menu_func   _mnuf;
     msg_readll  mLink;
 
-    _mnuf.menu_setuser(thisuser);
+    _mnuf.menu_setuser ( thisuser );
 
-    mLink.initList(sTEXT_COLOR, TRUE);
+    mLink.initList ( sTEXT_COLOR, TRUE );
 
     int  CurrentPage  = 0;
     int  bSize        = 0;
@@ -931,10 +995,10 @@ int msg_title::StartTitleList(int newscan,
 
     // Build Title Scan into Vector List
     vector<list_bar> result;
-    result = build_titlelist(elist); //, qry);
+    result = build_titlelist ( elist ); //, qry);
 
     // populate list with vector class
-    mLink.GetVector(result);
+    mLink.GetVector ( result );
 
     std::string _output;
     char outBuffer[1024]= {0};
@@ -958,22 +1022,22 @@ int msg_title::StartTitleList(int newscan,
     // Run through Main Reader Loop until exit from user - This Loop Probably not needed anymore.
     do
     {
-//		errlog((char *)"* 1. Msg_title Scan - thisuser->lastmsg %lu, CURRENT_BAR %lu",thisuser->lastmsg, CURRENT_BAR);
+//        errlog((char *)"* 1. Msg_title Scan - thisuser->lastmsg %lu, CURRENT_BAR %lu",thisuser->lastmsg, CURRENT_BAR);
 
-        ParseHeader(sANSI_FILE);
+        ParseHeader ( sANSI_FILE );
 
         // Jump to Current Page
         boxsize =  mLink.Bot - mLink.Top;
         CurrentPage = CURRENT_BAR / boxsize;
 
         //  Make sure we have areas.
-        if (result.size() > 0)
+        if ( result.size() > 0 )
         {
-            mLink.box_start_vector(CurrentPage, CURRENT_BAR);
+            mLink.box_start_vector ( CurrentPage, CURRENT_BAR );
         }
         else
         {
-			// No Messages, return.
+            // No Messages, return.
             return EOF;
         }
 
@@ -981,66 +1045,70 @@ int msg_title::StartTitleList(int newscan,
 
         do
         {
-//			errlog((char *)"3. title_start msg_title() while()");
-//			errlog((char *)"4. *** title_start CurrentPage %lu, CURRENT_BAR %lu",CurrentPage, CURRENT_BAR);
+//            errlog((char *)"3. title_start msg_title() while()");
+//            errlog((char *)"4. *** title_start CurrentPage %lu, CURRENT_BAR %lu",CurrentPage, CURRENT_BAR);
 
             _output.erase();
             _output = "|16"; // Clear Color Bleeding, reset background to black.
             more = false;
             showmore = false;
+
             //if (mLink.line_count() > 0) more = true;
-            if (mLink.Page+1 != mLink.TotPages) more = true;
+            if ( mLink.Page+1 != mLink.TotPages ) more = true;
 
             // Show Down Arrow More!
-            if (more)
+            if ( more )
             {
-                sprintf(outBuffer,"%s\x19",sMOREDOWN); 	// On
+                sprintf ( outBuffer,"%s\x19",sMOREDOWN );     // On
                 showmore = true;
             }
             else
             {
-                sprintf(outBuffer,"%s ",sMOREDOWN);		// Off
+                sprintf ( outBuffer,"%s ",sMOREDOWN );        // Off
             }
+
             _output += outBuffer;
 
             // Show up Arrow More
-            if (mLink.Page > 0)
+            if ( mLink.Page > 0 )
             {
-                sprintf(outBuffer,"%s\x18",sMOREUP);
+                sprintf ( outBuffer,"%s\x18",sMOREUP );
                 showmore = true;
             }
             else
             {
-                sprintf(outBuffer,"%s ",sMOREUP);
+                sprintf ( outBuffer,"%s ",sMOREUP );
             }
+
             _output += outBuffer;
 
-            if (showmore)
-                sprintf(outBuffer,"%s%s",sMOREMSG_ON,sMOREMSG_WORD_ON);
+            if ( showmore )
+                sprintf ( outBuffer,"%s%s",sMOREMSG_ON,sMOREMSG_WORD_ON );
             else
-                sprintf(outBuffer,"%s%s",sMOREMSG_OFF,sMOREMSG_WORD_OFF);
+                sprintf ( outBuffer,"%s%s",sMOREMSG_OFF,sMOREMSG_WORD_OFF );
+
             _output += outBuffer;
 
             // Show Current/Total Pages
-            sprintf(outBuffer,"%s%.3d",sPAGENUM,mLink.Page+1);
+            sprintf ( outBuffer,"%s%.3d",sPAGENUM,mLink.Page+1 );
             _output += outBuffer;
-            sprintf(outBuffer,"%s%.3d",sPAGETOTAL,mLink.TotPages);
+            sprintf ( outBuffer,"%s%.3d",sPAGETOTAL,mLink.TotPages );
             _output += outBuffer;
 
             // # of Message Areas
-            sprintf(outBuffer,"%s%d",sMAX_AREAS,mLink.Tot);
+            sprintf ( outBuffer,"%s%d",sMAX_AREAS,mLink.Tot );
             _output += outBuffer;
 
-            pipe2ansi((char *)_output.c_str());
+            pipe2ansi ( ( char * ) _output.c_str() );
 
             // Blank out the previous menu so we can reload, / redraw on restart.
             //memset(&_mnuf._premenu,0,sizeof(_mnuf._premenu));
 
             // Make Msgqp2 Prompt Optional, Use if exists!
             // Also Let user Toggle on / off
-            if (_mnuf.cmdexist(sMENU_PROMPT2,0)) /*&& thisuser->msgp2*/
+            if ( _mnuf.cmdexist ( sMENU_PROMPT2,0 ) ) /*&& thisuser->msgp2*/
             {
-                if ((more == TRUE) ||(mLink.Page > 1))
+                if ( ( more == TRUE ) || ( mLink.Page > 1 ) )
                 {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = sMENU_PROMPT2;
@@ -1058,227 +1126,236 @@ int msg_title::StartTitleList(int newscan,
             }
 
 
-JMPINPUT1:
+        JMPINPUT1:
 
             _mnuf.menu_readin();
 
             // Draw Input Box
-            memset(&text,0, sizeof(text));
-            strcpy(text,sINPUT_BOX);
-			
-			sprintf(outBuffer,"%d",mLink.Tot);	
-			len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
+            memset ( &text,0, sizeof ( text ) );
+            strcpy ( text,sINPUT_BOX );
 
-			memset(&text,0, sizeof(text));
-            strcpy(text,sINPUT_BOX);
-			inputfield(text,len);
+            sprintf ( outBuffer,"%d",mLink.Tot );
+            len = strlen ( outBuffer ) +1; // Last Ourbuf is Message Number
+
+            memset ( &text,0, sizeof ( text ) );
+            strcpy ( text,sINPUT_BOX );
+            inputfield ( text,len );
             _output = text;
             _output += "|16";
 
-            pipe2ansi((char *)_output.c_str());
+            pipe2ansi ( ( char * ) _output.c_str() );
 
-//			errlog((char *)"* 5. Msg_title Scan - thisuser->lastmsg %lu, CURRENT_BAR %lu",thisuser->lastmsg, CURRENT_BAR);
+//            errlog((char *)"* 5. Msg_title Scan - thisuser->lastmsg %lu, CURRENT_BAR %lu",thisuser->lastmsg, CURRENT_BAR);
 
-            _mnuf.menu_proc(mString, CURRENT_BAR);
+            _mnuf.menu_proc ( mString, CURRENT_BAR );
             ch = mString[1];
 
             // For Menu CmdKey Input
-            if (mString[0] == '!')
+            if ( mString[0] == '!' )
             {
-                switch (toupper(ch))
+                switch ( toupper ( ch ) )
                 {
 
-				case 'N': // Multi Area Newscan, skip to next area.
-					mLink.dispose_list();
-                    vector<list_bar>() . swap(result); // Free Vector Up.
-                    return -2;
+                    case 'N': // Multi Area Newscan, skip to next area.
+                        mLink.dispose_list();
+                        vector<list_bar>() . swap ( result ); // Free Vector Up.
+                        return -2;
 
-				case 'U': // Page Up
-                    if (CurrentPage != 0)
-                    {
-                        --CurrentPage;
-
-						// Reset Bar to first Listing on each Page.
-						// CurrentPage = CURRENT_BAR / boxsize;
-						CURRENT_BAR = CurrentPage * boxsize;
-                        mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-                    }
-                    else
-                        goto JMPINPUT1;
-                    break;
-
-                case 'D': // Page Down
-                    if (CurrentPage+1 != mLink.TotPages)
-                    {
-                        ++CurrentPage;
-
-						// Reset Bar to first Listing on each Page.
-						// CurrentPage = CURRENT_BAR / boxsize;
-						CURRENT_BAR = CurrentPage * boxsize;
-                        mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-                    }
-                    else
-                        goto JMPINPUT1;
-                    break;
-						
-                // hit ENTER
-                case 'E': // Read Selected Message
-                    mLink.dispose_list();
-                    vector<list_bar>() . swap(result); // Free Vector Up.
-
-					// -3 Means to Read CURRENT_BAR.
-                    return -3;
-
-                case '+': // Next Message - Move Down
-
-                    if (CURRENT_BAR+1 >= mLink.listing.size() || mLink.listing.size() == 0)
-                        goto JMPINPUT1;
-
-                    ++CURRENT_BAR;
-
-//                    PreviousPage = CurrentPage;
-
-                    //Calculate if we go down, ++Current Area, are we on next page or not.
-                    // Becasue 0 Based, need to add +1
-                    // Test if we moved to next page.
-                    if ((signed)CURRENT_BAR+1 < (boxsize*(CurrentPage+1))+1)
-                    {
-                        // Still on Same Page
-                        if (mLink.listing[CURRENT_BAR-1].isnew)
+                    case 'U': // Page Up
+                        if ( CurrentPage != 0 )
                         {
-                            // Lowlight Current, then Highlight Next.
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR-1].ansi_3.c_str());
+                            --CurrentPage;
+
+                            // Reset Bar to first Listing on each Page.
+                            // CurrentPage = CURRENT_BAR / boxsize;
+                            CURRENT_BAR = CurrentPage * boxsize;
+                            mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
                         }
                         else
-                        {
-                            // Lowlight Current, then Highlight Next.
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR-1].ansi_1.c_str());
-                        }
+                            goto JMPINPUT1;
 
-                        _output += rBuffer;
-                        mLink.current_selection += 1;
-                        if (mLink.listing[CURRENT_BAR].isnew)
-                        {
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR].ansi_4.c_str());
-                        }
-                        else
-                        {
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR].ansi_2.c_str());
-                        }
-                        _output += rBuffer;
-                        pipe2ansi((char *)_output.c_str());
-                        _output.erase();
-
-                        goto JMPINPUT1; //Not moving down a page.
-
-                    }
-                    else
-                    {
-                        // Move to next Page!
-                        ++CurrentPage;
-                        mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                         break;
-                    }
-                case '-': // Previous Messasge - Move Up
 
-                    // Skipping to JMPINPUT bypasses redraws, much faster!
-                    if (CURRENT_BAR > 0 && mLink.listing.size() != 0)
-                        --CURRENT_BAR;
-                    else
-                        goto JMPINPUT1;
+                    case 'D': // Page Down
+                        if ( CurrentPage+1 != mLink.TotPages )
+                        {
+                            ++CurrentPage;
+
+                            // Reset Bar to first Listing on each Page.
+                            // CurrentPage = CURRENT_BAR / boxsize;
+                            CURRENT_BAR = CurrentPage * boxsize;
+                            mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
+                        }
+                        else
+                            goto JMPINPUT1;
+
+                        break;
+
+                        // hit ENTER
+                    case 'E': // Read Selected Message
+                        mLink.dispose_list();
+                        vector<list_bar>() . swap ( result ); // Free Vector Up.
+
+                        // -3 Means to Read CURRENT_BAR.
+                        return -3;
+
+                    case '+': // Next Message - Move Down
+
+                        if ( CURRENT_BAR+1 >= mLink.listing.size() || mLink.listing.size() == 0 )
+                            goto JMPINPUT1;
+
+                        ++CURRENT_BAR;
 
 //                    PreviousPage = CurrentPage;
 
-                    //Calculate if we go down, --Current Area, are we on next page or not.
-                    // Becasue 0 Based, need to add +1
-                    // Test if we moved to next page.
-                    if ((signed)CURRENT_BAR+1 > (boxsize*(CurrentPage)))
-                    {
-                        // Still on Same Page
-                        // Lowlight Current, then Highlight Next.
-                        if (mLink.listing[CURRENT_BAR+1].isnew)
+                        //Calculate if we go down, ++Current Area, are we on next page or not.
+                        // Becasue 0 Based, need to add +1
+                        // Test if we moved to next page.
+                        if ( ( signed ) CURRENT_BAR+1 < ( boxsize* ( CurrentPage+1 ) ) +1 )
                         {
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR+1].ansi_3.c_str());
+                            // Still on Same Page
+                            if ( mLink.listing[CURRENT_BAR-1].isnew )
+                            {
+                                // Lowlight Current, then Highlight Next.
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR-1].ansi_3.c_str() );
+                            }
+                            else
+                            {
+                                // Lowlight Current, then Highlight Next.
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR-1].ansi_1.c_str() );
+                            }
+
+                            _output += rBuffer;
+                            mLink.current_selection += 1;
+
+                            if ( mLink.listing[CURRENT_BAR].isnew )
+                            {
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR].ansi_4.c_str() );
+                            }
+                            else
+                            {
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR].ansi_2.c_str() );
+                            }
+
+                            _output += rBuffer;
+                            pipe2ansi ( ( char * ) _output.c_str() );
+                            _output.erase();
+
+                            goto JMPINPUT1; //Not moving down a page.
+
                         }
                         else
                         {
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR+1].ansi_1.c_str());
+                            // Move to next Page!
+                            ++CurrentPage;
+                            mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
+                            break;
                         }
-                        _output = rBuffer;
-                        mLink.current_selection -= 1;
-                        if (mLink.listing[CURRENT_BAR].isnew)
+
+                    case '-': // Previous Messasge - Move Up
+
+                        // Skipping to JMPINPUT bypasses redraws, much faster!
+                        if ( CURRENT_BAR > 0 && mLink.listing.size() != 0 )
+                            --CURRENT_BAR;
+                        else
+                            goto JMPINPUT1;
+
+//                    PreviousPage = CurrentPage;
+
+                        //Calculate if we go down, --Current Area, are we on next page or not.
+                        // Becasue 0 Based, need to add +1
+                        // Test if we moved to next page.
+                        if ( ( signed ) CURRENT_BAR+1 > ( boxsize* ( CurrentPage ) ) )
                         {
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR].ansi_4.c_str());
+                            // Still on Same Page
+                            // Lowlight Current, then Highlight Next.
+                            if ( mLink.listing[CURRENT_BAR+1].isnew )
+                            {
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR+1].ansi_3.c_str() );
+                            }
+                            else
+                            {
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR+1].ansi_1.c_str() );
+                            }
+
+                            _output = rBuffer;
+                            mLink.current_selection -= 1;
+
+                            if ( mLink.listing[CURRENT_BAR].isnew )
+                            {
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR].ansi_4.c_str() );
+                            }
+                            else
+                            {
+                                sprintf ( rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, ( char * ) mLink.listing[CURRENT_BAR].ansi_2.c_str() );
+                            }
+
+                            _output += rBuffer;
+
+                            pipe2ansi ( ( char * ) _output.c_str() );
+                            _output.erase();
+                            goto JMPINPUT1; //Not moving down a page.
+
                         }
                         else
                         {
-                            sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR].ansi_2.c_str());
+                            // Move to next Page!
+                            --CurrentPage;
+                            mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
+                            //goto JMPINPUT1;
                         }
-                        _output += rBuffer;
 
-                        pipe2ansi((char *)_output.c_str());
-                        _output.erase();
-                        goto JMPINPUT1; //Not moving down a page.
+                        break;
 
-                    }
-                    else
-                    {
-                        // Move to next Page!
-                        --CurrentPage;
-                        mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-                        //goto JMPINPUT1;
-                    }
-                    break;
+                    case 'Q': // Quit Received, Hard Exit.
+                        mLink.dispose_list();
+                        vector<list_bar>() . swap ( result ); // Free Vector Up.
+                        return EOF;
 
-				case 'Q': // Quit Received, Hard Exit.
-					mLink.dispose_list();
-                    vector<list_bar>() . swap(result); // Free Vector Up.
-					return EOF;
+                    case '?': // Help FileAreaScan (
 
-				case '?': // Help FileAreaScan (
+                        ansiPrintf ( sANSI_HELP ); // Display Ansi Help file,
+                        getkey ( true );
+                        ParseHeader ( sANSI_FILE ); // Redisplay Display Ansi
+                        mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
+                        break;
 
-					ansiPrintf(sANSI_HELP); // Display Ansi Help file,
-					getkey(true);
-					ParseHeader(sANSI_FILE); // Redisplay Display Ansi
-                    mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-					break;
-						
-                // Pass through, any functionaly that should
-				// Be handeled in Reader.
-                // to the Message Reader. ie post ,reply, delete... 
-                default :
+                        // Pass through, any functionaly that should
+                        // Be handeled in Reader.
+                        // to the Message Reader. ie post ,reply, delete...
+                    default :
 
-                    mLink.dispose_list();
-                    vector<list_bar>() . swap(result); // Free Vector Up.
+                        mLink.dispose_list();
+                        vector<list_bar>() . swap ( result ); // Free Vector Up.
 
-					// Don't exit, just return with pass through command.
-                    //CURRENT_BAR = EOF;
-                    return (char)toupper(ch);				
+                        // Don't exit, just return with pass through command.
+                        //CURRENT_BAR = EOF;
+                        return ( char ) toupper ( ch );
                 }
             }
-            else if (mString[0] == '#')
+            else if ( mString[0] == '#' )
             {
                 // received Digit Input From Menu Prompt
-                memset(&rBuffer,0, sizeof(rBuffer));
-                memset(&text,0, sizeof(text));
-                strcpy(text,sINPUT_BOX);
+                memset ( &rBuffer,0, sizeof ( rBuffer ) );
+                memset ( &text,0, sizeof ( text ) );
+                strcpy ( text,sINPUT_BOX );
                 //len = 14;
-                inputfield(text,len);
-                pipe2ansi(text);
-                sprintf(sNum,"%c",ch);
-                getline(rBuffer,len,sNum);
+                inputfield ( text,len );
+                pipe2ansi ( text );
+                sprintf ( sNum,"%c",ch );
+                getline ( rBuffer,len,sNum );
 
-				// Catch any invalid input
-                id1 = atoi(rBuffer);
+                // Catch any invalid input
+                id1 = atoi ( rBuffer );
 
-                if (id1 > mLink.listing.size() || id1 < 1)
+                if ( id1 > mLink.listing.size() || id1 < 1 )
                 {
                     // Redraw input box
-                    memset(&text,0, sizeof(text));
-                    strcpy(text,sINPUT_BOX);
+                    memset ( &text,0, sizeof ( text ) );
+                    strcpy ( text,sINPUT_BOX );
                     //len = 14;
-                    inputfield(text,len);
-                    pipe2ansi(text);
+                    inputfield ( text,len );
+                    pipe2ansi ( text );
                     goto JMPINPUT1;
                 }
                 else
@@ -1287,8 +1364,8 @@ JMPINPUT1:
 
                     // Jump to Current Page
                     CurrentPage = CURRENT_BAR / boxsize;
-                    ParseHeader(sANSI_FILE); // Display Ansi
-                    mLink.box_start_vector(CurrentPage,CURRENT_BAR);
+                    ParseHeader ( sANSI_FILE ); // Display Ansi
+                    mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
                 }
             }
             else // End [#]
@@ -1296,48 +1373,51 @@ JMPINPUT1:
                 // For Escaped Key Input
                 //startpause();  // Shouldn't get here...
                 ch = mString[0];
-                switch (toupper(ch))
+
+                switch ( toupper ( ch ) )
                 {
-                case 'A':
-                    if (CurrentPage != 0)
-                    {
-                        --CurrentPage;
-						// Reset Bar to first Listing on each Page.							
-						CURRENT_BAR = CurrentPage * boxsize;
-                        mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-                    }
-                    else
-                        goto JMPINPUT1;
-                    break;
+                    case 'A':
+                        if ( CurrentPage != 0 )
+                        {
+                            --CurrentPage;
+                            // Reset Bar to first Listing on each Page.
+                            CURRENT_BAR = CurrentPage * boxsize;
+                            mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
+                        }
+                        else
+                            goto JMPINPUT1;
 
-                case 'B':
-                    if (CurrentPage+1 != mLink.TotPages)
-                    {
-                        ++CurrentPage;
-						// Reset Bar to first Listing on each Page.							
-						CURRENT_BAR = CurrentPage * boxsize;
-                        mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-                    }
-                    else
-                        goto JMPINPUT1;
-                    break;
+                        break;
 
-                default :
-                    // Redraw and refresh listing.
-                    vector<list_bar>() . swap(result); // Free Vector Up.
-                    tmp.erase();
-                    result = build_titlelist(elist); //, qry);
-                    mLink.GetVector(result);
+                    case 'B':
+                        if ( CurrentPage+1 != mLink.TotPages )
+                        {
+                            ++CurrentPage;
+                            // Reset Bar to first Listing on each Page.
+                            CURRENT_BAR = CurrentPage * boxsize;
+                            mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
+                        }
+                        else
+                            goto JMPINPUT1;
 
-                    ParseHeader(sANSI_FILE); // Display Ansi
-                    mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-                    break;
+                        break;
+
+                    default :
+                        // Redraw and refresh listing.
+                        vector<list_bar>() . swap ( result ); // Free Vector Up.
+                        tmp.erase();
+                        result = build_titlelist ( elist ); //, qry);
+                        mLink.GetVector ( result );
+
+                        ParseHeader ( sANSI_FILE ); // Display Ansi
+                        mLink.box_start_vector ( CurrentPage,CURRENT_BAR );
+                        break;
                 } // Switch ch
             } // else [!], [#]
 
         }
-        while(1);   // End do
+        while ( 1 ); // End do
 
     }
-    while(1);   // End do
+    while ( 1 ); // End do
 }

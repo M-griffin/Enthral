@@ -49,8 +49,8 @@ typedef struct msgquote_ini
     // Message Read .ini File
     bool msg_exists();
     void msg_create();
-    void msg_chkpar(std::string &data);
-    void msg_check(std::string cfgdata);
+    void msg_chkpar ( std::string &data );
+    void msg_check ( std::string cfgdata );
     void msg_parse();
 
 } msgquote_ini;
@@ -65,11 +65,11 @@ private:
 
 public:
     msg_quote();
-    void ParseMQuote(char *filename);
-    void insert_lines(LineRec *orgLink, msg_readll *mLink);
+    void ParseMQuote ( char *filename );
+    void insert_lines ( LineRec *orgLink, msg_readll *mLink );
     void setup_quoter();
-    void par_qstring(char * rBuffer, msg_readll *mLink);
-    void StartQuoter(LineRec *orgLink, std::string &retbuf);
+    void par_qstring ( char * rBuffer, msg_readll *mLink );
+    void StartQuoter ( LineRec *orgLink, std::string &retbuf );
 
 };
 
