@@ -36,9 +36,7 @@ public:
     LineRec *head;
     LineRec *current_node;
     LineRec *last;
-
     AreaRec *node;
-
     // Passing Lightbars between Interfaces
     std::vector<list_bar> listing;
 
@@ -74,34 +72,33 @@ public:
     msg_readll();
     ~msg_readll();
 
-    void initQuote ( char *sLow, char *sHigh,int q = FALSE );
-    void initReader ( char *sTEXT, char *sQUOTE, char *sSYS, char *sORIGIN );
-    void initList ( char *sLow, int alist = FALSE );
-    void togglePageScroll ( int on = TRUE );
+    void initQuote(char *sLow, char *sHigh,int q = FALSE);
+    void initReader(char *sTEXT, char *sQUOTE, char *sSYS, char *sORIGIN);
+    void initList(char *sLow, int alist = FALSE);
+    void togglePageScroll(int on = TRUE);
     void clearBox();
 
     // Copy message from link lists to buffer
-    void stripCRONLY ( char *ostr );
+    void stripCRONLY(char *ostr);
     //char *GetBuffer();
-    void GetBuffer ( std::string &tbuf );
-
-    void GetVector ( std::vector<list_bar> listb );
+    void GetBuffer(std::string &tbuf);
+    void GetVector(std::vector<list_bar> listb);
 
     char *PopulateQuoter();
 
     // Copy From buffer into Link List (UserSig) Clean
-    void PutBufferSig ( char *mBuff, int Strip = FALSE );
-    void PutBuffer ( char *mBuff, int Strip = TRUE );
+    void PutBufferSig(char *mBuff, int Strip = FALSE);
+    void PutBuffer(char *mBuff, int Strip = TRUE);
 
-    void cleartags ( char *tag, char *origin );
+    void cleartags(char *tag, char *origin);
 
     void clear_all();
     void select_all();
 
-    void display_list ( void );
-    void flag_line ( int iNum );
+    void display_list(void);
+    void flag_line(int iNum);
     void delete_line_up();
-    void add_to_list ( std::string add_data );
+    void add_to_list(std::string add_data);
     int  move_up();
     int  move_down();
     int  line_count();
@@ -110,18 +107,18 @@ public:
     void dispose();
     void dispose_list();
     // Line Reader - old school scrolling.
-    char *parseReadColorScroller ( char *cap,std::string data );
-    char *parsereadcolors ( char *cap,int row, int col, std::string data );
+    char *parseReadColorScroller(char *cap,std::string data);
+    char *parsereadcolors(char *cap,int row, int col, std::string data);
     // Line Reader - old school scrolling.
     void box_scroll_reader();
     void box_pgdn_scroll();
     // Normal Lightbar...
-    void box_start ( unsigned long CURRENT ); // CURRENT = ARea MAREA or ULIST etc...
+    void box_start(unsigned long CURRENT);    // CURRENT = ARea MAREA or ULIST etc...
     void box_scrolldn();
     void box_pgdn();
     void box_pgup();
-    void box_refresh ( unsigned long CURRENT );
-    void box_overdraw ( unsigned long CURRENT );
+    void box_refresh(unsigned long CURRENT);
+    void box_overdraw(unsigned long CURRENT);
 
     // New std::vector list parsing.
     // Not in use - box_start_vector replaces all 3.
@@ -131,9 +128,7 @@ public:
 
     // Working Up and Down, need to add Scroll Down now.
     //void box_start_vector(unsigned long CURRENT); // Area Listing.
-
-
-    void box_start_vector ( unsigned long page, unsigned long list );
+    void box_start_vector(unsigned long page, unsigned long list);
 
 } msg_readll;
 
