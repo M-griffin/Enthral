@@ -27,7 +27,6 @@
 
 typedef struct files
 {
-
     // Import Functions
     int  fileidx_lockSet ( int onoff );
 
@@ -43,7 +42,6 @@ typedef struct files
 
     // Inpot File Functions.
     int import_filedir();
-
 
     // Files.Dat area listing.
     int  read_fbaselist ( fb_list_rec *fr, int recno );

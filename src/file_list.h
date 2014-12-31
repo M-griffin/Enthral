@@ -24,16 +24,13 @@
 # include "struct.h"
 //# include "msg_api.h"
 
-
 // pickup thisuser and session from msg_api
-
 # include <time.h>
 # include <string>
 
 /*
 typedef struct filelist_ini
 {
-
     int  iTop;
     int  iBot;
     char sPAGENUM[80];

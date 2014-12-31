@@ -18,7 +18,6 @@
 // $LastChangedRevision$
 // $LastChangedBy$
 
-
 # ifndef DATA_AREAS_H
 # define DATA_AREAS_H
 
@@ -48,34 +47,31 @@ public:
     int           dataSaved;     // If Data was Saved.
 
     char _curarea[20];           // Current Area Name
-
-    data_area ( UserRec *usr )
+    data_area(UserRec *usr)
     {
         dataSaved = FALSE;
         thisuser = usr;
         // Pass to CONIO for Pipe2Ansi MCI Codes.
         // For User MCI Data.
-
         datar2    = 0;
         cmdr2     = 0;
         inexecnum = 0;
         inArray   = 0;
-
-        start_session ( thisuser );
+        start_session(thisuser);
     }
 
     // Lock File so Nodes don't Collide.
-    int  data_lockSet ( int onoff );
+    int  data_lockSet(int onoff);
     // New Menu Text File Parsing
-    void chkparse ( std::string &temp );
+    void chkparse(std::string &temp);
 
-    int  da_parse ( std::string cfgdata );
-    int  da_read ( char *FileName );
+    int  da_parse(std::string cfgdata);
+    int  da_read(char *FileName);
 
-    void rec_parse ( std::string cfgdata, int idx );
-    int  rec_exist ( char *FileName, int idx );
-    int  rec_cnt ( char  *FileName );
-    int  rec_read ( char *FileName, int idx );
+    void rec_parse(std::string cfgdata, int idx);
+    int  rec_exist(char *FileName, int idx);
+    int  rec_cnt(char  *FileName);
+    int  rec_read(char *FileName, int idx);
 
     // Read in Current Data File
     // Hold Commands Per Menu being Read in.
@@ -86,8 +82,8 @@ public:
     // Processing for Menu's with Lightbars & Hotkeys.
     void process_data_area();
     // Parse Menu Keys from Menu Selection
-    void parsemci ( DataRec *cmdr );
-    void parseinput ( DataRec *cmdr );
+    void parsemci(DataRec *cmdr);
+    void parseinput(DataRec *cmdr);
     // Write Output of Buffer.
     unsigned long
     count_file_records();
@@ -96,12 +92,11 @@ public:
     void read_file_records();
     void truncate_da_buffer();
     void save_da_buffer();
-    int  confirm_da_save ( DataRec *cmdr );
-    void darea_docmd ( DataRec *cmdr );
+    int  confirm_da_save(DataRec *cmdr);
+    void darea_docmd(DataRec *cmdr);
 
     void display_commands();
     void data_loop();
-
 
 } data_area;
 

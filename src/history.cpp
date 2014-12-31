@@ -35,7 +35,6 @@ using namespace std;
  */
 int history::daily_lockSet ( int onoff )
 {
-
     std::string path = LOCKPATH;
     path += "daily.lck";
 
@@ -47,15 +46,12 @@ int history::daily_lockSet ( int onoff )
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-
     while ( 1 )
     {
         stream = fopen ( path.c_str(),"rb+" );
-
         if ( stream == NULL )
         {
             stream = fopen ( path.c_str(), "wb" );
-
             if ( stream == NULL )
             {
                 //elog("Error history.lck!");
@@ -67,7 +63,6 @@ int history::daily_lockSet ( int onoff )
                 return TRUE;
             }
         }
-
         fclose ( stream );
         usleep ( 10*20000 );
     }
@@ -78,7 +73,6 @@ int history::daily_lockSet ( int onoff )
  */
 int history::daily_write ( History *hist )
 {
-
     time_t t;
     tm *tm;
     char datestr[81]= {0}; //,buf2[2100]={0};
@@ -97,11 +91,9 @@ int history::daily_write ( History *hist )
     daily_lockSet ( TRUE );
 
     FILE *stream = fopen ( path.c_str(),"rb+" );
-
     if ( stream == NULL )
     {
         stream = fopen ( path.c_str(), "wb" );
-
         if ( stream == NULL )
         {
             //elog("Error hist_write!");
@@ -109,10 +101,8 @@ int history::daily_write ( History *hist )
             return x;
         }
     }
-
     if ( fseek ( stream,0,SEEK_SET ) ==0 )
         x = fwrite ( hist,sizeof ( History ),1,stream );
-
     fclose ( stream );
     daily_lockSet ( FALSE );
     return x;
@@ -123,7 +113,6 @@ int history::daily_write ( History *hist )
  */
 int history::daily_read ( History *hist )
 {
-
     time_t t;
     tm *tm;
     char datestr[81]= {0}; //,buf2[2100]={0};
@@ -142,11 +131,9 @@ int history::daily_read ( History *hist )
 
     daily_lockSet ( TRUE );
     FILE *stream = fopen ( path.c_str(),"rb+" );
-
     if ( stream == NULL )
     {
         stream=fopen ( path.c_str(), "wb" );
-
         if ( stream == NULL )
         {
             //elog("Error hist_read!");
@@ -154,14 +141,11 @@ int history::daily_read ( History *hist )
             return x;
         }
     }
-
     fclose ( stream );
 
     stream = fopen ( path.c_str(), "rb" );
-
     if ( fseek ( stream,0,SEEK_SET ) ==0 )
         x = fread ( hist,sizeof ( History ),1,stream );
-
     fclose ( stream );
     daily_lockSet ( FALSE );
     return x;
@@ -172,10 +156,8 @@ int history::daily_read ( History *hist )
  */
 int history::hist_lockSet ( int onoff )
 {
-
     std::string path = LOCKPATH;
     path += "history.lck";
-
     if ( !onoff )
     {
         remove ( ( char * ) path.c_str() );
@@ -184,15 +166,12 @@ int history::hist_lockSet ( int onoff )
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-
     while ( 1 )
     {
         stream = fopen ( path.c_str(),"rb+" );
-
         if ( stream == NULL )
         {
             stream = fopen ( path.c_str(), "wb" );
-
             if ( stream == NULL )
             {
                 //elog("Error history.lck!");
@@ -204,7 +183,6 @@ int history::hist_lockSet ( int onoff )
                 return TRUE;
             }
         }
-
         fclose ( stream );
         usleep ( 10*20000 );
     }
@@ -215,18 +193,15 @@ int history::hist_lockSet ( int onoff )
  */
 int history::hist_write ( History *hist )
 {
-
     std::string path = DATAPATH;
     path   += "history.dat";
     int x   = 0;
     hist_lockSet ( TRUE );
 
     FILE *stream = fopen ( path.c_str(),"rb+" );
-
     if ( stream == NULL )
     {
         stream = fopen ( path.c_str(), "wb" );
-
         if ( stream == NULL )
         {
             //elog("Error hist_write!");
@@ -234,10 +209,8 @@ int history::hist_write ( History *hist )
             return x;
         }
     }
-
     if ( fseek ( stream,0,SEEK_SET ) ==0 )
         x = fwrite ( hist,sizeof ( History ),1,stream );
-
     fclose ( stream );
     hist_lockSet ( FALSE );
     return x;
@@ -248,18 +221,15 @@ int history::hist_write ( History *hist )
  */
 int history::hist_read ( History *hist )
 {
-
     std::string path = DATAPATH;
     path   += "history.dat";
     int x   = 0;
 
     hist_lockSet ( TRUE );
     FILE *stream = fopen ( path.c_str(),"rb+" );
-
     if ( stream == NULL )
     {
         stream=fopen ( path.c_str(), "wb" );
-
         if ( stream == NULL )
         {
             //elog("Error hist_read!");
@@ -267,14 +237,11 @@ int history::hist_read ( History *hist )
             return x;
         }
     }
-
     fclose ( stream );
 
     stream = fopen ( path.c_str(), "rb" );
-
     if ( fseek ( stream,0,SEEK_SET ) ==0 )
         x = fread ( hist,sizeof ( History ),1,stream );
-
     fclose ( stream );
     hist_lockSet ( FALSE );
     return x;

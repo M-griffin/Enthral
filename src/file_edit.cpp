@@ -18,7 +18,6 @@
 // $LastChangedRevision$
 // $LastChangedBy$
 
-
 /*
 # include "struct.h"
 //# include "msgapi.h"

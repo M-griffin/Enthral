@@ -27,8 +27,6 @@
 typedef struct file_import
 {
 
-
-
 } file_import;
 
 # endif

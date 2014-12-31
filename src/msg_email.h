@@ -21,20 +21,14 @@
 # ifndef MSG_EMAIL_H
 # define MSG_EMAIL_H
 
-//# include <time.h>
-
 # include "struct.h"
 # include "mb_api.h"        // Mainly for SESSION and i/o functions.
 # include "msgs.h"
-
-// pickup thisuser and session from msg_api
-
 
 # include <string>
 
 typedef struct msgemail_ini
 {
-
     int  iTop;
     int  iBot;
     char sPAGENUM[80];
@@ -63,7 +57,6 @@ typedef struct msgemail_ini
 
 class msg_email : private mbapi_jam, msgemail_ini, msgs
 {
-
     //private:
     UserRec *thisuser;
 
@@ -76,8 +69,6 @@ public:
     //void SetupList();
     void SetupList ( UserRec *user );
     char *StartList();
-
 };
-
 
 # endif

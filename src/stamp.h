@@ -50,7 +50,6 @@ struct _stamp
         bits yr:7;
     }
     date;
-
     struct
     {
         bits ss:5;

@@ -23,23 +23,17 @@
 
 # include <fstream>
 # include <string>
-
 # include <cstdio>
 # include <ctime>
 # include <cctype>
-
-
-
 # include <cstring>
 # include <cstdlib>
-
 
 using namespace std;
 
 /*
 bool filearea_ini::filea_exists()
 {
-
     iTop = 0;
     iBot = 0;
 

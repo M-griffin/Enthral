@@ -22,8 +22,6 @@
 # define MSG_FSE_H
 
 # include "struct.h"
-//# include "msg_api.h"
-
 # include "mb_api.h"
 # include "msg_readll.h"
 
@@ -36,7 +34,6 @@ class msg_fse :
     //private msg_api
 private mbapi_jam
 {
-
 private:
     // Main List for Holding All Data
     LineRec     *head;          // Pointer to Fist in List
@@ -78,15 +75,15 @@ private:
     char sMENU_PROMPT[15];
 
 public:
-    msg_fse ( UserRec *urec );
+    msg_fse(UserRec *urec);
     ~msg_fse();
 
     std::string buffer;
 
     // Link List Functions  -  Note can move this to reference msg_ll.cpp / h
-    void add_to_list ( std::string );
-    void stripCRONLY ( char *ostr );
-    void PutBuffer ( char *mBuff );
+    void add_to_list(std::string);
+    void stripCRONLY(char *ostr);
+    void PutBuffer(char *mBuff);
     void save_all();
 
     int  move_up();
@@ -111,7 +108,7 @@ public:
     int  format_paragraph();
     void word_wrapex();
     void word_wrap();
-    void add_char ( unsigned char c );
+    void add_char(unsigned char c);
 
     void up_arrow();
     void dn_arrow();
@@ -122,29 +119,28 @@ public:
     void Last_Line();
     void box_scrolldn();
 
-    int  parsere ( char *qText );
-    int  options_prompt ( unsigned char c = '\0' );
+    int  parsere(char *qText);
+    int  options_prompt(unsigned char c = '\0');
     void insert_lines();
 
-    std::vector<std::string> inline split_string ( const std::string &source,
+    std::vector<std::string> inline split_string(const std::string &source,
             const char *delimiter = " ",
-            bool keepEmpty = false );
+            bool keepEmpty = false);
 
     void delete_key();
 
-    int  poll_chr ( int reply, int msg_edit, MsgHead *mH, msg_readll *mL = 0 );
+    int  poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL = 0);
 
 private:
     // fse.ini
-    int  change_theme ( int idx=0 );
-    void ansi_file ( char *filename );
+    int  change_theme(int idx=0);
+    void ansi_file(char *filename);
     bool fse_exists();
     void fse_create();
-    void fse_chkpar ( std::string &temp );
-    void fse_check ( std::string cfgdata );
-    int  fse_parse ( int idx=0 );
+    void fse_chkpar(std::string &temp);
+    void fse_check(std::string cfgdata);
+    int  fse_parse(int idx=0);
 
 };
-
 
 # endif

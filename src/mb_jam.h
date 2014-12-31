@@ -56,7 +56,6 @@
 typedef enum {LOCAL, NETMAIL, ECHOMAIL, EMAIL, NEWS} MSGTYPE;
 typedef enum {PUBLIC, PRIVATE} POSTTYPE;
 
-
 struct jbList
 {
     struct jbNode *First;
@@ -81,7 +80,6 @@ struct MemMessage
     struct Node4D DestNode;
 
     uint8_t Area[80];
-
     uint8_t To[36];
     uint8_t From[36];
     uint8_t Subject[72];
@@ -90,22 +88,16 @@ struct MemMessage
 
     uint8_t MSGID[80];
     uint8_t REPLY[80];
-
     uint32_t MSGID_CRC;
     uint32_t REPLY_CRC;
-
     uint16_t Attr;
     uint16_t Cost;
-
     uint8_t Type;
     uint16_t Flags;
-
     uint32_t HighWater; // Total Messages (Includes Deleted)
     uint32_t Active;    // Active Messages (Excludes Deleted)
     uint32_t CurrMsg;   // Current Message
-
     std::string TextChunks;
-
     //struct jbList TextChunks;
     //struct jbList SeenBy;
     //struct jbList Path;
@@ -131,25 +123,22 @@ struct jam_Area
     BOOL newmsg;
 };
 
-time_t stampToTimeT ( struct _stamp *st );
-struct _stamp *timeTToStamp ( time_t tt );
+time_t stampToTimeT(struct _stamp *st);
+struct _stamp *timeTToStamp(time_t tt);
 
-union stamp_combo *TmDate_to_DosDate ( struct tm *tmdate, union stamp_combo *dosdate );
-struct tm *DosDate_to_TmDate ( union stamp_combo *dosdate, struct tm *tmdate );
+union stamp_combo *TmDate_to_DosDate(struct tm *tmdate, union stamp_combo *dosdate);
+struct tm *DosDate_to_TmDate(union stamp_combo *dosdate, struct tm *tmdate);
 
+BOOL  jamapi_purgemsg(mb_list_rec *area, uint32_t msgnum);
+BOOL  jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area);
 
-BOOL  jamapi_purgemsg ( mb_list_rec *area, uint32_t msgnum );
-BOOL  jamapi_writemsg ( struct MemMessage *mm, mb_list_rec *area );
+uint32_t jamapi_countmsgs(mb_list_rec *area, UserRec *thisuser=NULL);
 
-uint32_t jamapi_countmsgs ( mb_list_rec *area, UserRec *thisuser=NULL );
+vector<unsigned long> jamapi_build_private(mb_list_rec *area, UserRec *thisuser=NULL);
+vector<unsigned long> jamapi_build_public(mb_list_rec *area, UserRec *thisuser=NULL);
 
-vector < unsigned long > jamapi_build_private ( mb_list_rec *area, UserRec *thisuser=NULL );
-vector < unsigned long > jamapi_build_public ( mb_list_rec *area, UserRec *thisuser=NULL );
-
-BOOL  jamapi_readmsg ( mb_list_rec *area, uint32_t num, struct MemMessage *mm, int email=FALSE, UserRec *thisuser=NULL );
-
-uint32_t jamapi_readmsgid ( mb_list_rec *area, uint32_t num, std::string &tmpMsgId );
-
-uint32_t buildmsgid ( uint32_t MsgID, mb_list_rec *area );
+BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int email=FALSE, UserRec *thisuser=NULL);
+uint32_t jamapi_readmsgid(mb_list_rec *area, uint32_t num, std::string &tmpMsgId);
+uint32_t buildmsgid(uint32_t MsgID, mb_list_rec *area);
 
 #endif

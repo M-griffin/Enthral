@@ -43,7 +43,6 @@ extern std::string screen_buffer;
 # define ESC             '\x1b'
 # define BS              0x08
 # define DEL             0x7f
-
 # define CTRLA           0x01
 # define CTRLB           0x02
 # define CTRLC           0x03
@@ -74,7 +73,6 @@ extern std::string screen_buffer;
 // This holds the info for each Telnet Session
 // For passing Between Classes
 //________________________________________________________________
-
 
 extern char BBSPATH[PATH_MAX];
 extern char DATAPATH[PATH_MAX];
@@ -110,9 +108,7 @@ extern int  MAX_NODES;
 extern int  isSysop;     // Exclusive Message Board Access to Sysop Areas!  HACK!!
 extern char SYSOP_NAME[80];
 extern char SYSTEM_NAME[80];
-
 extern char CLIENT_TERM[255];
-
 extern char STARTUP_SCRIPT[255];
 extern char STARTUP_SCRIPT2[255];
 
@@ -166,7 +162,7 @@ typedef struct LineRec
 
 } LineRec;
 
-typedef struct __attribute__ ( ( packed ) ) FILEAREA
+typedef struct __attribute__((packed)) FILEAREA
 {
     uint32_t  idx;         // Index in Dat files
     uint32_t  num;         // Number of Files in Base
@@ -183,9 +179,8 @@ struct ListItem
 };
 
 /// Just a rough draft, redo file layout!
-typedef struct __attribute__ ( ( packed ) ) FILES
+typedef struct __attribute__((packed)) FILES
 {
-
     uint32_t idx;         // Index in Dat files
     uint8_t name[80];     // Filename
     //long Date;          // Date Uploaded
@@ -224,13 +219,13 @@ struct ListItem2
     struct ListItem *next;
 };
 
-typedef struct __attribute__ ( ( packed ) ) LangRec
+typedef struct __attribute__((packed)) LangRec
 {
     uint8_t Lang[1024];
 
 } LangRec;
 
-typedef struct __attribute__ ( ( packed ) ) MenuFlags
+typedef struct __attribute__((packed)) MenuFlags
 {
     bool ClrScrBefore;  // clear screen before menu display
     bool NoMenuPrompt;  // no menu prompt whatsoever?
@@ -250,7 +245,6 @@ typedef struct MenuRec
     std::string MenuPrompt;   // menu prompt
     std::string Acs;          // access requirements
     std::string Password;     // password required
-
     uint16_t  ForceInput;     // 0 user defaults, 1 Hotkeys 1 ENTER
     uint16_t  ForceHelpLevel; // 0 user defaults, 1 force display, 0 force expert
     bool      Lightbar;       // Lightbar Menu?
@@ -285,26 +279,25 @@ typedef struct PASSING
 } PASSING;
 
 
-typedef struct __attribute__ ( ( packed ) ) Callers
+typedef struct __attribute__((packed)) Callers
 {
     uint32_t idx;
     uint32_t dtLastOn;
 
 } Callers;
 
-typedef struct __attribute__ ( ( packed ) ) UserIdx
+typedef struct __attribute__((packed)) UserIdx
 {
     uint8_t  handle[30];
     uint32_t num;
 
 } UserIdx;
 
-typedef struct __attribute__ ( ( packed ) ) UserRec
+typedef struct __attribute__((packed)) UserRec
 {
     uint32_t
     idx,
     num;
-
     // Stats Info
     uint8_t
     handle[30],
@@ -318,13 +311,11 @@ typedef struct __attribute__ ( ( packed ) ) UserRec
     c_answer[80],
     msg_txtcolor[3],
     msg_quotecolor[3];
-
     // Stats
     int32_t
     dtbday,
     dtfirston,
     dtlaston;
-
     uint32_t
     lastmbarea,
     lastmsg,
@@ -342,12 +333,10 @@ typedef struct __attribute__ ( ( packed ) ) UserRec
     UploadKb,
     Downloads,
     DownloadKb;
-
     uint16_t
     bsdel_swap,
     unused,
     emprivate;
-
     // FS Message Reader Options
     uint16_t
     readertheme,
@@ -358,20 +347,19 @@ typedef struct __attribute__ ( ( packed ) ) UserRec
 } UserRec;
 
 
-typedef struct __attribute__ ( ( packed ) ) fidoaddr
+typedef struct __attribute__((packed)) fidoaddr
 {
     uint16_t
     zone,
     net,
     node,
     point;
-
     uint8_t
     domain[13];
 
 } fidoaddr;
 
-typedef struct __attribute__ ( ( packed ) ) mbareaflags
+typedef struct __attribute__((packed)) mbareaflags
 {
     uint8_t mbrealname;
     uint8_t mbvisible;       // Sysop Only!!
@@ -387,7 +375,7 @@ typedef struct __attribute__ ( ( packed ) ) mbareaflags
 
 } mbareaflags;
 
-typedef struct __attribute__ ( ( packed ) ) mb_list_rec
+typedef struct __attribute__((packed)) mb_list_rec
 {
     uint16_t idx;
     uint16_t Type;
@@ -417,8 +405,7 @@ typedef struct __attribute__ ( ( packed ) ) mb_list_rec
 
 } mb_list_rec;
 
-
-typedef struct __attribute__ ( ( packed ) ) fb_list_rec
+typedef struct __attribute__((packed)) fb_list_rec
 {
     uint16_t idx;
     uint16_t Type;               // JAM
@@ -449,7 +436,7 @@ typedef struct __attribute__ ( ( packed ) ) fb_list_rec
 
 } fb_list_rec;
 
-typedef struct __attribute__ ( ( packed ) ) LastRead
+typedef struct __attribute__((packed)) LastRead
 {
     uint32_t UserCRC;     // CRC-32 of user name (lowercase)  (1)
     uint32_t UserID;      // Unique UserID
@@ -458,7 +445,7 @@ typedef struct __attribute__ ( ( packed ) ) LastRead
 
 } LastRead;
 
-typedef struct __attribute__ ( ( packed ) ) EmailIdx
+typedef struct __attribute__((packed)) EmailIdx
 {
     uint32_t  UserID;      // Unique UserID of Email TO:
     uint16_t  New;         // Read / Unread Message
@@ -466,7 +453,7 @@ typedef struct __attribute__ ( ( packed ) ) EmailIdx
 
 } EmailIdx;
 
-typedef struct __attribute__ ( ( packed ) ) JamIndex
+typedef struct __attribute__((packed)) JamIndex
 {
     uint32_t CRC;          // CRC-32 of user name (lowercase)  (1)
     uint32_t OffSet;       // Message Text Offset
@@ -485,7 +472,7 @@ typedef struct __attribute__((packed)) MsgStats {
 } MsgStats; */
 
 
-typedef struct __attribute__ ( ( packed ) ) NewScan
+typedef struct __attribute__((packed)) NewScan
 {
     uint16_t set;      // TRUE / FALSE if this area is to be scanned.
 
@@ -502,7 +489,6 @@ typedef struct DataArea
     uint16_t        PageBreak;  // 0 Ignore, else break on this man for next page.
 
 } DataArea;
-
 
 typedef struct DataRec
 {
@@ -523,7 +509,7 @@ typedef struct DataRec
 
 } DataRec;
 
-typedef struct __attribute__ ( ( packed ) ) History
+typedef struct __attribute__((packed)) History
 {
     uint32_t Calls;
     uint32_t Emails;
@@ -544,7 +530,7 @@ typedef struct __attribute__ ( ( packed ) ) History
 } History;
 
 
-typedef struct __attribute__ ( ( packed ) ) MsgStats
+typedef struct __attribute__((packed)) MsgStats
 {
     uint32_t Unread;
     uint32_t Posts;
@@ -556,7 +542,7 @@ typedef struct __attribute__ ( ( packed ) ) MsgStats
 
 } MsgStats;
 
-typedef struct __attribute__ ( ( packed ) ) FileIdx
+typedef struct __attribute__((packed)) FileIdx
 {
     uint32_t idx;   // Extended Description Index
     uint32_t size;  // File Size
@@ -574,19 +560,19 @@ typedef struct __attribute__ ( ( packed ) ) FileIdx
  */
 
 // Message Base Structes
-typedef struct __attribute__ ( ( packed ) ) ACSrecL
+typedef struct __attribute__((packed)) ACSrecL
 {
     unsigned long onn,off;
 
 } ACSrecL;
 
-typedef struct __attribute__ ( ( packed ) ) ACSrecS
+typedef struct __attribute__((packed)) ACSrecS
 {
     unsigned short onn,off;
 
 } ACSrecS;
 
-typedef struct __attribute__ ( ( packed ) ) ACSrec
+typedef struct __attribute__((packed)) ACSrec
 {
     ACSrecL mgroup,
     fgroup;
@@ -613,7 +599,7 @@ typedef struct __attribute__ ( ( packed ) ) ACSrec
 
 } ACSrec;
 
-typedef struct __attribute__ ( ( packed ) ) fidoaddr_OLD
+typedef struct __attribute__((packed)) fidoaddr_OLD
 {
     unsigned
     short  zone,
@@ -626,7 +612,7 @@ typedef struct __attribute__ ( ( packed ) ) fidoaddr_OLD
 
 } fidoaddr_OLD;
 
-typedef struct __attribute__ ( ( packed ) ) mbareaflags_OLD
+typedef struct __attribute__((packed)) mbareaflags_OLD
 {
     char mbrealname;
     char mbvisible;       // Sysop Only!!
@@ -642,7 +628,7 @@ typedef struct __attribute__ ( ( packed ) ) mbareaflags_OLD
 
 } mbareaflags_OLD;
 
-typedef struct __attribute__ ( ( packed ) ) mb_list_rec_OLD
+typedef struct __attribute__((packed)) mb_list_rec_OLD
 {
     int idx;
     int Type;

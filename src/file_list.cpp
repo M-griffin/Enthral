@@ -26,18 +26,16 @@
 # include <cstdio>
 # include <cstring> // gcc 4.3
 # include <cstdlib> // gcc 4.3
-
 # include <ctime>
 # include <cctype>
-
 # include <fstream>
 # include <string>
 
 using namespace std;
+
 /*
 bool filelist_ini::filelist_exists()
 {
-
     iTop = 0;
     iBot = 0;
 

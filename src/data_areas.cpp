@@ -24,84 +24,71 @@
 # include "dtfunc.h"
 
 # include <iostream>
-
 # include <unistd.h>
 # include <stdio.h>
 # include <string>
 # include <fstream>
 # include <string>
-
 # include <cstring>
 # include <cstdlib>
-
-# define ulong unsigned long
 
 using namespace std;
 
 // Setup lock file for this data area only.
-int data_area::data_lockSet ( int onoff )
+int data_area::data_lockSet(int onoff)
 {
-
     std::string path = LOCKPATH;
     path += _curarea;
     path += ".lck";
 
-    if ( !onoff )
+    if(!onoff)
     {
-        remove ( ( char * ) path.c_str() );
+        remove((char *) path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-
-    while ( 1 )
+    while(1)
     {
-        stream = fopen ( path.c_str(),"rb+" );
-
-        if ( stream == NULL )
+        stream = fopen(path.c_str(),"rb+");
+        if(stream == NULL)
         {
-            stream = fopen ( path.c_str(), "wb" );
-
-            if ( stream == NULL )
+            stream = fopen(path.c_str(), "wb");
+            if(stream == NULL)
             {
                 //elog("Error history.lck!");
                 return FALSE;
             }
             else
             {
-                fclose ( stream );
+                fclose(stream);
                 return TRUE;
             }
         }
-
-        fclose ( stream );
-        usleep ( 10*20000 );
+        fclose(stream);
+        usleep(10*20000);
     }
 }
 
 
-void data_area::chkparse ( std::string &temp )
+void data_area::chkparse(std::string &temp)
 {
-
     std::string temp1;
     unsigned int st1 = -1;
     unsigned int st2 = -1;
     unsigned int  ct = -1;
 
-    st1 = temp.find ( '"', 0 );
-    st2 = temp.find ( '"', st1+1 );
-
-    if ( st1 != std::string::npos &&
-            st2 != std::string::npos )
+    st1 = temp.find('"', 0);
+    st2 = temp.find('"', st1+1);
+    if(st1 != std::string::npos &&
+            st2 != std::string::npos)
     {
         ++st1;
-        temp1 = temp.substr ( st1,st2 );
+        temp1 = temp.substr(st1,st2);
         ct = st2 - st1;
-
-        if ( temp1.length() > ct )
-            temp1.erase ( ct,temp1.length() );
-
+        if(temp1.length() > ct)
+            temp1.erase(ct,temp1.length());
         temp = temp1;
     }
     else
@@ -109,242 +96,205 @@ void data_area::chkparse ( std::string &temp )
 }
 
 
-int data_area::da_parse ( std::string cfgdata )
+int data_area::da_parse(std::string cfgdata)
 {
-
     // Disgards any Config lines with the # Character
-    if ( cfgdata[0] == '#' ) return FALSE;
-    else if ( cfgdata.find ( "AreaName ", 0 ) !=
-              std::string::npos )
+    if(cfgdata[0] == '#') return FALSE;
+    else if(cfgdata.find("AreaName ", 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         datar2->AreaName = cfgdata;
         return FALSE;
     }
-    else if ( cfgdata.find ( "FileName ", 0 ) !=
-              std::string::npos )
+    else if(cfgdata.find("FileName ", 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         datar2->AreaFileName = cfgdata;
         return FALSE;
     }
-    else if ( cfgdata.find ( "AnsiFile ", 0 ) !=
-              std::string::npos )
+    else if(cfgdata.find("AnsiFile ", 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         datar2->AnsiFile = cfgdata;
         return FALSE;
     }
-    else if ( cfgdata.find ( "AnsiMid ", 0 ) !=
-              std::string::npos )
+    else if(cfgdata.find("AnsiMid ", 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         datar2->AnsiMid = cfgdata;
         return FALSE;
     }
-    else if ( cfgdata.find ( "NumOfRecs ", 0 ) !=
-              std::string::npos )
+    else if(cfgdata.find("NumOfRecs ", 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
-        datar2->NumOfRecs = atoi ( ( char * ) cfgdata.c_str() );
+        chkparse(cfgdata);
+        datar2->NumOfRecs = atoi((char *) cfgdata.c_str());
         return TRUE;
     }
-
-    return FALSE;
-
-    if ( cfgdata.find ( "PageBreak ", 0 ) !=
-            std::string::npos )
-    {
-        chkparse ( cfgdata );
-        datar2->PageBreak = atoi ( ( char * ) cfgdata.c_str() );
-        return TRUE;
-    }
-
     return FALSE;
 }
 
-
-
-int data_area::da_read ( char *FileName )
+int data_area::da_read(char *FileName)
 {
-
     std::string path = DAPATH;
     path += FileName;
     path += ".txt";
 
     ifstream iNS3;
-    iNS3.open ( path.c_str() );
-
-    if ( !iNS3.is_open() )
+    iNS3.open(path.c_str());
+    if(!iNS3.is_open())
     {
         //elog("Couldn't Open DataArea: %s\n", path.c_str());
         return FALSE;
     }
 
     std::string cfgdata;
-
-    for ( ;; )
+    for(;;)
     {
-        if ( iNS3.eof() ) break;
-
-        std::getline ( iNS3,cfgdata );
-
-        if ( iNS3.eof() ) break;
-
-        if ( da_parse ( cfgdata ) == TRUE ) break;
+        if(iNS3.eof()) break;
+        std::getline(iNS3,cfgdata);
+        if(iNS3.eof()) break;
+        if(da_parse(cfgdata) == TRUE) break;
     }
 
     iNS3.close();
     return TRUE;
 }
 
-
-void data_area::rec_parse ( std::string cfgdata, int idx )
+void data_area::rec_parse(std::string cfgdata, int idx)
 {
-
     // Disgards any Config lines with the # Character
     char sText[200] = {0};
 
-    if ( cfgdata[0] == '#' ) return ;
-
-    sprintf ( sText,"Desc[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    if(cfgdata[0] == '#') return ;
+    sprintf(sText,"Desc[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].Desc = cfgdata;
         return;
     }
 
-    sprintf ( sText,"Prompt[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"Prompt[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].Prompt = cfgdata;
         return;
     }
 
-    sprintf ( sText,"Size[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 )
-            != std::string::npos )
+    sprintf(sText,"Size[%.03d]",idx);
+    if(cfgdata.find(sText, 0)
+            != std::string::npos)
     {
-        chkparse ( cfgdata );
-        cmdr2[idx].Size = atoi ( ( char * ) cfgdata.c_str() );
+        chkparse(cfgdata);
+        cmdr2[idx].Size = atoi((char *) cfgdata.c_str());
         return;
     }
 
-    sprintf ( sText,"CKeys[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"CKeys[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].CKeys = cfgdata;
         return;
     }
 
-    sprintf ( sText,"CmdType[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"CmdType[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].CmdType = cfgdata;
         return;
     }
 
-    sprintf ( sText,"MString[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"MString[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].MString = cfgdata;
         return;
     }
 
-    sprintf ( sText,"MciCode[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"MciCode[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].MciCode = cfgdata;
         return;
     }
 
-    sprintf ( sText,"HiString[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"HiString[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].HiString = cfgdata;
         return;
     }
 
-    sprintf ( sText,"LoString[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"LoString[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
+        chkparse(cfgdata);
         cmdr2[idx].LoString = cfgdata;
         return;
     }
 
-    sprintf ( sText,"Xcoord[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"Xcoord[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
-        cmdr2[idx].Xcoord = atoi ( ( char * ) cfgdata.c_str() );
+        chkparse(cfgdata);
+        cmdr2[idx].Xcoord = atoi((char *) cfgdata.c_str());
         return;
     }
 
-    sprintf ( sText,"Ycoord[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"Ycoord[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
-        cmdr2[idx].Ycoord = atoi ( ( char * ) cfgdata.c_str() );
+        chkparse(cfgdata);
+        cmdr2[idx].Ycoord = atoi((char *) cfgdata.c_str());
         return;
     }
 
-    sprintf ( sText,"LBarCmd[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"LBarCmd[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
-        ( cfgdata == "TRUE" ) ?
+        chkparse(cfgdata);
+        (cfgdata == "TRUE") ?
         cmdr2[idx].LBarCmd = TRUE :
                              cmdr2[idx].LBarCmd = FALSE;
         return;
     }
 
-    sprintf ( sText,"MCICmd[%.03d]",idx );
-
-    if ( cfgdata.find ( sText, 0 ) !=
-            std::string::npos )
+    sprintf(sText,"MCICmd[%.03d]",idx);
+    if(cfgdata.find(sText, 0) !=
+            std::string::npos)
     {
-        chkparse ( cfgdata );
-        ( cfgdata == "TRUE" ) ?
+        chkparse(cfgdata);
+        (cfgdata == "TRUE") ?
         cmdr2[idx].MCICmd = TRUE :
                             cmdr2[idx].MCICmd = FALSE;
         return;
     }
 }
 
-int data_area::rec_exist ( char *FileName, int idx )
+int data_area::rec_exist(char *FileName, int idx)
 {
-
     std::string path = DAPATH;
     path += FileName;
     path += ".txt";
@@ -353,51 +303,41 @@ int data_area::rec_exist ( char *FileName, int idx )
 
     // Open file for reading and parsing.
     ifstream iFS2;
-    iFS2.open ( path.c_str() );
-
-    if ( !iFS2.is_open() )
+    iFS2.open(path.c_str());
+    if(!iFS2.is_open())
     {
         //elog("\nCouldn't Open Data Area Commands: %s\n", path.c_str());
         return ret;
     }
 
     // Loop Through and Find the The Command
-    sprintf ( sText,"[DataRec%.03d]",idx );
+    sprintf(sText,"[DataRec%.03d]",idx);
     std::string cfgdata;
 
-    for ( ;; )
+    for(;;)
     {
-        std::getline ( iFS2,cfgdata );
-
-        if ( cfgdata.find ( sText,0 ) != std::string::npos ) ret = TRUE;
-
-        if ( iFS2.eof() ) break;
+        std::getline(iFS2,cfgdata);
+        if(cfgdata.find(sText,0) != std::string::npos) ret = TRUE;
+        if(iFS2.eof()) break;
     }
-
     iFS2.close();
     return ret;
-
 }
 
 // Right now this loops through the menu too many times! haha
 // Make it parse once for the max command rec found, save cpu! :)
-int data_area::rec_cnt ( char *MenuName )
+int data_area::rec_cnt(char *MenuName)
 {
-
     int  cnt = 0;
-
-    while ( rec_exist ( MenuName,cnt ) )
+    while(rec_exist(MenuName,cnt))
     {
         ++cnt;
     }
-
     return cnt;
 }
 
-
-int data_area::rec_read ( char *FileName, int idx )
+int data_area::rec_read(char *FileName, int idx)
 {
-
     std::string path = DAPATH;
     path += FileName;
     path += ".txt";
@@ -405,39 +345,30 @@ int data_area::rec_read ( char *FileName, int idx )
     //check if the command can be found in the file, else return false!
     // Don't need to Run through parsing each command,
     // Just do an initial Cnt_cmds and don't go over it! :)
-    int ret = rec_exist ( FileName,idx );
-
-    if ( ret == FALSE ) return FALSE;
-
+    int ret = rec_exist(FileName,idx);
+    if(ret == FALSE) return FALSE;
     int skip = FALSE;
-
 
     // Else Read and Parse it
     ifstream iFS;
-    iFS.open ( path.c_str() );
-
-    if ( !iFS.is_open() )
+    iFS.open(path.c_str());
+    if(!iFS.is_open())
     {
         //elog("** Couldn't Open Data Area: %s\n", path.c_str());
         return FALSE;
     }
 
     std::string cfgdata;
-
-    for ( ;; )
+    for(;;)
     {
-        std::getline ( iFS,cfgdata );
+        std::getline(iFS,cfgdata);
         // If lines are commented out.
-
         // if (cfgdata == "/*") skip = TRUE;
         // else
         // if (cfgdata == "*/") skip = FALSE;
-
-        if ( skip == FALSE ) rec_parse ( cfgdata,idx );
-
-        if ( iFS.eof() ) break;
+        if(skip == FALSE) rec_parse(cfgdata,idx);
+        if(iFS.eof()) break;
     }
-
     iFS.close();
     return TRUE;
 }
@@ -445,28 +376,24 @@ int data_area::rec_read ( char *FileName, int idx )
 // Hold Commands Per Menu being Read in.
 void data_area::insert_cmdr()
 {
-
     int idx = 0;
-
-    while ( rec_read ( _curarea,idx ) )
+    while(rec_read(_curarea,idx))
     {
         ++idx;
-
-        if ( noc == idx ) break;
+        if(noc == idx) break;
     }
 
     //elog("insert_cmdr() : %i Commands Inserted",idx);
-
     // display_commands(); // {Test to Double Check What Commands
     // And All The fields for each command were loaded.
 
     inNoc = 0;
 
     // Run through and Setup Input Commands.
-    for ( int i = 0; i != noc; i++ )
+    for(int i = 0; i != noc; i++)
     {
         // Run through and Sort Input Commands.
-        if ( cmdr2[i].CmdType == "IN" )
+        if(cmdr2[i].CmdType == "IN")
         {
             inexecnum[inNoc] = i; // don't think this is needed.
             cmdr2[i].idx = inNoc+1; // == 1 and up... 0 = none.
@@ -477,7 +404,7 @@ void data_area::insert_cmdr()
             cmdr2[i].idx = 0;
         }
 
-        if ( cmdr2[i].MCICmd == TRUE )
+        if(cmdr2[i].MCICmd == TRUE)
         {
             //elog("Found MCI Command : %i..",inNoc);
             //elog("MCI Command String: %s..",(char *)cmdr2[i].MString.c_str());
@@ -486,17 +413,15 @@ void data_area::insert_cmdr()
 
     // Allocate Data Area Record Array for Saving Input.
     //elog("Allocating Memory for inArray: inNoc -> %i..",inNoc);
-    if ( inNoc != 0 )
+    if(inNoc != 0)
     {
         inArray = new std::string [inNoc+1];
-
-        if ( !inArray )
+        if(!inArray)
         {
             //elog("Unable to Allocate Memory for inArray: inNoc -> %i, returning...",inNoc);
             return;
         }
     }
-
     //elog("Done Allocating Memory for inArray: inNoc -> %i..",inNoc);
 }
 
@@ -504,42 +429,36 @@ void data_area::insert_cmdr()
 // Read in Current Menu File
 int data_area::data_area_readin()
 {
-
     //elog("Readin() in Data Area: %s",_curarea);
-
     std::string path;
     path = DAPATH;
     path += _curarea;
     path += ".txt";
 
     FILE *fstr;
-    fstr = fopen ( path.c_str(),"rb+" );
-
-    if ( fstr == NULL )
+    fstr = fopen(path.c_str(),"rb+");
+    if(fstr == NULL)
     {
         //errlog((char *)"Data Area not Found! : %s, returning...",(char *)_curarea);
         return FALSE;
     }
-
-    fclose ( fstr );
+    fclose(fstr);
 
     // Setup The Data Area
     datar2 = new DataArea;
-
-    if ( !datar2 )
+    if(!datar2)
     {
 //        errlog((char *)"Unable to Allocate Memory for Data Area: %s, returning...",(char *)_curarea);
         return FALSE;
     }
 
     // Read in The Data Area Settings Only
-    da_read ( _curarea );
+    da_read(_curarea);
 
     // Allocate Data Area Commands
-    noc   = rec_cnt ( _curarea );
+    noc   = rec_cnt(_curarea);
     cmdr2 = new DataRec[noc+1];
-
-    if ( !cmdr2 )
+    if(!cmdr2)
     {
         //elog("Unable to Allocate Memory for Data Area Commands: %s, returning...",_curarea);
         return FALSE;
@@ -547,8 +466,7 @@ int data_area::data_area_readin()
 
     // Allocate Execution Order of Input Commands
     inexecnum = new short[noc+1];
-
-    if ( !inexecnum )
+    if(!inexecnum)
     {
         //elog("Unable to Allocate Memory for Data Area: %s - inexecnum[], returning...",_curarea);
         return FALSE;
@@ -561,17 +479,12 @@ int data_area::data_area_readin()
 
 void data_area::data_area_clear()
 {
-
     // fileArray & inputArray are allocated and killed on the fly.
     // The Rest are Data Settings and Comamnds which stay Global.
-    if ( datar2    != 0 ) delete    datar2;
-
-    if ( cmdr2     != 0 ) delete [] cmdr2;
-
-    if ( inexecnum != 0 ) delete [] inexecnum;
-
-    if ( inArray   != 0 ) delete [] inArray;
-
+    if(datar2    != 0) delete    datar2;
+    if(cmdr2     != 0) delete [] cmdr2;
+    if(inexecnum != 0) delete [] inexecnum;
+    if(inArray   != 0) delete [] inArray;
     datar2    = 0;
     cmdr2     = 0;
     inexecnum = 0;
@@ -583,7 +496,6 @@ void data_area::data_area_clear()
 // Processing for Menu's with Lightbars & Hotkeys.
 void data_area::process_data_area()
 {
-
     int xx      = 1;        // Holds X Coord
     int yy      = 1;        // Holds Y Coord
     int iNoc    = 0;        // Holds Lightbar # of choices
@@ -596,12 +508,10 @@ void data_area::process_data_area()
     std::string output;       // Buffer for writing all lightbars at the same time
     int       executed;       // Test's for hot keys commands excuted, if non pass through loop
     int       exe = 0;        // FIRSTCMD's Executed
-
     long cntEscCmds = 0;
 
-
     // If no Data Commands Return!
-    if ( noc == 0 )
+    if(noc == 0)
     {
         Data_Alive = FALSE;
         return;
@@ -609,51 +519,50 @@ void data_area::process_data_area()
 
     // Allocate Execution Order of Lightbar Commands
     execnum = new int[noc+1];
-
-    if ( !execnum )
+    if(!execnum)
     {
         //elog("Unable to Allocate Memory for Data Area: %s - execnum[], returning...",_curarea);
         return;
     }
 
     // Run throguh and Execute FIRSTCMD's then count lightbar commands.
-    for ( int i = 0; i != noc; i++ )
+    for(int i = 0; i != noc; i++)
     {
         // If we find a FIRSTCMD, Execute it right away!
-        if ( cmdr2[i].CKeys == "FIRSTCMD" )
+        if(cmdr2[i].CKeys == "FIRSTCMD")
         {
-            darea_docmd ( &cmdr2[i] );
+            darea_docmd(&cmdr2[i]);
             ++exe;
         }
         // Get/Count Ligthbar Commands
-        else if ( cmdr2[i].LBarCmd == TRUE )
+        else if(cmdr2[i].LBarCmd == TRUE)
         {
             execnum[iNoc] = i;
             ++iNoc;
         }
 
         // Count Escape Keys in Menu System to override passthrough
-        if ( cmdr2[i].CKeys == "ESC" )
+        if(cmdr2[i].CKeys == "ESC")
         {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }
-        else if ( cmdr2[i].CKeys == "LEFT" )
+        else if(cmdr2[i].CKeys == "LEFT")
         {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }
-        else if ( cmdr2[i].CKeys == "RIGHT" )
+        else if(cmdr2[i].CKeys == "RIGHT")
         {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }
-        else if ( cmdr2[i].CKeys == "UP" )
+        else if(cmdr2[i].CKeys == "UP")
         {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }
-        else if ( cmdr2[i].CKeys == "DOWN" )
+        else if(cmdr2[i].CKeys == "DOWN")
         {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
@@ -669,12 +578,12 @@ void data_area::process_data_area()
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }*/
-        else if ( cmdr2[i].CKeys == "PAGEUP" )
+        else if(cmdr2[i].CKeys == "PAGEUP")
         {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }
-        else if ( cmdr2[i].CKeys == "PAGEDN" )
+        else if(cmdr2[i].CKeys == "PAGEDN")
         {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
@@ -682,64 +591,58 @@ void data_area::process_data_area()
     }
 
     // If all Commands are FIRSTCMD's then return after execution.
-    if ( exe == noc )
+    if(exe == noc)
     {
         delete [] execnum;
         execnum = 0;
         return;
     }
 
-
     // Setup of first Command, Highlited menu lightbar
     output.erase();
 
     // Read Menu Ansi to String that will hold lightbars, Push to screen sametime
     // Will speed up display and make ghosting not apear as much
-    data_lockSet ( TRUE ); // Lock incase another node it trying to write it.
-
-    if ( datar2->AnsiFile != "" )
+    data_lockSet(TRUE);    // Lock incase another node it trying to write it.
+    if(datar2->AnsiFile != "")
     {
         //readinAnsi(datar2->AnsiFile,output);
-        ansiPrintf ( ( char * ) datar2->AnsiFile.c_str() );
+        ansiPrintf((char *) datar2->AnsiFile.c_str());
     }
-
-    data_lockSet ( FALSE );
+    data_lockSet(FALSE);
 
     // Draw Lightbar's
-    if ( iNoc > 0 )
+    if(iNoc > 0)
     {
         // Setup Initial Lightbar as Selected
         xx = cmdr2[execnum[0]].Xcoord;
         yy = cmdr2[execnum[0]].Ycoord;
-        sprintf ( outBuff,"\x1b[%i;%iH%s",yy,xx, ( char * ) cmdr2[execnum[0]].HiString.c_str() );
+        sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx, (char *) cmdr2[execnum[0]].HiString.c_str());
         output += outBuff;
 
         // Setup of Remaining Lightbars in Low highlight Form
-        for ( int rep = 1; rep != iNoc; rep++ )
+        for(int rep = 1; rep != iNoc; rep++)
         {
             xx = cmdr2[execnum[rep]].Xcoord;
             yy = cmdr2[execnum[rep]].Ycoord;
-            sprintf ( outBuff,"\x1b[%i;%iH%s",yy,xx, ( char * ) cmdr2[execnum[rep]].LoString.c_str() );
+            sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx, (char *) cmdr2[execnum[rep]].LoString.c_str());
             output += outBuff;
         }
-
         // Write out all the Lightbars * and reset cursor position.
         output += "\x1b[24;79H";
-        pipe2ansi ( ( char* ) output.c_str() );
+        pipe2ansi((char*) output.c_str());
     }
 
     // Handle Lightbar Movement, and HotKey Input Processing.
     std::string sMenu = _curarea;
-
-    while ( Data_Alive )
+    while(Data_Alive)
     {
-        memset ( &EscapeKey,0,sizeof ( EscapeKey ) );
-        c = ( char ) getkey ( true );
-
-        if ( iNoc > 0 )
+        memset(&EscapeKey,0,sizeof(EscapeKey));
+        c = (char) getkey(true);
+        if(iNoc > 0)
         {
             // Check here for Arrow Key / Escaped Input was Received
-            if ( ( int ) c == 27 )
+            if((int) c == 27)
             {
                 cc = EscapeKey[1];
                 EscHit = true;
@@ -761,8 +664,7 @@ void data_area::process_data_area()
         }*/
 
         executed = 0;
-
-        if ( EscHit ) // Input Key is Escaped Meaning Arrow Keys
+        if(EscHit)    // Input Key is Escaped Meaning Arrow Keys
         {
             // Skip Moving Lightbars with Up/Dn Keys if were in Message Prompt
             /*
@@ -770,170 +672,154 @@ void data_area::process_data_area()
                 if (cc == 'A') cc = 'D';
                 else if (cc == 'B') cc = 'C';
             }*/
-            if ( cntEscCmds > 0 ) // ESC Commands in Menu might overide lightbars.
+            if(cntEscCmds > 0)    // ESC Commands in Menu might overide lightbars.
             {
-                for ( int ckey = 0; ckey != cntEscCmds; ckey++ )
+                for(int ckey = 0; ckey != cntEscCmds; ckey++)
                 {
-
-                    if ( cc == '\0' || cc == ' ' )
+                    if(cc == '\0' || cc == ' ')
                     {
-                        if ( cmdr2[execnum3[ckey]].CKeys == "ESC" )
+                        if(cmdr2[execnum3[ckey]].CKeys == "ESC")
                         {
                             //elog("- ESC EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-
                             ++executed;
                             //menu_docmd(cmdr2[execnum3[ckey]].CmdKeys,cmdr2[execnum3[ckey]].MString);
-                            darea_docmd ( &cmdr2[execnum3[ckey]] );
+                            darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
                     }
-                    else if ( cc == 'A' )
+                    else if(cc == 'A')
                     {
-                        if ( cmdr2[execnum3[ckey]].CKeys == "UP" )
+                        if(cmdr2[execnum3[ckey]].CKeys == "UP")
                         {
                             //elog("- UP EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-
                             ++executed;
-                            darea_docmd ( &cmdr2[execnum3[ckey]] );
+                            darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
                     }
-                    else if ( cc == 'B' )
+                    else if(cc == 'B')
                     {
-                        if ( cmdr2[execnum3[ckey]].CKeys == "DOWN" )
+                        if(cmdr2[execnum3[ckey]].CKeys == "DOWN")
                         {
                             //elog("- DOWN EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-
                             ++executed;
-                            darea_docmd ( &cmdr2[execnum3[ckey]] );
+                            darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
                     }
-                    else if ( cc == 'C' )
+                    else if(cc == 'C')
                     {
-                        if ( cmdr2[execnum3[ckey]].CKeys == "RIGHT" )
+                        if(cmdr2[execnum3[ckey]].CKeys == "RIGHT")
                         {
                             //elog("- RIGHT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-
                             ++executed;
-                            darea_docmd ( &cmdr2[execnum3[ckey]] );
+                            darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
                     }
-                    else if ( cc == 'D' )
+                    else if(cc == 'D')
                     {
-                        if ( cmdr2[execnum3[ckey]].CKeys == "LEFT" )
+                        if(cmdr2[execnum3[ckey]].CKeys == "LEFT")
                         {
                             //elog("- LEFT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-
                             ++executed;
-                            darea_docmd ( &cmdr2[execnum3[ckey]] );
+                            darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
                     }
                 }
-
                 // Executed == 0, Then Key Pressed was not valid! :)
                 // Pass through the ESC then
                 //if (tScroll) p->Active = false;
-                if ( executed > 0 )
+                if(executed > 0)
                 {
                     delete [] execnum;
                     execnum = 0;
                     return;
                 }
             }
-
-
-
-            if ( iNoc > 0 ) // Make Sure we have ligthbar Commands.
+            if(iNoc > 0)    // Make Sure we have ligthbar Commands.
             {
-                if ( cc == 'A' ) cc = 'D';
-                else if ( cc == 'B' ) cc = 'C';
-
-                if ( cc == 'D' )   // Up & Left
+                // Reassign up and down to left and right.
+                if(cc == 'A') cc = 'D';
+                else if(cc == 'B') cc = 'C';
+                if(cc == 'D')      // Up & Left
                 {
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s",yy,xx, ( char * ) cmdr2[execnum[choice]].LoString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx, (char *) cmdr2[execnum[choice]].LoString.c_str());
                     output += outBuff;
-
-                    if ( choice == 0 ) choice = iNoc-1;
+                    if(choice == 0) choice = iNoc-1;
                     else --choice;
-
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, ( char * ) cmdr2[execnum[choice]].HiString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, (char *) cmdr2[execnum[choice]].HiString.c_str());
                     output += outBuff;
                     // Send Lightbar output
-                    pipe2ansi ( ( char* ) output.c_str() );
+                    pipe2ansi((char*) output.c_str());
                 }
-                else if ( cc == 'C' ) // Down & Right
+                else if(cc == 'C')    // Down & Right
                 {
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s",yy,xx, ( char * ) cmdr2[execnum[choice]].LoString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx, (char *) cmdr2[execnum[choice]].LoString.c_str());
                     output += outBuff;
-
-                    if ( choice == iNoc-1 ) choice = 0;
+                    if(choice == iNoc-1) choice = 0;
                     else ++choice;
-
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, ( char * ) cmdr2[execnum[choice]].HiString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, (char *) cmdr2[execnum[choice]].HiString.c_str());
                     output += outBuff;
                     // Send Lightbar output
-                    pipe2ansi ( ( char* ) output.c_str() );
+                    pipe2ansi((char*) output.c_str());
                 }
-                else if ( cc == 'H' || cc == '1' ) //&& menur2.MFlags.EscPassing == TRUE) { // Home Key
+                else if(cc == 'H' || cc == '1')    //&& menur2.MFlags.EscPassing == TRUE) { // Home Key
                 {
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s",yy,xx, ( char * ) cmdr2[execnum[choice]].LoString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx, (char *) cmdr2[execnum[choice]].LoString.c_str());
                     output += outBuff;
                     choice = 0;
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, ( char * ) cmdr2[execnum[choice]].HiString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, (char *) cmdr2[execnum[choice]].HiString.c_str());
                     output += outBuff;
                     // Send Lightbar output
-                    pipe2ansi ( ( char* ) output.c_str() );
+                    pipe2ansi((char*) output.c_str());
                 }
-                else if ( cc == '4' || cc == 'K' || cc == 'F' ) //&& menur2.MFlags.EscPassing == TRUE) { // End Key
+                else if(cc == '4' || cc == 'K' || cc == 'F')    //&& menur2.MFlags.EscPassing == TRUE) { // End Key
                 {
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s",yy,xx, ( char * ) cmdr2[execnum[choice]].LoString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx, (char *) cmdr2[execnum[choice]].LoString.c_str());
                     output += outBuff;
                     choice = iNoc-1;
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
-                    sprintf ( outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, ( char * ) cmdr2[execnum[choice]].HiString.c_str() );
+                    sprintf(outBuff,"\x1b[%i;%iH%s\x1b[24;79H",yy,xx, (char *) cmdr2[execnum[choice]].HiString.c_str());
                     output += outBuff;
                     // Send Lightbar output
-                    pipe2ansi ( ( char* ) output.c_str() );
+                    pipe2ansi((char*) output.c_str());
                 }
                 else
                 {
                     // If we have Escape, check if menu command, otherwise pass it through!
                     // Lateron Add SAPCE and TAB
-                    if ( cc == '\0' || cc == ' ' )
+                    if(cc == '\0' || cc == ' ')
                     {
                         executed = 0;
-
-                        for ( int ckey = 0; ckey != noc; ckey++ )
+                        for(int ckey = 0; ckey != noc; ckey++)
                         {
-                            if ( cmdr2[ckey].CKeys == "ESC" )
+                            if(cmdr2[ckey].CKeys == "ESC")
                             {
                                 //if (tScroll) p->Active = false;
                                 ++executed;
-                                darea_docmd ( &cmdr2[ckey] );
+                                darea_docmd(&cmdr2[ckey]);
                                 //strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys);
                             }
                         }
-
                         // Executed == 0, Then Key Pressed was not valid! :)
-                        if ( executed > 0 )
+                        if(executed > 0)
                         {
                             delete [] execnum;
                             execnum = 0;
@@ -952,21 +838,19 @@ void data_area::process_data_area()
             {
                 // If we have Escape, check if menu command, otherwise pass it through!
                 // Lateron Add SAPCE and TAB
-                if ( cc == '\0' || cc == ' ' )
+                if(cc == '\0' || cc == ' ')
                 {
                     executed = 0;
-
-                    for ( int ckey = 0; ckey != noc; ckey++ )
+                    for(int ckey = 0; ckey != noc; ckey++)
                     {
-                        if ( cmdr2[ckey].CKeys == "ESC" )
+                        if(cmdr2[ckey].CKeys == "ESC")
                         {
                             //if (tScroll) p->Active = false;
                             ++executed;
-                            darea_docmd ( &cmdr2[ckey] );
+                            darea_docmd(&cmdr2[ckey]);
                             //strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys);
                         }
                     }
-
                     // Executed == 0, Then Key Pressed was not valid! :)
                     delete [] execnum;
                     execnum = 0;
@@ -986,25 +870,23 @@ void data_area::process_data_area()
         {
             // If Enter, Return Cmd # of Lightbar Executed
             // also catch any stacked keys and execute in order!
-            if ( ( int ) c == 10 )
+            if((int) c == 10)
             {
                 executed = 0;
-
                 // Here Loop through and execute stacked Commands
-                for ( int ckey = 0; ckey != noc; ckey++ )
+                for(int ckey = 0; ckey != noc; ckey++)
                 {
-                    if ( cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys )
+                    if(cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys)
                     {
                         //if (tScroll) p->Active = false;
                         ++executed;
                         //elog(" * menu - darea_docmd - %s / CmdType",(char *)cmdr2[ckey].CmdType.c_str());
                         //elog(" * menu - darea_docmd - %s / CKeys",(char *)cmdr2[ckey].CKeys.c_str());
-                        darea_docmd ( &cmdr2[ckey] );
+                        darea_docmd(&cmdr2[ckey]);
                         //strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys);
                     }
                 }
-
-                if ( executed > 0 )
+                if(executed > 0)
                 {
                     delete [] execnum;    // Else Loop..
                     execnum = 0;
@@ -1016,33 +898,30 @@ void data_area::process_data_area()
             {
                 executed = 0;      // Normal Key Inputed, if Match's
                 std::string t1;
-
-                for ( int ckey = 0; ckey != noc; ckey++ ) // Loop and Run Stacked Commands.
+                for(int ckey = 0; ckey != noc; ckey++)    // Loop and Run Stacked Commands.
                 {
-                    if ( c == 32 ) // Else check if it's a spacebar
+                    if(c == 32)    // Else check if it's a spacebar
                     {
-                        if ( cmdr2[ckey].CKeys == "SPACE" )
+                        if(cmdr2[ckey].CKeys == "SPACE")
                         {
                             //if (tScroll) p->Active = false;
                             ++executed;
-                            darea_docmd ( &cmdr2[ckey] );
+                            darea_docmd(&cmdr2[ckey]);
                             //strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys);
                         }
                     }
                     else // Check any remaining Keys Hot Key Input.
-                        if ( cmdr2[ckey].CKeys[0] == toupper ( c ) && cmdr2[ckey].CKeys.size() < 2 )
+                        if(cmdr2[ckey].CKeys[0] == toupper(c) && cmdr2[ckey].CKeys.size() < 2)
                         {
                             //if (tScroll) p->Active = false;
                             ++executed;
-                            darea_docmd ( &cmdr2[ckey] );
+                            darea_docmd(&cmdr2[ckey]);
                             //strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys);
                         }
-
                     // Add Any More Spelized Menu Input Keys here.
                 }
-
                 // Executed == 0, Then Key Pressed was not valid!, and no stacked commands to loop :)
-                if ( executed > 0 )
+                if(executed > 0)
                 {
                     delete [] execnum;    // Else Loop..
                     execnum = 0;
@@ -1051,16 +930,13 @@ void data_area::process_data_area()
             }
         }
     }
-
-    if ( execnum > 0 ) delete [] execnum;
-
+    if(execnum > 0) delete [] execnum;
     execnum = 0;
 }
 
 // Setup for MCI Code Parsing in Data AReas, Move this to Conio Soon!!
-void data_area::parsemci ( DataRec *cmdr )
+void data_area::parsemci(DataRec *cmdr)
 {
-
     History hist; // Struct
     msgs mf;
     mb_list_rec mr;
@@ -1068,191 +944,184 @@ void data_area::parsemci ( DataRec *cmdr )
     unsigned char c1 = cmdr->MString[0];
     unsigned char c2 = cmdr->MString[1];
     unsigned char c3 = cmdr->MString[2];
-    memset ( &hist,0,sizeof ( History ) );
+    memset(&hist,0,sizeof(History));
 
     char sText[200];
-
-    if ( c1 != '%' ) return;
+    if(c1 != '%') return;
 
     //elog("3. parsemci() IN; %c%c%c",c1,c2,c3);
-
-    switch ( c2 )
+    switch(c2)
     {
         case 'U' : // User MCI Codes
-            switch ( c3 )
+            switch(c3)
             {
-
                 case '#' :
                     inArray[cmdr->idx-1] = thisuser->idx;
                     break;
 
                 case 'H' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->handle;
+                    inArray[cmdr->idx-1] = (char *) thisuser->handle;
                     break;
 
                 case 'N' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->name;
+                    inArray[cmdr->idx-1] = (char *) thisuser->name;
                     break;
 
                 case 'P' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->password;
+                    inArray[cmdr->idx-1] = (char *) thisuser->password;
                     break;
 
                 case 'G' :
-                    inArray[cmdr->idx-1] = ( toupper ( thisuser->sex ) == 'M' ) ? "Male" : "Female";
+                    inArray[cmdr->idx-1] = (toupper(thisuser->sex) == 'M') ? "Male" : "Female";
                     break;
 
                 case 'E' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->email;
+                    inArray[cmdr->idx-1] = (char *) thisuser->email;
                     break;
 
                 case 'O' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->usernote;
+                    inArray[cmdr->idx-1] = (char *) thisuser->usernote;
                     break;
 
                 case 'S' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->startmenu;
+                    inArray[cmdr->idx-1] = (char *) thisuser->startmenu;
                     break;
 
                 case 'Q' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->c_question;
+                    inArray[cmdr->idx-1] = (char *) thisuser->c_question;
                     break;
 
                 case 'A' :
-                    inArray[cmdr->idx-1] = ( char * ) thisuser->c_answer;
+                    inArray[cmdr->idx-1] = (char *) thisuser->c_answer;
                     break;
 
                 case 'B' :
-                    inArray[cmdr->idx-1] = Sec2Date ( thisuser->dtbday );
+                    inArray[cmdr->idx-1] = Sec2Date(thisuser->dtbday);
                     break;
 
                 case 'F' :
-                    inArray[cmdr->idx-1] = Sec2DateTM ( thisuser->dtfirston,1 );
+                    inArray[cmdr->idx-1] = Sec2DateTM(thisuser->dtfirston,1);
                     break;
 
                 case 'L' :
-                    inArray[cmdr->idx-1] = Sec2DateTM ( thisuser->dtlaston,1 );
+                    inArray[cmdr->idx-1] = Sec2DateTM(thisuser->dtlaston,1);
                     break;
 
                     // Bug need to rework the age.
                 case 'X' :
-                    inArray[cmdr->idx-1] = getAge ( thisuser->dtbday );
+                    inArray[cmdr->idx-1] = getAge(thisuser->dtbday);
                     break;
 
                 case 'Z' :
-                    inArray[cmdr->idx-1] = ( toupper ( thisuser->emprivate ) == 'Y' ) ? "Yes" : "No";
+                    inArray[cmdr->idx-1] = (toupper(thisuser->emprivate) == 'Y') ? "Yes" : "No";
                     break;
 
                 default :
                     break;
             }
-
             break;
 
         case 'M' : // User Message MCI Codes
-            switch ( c3 )
+            switch(c3)
             {
-
                 case '#' :
-                    sprintf ( sText,"%ld", ( ulong ) thisuser->lastmbarea );
+                    sprintf(sText,"%ld", (unsigned long) thisuser->lastmbarea);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'N' :
-                    mf.read_mbaselist ( &mr,thisuser->lastmbarea );
-                    inArray[cmdr->idx-1] = ( char * ) mr.mbdisplay;
+                    mf.read_mbaselist(&mr,thisuser->lastmbarea);
+                    inArray[cmdr->idx-1] = (char *) mr.mbdisplay;
                     break;
 
                 case 'L' :
-                    sprintf ( sText,"%ld", ( ulong ) thisuser->lastmsg );
+                    sprintf(sText,"%ld", (unsigned long) thisuser->lastmsg);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 default :
                     break;
             }
-
             break;
 
         case 'H' : // System History MCI Codes
-            switch ( c3 )
+            switch(c3)
             {
-
                 case 'C' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Calls );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Calls);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'E' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Emails );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Emails);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'P' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Posts );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Posts);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'R' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Replies );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Replies);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'T' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Edits );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Edits);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'V' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Views );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Views);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'L' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Local );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Local);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'N' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Echomail );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Echomail);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'U' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Uploads );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Uploads);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'W' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.UploadKb );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.UploadKb);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'K' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Deletes );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Deletes);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'D' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.Downloads );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.Downloads);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
                 case 'X' :
-                    hist_read ( &hist );
-                    sprintf ( sText,"%ld", ( ulong ) hist.DownloadKb );
+                    hist_read(&hist);
+                    sprintf(sText,"%ld", (unsigned long) hist.DownloadKb);
                     inArray[cmdr->idx-1] = sText;
                     break;
 
@@ -1272,64 +1141,56 @@ void data_area::parsemci ( DataRec *cmdr )
                 default :
                     break;
             }
-
             break;
 
         case 'D' : // Date Time
-            switch ( c3 )
+            switch(c3)
             {
                 case '1' :
-                    inArray[cmdr->idx-1] = Sec2DateTM ( GetCurrentDTSec(),1 );
+                    inArray[cmdr->idx-1] = Sec2DateTM(GetCurrentDTSec(),1);
                     break;
 
                 case '2' :
-                    inArray[cmdr->idx-1] = Sec2DateTM ( GetCurrentDTSec(),2 );
+                    inArray[cmdr->idx-1] = Sec2DateTM(GetCurrentDTSec(),2);
                     break;
 
                 case '3' :
-                    inArray[cmdr->idx-1] = Sec2DateTM ( GetCurrentDTSec(),3 );
+                    inArray[cmdr->idx-1] = Sec2DateTM(GetCurrentDTSec(),3);
                     break;
 
                 case '4' :
-                    inArray[cmdr->idx-1] = Sec2DateTM ( GetCurrentDTSec(),4 );
+                    inArray[cmdr->idx-1] = Sec2DateTM(GetCurrentDTSec(),4);
                     break;
 
                 default :
                     break;
-
             }
-
             break;
 
         default :
             break;
     }
-
     //elog("3. input received: %s ",(char *)inArray[cmdr->idx-1].c_str());
 }
 
-void data_area::parseinput ( DataRec *cmdr )
+void data_area::parseinput(DataRec *cmdr)
 {
-
     // Run GetLine and get users input.
     //elog("3. parseinput() IN; ");
     char text[1024]= {0};
     char rBuffer[1024]= {0};
 
-    strcpy ( text,cmdr->Prompt.c_str() );
+    strcpy(text,cmdr->Prompt.c_str());
     int len = cmdr->Size;
-    inputfield ( text,len );
+    inputfield(text,len);
 
-    while ( 1 )
+    while(1)
     {
-        pipe2ansi ( text );
-        getline ( rBuffer,len );
-
-        if ( strcmp ( rBuffer,"" ) != 0 && strcmp ( rBuffer,"\n" ) != 0 ) break;
-
-        pipe2ansi ( ( char * ) "|15|17" );
+        pipe2ansi(text);
+        getline(rBuffer,len);
+        if(strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) break;
+        pipe2ansi((char *) "|15|17");
     }
-
     inArray[cmdr->idx-1] = rBuffer;
     //elog("3. input received: %s ",(char *)inArray[cmdr->idx-1].c_str());
 }
@@ -1338,16 +1199,15 @@ void data_area::parseinput ( DataRec *cmdr )
 unsigned long
 data_area::count_file_records()
 {
-
     std::string path = DAPATH;
     path += _curarea;
     path += ".out";
 
-    data_lockSet ( TRUE );
+    data_lockSet(TRUE);
     ifstream ins2;
-    ins2.open ( path.c_str() );
+    ins2.open(path.c_str());
 
-    if ( !ins2.is_open() )
+    if(!ins2.is_open())
     {
         //elog("Counldn't Open Data Area File For Record Count: %s\n", path.c_str());
         return 0;
@@ -1355,24 +1215,20 @@ data_area::count_file_records()
 
     std::string data;
     unsigned long cnt = 0;
-
-    while ( 1 )
+    while(1)
     {
-        std::getline ( ins2,data );
-
-        if ( data == "</record>" ) ++cnt;
-
-        if ( ins2.eof() ) break;
+        std::getline(ins2,data);
+        if(data == "</record>") ++cnt;
+        if(ins2.eof()) break;
     }
 
     ins2.close();
-    data_lockSet ( FALSE );
+    data_lockSet(FALSE);
     return cnt;
 }
 
 void data_area::create_ansifile()
 {
-
     // Templates are Held in Data Area, output is in Ansi Directory.
     std::string      path, path2, path3, path4, path5;
     path             = ANSIPATH;
@@ -1396,71 +1252,61 @@ void data_area::create_ansifile()
     // Read Top File, if can't open ansi, skip it.
     c = '\0';
     FILE *inStream;
-
-    if ( ( inStream = fopen ( path2.c_str(), "r+" ) ) ==  NULL )
+    if((inStream = fopen(path2.c_str(), "r+")) ==  NULL)
     {
         //elog("Counldn't Open Ansi: %s", path2.c_str());
     }
     else
     {
-        while ( c != EOF )
+        while(c != EOF)
         {
-            c = getc ( inStream );
-
-            if ( c != EOF ) top += c;
+            c = getc(inStream);
+            if(c != EOF) top += c;
         }
-
-        fclose ( inStream );
+        fclose(inStream);
     }
 
     // Read Mid File
     c = '\0';
-
-    if ( ( inStream = fopen ( path3.c_str(), "r+" ) ) ==  NULL )
+    if((inStream = fopen(path3.c_str(), "r+")) ==  NULL)
     {
         //elog("Counldn't Open Ansi: %s", path3.c_str());
     }
     else
     {
-        while ( c != EOF )
+        while(c != EOF)
         {
-            c = getc ( inStream );
-
-            if ( c != EOF ) mid += c;
+            c = getc(inStream);
+            if(c != EOF) mid += c;
         }
-
-        fclose ( inStream );
+        fclose(inStream);
     }
 
     // Read Bot File
     c = '\0';
-
-    if ( ( inStream = fopen ( path4.c_str(), "r+" ) ) ==  NULL )
+    if((inStream = fopen(path4.c_str(), "r+")) ==  NULL)
     {
         //elog("Counldn't Open Ansi: %s", path4.c_str());
     }
     else
     {
-        while ( c != EOF )
+        while(c != EOF)
         {
-            c = getc ( inStream );
-
-            if ( c != EOF ) bot += c;
+            c = getc(inStream);
+            if(c != EOF) bot += c;
         }
-
-        fclose ( inStream );
+        fclose(inStream);
     }
 
     ansibuff        = top;
     std::string::size_type id1 = 0;
-
     int input       = 0;
     int i           = 0;
     int truncate    = FALSE;
 
     // Make Sure if There are more records then the limit,
     // we skip the inital to only parse the proper amount.
-    if ( datar2->NumOfRecs != 0 && datar2->NumOfRecs < numFileRecs )
+    if(datar2->NumOfRecs != 0 && datar2->NumOfRecs < numFileRecs)
     {
         // Reset Which record we start on, and mark for truncation lateron.
         i = numFileRecs - datar2->NumOfRecs;
@@ -1470,19 +1316,18 @@ void data_area::create_ansifile()
 
     // Do so checking on Record Size of Current File, and Truncate if were over and resave it!
     int it = 0;
-
-    if ( truncate == TRUE )
+    if(truncate == TRUE)
     {
         //elog("----Starting Truncate");
         //Re-Write Out File with proper # of records.
-        inputArray = new std::string [ ( datar2->NumOfRecs*inNoc ) +1];
+        inputArray = new std::string [(datar2->NumOfRecs*inNoc) +1];
 
         // Set up to Skip First Records Worth of Input.
         it = inNoc;
 
         //elog("NumOfRecs: %i, numFileRecs: %i, it: %i",datar2->NumOfRecs,numFileRecs,it);
         // Grabbing all input line per record.
-        for ( int in = 0; in != datar2->NumOfRecs*inNoc; in++ )
+        for(int in = 0; in != datar2->NumOfRecs*inNoc; in++)
         {
             //elog("----inputArray[%i]: %s, fileArray[%i]: %s", in,(char *)inputArray[in].c_str(), it,(char *)fileArray[it].c_str());
             inputArray[in] = fileArray[it];
@@ -1490,14 +1335,11 @@ void data_area::create_ansifile()
         }
 
         truncate_da_buffer(); // Remove & Resave File Records.
-
-        if ( inputArray != 0 ) delete [] inputArray;
-
+        if(inputArray != 0) delete [] inputArray;
         inputArray = 0;
 
         // Reload File Now for Proper Parsing
-        if ( fileArray != 0 ) delete [] fileArray;
-
+        if(fileArray != 0) delete [] fileArray;
         fileArray = 0;
         read_file_records();
         return;
@@ -1512,110 +1354,95 @@ void data_area::create_ansifile()
     //elog("Looping Through Mid file for MCI Parsing now...");
     // Parse Each Record / Input, and Replace MCI Code in Mid with Input Data.
     input = 0;
-
-    for ( i = 0; i != numFileRecs; i++ )    // Parse Each Record
+    for(i = 0; i != numFileRecs; i++)       // Parse Each Record
     {
         buff = mid;
-
-        for ( int i2 = 0; i2 != inNoc; i2++ )   // Parse Each Input Per Rec.
+        for(int i2 = 0; i2 != inNoc; i2++)      // Parse Each Input Per Rec.
         {
             //elog("Mci: %s, %i,: FileArray %s, %i",(char *)cmdr2[inexecnum[i2]].MciCode.c_str(),i2,(char *)fileArray[input].c_str(),input);
             // Find First MCI Code and Parse / Replace it.
-            id1 = buff.find ( cmdr2[inexecnum[i2]].MciCode, 0 );
+            id1 = buff.find(cmdr2[inexecnum[i2]].MciCode, 0);
 
             // Process MCI Code
-            if ( id1 != std::string::npos ) // ie.. &ON
+            if(id1 != std::string::npos)    // ie.. &ON
             {
                 // parse justify spacing right / left passing in string before
                 // replacing mci code. to Properly Space Output Ansi.
-                memset ( &MCI,0,sizeof ( MCI ) );
+                memset(&MCI,0,sizeof(MCI));
                 space = 0;
-
-                if ( buff[id1+3] == '{' ) // Left Justify
+                if(buff[id1+3] == '{')    // Left Justify
                 {
                     //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
                     MCI[0] = buff[id1+4]; // Get first Digit
                     MCI[1] = buff[id1+5]; // Get Second Digit
-                    space  = atoi ( MCI );
+                    space  = atoi(MCI);
                     foundr = FALSE;
                     foundl = TRUE;
                 }
-                else if ( buff[id1+3] == '}' ) // Right Justify
+                else if(buff[id1+3] == '}')    // Right Justify
                 {
                     //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
                     MCI[0] = buff[id1+4]; // Get first Digit
                     MCI[1] = buff[id1+5]; // Get Second Digit
-                    space  = atoi ( MCI );
+                    space  = atoi(MCI);
                     //elog("right justify: %i",space);
                     foundl = FALSE;
                     foundr = TRUE;
                 }
-
-                if ( space != 0 )
+                if(space != 0)
                 {
                     //elog("Allocating temp for Replace (Size): %i",fileArray[input].size());
-                    temp = new char [fileArray[input].size() + ( space+1 )];
-
-                    if ( !temp )
+                    temp = new char [fileArray[input].size() + (space+1)];
+                    if(!temp)
                     {
                         //elog("Unable to Allocate Temp for MCI Parsing: %i",fileArray[input].size());
                         return;
                     }
 
                     // MCI Translation .
-                    sprintf ( temp,"%s", ( char * ) fileArray[input].c_str() );
-
-                    if ( foundl == TRUE )
+                    sprintf(temp,"%s", (char *) fileArray[input].c_str());
+                    if(foundl == TRUE)
                     {
-                        lspacing ( temp,space );
+                        lspacing(temp,space);
                     }
-                    else if ( foundr == TRUE )
+                    else if(foundr == TRUE)
                     {
-                        rspacing ( temp,space );
+                        rspacing(temp,space);
                     }
                 }
-
                 //parsemci(cmdr2);
-
                 //MciCode Holds Original Code, fileArray Holds String from File.
                 //If we Parsed Justify, then Erase that MCI Code as well.
-                ( space == 0 ) ?
-                buff.replace ( id1,cmdr2[inexecnum[i2]].MciCode.size(),fileArray[input] ) :
-                buff.replace ( id1,cmdr2[inexecnum[i2]].MciCode.size() +3,temp );
-
-                if ( space != 0 )
+                (space == 0) ?
+                buff.replace(id1,cmdr2[inexecnum[i2]].MciCode.size(),fileArray[input]) :
+                buff.replace(id1,cmdr2[inexecnum[i2]].MciCode.size() +3,temp);
+                if(space != 0)
                 {
-                    if ( temp != 0 ) delete [] temp;
-
+                    if(temp != 0) delete [] temp;
                     temp = 0;
                 }
             }
-
             ++input;
         }
-
         //elog("Record: %i",i);
         ansibuff += buff;
         ansibuff += "\r\n";  // Add New Line for each MID Line Parsed.
         buff.erase();
     }
-
     //elog("Finished Parsing MCI Codes...");
     ansibuff += bot;
 
     // Then Free The Data.
-    if ( fileArray != 0 ) delete [] fileArray;
-
+    if(fileArray != 0) delete [] fileArray;
     fileArray = 0;
     //elog("Freeed [] FileArray");
 
-
-    data_lockSet ( TRUE );
+    data_lockSet(TRUE);
     // now write out ansi file.
     ofstream ostr2;
-    ostr2.open ( path.c_str(), ofstream::out | ofstream::trunc );
+    ostr2.open(path.c_str(), ofstream::out | ofstream::trunc);
 
-    if ( !ostr2.is_open() )
+    if(!ostr2.is_open())
     {
         //elog( "* Error Creating: %s", path.c_str());
         return;
@@ -1624,19 +1451,17 @@ void data_area::create_ansifile()
     // Write out Complete Ansi.
     ostr2 << ansibuff << endl;
     ostr2.close();
-    data_lockSet ( FALSE );
+    data_lockSet(FALSE);
     //elog("File: %s created.",(char *)path.c_str());
 }
 
 void data_area::read_file_records()
 {
-
-    std::string
-    path             = DAPATH;
-    path            += _curarea;
-    path            += ".out";
-
+    std::string path;
     std::string data;
+    path = DAPATH;
+    path += _curarea;
+    path += ".out";
 
     int  rec         = 0;
     int  in          = 0;
@@ -1644,29 +1469,24 @@ void data_area::read_file_records()
     int  getinput    = FALSE;
 
     numFileRecs = count_file_records();
-
-    if ( numFileRecs == 0 )
+    if(numFileRecs == 0)
     {
         //elog("OutFile has 0 Records: %s", path.c_str());
         return;
     }
 
-    //elog("Allocating FileArray: %i,%d", inNoc,numFileRecs);
-
     // Number of Input Files * Number or Records in the File.
-    fileArray = new std::string[ ( numFileRecs*inNoc ) +1];
-
-    if ( !fileArray )
+    fileArray = new std::string[(numFileRecs*inNoc) +1];
+    if(!fileArray)
     {
         //elog("Counldn't Allocate File Array %s", path.c_str());
         return;
     }
 
-    data_lockSet ( TRUE );
+    data_lockSet(TRUE);
     ifstream ins;
-    ins.open ( path.c_str() );
-
-    if ( !ins.is_open() )
+    ins.open(path.c_str());
+    if(!ins.is_open())
     {
         //elog("Counldn't Open Data Area File For Reading %s", path.c_str());
         return;
@@ -1676,25 +1496,23 @@ void data_area::read_file_records()
 
     // Loop Though all Records in the File and Read in the Input Strings.
     int iMsg = FALSE;
-
-    for ( ;; )
+    for(;;)
     {
-        std::getline ( ins,data );
-
-        if ( data == "<record>" ) { } // Start of Record
-        else if ( data == "<input>" ) getinput = TRUE; // Start of Input
-        else if ( data == "<message>" ) iMsg = TRUE; // Start of Input
-        else if ( data == "</message>" )
+        std::getline(ins,data);
+        if(data == "<record>") { }    // Start of Record
+        else if(data == "<input>") getinput = TRUE;    // Start of Input
+        else if(data == "<message>") iMsg = TRUE;    // Start of Input
+        else if(data == "</message>")
         {
             iMsg = FALSE; // Start of Input
             ++idx; // Goto Next Line now.
         }
-        else if ( data == "</input>" )
+        else if(data == "</input>")
         {
             getinput = FALSE;
             ++in;   // End If Input, Next #
         }
-        else if ( data == "</record>" )
+        else if(data == "</record>")
         {
             ++rec;   // End of Record, Next #
             in = 0;  // Reset Input Number;
@@ -1702,10 +1520,10 @@ void data_area::read_file_records()
         else
         {
             // Start Processing of Input Data Here.
-            if ( getinput == TRUE )
+            if(getinput == TRUE)
             {
                 //Cat String
-                if ( iMsg == TRUE )
+                if(iMsg == TRUE)
                 {
                     fileArray[idx] += data;
                 }
@@ -1718,46 +1536,38 @@ void data_area::read_file_records()
         }
 
         // Test for Break;
-        if ( rec != 0 &&               //rec == datar2->NumOfRecs) break; // Limit of Records
-                rec == numFileRecs ) break; // Read in All Records, Extras Get Truncated.
-
-        if ( ins.eof() ) break;
+        if(rec != 0 &&                 //rec == datar2->NumOfRecs) break; // Limit of Records
+                rec == numFileRecs) break;  // Read in All Records, Extras Get Truncated.
+        if(ins.eof()) break;
     }
 
     ins.close();
-    data_lockSet ( FALSE );
-    //elog("Records All Read in: %i,%d", inNoc,numFileRecs);
+    data_lockSet(FALSE);
     create_ansifile(); // Now Create The File.
     return;
 }
 
-
 void data_area::truncate_da_buffer()
 {
-
     std::string path = DAPATH;
     path += _curarea;
     path += ".out";
 
     //elog( "* Truncating, Re-Save Buffer to File: %s", path.c_str());
-
-    data_lockSet ( TRUE );
+    data_lockSet(TRUE);
     ofstream ostr;
-    ostr.open ( path.c_str(), ofstream::out | ofstream::trunc );
-
-    if ( !ostr.is_open() )
+    ostr.open(path.c_str(), ofstream::out | ofstream::trunc);
+    if(!ostr.is_open())
     {
         //elog( "* Error Creating: %s", path.c_str());
         return;
     }
 
     int input = 0;
-
-    for ( int i = 0; i != datar2->NumOfRecs; i++ )
+    for(int i = 0; i != datar2->NumOfRecs; i++)
     {
         ostr << "<record>"  << endl;
-
-        for ( int i2 = 0; i2 != inNoc; i2++ )
+        for(int i2 = 0; i2 != inNoc; i2++)
         {
             ostr << "<input>"  << endl;
             //elog("inputArray[%i]: %s",input, (char *)inputArray[input].c_str());
@@ -1765,126 +1575,111 @@ void data_area::truncate_da_buffer()
             ostr << "</input>" << endl;
             ++input;
         }
-
         ostr << "</record>"  << endl;
     }
-
     ostr.close();
-    data_lockSet ( FALSE );
+    data_lockSet(FALSE);
 }
-
 
 void data_area::save_da_buffer()
 {
-
     std::string path = DAPATH;
     path += _curarea;
     path += ".out";
 
-    //elog( "* Saving Buffer to File: %s", path.c_str());
-
-    data_lockSet ( TRUE );
+    data_lockSet(TRUE);
     ofstream ostr;
-    ostr.open ( path.c_str(), ofstream::out | ofstream::app );
+    ostr.open(path.c_str(), ofstream::out | ofstream::app);
 
-    if ( !ostr.is_open() )
+    if(!ostr.is_open())
     {
         //elog( "* Error Creating: %s", path.c_str());
-        data_lockSet ( FALSE );
+        data_lockSet(FALSE);
         return;
     }
 
     ostr << "<record>"  << endl;
-
-    for ( int i = 0; i != inNoc; i++ )
+    for(int i = 0; i != inNoc; i++)
     {
         //elog("4. inArray Out[%i]: %s",i,inArray[i].c_str());
         ostr << "<input>"  << endl;
         ostr << inArray[i] << endl;
         ostr << "</input>" << endl;
     }
-
     ostr << "</record>"  << endl;
     ostr.close();
-    data_lockSet ( FALSE );
+    data_lockSet(FALSE);
 }
 
 // Basic for Now!
-int data_area::confirm_da_save ( DataRec *cmdr )
+int data_area::confirm_da_save(DataRec *cmdr)
 {
-
     char text[1024]= {0};
     char c;
 
-    strcpy ( text,cmdr->Prompt.c_str() );
+    strcpy(text,cmdr->Prompt.c_str());
     int len = 1;
-    inputfield ( text,len );
-
-    while ( 1 )
+    inputfield(text,len);
+    while(1)
     {
-        pipe2ansi ( text );
-        c = getkey ( true );
+        pipe2ansi(text);
+        c = getkey(true);
 
-        if ( toupper ( c ) == 'Y' )
+        if(toupper(c) == 'Y')
         {
-            memset ( &text,0,sizeof ( text ) );
-            sprintf ( text,"%c",c );
-            pipe2ansi ( text );
+            memset(&text,0,sizeof(text));
+            sprintf(text,"%c",c);
+            pipe2ansi(text);
             return TRUE;
         }
-        else if ( toupper ( c ) == 'N' )
+        else if(toupper(c) == 'N')
         {
-            memset ( &text,0,sizeof ( text ) );
-            sprintf ( text,"%c",c );
-            pipe2ansi ( text );
+            memset(&text,0,sizeof(text));
+            sprintf(text,"%c",c);
+            pipe2ansi(text);
             return FALSE;
         }
-
-        pipe2ansi ( ( char * ) "|15|17" );
+        pipe2ansi((char *) "|15|17");
     }
 }
 
 // Parse Data Command Keys from Menu Selection
-void data_area::darea_docmd ( DataRec *cmdr )
+void data_area::darea_docmd(DataRec *cmdr)
 {
-
     unsigned char c1 = cmdr->CmdType[0];
     unsigned char c2 = cmdr->CmdType[1];
 
     //elog(" 1. darea_docmd() CmdType: %s",(char *)cmdr->CmdType.c_str());
-    if ( cmdr->CmdType.size() < 1 ) return;
+    if(cmdr->CmdType.size() < 1) return;
 
     // _loadnew = false;
-    switch ( c1 )
+    switch(c1)
     {
         case 'I' : // Input Data Area Commands
-            switch ( c2 )
+            switch(c2)
             {
                 case 'N' : // Receive and Insert Into Buffer.
                     //elog("2. Receiving IN; %s",(char *)cmdr->CmdType.c_str());
 
                     // Passing MCI Code... Or Getting User Input
-                    ( cmdr->MCICmd == TRUE ) ? parsemci ( cmdr ) : parseinput ( cmdr );
-
+                    (cmdr->MCICmd == TRUE) ? parsemci(cmdr) : parseinput(cmdr);
                     break;
 
                 default :
                     break;
             }
-
             break;
 
         case 'O' : // Output Data Area Command
-            switch ( c2 )
+            switch(c2)
             {
                 case 'T' : // Write Buffer to File, display prompt and confirm save!
                     //elog("2. Receiving OT; Write Buffer to File; %s",(char *)cmdr->CmdType.c_str());
-                    dataSaved = confirm_da_save ( cmdr );
+                    dataSaved = confirm_da_save(cmdr);
 
                     // After Saving, automatically run readin and parse to create Ansi with data.
                     // Process and Save
-                    if ( dataSaved == TRUE ) save_da_buffer();
-
+                    if(dataSaved == TRUE) save_da_buffer();
                     break;
 
                 case 'S' : // Force Save without Prompting for Confirm.
@@ -1894,23 +1689,19 @@ void data_area::darea_docmd ( DataRec *cmdr )
                     // After Saving, automatically run readin and parse to create Ansi with data.
                     // Process and Save
                     save_da_buffer();
-
                     break;
 
                 default :
                     break;
             }
-
             break;
 
         case 'D' : // Data Area Commands
-            switch ( c2 )
+            switch(c2)
             {
                 case 'P' : // Process Area, Read in Data File and Parse AnsiFile
-
                     // Only Process if a Record has been Saved, Save Processing!
-                    if ( dataSaved == TRUE ) read_file_records(); // {Default}
-
+                    if(dataSaved == TRUE) read_file_records();    // {Default}
                     break;
 
                 case 'F' : // Process Area, Read in Data File and Parse AnsiFile
@@ -1921,12 +1712,11 @@ void data_area::darea_docmd ( DataRec *cmdr )
                 default :
                     break;
             }
-
             break;
 
             // Start of Normal Menu Commands.
         case '*' :
-            switch ( c2 )
+            switch(c2)
             {
                 case 'G' : // Exit Data Area
                     //elog("2. Receiving Data_Alive = FALSE; %s",(char *)cmdr->CmdType.c_str());
@@ -1936,25 +1726,23 @@ void data_area::darea_docmd ( DataRec *cmdr )
                 default :
                     break;
             }
-
             break;
 
-
         case '-' :
-            switch ( c2 )
+            switch(c2)
             {
                     /*
-                                    case '^' : // Change Menu
-                                        strcpy(_curmenu,mString);
-                                        _loadnew = true;
-                                        break;
+                    case '^' : // Change Menu
+                    strcpy(_curmenu,mString);
+                    _loadnew = true;
+                    break;
                     */
                 case 'T' : // Display a line of Text
-                    pipe2ansi ( ( char * ) cmdr->MString.c_str() );
+                    pipe2ansi((char *) cmdr->MString.c_str());
                     break;
 
                 case 'F' : // Display a File
-                    ansiPrintf ( ( char * ) cmdr->MString.c_str() );
+                    ansiPrintf((char *) cmdr->MString.c_str());
                     break;
 
                 case 'P' : // Pause
@@ -1964,200 +1752,196 @@ void data_area::darea_docmd ( DataRec *cmdr )
                 default  : // None Found!
                     break;
             }
-
             break;
 
         default :
             break;
     }
-
     /*
-            // Message Reader Return right away
-            case '!' :
-                // getting passed through
+        // Message Reader Return right away
+        // Not current setup in Data Areas.
+        case '!' :
+            // getting passed through
+            break;
+
+        // Data Area Menu Commands
+        case 'D' :
+            switch (c2) {
+                case 'A' : // Jump into another Data Area
+                    da_system(mString);
                 break;
 
-            // Data Area Menu Commands
-            case 'D' :
-                switch (c2) {
-                    case 'A' : // Jump into another Data Area
-                        da_system(mString);
+                default :
+                break;
+            }
+            break;
+
+        // Matrix Menu Commands
+        case '*' :
+            switch (c2) {
+                case 'L' : // Login
+                    if (logon_system(c2))
+                        _loadnew = true;
                     break;
 
-                    default :
+                case 'A' : // Apply
+                    logon_system(c2);
                     break;
-                }
-                break;
 
-            // Matrix Menu Commands
-            case '*' :
-                switch (c2) {
-                    case 'L' : // Login
-                        if (logon_system(c2))
-                            _loadnew = true;
-                        break;
+                case 'G' : // Logoff
+                    System_Alive = FALSE;
 
-                    case 'A' : // Apply
-                        logon_system(c2);
-                        break;
+                    // Display Logoff Ansi here!
 
-                    case 'G' : // Logoff
-                        System_Alive = FALSE;
+                    term_option(0); // Put Echo Back on!  Cywing
+                    //exit(0);
+                    break;
 
-                        // Display Logoff Ansi here!
+                default  : // None Found!
+                    break;
+            }
+            break;
 
-                        term_option(0); // Put Echo Back on!  Cywing
-                        //exit(0);
-                        break;
+        // Message System Commands
+        case 'M' :
+            switch (c2) {
+                case 'R' : // Message Reader
+                    msgread_system(c2);
+                    _loadnew = true;
+                    break;
 
-                    default  : // None Found!
-                        break;
-                }
-                break;
+                case 'N' : // NewScan Current Area
+                    msgread_system(c2);
+                    _loadnew = true;
+                    break;
 
-            // Message System Commands
-            case 'M' :
-                switch (c2) {
-                    case 'R' : // Message Reader
-                        msgread_system(c2);
-                        _loadnew = true;
-                        break;
-
-                    case 'N' : // NewScan Current Area
-                        msgread_system(c2);
-                        _loadnew = true;
-                        break;
-
-                    case 'M' : // MultiScan All Areas
-                        BACKUP_AREA = CURRENT_MAREA;
-                        CURRENT_MAREA = 1;
-                        urec.lastmbarea = 1;
-                        while (1) {
-                            ret = _msgf.CountMsgs(CURRENT_MAREA);
-                            // Check if this is a new and Empty Base!
-                            if (ret != -1) {
-                                ret = msgread_system('N');
-                                if (!ret) break;
-                                total = msg_count();
-                                total -= 1;
-                            }
-                            else {
-                                // Show the quick scan of the area.
-                                msgread_system('N');
-                            }
-                            if (CURRENT_MAREA != total)
-                                msgarea_change(1); // next area
-                            else  {
-                                CURRENT_MAREA = BACKUP_AREA;
-                                urec.lastmbarea = BACKUP_AREA;
-                                _loadnew = true;
-                                break;
-                            }
+                case 'M' : // MultiScan All Areas
+                    BACKUP_AREA = CURRENT_MAREA;
+                    CURRENT_MAREA = 1;
+                    urec.lastmbarea = 1;
+                    while (1) {
+                        ret = _msgf.CountMsgs(CURRENT_MAREA);
+                        // Check if this is a new and Empty Base!
+                        if (ret != -1) {
+                            ret = msgread_system('N');
+                            if (!ret) break;
+                            total = msg_count();
+                            total -= 1;
                         }
-                        CURRENT_MAREA = BACKUP_AREA;
-                        urec.lastmbarea = BACKUP_AREA;
-                        _loadnew = true;
-                        break;
+                        else {
+                            // Show the quick scan of the area.
+                            msgread_system('N');
+                        }
+                        if (CURRENT_MAREA != total)
+                            msgarea_change(1); // next area
+                        else  {
+                            CURRENT_MAREA = BACKUP_AREA;
+                            urec.lastmbarea = BACKUP_AREA;
+                            _loadnew = true;
+                            break;
+                        }
+                    }
+                    CURRENT_MAREA = BACKUP_AREA;
+                    urec.lastmbarea = BACKUP_AREA;
+                    _loadnew = true;
+                    break;
 
-                    case 'P' : // Mesasge FSE Post
-                        msgpost_system();
-                        break;
+                case 'P' : // Mesasge FSE Post
+                    msgpost_system();
+                    break;
 
-                    case 'A' : // Mesasge Area List
-                        msgarea_list();
-                        break;
+                case 'A' : // Mesasge Area List
+                    msgarea_list();
+                    break;
 
-                    case '+' : // Next Message Area
-                        msgarea_change(1);
-                        break;
-                    case '-' : // Previous Message Area
-                        msgarea_change(2);
-                        break;
-                    default  : // None Found!
-                        break;
-                }
-                break;
+                case '+' : // Next Message Area
+                    msgarea_change(1);
+                    break;
+                case '-' : // Previous Message Area
+                    msgarea_change(2);
+                    break;
+                default  : // None Found!
+                    break;
+            }
+            break;
 
-            // Email
-            case 'E' :
-                switch (c2) {
-                    case 'W' : // Write Email
-                        write_email();
-                        _loadnew = true;
-                        break;
-                    case 'R' : // Read Email
-                        break;
+        // Email
+        case 'E' :
+            switch (c2) {
+                case 'W' : // Write Email
+                    write_email();
+                    _loadnew = true;
+                    break;
+                case 'R' : // Read Email
+                    break;
 
-                    case 'N' : // Scan for New
-                        break;
+                case 'N' : // Scan for New
+                    break;
 
 
-                    default:  // None Found!
-                        break;
-                }
-                break;
+                default:  // None Found!
+                    break;
+            }
+            break;
 
-            // Sysop Commands
-            case '%' :
-                switch (c2) {
-                    case '#' : // Menu Editor
-                        //menu_edit();
+        // Sysop Commands
+        case '%' :
+            switch (c2) {
+                case '#' : // Menu Editor
+                    //menu_edit();
 
-                        _loadnew = true;
-                        break;
+                    _loadnew = true;
+                    break;
 
-                    case 'M' : // Message Forum Editor
-                        msgedit_system();
-                        break;
+                case 'M' : // Message Forum Editor
+                    msgedit_system();
+                    break;
 
-                    case 'C' : // Pack Current Mesasge Area
-                        msgpack_system(FALSE);
-                        break;
-                    case 'P' : // Pack All Mesasge Areas
-                        msgpack_system(TRUE);
-                        break;
+                case 'C' : // Pack Current Mesasge Area
+                    msgpack_system(FALSE);
+                    break;
+                case 'P' : // Pack All Mesasge Areas
+                    msgpack_system(TRUE);
+                    break;
 
-                    default  : // None Found!
-                        break;
-                }
-                break;
+                default  : // None Found!
+                    break;
+            }
+            break;
 
-            case '-' :
-                switch (c2) {
+        case '-' :
+            switch (c2) {
 
-                    case '^' : // Change Menu
-                        strcpy(_curmenu,mString);
-                        _loadnew = true;
-                        break;
+                case '^' : // Change Menu
+                    strcpy(_curmenu,mString);
+                    _loadnew = true;
+                    break;
 
-                    case 'T' : // Display a line of Text
-                        pipe2ansi(mString);
-                        break;
+                case 'T' : // Display a line of Text
+                    pipe2ansi(mString);
+                    break;
 
-                    case 'F' : // Display a File
-                        ansiPrintf(mString);
-                        break;
+                case 'F' : // Display a File
+                    ansiPrintf(mString);
+                    break;
 
-                    default  : // None Found!
-                        break;
-                }
-                break;
+                default  : // None Found!
+                    break;
+            }
+            break;
 
-            // None Found!
-            default  :
-                break;
-        }
-        */
+        // None Found!
+        default  :
+            break;
+    }
+    */
 }
 
-
 // Testing, Display Each Command & Field Loaded Into Data Area:
-void data_area::display_commands ()
+void data_area::display_commands()
 {
-
     int idx = 0;
-
-    while ( idx != noc )
+    while(idx != noc)
     {
         //elog("Desc     %s", cmdr2[idx].Desc.c_str());       // # Description
         //elog("Prompt   %s", cmdr2[idx].Prompt.c_str());     // # Text Prompt To Display on Input Commands.
@@ -2179,15 +1963,11 @@ void data_area::display_commands ()
 // Menu System Loop.
 void data_area::data_loop()
 {
-
-    //elog("Starting DataArea, User: %s",thisuser->handle);
     Data_Alive = TRUE;
     data_area_readin();         // Allocate Memory and Read In Area and Commands
-
-    while ( Data_Alive )        // Data Area is Active
+    while(Data_Alive)           // Data Area is Active
     {
         process_data_area();    // Process Each Command and User Input
     }
-
     data_area_clear();          // Free All Memory Allocation.
 }

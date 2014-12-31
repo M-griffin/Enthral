@@ -28,7 +28,6 @@
 
 # include <string>
 
-
 class msg_pack : private mbapi_jam {
 
     unsigned long lastmsg;
@@ -55,7 +54,6 @@ class msg_pack : private mbapi_jam {
 
     // Loop through and Truncate All Message areas.
     void TruncAllAreas();
-
 };
 */
 

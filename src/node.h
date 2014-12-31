@@ -25,7 +25,6 @@
 
 typedef struct node
 {
-
     int  node_lockSet ( int onoff );
     int  node_remove ( int nodenum );
     int  node_remove_dropfiles ( int nodenum );
@@ -35,7 +34,6 @@ typedef struct node
     int  node_write ( UserRec *user, int nodenum );
 
     void whoisonline();
-
     /*  Not used in here, this is going on in conio now,
         only calling node to get who's online.
 

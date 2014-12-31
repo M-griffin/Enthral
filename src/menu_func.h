@@ -40,17 +40,14 @@ class menu_func : private SESSION,
 protected:
     MenuRec    *menur2;
     CommandRec *cmdr2;
-
     int  noc;           // Number of Commands in Loaded Menu
     int  System_Alive;  // System Exit
-
 
 public:
 
     std::string _curmenu;  // Current Menu
     std::string _premenu;  // Previous Menu
     std::string _gosub;    // GoSub Menu.
-
     //CommandRec cmdr2[MAX_MENU_COMMANDS];
 
     UserRec *urec;
@@ -87,8 +84,7 @@ public:
     // This needs access from ie Title Scan Class.
 
     menu_func();
-    menu_func ( UserRec *tu );
-
+    menu_func(UserRec *tu);
     ~menu_func();
 
     //void start_menu_func(UserRec *user);
@@ -97,19 +93,19 @@ public:
     bool _loadnew;
 
     // New Menu Text File Parsing
-    void chkparse ( std::string &temp );
+    void chkparse(std::string &temp);
 
-    int  mnuparse ( std::string cfgdata );
-    int  menu_read ( std::string MenuName );
+    int  mnuparse(std::string cfgdata);
+    int  menu_read(std::string MenuName);
 
-    void cmdparse ( std::string cfgdata, int idx );
-    int  cmdexist ( std::string MenuName, int idx );
-    int  cnt_cmds ( std::string MenuName );
-    int  cmds_read ( std::string MenuName, int idx );
+    void cmdparse(std::string cfgdata, int idx);
+    int  cmdexist(std::string MenuName, int idx);
+    int  cnt_cmds(std::string MenuName);
+    int  cmds_read(std::string MenuName, int idx);
 
     // Temp convert from old binary to new text format.
-    int  convert_read ( std::string menu, CommandRec *cmdr, int idx );
-    void menu_convert ( std::string menuname );
+    int  convert_read(std::string menu, CommandRec *cmdr, int idx);
+    void menu_convert(std::string menuname);
 
 
     // Read in / Load Menu and Commands
@@ -117,20 +113,19 @@ public:
     void menu_reset();
     int  menu_exists();
     void menu_readin();
-    void menu_cmds ( char *inPut );
+    void menu_cmds(char *inPut);
 
     void menu_clear();
 
-    void display_menu ( BOOL forcelevel=FALSE );
-    void menu_bars ( char *inPut );
-    void menu_proc ( char *mString, uint32_t area=0 );
+    void display_menu(BOOL forcelevel=FALSE);
+    void menu_bars(char *inPut);
+    void menu_proc(char *mString, uint32_t area=0);
 
     // Initalizes the User Logon / Application Process
-    int  logon_system ( unsigned char c ); // Init Logon Sequence / Application
-
+    int  logon_system(unsigned char c);    // Init Logon Sequence / Application
 
     void fileedit_system();
-    void filearea_change ( int change );
+    void filearea_change(int change);
     void filearea_list();
 
     void msgedit_system();                // Init Message Base Editor
@@ -138,17 +133,17 @@ public:
     //int  msgread_system(unsigned char c, char *mString=0); // Init Message Reader System
     // For the Email Reader
 //    int  emailread_system(unsigned char c, char *mString=0);
-    int  msgscan_system ( unsigned char c, char *mString=0 );
+    int  msgscan_system(unsigned char c, char *mString=0);
 
     void msgemail_system();
-    void msgpost_system ( char *mString='\0' );
+    void msgpost_system(char *mString='\0');
 
     // WIP Not finished@@@
-    void msgpack_system ( int all );
-    void msgtrunc_system ( int all );
+    void msgpack_system(int all);
+    void msgtrunc_system(int all);
     // WIP Not finished@@@
 
-    void msgarea_change ( int change );
+    void msgarea_change(int change);
     void msgarea_list();
 
     int  usrlist_list();
@@ -157,24 +152,22 @@ public:
     void email_list();
 
     // Kick off External door!
-    void start_external ( char *mString );
+    void start_external(char *mString);
 
     // Message Autosig.
     void msg_autosig();
 
     // Main System Loop
-    void da_system ( char *mString );
+    void da_system(char *mString);
 
     // Menu Command Processing
-    void menu_docmd ( CommandRec *cmdr );
+    void menu_docmd(CommandRec *cmdr);
 
     // Menu System Loop.
-    void menu_setuser ( UserRec *user );
+    void menu_setuser(UserRec *user);
 
     // Main System Loop for menu system.
-    void menu_mainloop ( UserRec *user );
-
+    void menu_mainloop(UserRec *user);
 };
-
 
 # endif

@@ -18,7 +18,6 @@
 // $LastChangedRevision$
 // $LastChangedBy$
 
-
 # ifndef __CONFIGBBS_H
 # define __CONFIGBBS_H
 
@@ -28,7 +27,7 @@ using namespace std;
 
 bool configdataexists();
 void createconfig();
-void checkcfg ( std::string cfgdata );
+void checkcfg(std::string cfgdata);
 void parseconfig();
 
 # endif

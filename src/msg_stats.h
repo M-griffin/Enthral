@@ -26,10 +26,9 @@
 class msg_stats
 {
 public:
-    int  hist_lockSet ( int onoff, char *area );
-    int  hist_write ( MsgStats *stats, char *area );
-    int  hist_read ( MsgStats *stats, char *area );
+    int  hist_lockSet(int onoff, char *area);
+    int  hist_write(MsgStats *stats, char *area);
+    int  hist_read(MsgStats *stats, char *area);
 };
-
 
 # endif

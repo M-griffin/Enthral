@@ -25,16 +25,14 @@
 
 typedef struct msg_newscan
 {
-
-    int  new_lockSet ( int onoff );
-    int  new_read ( NewScan *ns, int idx, char *mbase );
-    int  new_write ( NewScan *ns, int idx, char *mbase );
-    int  new_count ( char *mbase );
+    int  new_lockSet(int onoff);
+    int  new_read(NewScan *ns, int idx, char *mbase);
+    int  new_write(NewScan *ns, int idx, char *mbase);
+    int  new_count(char *mbase);
 
     // Message NewScan Functions
-    int  read_mbase ( mb_list_rec *mr, int rec );
-    int  check_mbase ( UserRec *thisuser );
-
+    int  read_mbase(mb_list_rec *mr, int rec);
+    int  check_mbase(UserRec *thisuser);
 
 } msg_newscan;
 

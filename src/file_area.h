@@ -21,18 +21,16 @@
 # ifndef FILE_AREA_H
 # define FILE_AREA_H
 
-//# include <time.h>
-
 # include "struct.h"
 # include "mb_api.h"       // Mainly for SESSION and i/o functions.
 # include "files.h"
 
 // pickup thisuser and session from msg_api
+//# include <time.h>
 # include <string>
 
 typedef struct filearea_ini
 {
-
     int  iTop;
     int  iBot;
     char sPAGENUM[80];
@@ -67,7 +65,6 @@ typedef struct filearea_ini
 
 class file_area : private mbapi_jam, filearea_ini, files
 {
-
     //private:
     UserRec *thisuser;
 

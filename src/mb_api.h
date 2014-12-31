@@ -44,7 +44,6 @@ public:
      */
 
     typedef dword UMSGID;
-
     struct _netaddr
     {
         unsigned short zone;
@@ -166,7 +165,6 @@ public:
 
     typedef struct
     {
-
         unsigned char From[XMSG_FROM_SIZE];
         unsigned char To[XMSG_TO_SIZE];
         unsigned char Subj[XMSG_SUBJ_SIZE];
@@ -180,7 +178,6 @@ public:
         unsigned long attr;
         _netaddr orig;
         _netaddr dest;
-
     } MsgInfoRec;
 
     // Message API Handles
@@ -190,7 +187,6 @@ public:
 
     typedef struct MsgHead
     {
-
         char curmsg[10];
         char totmsg[10];
         char from[40];
@@ -199,7 +195,6 @@ public:
         char flags[10];
         char time[81];
         char area[50];
-
     } MsgHead;
 
     // Helper Calsses
@@ -212,42 +207,40 @@ public:
     unsigned long msgCopied,   msgProcessed;   // per Area
     unsigned long totaloldMsg, totalmsgCopied;
 
-
     // Constructor - Initalize MSGAPI!
     mbapi_jam()
     {
-
-        start_session ( thisuser );
+        start_session(thisuser);
     }
 
     // Message Posting Functions
-    char *faddr2char ( char *s,fidoaddr *fa );
-    int  SaveMsg ( unsigned long msgarea, unsigned long msgnum, int NewReply );
-    void MakeCtrlHdr ( char *reply );
-    void GetMsgID ( char *reply );
-    void fill_xmsg ( char *from, char *to, char *subj );
+    char *faddr2char(char *s,fidoaddr *fa);
+    int  SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply);
+    void MakeCtrlHdr(char *reply);
+    void GetMsgID(char *reply);
+    void fill_xmsg(char *from, char *to, char *subj);
 
     // Message Main Setup functions
     void Add2MsgInfo();
-    void mm2MsgInfo ( struct MemMessage *mm );
+    void mm2MsgInfo(struct MemMessage *mm);
 
-    void MessageDeleted ( MemMessage *mm );
-    void MessageNotFound ( MemMessage *mm );
+    void MessageDeleted(MemMessage *mm);
+    void MessageNotFound(MemMessage *mm);
 
     // Main Read Message Per Area Function
-    int ReadMsgArea ( unsigned long mbnum, int email = FALSE );
+    int ReadMsgArea(unsigned long mbnum, int email = FALSE);
 
 //   time_t stampToTimeT(struct _stamp *st);
 //   struct _stamp *timeTToStamp(time_t tt);
 
-    void FidoFlags ( char *fflags );
+    void FidoFlags(char *fflags);
     void SetupMsgHdr();
 
-    char *strrepl ( char *Str, size_t BufSiz, const char *OldStr, const char *NewStr );
-    void stripCR ( char *ostr );
-    void stripCRONLY ( char *ostr );
+    char *strrepl(char *Str, size_t BufSiz, const char *OldStr, const char *NewStr);
+    void stripCR(char *ostr);
+    void stripCRONLY(char *ostr);
 
-    void parseMCI ( std::string &msgtext );
+    void parseMCI(std::string &msgtext);
     void MsgSetupTxt();
     void MsgSetupQuoteTxt();
     void MsgShowTxt2();
@@ -255,14 +248,14 @@ public:
     int  GetMsgInfo();
     int  GetMsg();
 
-    void SetLastRead ( unsigned long usr, unsigned long lr );
+    void SetLastRead(unsigned long usr, unsigned long lr);
 
     unsigned
-    long GetLastRead ( unsigned long usr );
+    long GetLastRead(unsigned long usr);
 
     // Message Packing Functions
-    void doArea ( int marea, char *cmp );
-    int  packmsgarea ( int marea );
+    void doArea(int marea, char *cmp);
+    int  packmsgarea(int marea);
 };
 
 # endif

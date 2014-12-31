@@ -21,18 +21,15 @@
 # ifndef MSG_AREA_H
 # define MSG_AREA_H
 
-//# include <time.h>
-# include <string>
-# include <vector>
-
 # include "struct.h"
 # include "mb_api.h"
 # include "msgs.h"
 
+# include <string>
+# include <vector>
 
 typedef struct msgarea_ini
 {
-
     int  iTop;
     int  iBot;
     char sPAGENUM[80];
@@ -59,15 +56,14 @@ typedef struct msgarea_ini
     // Message Read .ini File
     bool msga_exists();
     void msga_create();
-    void msga_chkpar ( std::string &data );
-    void msga_check ( std::string cfgdata );
-    int  msga_parse ( int idx=0 );
+    void msga_chkpar(std::string &data);
+    void msga_check(std::string cfgdata);
+    int  msga_parse(int idx=0);
 
 } msgarea_ini;
 
 class msg_area : private mbapi_jam, msgarea_ini, msgs
 {
-
     //private:
     UserRec *thisuser;
 
@@ -76,22 +72,18 @@ public:
     int tBot;
 
     msg_area();
-
     void init_db();
 
     std::vector<mb_list_rec> read_areas();
-    std::vector<list_bar> build_arealist ( UserRec *usr, std::string &temp ); //, Query &qry);
+    std::vector<list_bar> build_arealist(UserRec *usr, std::string &temp);    //, Query &qry);
 
-
-    void ParseHeader ( char *filename );
-    int  change_theme ( int idx );
-    void SetupList ( UserRec *user );
+    void ParseHeader(char *filename);
+    int  change_theme(int idx);
+    void SetupList(UserRec *user);
     //char *StartList(char *OrgMsg);
 
     char *StartList();
     //char *StartList(Query &qry);
-
 };
-
 
 # endif

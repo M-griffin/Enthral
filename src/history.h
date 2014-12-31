@@ -23,7 +23,6 @@
 
 # include "struct.h"
 
-
 class history
 {
 public:
@@ -35,6 +34,5 @@ public:
     int  hist_write ( History *hist );
     int  hist_read ( History *hist );
 };
-
 
 # endif

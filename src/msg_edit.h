@@ -34,22 +34,21 @@ private:
 
 public:
 
-    void kill_mbase ( int mbnum );
+    void kill_mbase(int mbnum);
     void delete_mbase();
-    void poke_mbase ( int pokenum );
-    void init_mbase ( mb_list_rec *mb );
+    void poke_mbase(int pokenum);
+    void init_mbase(mb_list_rec *mb);
 
     void insert_mbase();
-    void edit_aka ( mb_list_rec *mr );
+    void edit_aka(mb_list_rec *mr);
     //void ACS(ACSrec *acs, char *fstr);
-    void mod_mbase ( int mbnum );
+    void mod_mbase(int mbnum);
     void modify_mbase();
-    void swap_mbase ( int iFrom, int iTo );
+    void swap_mbase(int iFrom, int iTo);
     void move_mbase();
 
-    char *faddr2char ( char *s,fidoaddr *fa );
-
-    int  list_message_bases ( int page );
+    char *faddr2char(char *s,fidoaddr *fa);
+    int  list_message_bases(int page);
     void mbeditmenu();
 };
 
