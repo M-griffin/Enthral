@@ -19,31 +19,27 @@ using namespace std;            // Standard C++ Namespace
 
 /*--------------------------------------------------------------------------------*/
 // Users.DAT Reads - Basic I/O Read
-int userread ( UserRec * users, int idx )
+int userread(UserRec * users, int idx)
 {
     std::string userpath = "../data/users.dat";
+
     int x = 0;;
     FILE * stream;
-    stream = fopen ( userpath.c_str(),"rb+" );
-
-    if ( stream == NULL )
+    stream = fopen(userpath.c_str(),"rb+");
+    if(stream == NULL)
     {
-        printf ( "\nUnable to read/open Users.dat!" );
-        fclose ( stream );
-        exit ( 1 );
+        printf("\nUnable to read/open Users.dat!");
+        fclose(stream);
+        exit(1);
     }
+    fclose(stream);
 
-    fclose ( stream );
-
-    stream = fopen ( userpath.c_str(), "rb" );
-
-    if ( fseek ( stream, ( long int ) idx*sizeof ( UserRec ),SEEK_SET ) ==0 )
-        x = fread ( users,sizeof ( UserRec ),1,stream );
-
-    fclose ( stream );
+    stream = fopen(userpath.c_str(), "rb");
+    if(fseek(stream, (long int) idx*sizeof(UserRec),SEEK_SET) ==0)
+        x = fread(users,sizeof(UserRec),1,stream);
+    fclose(stream);
     return x;
 }
-
 
 /*--------------------------------------------------------------------------------*/
 // Reads player.dat and gets Total number of Players that have been loaded
@@ -51,22 +47,12 @@ int countusers()
 {
     UserRec users;
     int i=0;
-
-    while ( userread ( &users,i ) )
+    while(userread(&users,i))
     {
         ++i;
     }
-
     ++i;
-
-    if ( i<1 )
-    {
-        i=-1;
-    }
-    else
-    {
-        i--;
-    }
-
-    return ( i );
+    if(i<1) i=-1;
+    else i--;
+    return (i);
 }

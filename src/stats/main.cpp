@@ -23,29 +23,23 @@ using namespace std;
 
 char BBSPATH[255]    = {0};
 
-int main ( void )
+int main(void)
 {
     // Set up program to use bbs paths.
     char *pPath;
-    pPath = std::getenv ( ( char * ) "ENTHRAL" );
-
+    pPath = std::getenv((char *) "ENTHRAL");
     //printf((char *)" *** Environment 1: pPath: %s\r\n",pPath);
-    if ( pPath!=NULL )
+    if(pPath!=NULL)
     {
-        strcpy ( BBSPATH,pPath );
+        strcpy(BBSPATH,pPath);
     }
-
     // Setup stats program path off bbs path.
-    strcat ( BBSPATH, ( char * ) "/stats" );
-
+    strcat(BBSPATH, (char *) "/stats");
     //printf((char *)" *** Environment 2: BBSPath: %s\r\n",BBSPATH);
 
     // Change to BBS path as current working folder.
     int iRet = 0;
-
-    if ( ( iRet = chdir ( BBSPATH ) ) == 0 ) {}
-
+    if((iRet = chdir(BBSPATH)) == 0) {}
     doallproc2();  // Kicks off Top Calls/Posts
-
     return 0;
 }

@@ -36,19 +36,19 @@ typedef struct ListItem_Stats
 
 /*--------------------------------------------------------------------------------*/
 // Clears ListItem
-void clearuserdata2 ( void );
+void clearuserdata2(void);
 
 /*--------------------------------------------------------------------------------*/
 // Clears ListItem1
-void clearuserdata3 ( void );
+void clearuserdata3(void);
 
 /*--------------------------------------------------------------------------------*/
 // Clears ListItem2
-void clearuserdata4 ( void );
+void clearuserdata4(void);
 
 /*--------------------------------------------------------------------------------*/
 // Clears Link List and Free's Current Memory
-void clearANSI2 ( void );
+void clearANSI2(void);
 
 /*--------------------------------------------------------------------------------*/
 // LINK LISTS - Functions To Collect and Sort All Data
@@ -56,15 +56,15 @@ void clearANSI2 ( void );
 
 /*--------------------------------------------------------------------------------*/
 // Stores all Data Recived into Link List w/out Sorting
-void userdatacontainer2 ( UserRec * user );
+void userdatacontainer2(UserRec * user);
 
 /*--------------------------------------------------------------------------------*/
 // This Receives Users From ListList and Sorts All Users by Calls to the BBS
-void callsort ( UserRec * user );
+void callsort(UserRec * user);
 
 /*--------------------------------------------------------------------------------*/
 // This Receives Users From ListList and Sorts All Users by Calls to the BBS
-void postsort ( UserRec * user );
+void postsort(UserRec * user);
 
 /*--------------------------------------------------------------------------------*/
 // Functions Reading ANSI Templates, and Parsing MCI Code and Writing Out ANSI STATS
@@ -76,11 +76,11 @@ void writeANSI2();
 
 /*--------------------------------------------------------------------------------*/
 // Holds all Parsed ANSI for Writting out to File
-void buildANSI2 ( string ansi );
+void buildANSI2(string ansi);
 
 /*--------------------------------------------------------------------------------*/
 // Parses MCI Codes for Top Callers / Posters
-void checkMCI2 ( string ansidata );
+void checkMCI2(string ansidata);
 
 /*--------------------------------------------------------------------------------*/
 // Read ANSI Template and parse for MCI code
@@ -92,11 +92,11 @@ int parseansi2();
 
 /*--------------------------------------------------------------------------------*/
 // Function to retrive all users/data from Users.dat Populates Linklist
-void getusers2 ( void );
+void getusers2(void);
 
 /*--------------------------------------------------------------------------------*/
 // Kicks off Call / Posts Processing
-void proccalls ( void );
+void proccalls(void);
 
 /*--------------------------------------------------------------------------------*/
 // Functions That kick off all processing
@@ -104,6 +104,6 @@ void proccalls ( void );
 
 /*--------------------------------------------------------------------------------*/
 // Main Starter Functions for Collecting and Processing all Data
-void doallproc2 ( void );
+void doallproc2(void);
 
 #endif
