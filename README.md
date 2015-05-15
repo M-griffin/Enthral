@@ -23,6 +23,7 @@ some of the things that are already offered:
 * Full PIPE Color Code Support for Foreground and Background colors 
 * Dynamic data areas for things like on-the-fly oneliners and last callers. 
 * CP437 to UTF-8 Output Encoding, support for Terminals and Telnet clients
+* Embedded python for scripting and games
 
 ```
 Fidonet: ENTHRAL echo 
