@@ -135,7 +135,7 @@ static void create_internode_socket()
     sock.sun_path[sizeof sock.sun_path - 1] = 0;
     sock.sun_family = AF_UNIX;
 
-    if(bind(sockfd, (struct sockaddr *) &sock, sizeof sock) < 0)
+    if(::bind(sockfd, (struct sockaddr *) &sock, sizeof sock) < 0)
     {
         fprintf(stderr,"%s ***cannot bind communication socket, check permissions!",ENTHRALTMP);
         close(sockfd);

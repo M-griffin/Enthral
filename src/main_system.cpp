@@ -29,6 +29,7 @@
 # include <cstring>
 # include <cstdlib>
 # include <ctime>
+# include <clocale>
 # include <unistd.h> // gcc 4.7
 # include <iostream>
 # include <string>

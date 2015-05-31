@@ -2760,7 +2760,7 @@ int SESSION::startpause(char *script)
     int ret;
     std::string path = INIPATH;
 
-    if(script == '\0')
+    if(script == NULL)
         path += "pause.ini";
     else
         path += script;
