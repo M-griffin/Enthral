@@ -26,6 +26,7 @@
 
 # include <string>
 # include <stdarg.h>
+# include <pthread.h>
 
 using namespace std;
 
@@ -113,7 +114,7 @@ public:
 
     BOOL ansiPrintf(char *filename, int delay=FALSE, int abort=FALSE);
     void readinAnsi(std::string FileName, std::string &buff);
-    int  startpause(char *script='\0');
+    int  startpause(char *script= NULL);
 
     int getxy();
     int ansi_getx();

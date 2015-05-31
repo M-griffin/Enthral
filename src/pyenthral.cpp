@@ -22,10 +22,6 @@
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 #define BOOST_FILESYSTEM_DYN_LINK
 
-# include "struct.h"
-# include "conio.h"
-# include "menu_func.h"
-
 // Start of new Boost::Python Embedding.
 # include <boost/python.hpp>
 # include <boost/filesystem.hpp>
@@ -33,6 +29,11 @@
 # include <iostream>
 # include <string>
 # include <csignal>
+
+# include "struct.h"
+# include "conio.h"
+# include "menu_func.h"
+
 
 // Hold UserRec for Session Information.
 UserRec *pyUser;

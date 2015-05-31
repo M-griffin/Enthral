@@ -24,7 +24,7 @@
 # include "msgs.h"
 
 # include <cstdio>
-# include <ctype.h>
+# include <cctype>
 # include <cstring>
 # include <cstdlib>
 # include <string>
@@ -32,8 +32,8 @@
 typedef enum {LOCAL, NETMAIL, ECHOMAIL, EMAIL, NEWS} MSGTYPE;
 typedef enum {PUBLIC, PRIVATE} POSTTYPE;
 
-char mbtypes[5][21]= {"Local","Netmail","Echomail","Email","NewsGroup"};
-char posttyp[2][11]= {"Public","Private"};
+const char mbtypes[5][21]= {"Local","Netmail","Echomail","Email","NewsGroup"};
+const char posttyp[2][11]= {"Public","Private"};
 
 # define MSG_QUOTE   0
 # define MSG_TEXT    1

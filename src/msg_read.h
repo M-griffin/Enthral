@@ -140,7 +140,7 @@ public:
     void EditMessage();
 
     // Title Scan
-    long title_scan(int newmsg, int multiscan = FALSE, char *mString='\0');
+    long title_scan(int newmsg, int multiscan = FALSE, char *mString=NULL);
 
     // Message Reader
     int  StartReader(int newmsg, unsigned long msgidx);

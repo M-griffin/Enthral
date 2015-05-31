@@ -45,7 +45,12 @@
 
 #include "config.h"
 #include <unistd.h>
-#include <pty.h>
+#ifdef __APPLE__
+    #include <util.h>
+#else
+    #include <pty.h>
+#endif
+#
 #include <termios.h>
 
 #include <iostream>       // std::cout
@@ -69,6 +74,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <sys/ioctl.h>
 //#include <fcntl.h>
 #include <syslog.h>        //  syslogd
 #include <arpa/telnet.h>   // IAC WILL, DO, DONT etc.

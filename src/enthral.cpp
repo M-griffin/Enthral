@@ -39,7 +39,11 @@
 # include <cstdlib>
 # include <limits.h>
 # include <unistd.h>
-# include <pty.h>     // Struct Winsize
+#ifdef __APPLE__
+    #include <util.h>
+#else
+    #include <pty.h>     // Struct Winsize
+#endif
 # include <termios.h>
 # include <sys/stat.h>
 
@@ -84,6 +88,7 @@ struct termios old_termios;
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 // Testing and debugging only!
 /*

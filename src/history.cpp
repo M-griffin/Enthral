@@ -23,7 +23,7 @@
 
 # include <stdio.h>
 # include <time.h>
-# include <ctype.h>
+# include <cctype>
 # include <string>
 # include <fstream>
 # include <unistd.h>

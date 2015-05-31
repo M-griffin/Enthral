@@ -95,7 +95,7 @@
 
 #endif
 
-#if defined( __LINUX__ )
+#if defined( __LINUX__ ) || defined( __APPLE__ )
 #include <sys/file.h>
 #include <unistd.h>
 #endif
@@ -110,7 +110,7 @@
 #define JAM_Sleep(x) Sleep(x*1000)
 #endif
 
-#if defined( __LINUX__ )
+#if defined( __LINUX__ ) || defined( __APPLE__ )
 #define JAM_Sleep(x) sleep(x)
 #endif
 
@@ -555,7 +555,7 @@ int jam_Lock ( s_JamBase* Base_PS, int DoLock_I )
         Base_PS->Locked_I = 0;
 
     return 0;
-#elif defined(__LINUX__)
+#elif defined(__LINUX__) || defined(__APPLE__)
     int      Handle_I,Status_I;
     struct flock fl;
 
