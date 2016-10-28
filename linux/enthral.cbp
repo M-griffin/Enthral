@@ -3,20 +3,38 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="enthral" />
+		<Option makefile_is_custom="1" />
+		<Option execution_dir="../src" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<MakeCommands>
+			<Build command="$make -f $makefile" />
+			<CompileFile command="$make -f $makefile $file" />
+			<Clean command="$make -f $makefile clean" />
+			<DistClean command="$make -f $makefile distclean$target" />
+			<AskRebuildNeeded command="$make -q -f $makefile" />
+			<SilentBuild command="$make -s -f $makefile" />
+		</MakeCommands>
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/enthral" prefix_auto="1" extension_auto="1" />
+				<Option output="../src/enthral" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+				<MakeCommands>
+					<Build command="$make -f $makefile" />
+					<CompileFile command="$make -f $makefile $file" />
+					<Clean command="$make -f $makefile clean" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile" />
+					<SilentBuild command="$make -s -f $makefile" />
+				</MakeCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/enthral" prefix_auto="1" extension_auto="1" />
+				<Option output="../src/enthral" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -32,7 +50,112 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="../src/Makefile" />
+		<Unit filename="../src/Makefile.am" />
+		<Unit filename="../src/Makefile.in" />
+		<Unit filename="../src/configbbs.cpp" />
+		<Unit filename="../src/configbbs.h" />
+		<Unit filename="../src/configbbs.o" />
+		<Unit filename="../src/conio.cpp" />
+		<Unit filename="../src/conio.h" />
+		<Unit filename="../src/conio.o" />
+		<Unit filename="../src/console.cpp" />
+		<Unit filename="../src/console.h" />
+		<Unit filename="../src/console.o" />
+		<Unit filename="../src/data_areas.cpp" />
+		<Unit filename="../src/data_areas.h" />
+		<Unit filename="../src/data_areas.o" />
+		<Unit filename="../src/dtfunc.cpp" />
+		<Unit filename="../src/dtfunc.h" />
+		<Unit filename="../src/dtfunc.o" />
+		<Unit filename="../src/enthral" />
+		<Unit filename="../src/enthral.cpp" />
+		<Unit filename="../src/enthral.o" />
+		<Unit filename="../src/file_area.cpp" />
+		<Unit filename="../src/file_area.h" />
+		<Unit filename="../src/file_area.o" />
+		<Unit filename="../src/file_edit.cpp" />
+		<Unit filename="../src/file_edit.h" />
+		<Unit filename="../src/file_edit.o" />
+		<Unit filename="../src/file_import.h" />
+		<Unit filename="../src/file_list.cpp" />
+		<Unit filename="../src/file_list.h" />
+		<Unit filename="../src/file_list.o" />
+		<Unit filename="../src/files.cpp" />
+		<Unit filename="../src/files.h" />
+		<Unit filename="../src/files.o" />
+		<Unit filename="../src/history.cpp" />
+		<Unit filename="../src/history.h" />
+		<Unit filename="../src/history.o" />
+		<Unit filename="../src/jam.h" />
+		<Unit filename="../src/language.cpp" />
+		<Unit filename="../src/language.h" />
+		<Unit filename="../src/language.o" />
+		<Unit filename="../src/logon.cpp" />
+		<Unit filename="../src/logon.h" />
+		<Unit filename="../src/logon.o" />
+		<Unit filename="../src/main_system.cpp" />
+		<Unit filename="../src/main_system.h" />
+		<Unit filename="../src/main_system.o" />
+		<Unit filename="../src/mb_api.cpp" />
+		<Unit filename="../src/mb_api.h" />
+		<Unit filename="../src/mb_api.o" />
+		<Unit filename="../src/mb_jam.cpp" />
+		<Unit filename="../src/mb_jam.h" />
+		<Unit filename="../src/mb_jam.o" />
+		<Unit filename="../src/menu_func.cpp" />
+		<Unit filename="../src/menu_func.h" />
+		<Unit filename="../src/menu_func.o" />
+		<Unit filename="../src/msg_area.cpp" />
+		<Unit filename="../src/msg_area.h" />
+		<Unit filename="../src/msg_area.o" />
+		<Unit filename="../src/msg_edit.cpp" />
+		<Unit filename="../src/msg_edit.h" />
+		<Unit filename="../src/msg_edit.o" />
+		<Unit filename="../src/msg_email.cpp" />
+		<Unit filename="../src/msg_email.h" />
+		<Unit filename="../src/msg_email.o" />
+		<Unit filename="../src/msg_fse.cpp" />
+		<Unit filename="../src/msg_fse.h" />
+		<Unit filename="../src/msg_fse.o" />
+		<Unit filename="../src/msg_newscan.cpp" />
+		<Unit filename="../src/msg_newscan.h" />
+		<Unit filename="../src/msg_newscan.o" />
+		<Unit filename="../src/msg_pack.cpp" />
+		<Unit filename="../src/msg_pack.h" />
+		<Unit filename="../src/msg_pack.o" />
+		<Unit filename="../src/msg_quote.cpp" />
+		<Unit filename="../src/msg_quote.h" />
+		<Unit filename="../src/msg_quote.o" />
+		<Unit filename="../src/msg_read.cpp" />
+		<Unit filename="../src/msg_read.h" />
+		<Unit filename="../src/msg_read.o" />
+		<Unit filename="../src/msg_readll.cpp" />
+		<Unit filename="../src/msg_readll.h" />
+		<Unit filename="../src/msg_readll.o" />
+		<Unit filename="../src/msg_stats.cpp" />
+		<Unit filename="../src/msg_stats.h" />
+		<Unit filename="../src/msg_stats.o" />
+		<Unit filename="../src/msg_title.cpp" />
+		<Unit filename="../src/msg_title.h" />
+		<Unit filename="../src/msg_title.o" />
+		<Unit filename="../src/msgs.cpp" />
+		<Unit filename="../src/msgs.h" />
+		<Unit filename="../src/msgs.o" />
+		<Unit filename="../src/node.cpp" />
+		<Unit filename="../src/node.h" />
+		<Unit filename="../src/node.o" />
+		<Unit filename="../src/pyenthral.cpp" />
+		<Unit filename="../src/pyenthral.h" />
+		<Unit filename="../src/pyenthral.o" />
+		<Unit filename="../src/stamp.h" />
+		<Unit filename="../src/struct.h" />
+		<Unit filename="../src/user_list.cpp" />
+		<Unit filename="../src/user_list.h" />
+		<Unit filename="../src/user_list.o" />
+		<Unit filename="../src/users.cpp" />
+		<Unit filename="../src/users.h" />
+		<Unit filename="../src/users.o" />
 		<Extensions>
 			<code_completion />
 			<debugger />
