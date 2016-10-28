@@ -12,24 +12,27 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_area.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_area.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSG_AREA_H
 # define MSG_AREA_H
+
+//# include <time.h>
+# include <string>
+# include <vector>
 
 # include "struct.h"
 # include "mb_api.h"
 # include "msgs.h"
 
-# include <string>
-# include <vector>
 
 typedef struct msgarea_ini
 {
+
     int  iTop;
     int  iBot;
     char sPAGENUM[80];
@@ -64,6 +67,7 @@ typedef struct msgarea_ini
 
 class msg_area : private mbapi_jam, msgarea_ini, msgs
 {
+
     //private:
     UserRec *thisuser;
 
@@ -72,10 +76,12 @@ public:
     int tBot;
 
     msg_area();
+
     void init_db();
 
     std::vector<mb_list_rec> read_areas();
-    std::vector<list_bar> build_arealist(UserRec *usr, std::string &temp);    //, Query &qry);
+    std::vector<list_bar> build_arealist(UserRec *usr, std::string &temp);//, Query &qry);
+
 
     void ParseHeader(char *filename);
     int  change_theme(int idx);
@@ -84,6 +90,8 @@ public:
 
     char *StartList();
     //char *StartList(Query &qry);
+
 };
+
 
 # endif

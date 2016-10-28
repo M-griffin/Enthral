@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_pack.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_pack.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 /*
 
@@ -27,11 +27,16 @@
 
 # include <string>
 # include <fstream>
+
 # include <cstdio>
 # include <cstring>
 # include <cstdlib>
 
+
+
 using namespace std;
+
+
 
     Work in Progress, Only Packs 1 Base So Far, have to update Reply Links
     Later on and a few extras, although not keep track of it at the moment.
@@ -40,6 +45,7 @@ using namespace std;
     have been packed, can't seem to tell otherwise.
 */
 /*
+
 msg_pack::msg_pack() {
 
 //    mh      = NULL;
@@ -62,6 +68,8 @@ int msg_pack::ReadMessages() {
     AHandle = MsgOpenArea((byte *)path, MSGAREA_CRIFNEC, mb.Type);
     if (AHandle == NULL) return(FALSE);
     else Add2MsgInfo();
+
+
 
     // Make sure were not past the highest message in this area.
     if(lastmsg > MI.high_msg) {
@@ -154,17 +162,21 @@ void msg_pack::TruncCurrentArea(int iArea, int MaxMsgs) {
     }
 
     newmessages = _msgf.CountMsgs(mbnum);
+
     if (AHandle != NULL) {
         CloseMsgArea();
     }
 
     // Display Total of Messages Copied.
+
+
     pipe2ansi(sLine);
 
     // Reset Evenyone's Last Read Pointer if it's Greater Then message num = -1!
     users _usr;
     int iTotal = _usr.idx_count();
     int idx;
+
     lastmsg = prevmessages - (MaxMsgs-1);
 
     //Basically where resetting all high message pointers
@@ -267,6 +279,7 @@ int msg_pack::ChangeNextArea() {
         return (TRUE);
     }
     return (FALSE);
+
 }
 
 // Loop throguh each message area and pack bases.
@@ -312,12 +325,16 @@ void msg_pack::TruncAllAreas() {
 #include "msgapi.h"
 #include "prog.h"
 
+
+#define PROGRAM_NAME "sqpack v1.2.4-release"
+
 unsigned long msgCopied,   msgProcessed;   // per Area
 unsigned long totaloldMsg, totalmsgCopied;
 
 #define UINT32 unsigned int
 #define UINT16 unsigned short
 #define ULONG  unsigned long
+
 
 // returns zero if msg was killed, nonzero if it was copied
 
@@ -395,6 +412,7 @@ int processMsg(dword msgNum, dword numMsg, HAREA oldArea, HAREA newArea,
             free(ctrlText);
             rc = 1;
         }
+
     }
     MsgCloseMsg(msg);
     msgProcessed++;
@@ -436,6 +454,8 @@ void updateMsgLinks(UINT32 msgNum, HAREA area, UINT32 rmCount, UINT32 *rmMap, in
    MsgWriteMsg(msg, 0, &xmsg, NULL, 0, 0, 0, NULL);
    MsgCloseMsg(msg);
 }
+
+
 
 void purgeArea(s_area *area)
 {
@@ -564,4 +584,7 @@ void purgeArea(s_area *area)
     }
     free(newName);
 }
+
 */
+
+

@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: struct.h 10 2014-04-03 06:52:26Z merc $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/struct.h $
+// $LastChangedDate: 2014-04-03 01:52:26 -0500 (Thu, 03 Apr 2014) $
+// $LastChangedRevision: 10 $
+// $LastChangedBy: merc $
 
 # ifndef STRUCT_H
 # define STRUCT_H
@@ -27,7 +27,7 @@
 
 using namespace std;
 
-# define BBSVERSION            "Enthral BBS [v.632/Alpha]"
+# define BBSVERSION            "Enthral BBS v.635"
 extern char OSSYSTEM[1024];
 extern int UTF8Output;
 
@@ -43,6 +43,7 @@ extern std::string screen_buffer;
 # define ESC             '\x1b'
 # define BS              0x08
 # define DEL             0x7f
+
 # define CTRLA           0x01
 # define CTRLB           0x02
 # define CTRLC           0x03
@@ -73,6 +74,7 @@ extern std::string screen_buffer;
 // This holds the info for each Telnet Session
 // For passing Between Classes
 //________________________________________________________________
+
 
 extern char BBSPATH[PATH_MAX];
 extern char DATAPATH[PATH_MAX];
@@ -105,17 +107,19 @@ extern int  TERM_HEIGHT;
 extern int  TERM_WIDTH;
 extern int  MAX_NODES;
 
-extern int  isSysop;     // Exclusive Message Board Access to Sysop Areas!  HACK!!
+extern int  isSysop;            // Exclusive Message Board Access to Sysop Areas!  HACK!!
 extern char SYSOP_NAME[80];
 extern char SYSTEM_NAME[80];
+
 extern char CLIENT_TERM[255];
+
 extern char STARTUP_SCRIPT[255];
 extern char STARTUP_SCRIPT2[255];
 
-extern int  isANSI;      // Detected and useing ANSI Terminal.
+extern int  isANSI;             // Detected and useing ANSI Terminal.
 extern int  isANSIMATION;
 extern int  TOGGLE_BACKSPACE;
-extern int  PAUSE_SCROLING; // Used to Pause Scrolling Text during Node Messages / Notifications.
+extern int  PAUSE_SCROLING;     // Used to Pause Scrolling Text during Node Messages / Notifications.
 
 extern  struct termios old_termios;
 
@@ -164,10 +168,10 @@ typedef struct LineRec
 
 typedef struct __attribute__((packed)) FILEAREA
 {
-    uint32_t  idx;         // Index in Dat files
-    uint32_t  num;         // Number of Files in Base
-    uint8_t   name[30];    // Base Name
-    uint8_t   path[255];   // Path to files
+    uint32_t  idx;          // Index in Dat files
+    uint32_t  num;          // Number of Files in Base
+    uint8_t   name[30];     // Base Name
+    uint8_t   path[255];    // Path to files
     // SL
     // Password
 } FILEAREA;
@@ -181,19 +185,20 @@ struct ListItem
 /// Just a rough draft, redo file layout!
 typedef struct __attribute__((packed)) FILES
 {
-    uint32_t idx;         // Index in Dat files
-    uint8_t name[80];     // Filename
-    //long Date;          // Date Uploaded
-    uint32_t size;        // File Size in bytes
-    uint8_t sSize;        // Converted size to KB, MEG, GIG
+
+    uint32_t idx;       // Index in Dat files
+    uint8_t name[80];   // Filename
+    //long Date;    // Date Uploaded
+    uint32_t size;      // File Size in bytes
+    uint8_t sSize;      // Converted size to KB, MEG, GIG
     // Flag - Valid / Invalid
 } FILES;
 
 typedef struct list_bar
 {
-    uint16_t     x;  // Screen Cords
-    uint16_t     y;  // Screen Cord
-    uint32_t isnew;  // has new / or count of total.
+    uint16_t     x; // Screen Cords
+    uint16_t     y; // Screen Cord
+    uint32_t isnew; // has new / or count of total.
     uint32_t msgnum;
     uint32_t msgid;  // CRC32
     uint32_t repid;  // CRC32
@@ -245,6 +250,7 @@ typedef struct MenuRec
     std::string MenuPrompt;   // menu prompt
     std::string Acs;          // access requirements
     std::string Password;     // password required
+
     uint16_t  ForceInput;     // 0 user defaults, 1 Hotkeys 1 ENTER
     uint16_t  ForceHelpLevel; // 0 user defaults, 1 force display, 0 force expert
     bool      Lightbar;       // Lightbar Menu?
@@ -273,7 +279,7 @@ typedef struct CommandRec
 // Used for passing menu commands between threads for scrolling
 typedef struct PASSING
 {
-    bool                         Active;
+    bool                        Active;
     CommandRec                  *cmdr2;
 
 } PASSING;
@@ -298,6 +304,7 @@ typedef struct __attribute__((packed)) UserRec
     uint32_t
     idx,
     num;
+
     // Stats Info
     uint8_t
     handle[30],
@@ -311,11 +318,13 @@ typedef struct __attribute__((packed)) UserRec
     c_answer[80],
     msg_txtcolor[3],
     msg_quotecolor[3];
+
     // Stats
     int32_t
     dtbday,
     dtfirston,
     dtlaston;
+
     uint32_t
     lastmbarea,
     lastmsg,
@@ -333,10 +342,12 @@ typedef struct __attribute__((packed)) UserRec
     UploadKb,
     Downloads,
     DownloadKb;
+
     uint16_t
     bsdel_swap,
     unused,
     emprivate;
+
     // FS Message Reader Options
     uint16_t
     readertheme,
@@ -354,6 +365,7 @@ typedef struct __attribute__((packed)) fidoaddr
     net,
     node,
     point;
+
     uint8_t
     domain[13];
 
@@ -405,6 +417,7 @@ typedef struct __attribute__((packed)) mb_list_rec
 
 } mb_list_rec;
 
+
 typedef struct __attribute__((packed)) fb_list_rec
 {
     uint16_t idx;
@@ -440,8 +453,8 @@ typedef struct __attribute__((packed)) LastRead
 {
     uint32_t UserCRC;     // CRC-32 of user name (lowercase)  (1)
     uint32_t UserID;      // Unique UserID
-    uint32_t MsgID;       // CRC MSGID  Unique Msg #
-    uint32_t RepID;       // CRC REPLY  Reply to Topic,.
+    uint32_t MsgID;            // CRC MSGID  Unique Msg #
+    uint32_t RepID; // CRC REPLY  Reply to Topic,.
 
 } LastRead;
 
@@ -455,8 +468,8 @@ typedef struct __attribute__((packed)) EmailIdx
 
 typedef struct __attribute__((packed)) JamIndex
 {
-    uint32_t CRC;          // CRC-32 of user name (lowercase)  (1)
-    uint32_t OffSet;       // Message Text Offset
+    uint32_t CRC;     // CRC-32 of user name (lowercase)  (1)
+    uint32_t OffSet;  // Message Text Offset
 
 } JamIndex;
 
@@ -485,27 +498,28 @@ typedef struct DataArea
     std::string     AreaFileName;
     std::string     AnsiFile;
     std::string     AnsiMid;
-    uint16_t        NumOfRecs;  // 0 Unlimited / 1 or More to Limit for Lists
-    uint16_t        PageBreak;  // 0 Ignore, else break on this man for next page.
+    uint16_t    NumOfRecs;    // 0 Unlimited / 1 or More to Limit for Lists
+    uint16_t    PageBreak;    // 0 Ignore, else break on this man for next page.
 
 } DataArea;
 
+
 typedef struct DataRec
 {
-    uint16_t idx;               // Command #, Used Internal for Input Record #.
+    uint16_t idx;                    // Command #, Used Internal for Input Record #.
     std::string Desc;           // # Description
     std::string Prompt;         // # Text Prompt To Display on Input Commands.
-    uint32_t Size;              // # Max Number of Chars on Input
+    uint32_t Size;         // # Max Number of Chars on Input
     std::string CKeys;          // # Accepted Input Keys
     std::string CmdType;        // # Command Type
     std::string MString;        // # Data to be Written {UserName}
     std::string MciCode;        // # MCI Code in ANSI For this Field
     std::string HiString;       // # LightBar High String
     std::string LoString;       // # LightBar Low String
-    uint16_t Xcoord;            // # X Coord of Lightbar
-    uint16_t Ycoord;            // # Y Coord of Lightbar
-    uint16_t LBarCmd;           // # Is This a Lightbar Command?
-    uint16_t MCICmd;            // # Is This a MCI Code, Skip Input and Translate.
+    uint16_t Xcoord;                 // # X Coord of Lightbar
+    uint16_t Ycoord;                 // # Y Coord of Lightbar
+    uint16_t LBarCmd;                // # Is This a Lightbar Command?
+    uint16_t MCICmd;                 // # Is This a MCI Code, Skip Input and Translate.
 
 } DataRec;
 
@@ -666,3 +680,4 @@ typedef struct __attribute__((packed)) mb_list_rec_OLD
 } mb_list_rec_OLD;
 
 # endif
+

@@ -12,14 +12,15 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_title.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_title.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSG_TITLE_H
 # define MSG_TITLE_H
+
 
 # include "struct.h"
 # include "mb_api.h"       // Mainly for SESSION and i/o functions.
@@ -33,7 +34,9 @@
 
 typedef struct msgtitle_ini
 {
+
     char sININAME[255];
+
     int  iTop;
     int  iBot;
     char sPAGENUM[80];
@@ -80,17 +83,18 @@ public:
     int tBot;
 
     msg_title();
+
     std::vector<list_bar>
-    build_titlelist(vector<unsigned long> &elist);    //, Query &qry);
+    build_titlelist(vector<unsigned long> &elist);//, Query &qry);
 
     void  ParseHeader(char *filename);
     int   change_theme(int idx);
     void  SetupList(UserRec *user, int isPrivate);
 
     int   StartTitleList(int newscan,
-                         unsigned long marea,
-                         vector<unsigned long> &elist,
-                         unsigned long currmsg);
+                        unsigned long marea,
+                        vector<unsigned long> &elist,
+                        unsigned long currmsg);
 
 };
 

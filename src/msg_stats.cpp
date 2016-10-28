@@ -12,17 +12,18 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_stats.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_stats.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # include "msg_stats.h"
 # include "struct.h"
 
 # include <string>
 # include <fstream>
+
 # include <cstdio>
 # include <ctime>
 # include <cctype>
@@ -35,12 +36,14 @@ using namespace std;
  */
 int msg_stats::hist_lockSet(int onoff, char *area)
 {
+
     std::string path = LOCKPATH;
     path   += area;
     path   += "_stats.lck";
-    if(!onoff)
+
+    if (!onoff)
     {
-        remove((char *) path.c_str());
+        remove((char *)path.c_str());
         return TRUE;
     }
 
@@ -73,12 +76,13 @@ int msg_stats::hist_lockSet(int onoff, char *area)
  */
 int msg_stats::hist_write(MsgStats *stats, char *area)
 {
+
     std::string path = MESGPATH;
     path   += area;
     path   += ".sts";
-
     int x   = 0;
     hist_lockSet(TRUE,area);
+
     FILE *stream = fopen(path.c_str(),"rb+");
     if(stream == NULL)
     {
@@ -90,7 +94,7 @@ int msg_stats::hist_write(MsgStats *stats, char *area)
             return x;
         }
     }
-    if(fseek(stream,0,SEEK_SET) ==0)
+    if(fseek(stream,0,SEEK_SET)==0)
         x = fwrite(stats,sizeof(MsgStats),1,stream);
     fclose(stream);
     hist_lockSet(FALSE,area);
@@ -102,11 +106,12 @@ int msg_stats::hist_write(MsgStats *stats, char *area)
  */
 int msg_stats::hist_read(MsgStats *stats, char *area)
 {
+
     std::string path = MESGPATH;
     path   += area;
     path   += ".sts";
-
     int x   = 0;
+
     hist_lockSet(TRUE,area);
     FILE *stream = fopen(path.c_str(),"rb+");
     if(stream == NULL)
@@ -120,10 +125,13 @@ int msg_stats::hist_read(MsgStats *stats, char *area)
         }
     }
     fclose(stream);
+
     stream = fopen(path.c_str(), "rb");
-    if(fseek(stream,0,SEEK_SET) ==0)
+    if(fseek(stream,0,SEEK_SET)==0)
         x = fread(stats,sizeof(MsgStats),1,stream);
     fclose(stream);
     hist_lockSet(FALSE,area);
     return x;
 }
+
+

@@ -12,11 +12,12 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: data_areas.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/data_areas.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
+
 
 # ifndef DATA_AREAS_H
 # define DATA_AREAS_H
@@ -47,16 +48,19 @@ public:
     int           dataSaved;     // If Data was Saved.
 
     char _curarea[20];           // Current Area Name
+
     data_area(UserRec *usr)
     {
         dataSaved = FALSE;
         thisuser = usr;
         // Pass to CONIO for Pipe2Ansi MCI Codes.
         // For User MCI Data.
+
         datar2    = 0;
         cmdr2     = 0;
         inexecnum = 0;
         inArray   = 0;
+
         start_session(thisuser);
     }
 
@@ -97,6 +101,7 @@ public:
 
     void display_commands();
     void data_loop();
+
 
 } data_area;
 

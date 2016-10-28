@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msgs.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msgs.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSGS_H
 # define MSGS_H
@@ -27,14 +27,20 @@
 
 typedef struct msgs
 {
-    /*
+
+	/*
     int  read_emaillist(EmailIdx *em, int recno);
     int  save_emaillist(EmailIdx *em, int recno);
-    */
+	*/
+
     int  mbaselist_lockSet(int onoff);
+
     int  read_mbaselist(mb_list_rec *mr, int recno);
+
     int  save_mbasetemp(mb_list_rec *mr, int recno);
+
     int  save_mbaselist(mb_list_rec *mr, int recno);
+
     int  msg_count();
     void save_msgbase(mb_list_rec *mb);
     int  msg_find(char *tfile);
@@ -44,7 +50,7 @@ typedef struct msgs
     int  writelr(LastRead *lr, int idx, mb_list_rec *mb);
 
     unsigned
-    long JamAreaGetLast(long usernum, mb_list_rec *mb);
+	long JamAreaGetLast(long usernum, mb_list_rec *mb);
     void JamAreaSetLast(long usernum, long msgnum, mb_list_rec *mb);
 
     unsigned
@@ -57,6 +63,7 @@ typedef struct msgs
 
     unsigned long
     getlastread(unsigned long mbnum, UserRec *usr);
+
 
 } msgs;
 

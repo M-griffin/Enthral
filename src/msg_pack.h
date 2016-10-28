@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_pack.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_pack.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSG_PACK_H
 # define MSG_PACK_H
@@ -27,6 +27,7 @@
 # include "msgs.h"
 
 # include <string>
+
 
 class msg_pack : private mbapi_jam {
 
@@ -54,6 +55,7 @@ class msg_pack : private mbapi_jam {
 
     // Loop through and Truncate All Message areas.
     void TruncAllAreas();
+
 };
 */
 

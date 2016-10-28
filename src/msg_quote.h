@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_quote.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_quote.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSG_QUOTE_H
 # define MSG_QUOTE_H
@@ -59,6 +59,7 @@ typedef struct msgquote_ini
 class msg_quote : private mbapi_jam, msgquote_ini
 {
 private:
+
     int tTop;
     int tBot;
 
@@ -69,6 +70,8 @@ public:
     void setup_quoter();
     void par_qstring(char * rBuffer, msg_readll *mLink);
     void StartQuoter(LineRec *orgLink, std::string &retbuf);
+
 };
+
 
 # endif

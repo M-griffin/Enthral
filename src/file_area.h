@@ -12,25 +12,27 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: file_area.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/file_area.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef FILE_AREA_H
 # define FILE_AREA_H
+
+//# include <time.h>
 
 # include "struct.h"
 # include "mb_api.h"       // Mainly for SESSION and i/o functions.
 # include "files.h"
 
 // pickup thisuser and session from msg_api
-//# include <time.h>
 # include <string>
 
 typedef struct filearea_ini
 {
+
     int  iTop;
     int  iBot;
     char sPAGENUM[80];
@@ -57,14 +59,15 @@ typedef struct filearea_ini
     // Message Read .ini File
     bool filea_exists();
     void filea_create();
-    void filea_chkpar ( std::string &data );
-    void filea_check ( std::string cfgdata );
-    int  filea_parse ( int idx=0 );
+    void filea_chkpar(std::string &data);
+    void filea_check(std::string cfgdata);
+    int  filea_parse(int idx=0);
 
 } filearea_ini;
 
 class file_area : private mbapi_jam, filearea_ini, files
 {
+
     //private:
     UserRec *thisuser;
 
@@ -73,10 +76,10 @@ public:
     int tBot;
 
     file_area();
-    void ParseHeader ( char *filename );
-    int  change_theme ( int idx );
-    void SetupList ( UserRec *user );
-    char *StartList ( char *OrgMsg );
+    void ParseHeader(char *filename);
+    int  change_theme(int idx);
+    void SetupList(UserRec *user);
+    char *StartList(char *OrgMsg);
 
 };
 

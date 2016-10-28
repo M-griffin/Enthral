@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: files.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/files.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # include "struct.h"
 //# include "msgapi.h"
@@ -29,13 +29,17 @@
 # include <cstring>     // gcc 4.3
 # include <cstdlib>     // gcc 4.3
 //# include <cctype>
+
 # include <string>
 
+
 using namespace std;
+
 
 /*
 int files::fileidx_lockSet(int onoff)
 {
+
     std::string path = LOCKPATH;
     path += "fileidx.lck";
 
@@ -72,6 +76,7 @@ int files::fileidx_lockSet(int onoff)
 
 int files::fileidx_writet(FileIdx *fil, char *areaname, int idx)
 {
+
     std::string path = FILEPATH;
     path += areaname;
     path += "fileidx.tmp";
@@ -95,6 +100,7 @@ int files::fileidx_writet(FileIdx *fil, char *areaname, int idx)
 
 int files::fileidx_write(FileIdx *fil,  char *areaname, int idx)
 {
+
     std::string path = FILEPATH;
     path += areaname;
     path += "fileidx.dat";
@@ -121,6 +127,7 @@ int files::fileidx_write(FileIdx *fil,  char *areaname, int idx)
 
 int files::fileidx_read(FileIdx *fil, char *areaname, int idx)
 {
+
     std::string path = FILEPATH;
     path += areaname;
     path += "fileidx.dat";
@@ -150,6 +157,7 @@ int files::fileidx_read(FileIdx *fil, char *areaname, int idx)
 
 int files::fileidx_count(char *areaname)
 {
+
     FileIdx fil;
     int i = 0;
     while(fileidx_read(&fil,areaname,i))
@@ -162,6 +170,7 @@ int files::fileidx_count(char *areaname)
 
 int files::fileidx_find(char *name)
 {
+
     fb_list_rec fr;
 
     CURRENT_FAREA = 1;
@@ -194,14 +203,18 @@ int files::fileidx_find(char *name)
 
 }
 
+
 bool files::fileidx_match(char *name)
 {
+
     int index = -1;
 
     index = fileidx_find(name);
     if (index == -1) return false;
     else return true;
 }
+
+
 
 // ---------------------------------------------------------
 
@@ -212,12 +225,16 @@ bool files::fileidx_match(char *name)
 #include <dirent.h>
 #include <errno.h>
 
+
 int main(int argc, char *argv[])
 {
+
+
 
 // Display files in current Area!
 void files::fileidx_display()
 {
+
     fb_list_rec fr;
     CURRENT_FAREA = 1;
     read_fbaselist( &fr , CURRENT_FAREA);
@@ -230,34 +247,35 @@ void files::fileidx_display()
     char fs[1024] = {0};
     std::string fsize;
 
+
     // Build File Listing.
     while(fileidx_read(&fil, (char *)fr.fbfile, i++))
     {
 
      // fix this!!
-        if (fil.size < 1000) {
-            sprintf(fs,"%+4ld B.",fil.size);
-            fsize = fs;
-        }
-        else
-        if (fil.size < 1000*1000) {
-            sprintf(fs,"%+4ld KB",fil.size / (1000));
-            fsize = fs;
-        }
-        else
-        if (fil.size < (1000*1000*1000)) {
-            sprintf(fs,"%+4ld MB", fil.size / (1000*1000));
-            fsize = fs;
-        }
-        else
-        if (fil.size < (1000*1000*1000*1000)) {
-            sprintf(fs,"%+4ld GB",fil.size / (1000*1000*1000));
-            fsize = fs;
-        }
+        		if (fil.size < 1000) {
+                    sprintf(fs,"%+4ld B.",fil.size);
+                    fsize = fs;
+                }
+                else
+                if (fil.size < 1000*1000) {
+                    sprintf(fs,"%+4ld KB",fil.size / (1000));
+                    fsize = fs;
+                }
+                else
+                if (fil.size < (1000*1000*1000)) {
+                    sprintf(fs,"%+4ld MB", fil.size / (1000*1000));
+                    fsize = fs;
+                }
+                else
+                if (fil.size < (1000*1000*1000*1000)) {
+                    sprintf(fs,"%+4ld GB",fil.size / (1000*1000*1000));
+                    fsize = fs;
+                }
 
-        sprintf(fname,"%-7s %s", (char *)fsize.c_str() , fil.filename);
-        list += fname;
-        list += "\r";
+                sprintf(fname,"%-7s %s", (char *)fsize.c_str() , fil.filename);
+                list += fname;
+                list += "\r";
 
     }
 
@@ -286,6 +304,8 @@ void files::fileidx_new(char *filename, unsigned long size, char *areaname, int 
 
 int files::import_filedir()
 {
+
+
     CURRENT_FAREA = area were trying to import from!
 
     SESSION s;
@@ -394,6 +414,7 @@ int files::import_filedir()
 // -----------
 int files::read_fbaselist(fb_list_rec *fr, int rec)
 {
+
     int x = 0;
     std::string path = DATAPATH;
 
@@ -427,6 +448,7 @@ int files::read_fbaselist(fb_list_rec *fr, int rec)
 
 int files::save_fbasetemp(fb_list_rec *fr, int rec)
 {
+
     FILE *fptr;
     int x = 0;
 
@@ -463,6 +485,7 @@ int files::save_fbasetemp(fb_list_rec *fr, int rec)
 
 int files::save_fbaselist(fb_list_rec *fr, int rec)
 {
+
     std::string path = DATAPATH;
 
     // Rigged Systop Exclusion.
@@ -494,6 +517,7 @@ int files::save_fbaselist(fb_list_rec *fr, int rec)
 
 int files::file_count()
 {
+
     int i = 0;
     fb_list_rec fb;
 
@@ -505,6 +529,7 @@ int files::file_count()
 
 void files::save_filebase(fb_list_rec *fb)
 {
+
     struct _minf m;
     HAREA harea;
     HMSG hfile;
@@ -514,6 +539,7 @@ void files::save_filebase(fb_list_rec *fb)
 
     m.req_version = 0;
     m.def_zone = 1;
+
 
     if(MsgOpenApi(&m) == 0 ){
         harea = MsgOpenArea((byte *)path, MSGAREA_CRIFNEC, fb->Type | MSGTYPE_ECHO);
@@ -530,6 +556,7 @@ void files::save_filebase(fb_list_rec *fb)
 
 int files::file_find(char *tfile)
 {
+
     string temp1, temp2;
     fb_list_rec fb;
     temp1 = (tfile);
@@ -546,6 +573,7 @@ int files::file_find(char *tfile)
 
 int files::jlr_lockSet(int onoff)
 {
+
     std::string path = LOCKPATH;
     path += "ljr.lck";
 
@@ -581,6 +609,7 @@ int files::jlr_lockSet(int onoff)
 
 int files::readlr(LastRead *lr, int idx, fb_list_rec *fb)
 {
+
     char path[255];
     sprintf(path,"%s%s.jlr", fb->fbpath, fb->fbfile);
     jlr_lockSet(TRUE);
@@ -607,6 +636,7 @@ int files::readlr(LastRead *lr, int idx, fb_list_rec *fb)
 
 int files::writelr(LastRead *lr, int idx, fb_list_rec *fb)
 {
+
     char path[255];
     sprintf(path,"%s%s.jlr", fb->fbpath, fb->fbfile);
     jlr_lockSet(TRUE);
@@ -636,6 +666,7 @@ int files::writelr(LastRead *lr, int idx, fb_list_rec *fb)
 unsigned
 long files::JamAreaGetLast(long usernum, fb_list_rec *fb)
 {
+
     LastRead lr;
     memset(&lr,0,sizeof(LastRead));
     readlr(&lr,usernum,fb);
@@ -645,6 +676,7 @@ long files::JamAreaGetLast(long usernum, fb_list_rec *fb)
 
 void files::JamAreaSetLast(long usernum, long filenum, fb_list_rec *fb)
 {
+
     LastRead lr;
     memset(&lr,0,sizeof(LastRead));
     readlr(&lr,usernum,fb);
@@ -655,6 +687,7 @@ void files::JamAreaSetLast(long usernum, long filenum, fb_list_rec *fb)
 // Counts all Active Mesages excluding Purged!!
 unsigned long files::CountFiles(unsigned long fbnum)
 {
+
     MSGA         *AHandle = NULL;
     fb_list_rec   fr;
     char path[81] = {0};
@@ -691,6 +724,7 @@ unsigned long files::CountFiles(unsigned long fbnum)
 // Counts Active New Mesages
 unsigned long files::CountNewFiles(unsigned long fbnum, UserRec *usr)
 {
+
     SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
     fb_list_rec fr;
     read_fbaselist(&fr,fbnum);
@@ -717,6 +751,7 @@ unsigned long files::CountNewFiles(unsigned long fbnum, UserRec *usr)
 // Counts all Active New Mesages for All Total new waiting per user.
 unsigned long files::CountAllNewFiles(UserRec *usr)
 {
+
     unsigned long i = 0, cnt = 0;
     fb_list_rec fb;
     SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
@@ -733,6 +768,7 @@ unsigned long files::CountAllNewFiles(UserRec *usr)
 // New User, Reset all Last Reads.
 void files::resetlastread(UserRec *usr)
 {
+
     unsigned long i = 0;
     fb_list_rec fb;
 
@@ -746,6 +782,7 @@ void files::resetlastread(UserRec *usr)
 // Message Area Listing - Add Later into Normal MCI Code Parsing!!!
 void files::ParseFArea(UserRec *usr, std::string &temp)
 {
+
     fb_list_rec  fb;     // Message Base # and Name
     SESSION      s(usr); // Pass User Incase there are MCI Codes for User Info.
 

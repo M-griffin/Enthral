@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: node.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/node.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "node.h"
@@ -33,11 +33,13 @@ using namespace std;
  */
 int node::node_lockSet(int onoff)
 {
+
     std::string path = LOCKPATH;
     path += "node.lck";
-    if(!onoff)
+
+    if (!onoff)
     {
-        remove((char *) path.c_str());
+        remove((char *)path.c_str());
         return TRUE;
     }
 
@@ -77,11 +79,13 @@ int node::node_remove(int nodenum)
     return TRUE;
 }
 
+
 /**
  * Clear Node Folder and all Drop files
  */
 int node::node_remove_dropfiles(int nodenum)
 {
+
     char path[255]= {0};
     sprintf(path,"rm -Rf %snode%i/*",NODEPATH,nodenum);
     system(path);
@@ -93,6 +97,7 @@ int node::node_remove_dropfiles(int nodenum)
  */
 int node::node_exists(int nodenum)
 {
+
     char path[255]= {0};
     sprintf(path,"%snode%i.dat",NODEPATH,nodenum);
 
@@ -115,6 +120,7 @@ int node::node_socket_exists(int nodenum)
     char path[255]= {0};
     //sprintf(path,"%snode%i.dat",NODEPATH,nodenum);
     snprintf(path, sizeof path, "%s/enthral_sock%d", ENTHRALTMP, nodenum);
+
     s.pipe2ansi(path);
 
     FILE *stream;
@@ -132,8 +138,10 @@ int node::node_socket_exists(int nodenum)
  */
 int node::node_read(UserRec *user, int nodenum)
 {
+
     char path[200]= {0};
     sprintf(path,"%snode%i.dat",NODEPATH,nodenum);
+
     node_lockSet(TRUE);
 
     int x   = 0;
@@ -148,11 +156,12 @@ int node::node_read(UserRec *user, int nodenum)
             return x;
         }
     }
-    if(fseek(stream,0,SEEK_SET) ==0)
+    if(fseek(stream,0,SEEK_SET)==0)
         x=fread(user,sizeof(UserRec),1,stream);
+
     fclose(stream);
     node_lockSet(FALSE);
-    return (x);
+    return(x);
 }
 
 /**
@@ -160,10 +169,11 @@ int node::node_read(UserRec *user, int nodenum)
  */
 int node::node_write(UserRec *user, int nodenum)
 {
+
     char path[200]= {0};
     sprintf(path,"%snode%i.dat",NODEPATH,nodenum);
-    node_lockSet(TRUE);
 
+    node_lockSet(TRUE);
     int x   = 0;
     FILE *stream = fopen(path,"rb+");
     if(stream == NULL)
@@ -176,28 +186,31 @@ int node::node_write(UserRec *user, int nodenum)
             return x;
         }
     }
-    if(fseek(stream,0,SEEK_SET) ==0)
+    if(fseek(stream,0,SEEK_SET)==0)
         x = fwrite(user,sizeof(UserRec),1,stream);
     fclose(stream);
     node_lockSet(FALSE);
     return x;
 }
 
+
+
 /**
  * Generic List of Whois Online
  */
 void node::whoisonline()
 {
+
     UserRec user;
     char buffer[255]= {0};
 
     SESSION s;
-    s.ansiPrintf((char *) "whois");
+    s.ansiPrintf((char *)"whois");
 
-    // Add config option for how many to display!
+	// Add config option for how many to display!
     for(int i = 1; i < 6; i++)
     {
-        if(node_exists(i) == TRUE)
+        if (node_exists(i) == TRUE)
         {
             // If Node Exists, Check for Socket, if Found get read user info.
             node_read(&user,i);
@@ -212,3 +225,5 @@ void node::whoisonline()
         }
     }
 }
+
+

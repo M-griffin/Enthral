@@ -10,14 +10,18 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_read.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_read.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSG_READ_H
 # define MSG_READ_H
+
+# include <time.h>
+
+#include <vector>
 
 # include "struct.h"
 # include "msgs.h"
@@ -26,29 +30,36 @@
 # include "users.h"
 
 # include <string>
-# include <time.h>
-# include <vector>
 
 /******************************************************************************
  * Message Reader INI Class
  ******************************************************************************/
 typedef struct msgread_ini
 {
+
     int iTop;
     int iBot;
+
     char sVIEW[80];
+
     char sPAGENUM[80];
     char sPAGETOTAL[80];
+
     char sMOREUP[80];
     char sMOREUP_CHAR[80];
+
     char sMOREDOWN[80];
     char sMOREDOWN_CHAR[80];
+
     char sMOREMSG_ON[80];
     char sMOREMSG_WORD_ON[80];
+
     char sMOREMSG_OFF[80];
     char sMOREMSG_WORD_OFF[80];
+
     char sTEXT_COLOR[10];
     char sQUOTE_COLOR[10];
+
     char sSYS_COLOR[10];
     char sORIGIN_COLOR[10];
     char sANSI_FILE[10];
@@ -56,8 +67,10 @@ typedef struct msgread_ini
     char sTHEME_NAME[20];
     char sMENU_PROMPT[20];
     char sMENU_PROMPT2[20];
+
     char sEOM_ON[20];
     char sEOM_WORD_ON[80];
+
     char sNXT_ON[20];
     char sNXT_WORD_ON[80];
 
@@ -69,6 +82,7 @@ typedef struct msgread_ini
     int  msg_parse(int idx = 0);
 
 } msgread_ini;
+
 
 /******************************************************************************
  * Message Reader Class
@@ -82,17 +96,18 @@ class msg_read : private
 private:
 
     int  tTop,
-         tBot,
-         firstscan,    // Firstscan of current area
-         gblNewScan;   // Global NewScan
+    tBot,
+    firstscan,    // Firstscan of current area
+	gblNewScan;   // Global NewScan
 
-    unsigned long Views;
-    unsigned long MsgsLeft,
-          CurMsgs,
-          TotMsgs;
+    ulong Views;
 
-    std::vector<unsigned long> *msgidx_translation;
-    unsigned long current_msgidx;
+    ulong MsgsLeft,
+    CurMsgs,
+    TotMsgs;
+
+    std::vector<ulong> *msgidx_translation;
+    ulong current_msgidx;
 
     int opscan; // Email SysOp Scan. Overwrite and view all messages.
 
@@ -106,22 +121,22 @@ public:
     // Parsing the Message Header
     void ansi_file(char *filename);
 
-    // Read in Message Only, for replying from title scan
-    void ReadInMsgOnly(unsigned long marea);
-
+	// Read in Message Only, for replying from title scan
+	void ReadInMsgOnly(ulong marea);
+		
     // Process both Normal and email/netmail message reading.
-    int  ReadMsg(unsigned long mbnum, int showit, int newmsg, int private_area=FALSE);
+    int  ReadMsg(ulong mbnum, int showit, int newmsg, int private_area=FALSE);
 
     // Use this for quick message find lateron!
-    int  ScanPosters(unsigned long marea);
+    int  ScanPosters(ulong marea);
 
-    int  NewScanMsgs(int newmsg,unsigned long marea);
-    int  ScanMessages(unsigned long marea);
-    int  ReadMessages(unsigned long marea);
+    int  NewScanMsgs(int newmsg,ulong marea);
+    int  ScanMessages(ulong marea);
+    int  ReadMessages(ulong marea);
 
     void JumpToMessage();
-    void IgnoreTheRest(unsigned long marea);
-    int  DelCurMsg(unsigned long mbnum, unsigned long msgnum);
+    void IgnoreTheRest(ulong marea);
+    int  DelCurMsg(ulong mbnum, ulong msgnum);
     int  NextAreaScan();
 
     int  verify_username(char *text, char *name);
@@ -140,10 +155,11 @@ public:
     void EditMessage();
 
     // Title Scan
-    long title_scan(int newmsg, int multiscan = FALSE, char *mString=NULL);
+    long title_scan(int newmsg, int multiscan = FALSE, char *mString='\0');
 
     // Message Reader
-    int  StartReader(int newmsg, unsigned long msgidx);
+    int  StartReader(int newmsg, ulong msgidx);
+
 
 };
 

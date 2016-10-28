@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_readll.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_readll.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSG_READLL_H
 # define MSG_READLL_H
@@ -36,7 +36,9 @@ public:
     LineRec *head;
     LineRec *current_node;
     LineRec *last;
+
     AreaRec *node;
+
     // Passing Lightbars between Interfaces
     std::vector<list_bar> listing;
 
@@ -82,6 +84,7 @@ public:
     void stripCRONLY(char *ostr);
     //char *GetBuffer();
     void GetBuffer(std::string &tbuf);
+
     void GetVector(std::vector<list_bar> listb);
 
     char *PopulateQuoter();
@@ -113,7 +116,7 @@ public:
     void box_scroll_reader();
     void box_pgdn_scroll();
     // Normal Lightbar...
-    void box_start(unsigned long CURRENT);    // CURRENT = ARea MAREA or ULIST etc...
+    void box_start(unsigned long CURRENT); // CURRENT = ARea MAREA or ULIST etc...
     void box_scrolldn();
     void box_pgdn();
     void box_pgup();
@@ -128,8 +131,12 @@ public:
 
     // Working Up and Down, need to add Scroll Down now.
     //void box_start_vector(unsigned long CURRENT); // Area Listing.
+
+
     void box_start_vector(unsigned long page, unsigned long list);
 
 } msg_readll;
 
 # endif
+
+

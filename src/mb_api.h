@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: mb_api.h 5 2014-03-31 05:44:49Z merc $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/mb_api.h $
+// $LastChangedDate: 2014-03-31 00:44:49 -0500 (Mon, 31 Mar 2014) $
+// $LastChangedRevision: 5 $
+// $LastChangedBy: merc $
 
 # ifndef MSG_MBAPI_JAM_H
 # define MSG_MBAPI_JAM_H
@@ -44,6 +44,7 @@ public:
      */
 
     typedef dword UMSGID;
+
     struct _netaddr
     {
         unsigned short zone;
@@ -106,15 +107,15 @@ public:
          * is not read into memory.                 */
 
         byte __ftsc_date[20];       /* Obsolete date information.  If it weren't
-                                     * for the fact that FTSC standards say that
-                                     * one cannot modify an in-transit message,
-                                     * I'd be VERY tempted to axe this field
-                                     * entirely, and recreate an FTSC-compatible
-                                     * date field using the information in
-                                     * 'date_written' upon export.  Nobody should
-                                     * use this field, except possibly for tossers
-                                     * and scanners.  All others should use one
-                                     * of the two binary datestamps, above. */
+		                             * for the fact that FTSC standards say that
+		                             * one cannot modify an in-transit message,
+		                             * I'd be VERY tempted to axe this field
+		                             * entirely, and recreate an FTSC-compatible
+		                             * date field using the information in
+		                             * 'date_written' upon export.  Nobody should
+		                             * use this field, except possibly for tossers
+		                             * and scanners.  All others should use one
+		                             * of the two binary datestamps, above. */
     }
     XMSG;
 
@@ -147,10 +148,10 @@ public:
         /* Function pointers for manipulating messages within this area. */
     };
 
-# define MSG_QUOTE    0
-# define MSG_TEXT    1
-# define MSG_TEAR    2
-# define MSG_ORIGIN    3
+# define MSG_QUOTE	0
+# define MSG_TEXT	1
+# define MSG_TEAR	2
+# define MSG_ORIGIN	3
 
     typedef enum {LOCAL, NETMAIL, ECHOMAIL, EMAIL, NEWS} MSGTYPE;
     typedef enum {PUBLIC, PRIVATE} POSTTYPE;
@@ -165,6 +166,7 @@ public:
 
     typedef struct
     {
+
         unsigned char From[XMSG_FROM_SIZE];
         unsigned char To[XMSG_TO_SIZE];
         unsigned char Subj[XMSG_SUBJ_SIZE];
@@ -178,6 +180,7 @@ public:
         unsigned long attr;
         _netaddr orig;
         _netaddr dest;
+
     } MsgInfoRec;
 
     // Message API Handles
@@ -187,6 +190,7 @@ public:
 
     typedef struct MsgHead
     {
+
         char curmsg[10];
         char totmsg[10];
         char from[40];
@@ -195,6 +199,7 @@ public:
         char flags[10];
         char time[81];
         char area[50];
+
     } MsgHead;
 
     // Helper Calsses
@@ -207,9 +212,11 @@ public:
     unsigned long msgCopied,   msgProcessed;   // per Area
     unsigned long totaloldMsg, totalmsgCopied;
 
+
     // Constructor - Initalize MSGAPI!
     mbapi_jam()
     {
+
         start_session(thisuser);
     }
 
@@ -227,21 +234,21 @@ public:
     void MessageDeleted(MemMessage *mm);
     void MessageNotFound(MemMessage *mm);
 
-    // Main Read Message Per Area Function
-    int ReadMsgArea(unsigned long mbnum, int email = FALSE);
-
+	// Main Read Message Per Area Function
+	int ReadMsgArea(unsigned long mbnum, int email = FALSE);
+	
 //   time_t stampToTimeT(struct _stamp *st);
 //   struct _stamp *timeTToStamp(time_t tt);
-
+	
     void FidoFlags(char *fflags);
     void SetupMsgHdr();
 
-    char *strrepl(char *Str, size_t BufSiz, const char *OldStr, const char *NewStr);
+	char *strrepl(char *Str, size_t BufSiz, const char *OldStr, const char *NewStr);
     void stripCR(char *ostr);
     void stripCRONLY(char *ostr);
 
-    void parseMCI(std::string &msgtext);
-    void MsgSetupTxt();
+	void parseMCI(std::string &msgtext);
+	void MsgSetupTxt();
     void MsgSetupQuoteTxt();
     void MsgShowTxt2();
 

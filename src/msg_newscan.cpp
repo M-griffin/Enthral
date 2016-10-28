@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_newscan.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_newscan.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "msg_newscan.h"
@@ -40,11 +40,13 @@ using namespace std;
  */
 int msg_newscan::new_lockSet(int onoff)
 {
+
     std::string path = LOCKPATH;
     path += "mnewscan.lck";
-    if(!onoff)
+
+    if (!onoff)
     {
-        remove((char *) path.c_str());
+        remove((char *)path.c_str());
         return TRUE;
     }
 
@@ -64,7 +66,7 @@ int msg_newscan::new_lockSet(int onoff)
             else
             {
                 fclose(stream);
-                return TRUE;    // Created Lock File
+                return TRUE;	// Created Lock File
             }
         }
         fclose(stream);
@@ -77,12 +79,14 @@ int msg_newscan::new_lockSet(int onoff)
  */
 int msg_newscan::new_read(NewScan *ns, int idx, char *mbase)
 {
+
     char path[255];
     sprintf(path,"%s%s.ns", MESGPATH, mbase);
     new_lockSet(TRUE);
 
     int x = 0;
     FILE *stream;
+
     stream = fopen(path,"rb+");
     if(stream == NULL)
     {
@@ -92,7 +96,7 @@ int msg_newscan::new_read(NewScan *ns, int idx, char *mbase)
     else fclose(stream);
 
     stream = fopen(path, "rb");
-    if(fseek(stream, (int) idx*sizeof(NewScan),SEEK_SET) ==0)
+    if(fseek(stream,(int)idx*sizeof(NewScan),SEEK_SET)==0)
         x = fread(ns,sizeof(NewScan),1,stream);
     fclose(stream);
     new_lockSet(FALSE);
@@ -104,12 +108,14 @@ int msg_newscan::new_read(NewScan *ns, int idx, char *mbase)
  */
 int msg_newscan::new_write(NewScan *ns, int idx, char *mbase)
 {
+
     char path[255];
     sprintf(path,"%s%s.ns", MESGPATH, mbase);
     new_lockSet(TRUE);
 
     FILE *stream;
     int x = 0;
+
     stream=fopen(path,"rb+");
     if(stream == NULL)
     {
@@ -121,7 +127,7 @@ int msg_newscan::new_write(NewScan *ns, int idx, char *mbase)
             return 0;
         }
     }
-    if(fseek(stream, (int) idx*sizeof(NewScan),SEEK_SET) ==0)
+    if(fseek(stream,(int)idx*sizeof(NewScan),SEEK_SET)==0)
         x = fwrite(ns,sizeof(NewScan),1,stream);
     fclose(stream);
     new_lockSet(FALSE);
@@ -133,15 +139,17 @@ int msg_newscan::new_write(NewScan *ns, int idx, char *mbase)
  */
 int msg_newscan::new_count(char *mbase)
 {
+
     int i = 0;
     NewScan ns;
+
     while(new_read(&ns,i,mbase))
     {
         ++i;
     }
-    if(i < 1)    i = -1;
+    if(i < 1)	i = -1;
     else i--;
-    return (i);
+    return(i);
 }
 
 /**
@@ -149,6 +157,7 @@ int msg_newscan::new_count(char *mbase)
  */
 int msg_newscan::read_mbase(mb_list_rec *mr, int rec)
 {
+
     int x = 0;
     std::string path = DATAPATH;
     path += "forums.dat";
@@ -163,10 +172,12 @@ int msg_newscan::read_mbase(mb_list_rec *mr, int rec)
             return x;
         }
     }
-    if(fseek(fptr, (int) rec*sizeof(mb_list_rec),SEEK_SET) ==0)
+
+    if(fseek(fptr,(int)rec*sizeof(mb_list_rec),SEEK_SET)==0)
         x=fread(mr,sizeof(mb_list_rec),1,fptr);
+
     fclose(fptr);
-    return (x);
+    return(x);
 }
 
 /**
@@ -174,15 +185,17 @@ int msg_newscan::read_mbase(mb_list_rec *mr, int rec)
  */
 int msg_newscan::check_mbase(UserRec *thisuser)
 {
+
     mb_list_rec mr;
     NewScan ns;
     int i;
 
     read_mbase(&mr,thisuser->lastmbarea);
-    i = new_count((char *) mr.mbfile);
-    if(i > (signed) thisuser->idx) return TRUE;
+    i = new_count((char *)mr.mbfile);
+    if (i > (signed)thisuser->idx) return TRUE;
 
-    new_read(&ns, thisuser->idx, (char *) mr.mbfile);
-    if(ns.set == TRUE) return TRUE;
+    new_read(&ns, thisuser->idx, (char *)mr.mbfile);
+    if (ns.set == TRUE) return TRUE;
     return FALSE;
 }
+

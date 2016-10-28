@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: logon.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/logon.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef LOGON_H
 # define LOGON_H
@@ -32,6 +32,7 @@ class logon :
     language,
     SESSION
 {
+
     int useScript;
     int InvalidLogins;
 
@@ -53,12 +54,13 @@ public:
 
     void ParseVerify(char *filename, UserRec *u);
     void save_user(UserRec *u);
-    void verify_info(UserRec *u, char *mString = (char *) "verify");
+    void verify_info(UserRec *u, char *mString = (char *)"verify");
     int  logon_system(UserRec *urec);
     void forgot_password();
 
     void save_existinguser(UserRec *u, unsigned long);
     void userinfo(UserRec *u, char *mString);
+
 };
 
 # endif

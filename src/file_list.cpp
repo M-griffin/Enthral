@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: file_list.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/file_list.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "msg_readll.h"
@@ -26,16 +26,18 @@
 # include <cstdio>
 # include <cstring> // gcc 4.3
 # include <cstdlib> // gcc 4.3
+
 # include <ctime>
 # include <cctype>
+
 # include <fstream>
 # include <string>
 
 using namespace std;
-
 /*
 bool filelist_ini::filelist_exists()
 {
+
     iTop = 0;
     iBot = 0;
 
@@ -829,3 +831,4 @@ void filelist::Startfilelist(LineRec *orgLink, std::string &retbuf)
 }
 
 */
+
