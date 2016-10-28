@@ -12,14 +12,16 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: user_list.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/user_list.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef USER_LIST_H
 # define USER_LIST_H
+
+//# include <time.h>
 
 # include "struct.h"
 # include "mb_api.h"       // Mainly for SESSION and i/o functions.
@@ -27,6 +29,8 @@
 
 # include <string>
 # include <vector>
+
+//# define ulong unsigned long
 
 typedef struct usrlist_ini
 {
@@ -66,18 +70,22 @@ typedef struct usrlist_ini
 
 class usr_list : private mbapi_jam, usrlist_ini
 {
+
     //private:
     UserRec *thisuser;
 
 public:
     int tTop;
     int tBot;
+
     // This holds the current user select in the list.
     int CURRENT_ULIST;
 
     usr_list();
+
+
     std::vector<UserRec> read_users();
-    std::vector<list_bar> build_userlist(UserRec *usr, std::string &temp);    //, Query &qry);
+    std::vector<list_bar> build_userlist(UserRec *usr, std::string &temp);//, Query &qry);
 
     void ParseHeader(char *filename);
     int  change_theme(int idx);
@@ -85,7 +93,8 @@ public:
     void SetupEmailList(UserRec *user);
 
     void UserList(std::string &tmp);
-    BOOL StartUserEditor(unsigned long usernum);
+
+    BOOL StartUserEditor(ulong usernum);
     int  StartList(int email=TRUE);
 
 };

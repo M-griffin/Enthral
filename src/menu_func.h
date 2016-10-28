@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: menu_func.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/menu_func.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MENU_FUNC_H
 # define MENU_FUNC_H
@@ -40,14 +40,17 @@ class menu_func : private SESSION,
 protected:
     MenuRec    *menur2;
     CommandRec *cmdr2;
+
     int  noc;           // Number of Commands in Loaded Menu
     int  System_Alive;  // System Exit
+
 
 public:
 
     std::string _curmenu;  // Current Menu
     std::string _premenu;  // Previous Menu
     std::string _gosub;    // GoSub Menu.
+
     //CommandRec cmdr2[MAX_MENU_COMMANDS];
 
     UserRec *urec;
@@ -85,6 +88,7 @@ public:
 
     menu_func();
     menu_func(UserRec *tu);
+
     ~menu_func();
 
     //void start_menu_func(UserRec *user);
@@ -122,7 +126,8 @@ public:
     void menu_proc(char *mString, uint32_t area=0);
 
     // Initalizes the User Logon / Application Process
-    int  logon_system(unsigned char c);    // Init Logon Sequence / Application
+    int  logon_system(unsigned char c);   // Init Logon Sequence / Application
+
 
     void fileedit_system();
     void filearea_change(int change);
@@ -136,7 +141,7 @@ public:
     int  msgscan_system(unsigned char c, char *mString=0);
 
     void msgemail_system();
-    void msgpost_system(char *mString= NULL);
+    void msgpost_system(char *mString='\0');
 
     // WIP Not finished@@@
     void msgpack_system(int all);
@@ -154,9 +159,9 @@ public:
     // Kick off External door!
     void start_external(char *mString);
 
-    // Message Autosig.
-    void msg_autosig();
-
+	// Message Autosig.
+	void msg_autosig();
+		
     // Main System Loop
     void da_system(char *mString);
 
@@ -168,6 +173,8 @@ public:
 
     // Main System Loop for menu system.
     void menu_mainloop(UserRec *user);
+
 };
+
 
 # endif

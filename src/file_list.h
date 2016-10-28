@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: file_list.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/file_list.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef FILE_LIST_H
 # define FILE_LIST_H
@@ -24,13 +24,16 @@
 # include "struct.h"
 //# include "msg_api.h"
 
+
 // pickup thisuser and session from msg_api
+
 # include <time.h>
 # include <string>
 
 /*
 typedef struct filelist_ini
 {
+
     int  iTop;
     int  iBot;
     char sPAGENUM[80];

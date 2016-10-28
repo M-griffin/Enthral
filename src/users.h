@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: users.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/users.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef USERS_H
 # define USERS_H
@@ -25,6 +25,7 @@
 
 typedef struct users
 {
+
     // User File
     int  users_lockSet(int onoff);
     int  uidx_lockSet(int onoff);

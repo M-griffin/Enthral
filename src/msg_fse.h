@@ -12,16 +12,18 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msg_fse.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_fse.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef MSG_FSE_H
 # define MSG_FSE_H
 
 # include "struct.h"
+//# include "msg_api.h"
+
 # include "mb_api.h"
 # include "msg_readll.h"
 
@@ -34,6 +36,7 @@ class msg_fse :
     //private msg_api
 private mbapi_jam
 {
+
 private:
     // Main List for Holding All Data
     LineRec     *head;          // Pointer to Fist in List
@@ -46,14 +49,14 @@ private:
 
     // Editor Variables
     int Row,       // Y - Row    [Lines]
-        Col,       // X - Colume [Char in Line]
-        Len,       // Line Length
+    Col,       // X - Colume [Char in Line]
+    Len,       // Line Length
 
-        Top,       // Top Margin
-        Bot,       // Bottom Margin
+    Top,       // Top Margin
+    Bot,       // Bottom Margin
 
-        Tot,       // Total # of Lines in Link List
-        Num;       // Current Line Number in Link List
+    Tot,       // Total # of Lines in Link List
+    Num;       // Current Line Number in Link List
 
     bool MSG_REPLY;
 
@@ -123,12 +126,12 @@ public:
     int  options_prompt(unsigned char c = '\0');
     void insert_lines();
 
-    std::vector<std::string> inline split_string(const std::string &source,
-            const char *delimiter = " ",
-            bool keepEmpty = false);
+	std::vector<std::string> inline split_string(const std::string &source, 
+                                                 const char *delimiter = " ", 
+                                                 bool keepEmpty = false);
 
-    void delete_key();
-
+	void delete_key();
+		
     int  poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL = 0);
 
 private:
@@ -142,5 +145,6 @@ private:
     int  fse_parse(int idx=0);
 
 };
+
 
 # endif

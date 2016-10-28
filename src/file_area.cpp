@@ -10,11 +10,11 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: file_area.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/file_area.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "language.h"
@@ -23,17 +23,23 @@
 
 # include <fstream>
 # include <string>
+
 # include <cstdio>
 # include <ctime>
 # include <cctype>
+
+
+
 # include <cstring>
 # include <cstdlib>
+
 
 using namespace std;
 
 /*
 bool filearea_ini::filea_exists()
 {
+
     iTop = 0;
     iBot = 0;
 
@@ -749,3 +755,4 @@ char *file_area::StartList(char *OrgMsg)
 }
 
 */
+

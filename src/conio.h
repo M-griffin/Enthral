@@ -12,11 +12,12 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: conio.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/conio.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
+
 
 # ifndef CONIO_H
 # define CONIO_H
@@ -26,9 +27,9 @@
 
 # include <string>
 # include <stdarg.h>
-# include <pthread.h>
 
 using namespace std;
+
 
 //input class
 class SESSION : public history
@@ -43,7 +44,7 @@ public:
     SESSION();
     SESSION(UserRec *thisuser);
 
-    PASSING   *p;  // For passing Menu command to new thread
+	PASSING   *p;  // For passing Menu command to new thread
     pthread_t ahThread;
 
 private:
@@ -56,7 +57,9 @@ private:
     int  ansi_x;
     int  ansi_y;
 
+
 public:
+
 
     char onekey(char *chlist);
     void repeatchar(char ch, int length);
@@ -65,7 +68,7 @@ public:
     void hist_display(); // Testing Func.
     void hist_update(int i, UserRec *user, int cnt = 0);
     void errlog(char *fmt, ...);
-    void errlog2(char *fmt, ...);    // Used for Debugging, commented out for easy removal.
+    void errlog2(char *fmt, ...); // Used for Debugging, commented out for easy removal.
 
     void open_keyboard();
     void close_keyboard();
@@ -76,7 +79,7 @@ public:
     void lspacing(char *str, int space);
     void cspacing(char *str);
     void mask(char *str);
-    void putline(char *str);    //, ...);
+    void putline(char *str); //, ...);
 
     void putkey(char ch);
 
@@ -108,13 +111,13 @@ public:
     void ParseLocalMCI(std::string &AnsiString, std::string mcicode, std::string outbuff);
     void afilecon(std::string &AnsiString, int buffer);
 
-    void pipe2ansi(char* szString, int buffer=TRUE);
-    std::string pipe2string(std::string szString);
+    void pipe2ansi(char* szString, int buffer=TRUE);	
+	std::string pipe2string(std::string szString);
     void setTermSpeed(int speed);
 
     BOOL ansiPrintf(char *filename, int delay=FALSE, int abort=FALSE);
     void readinAnsi(std::string FileName, std::string &buff);
-    int  startpause(char *script= NULL);
+    int  startpause(char *script='\0');
 
     int getxy();
     int ansi_getx();

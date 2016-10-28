@@ -12,15 +12,16 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: msgs.cpp 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msgs.cpp $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "mb_api.h"
 # include "mb_jam.h"
+
 # include "msgs.h"
 # include "conio.h"
 # include "language.h"
@@ -30,6 +31,7 @@
 # include <cstring>  // gcc 4.3
 # include <cstdlib>  // gcc 4.3
 # include <unistd.h> // gcc 4.7
+
 # include <string>
 
 using namespace std;
@@ -37,6 +39,7 @@ using namespace std;
 /*
 int msgs::read_emaillist(EmailIdx *em, int recno)
 {
+
     int x = 0;
     std::string path = DATAPATH;
     path += "email.dat";
@@ -51,6 +54,7 @@ int msgs::read_emaillist(EmailIdx *em, int recno)
             return x;
         }
     }
+
     if(fseek(fptr,(int)recno*sizeof(EmailIdx),SEEK_SET)==0)
         x=fread(em,sizeof(EmailIdx),1,fptr);
 
@@ -60,6 +64,7 @@ int msgs::read_emaillist(EmailIdx *em, int recno)
 
 int msgs::save_emaillist(EmailIdx *em, int recno)
 {
+
     std::string path = DATAPATH;
     path += "email.dat";
 
@@ -86,36 +91,34 @@ int msgs::save_emaillist(EmailIdx *em, int recno)
  */
 int msgs::mbaselist_lockSet(int onoff)
 {
-    std::string path = LOCKPATH;
-    path += "msgforums.lck";
-    if(!onoff)
-    {
-        remove((char *) path.c_str());
-        return TRUE;
-    }
 
-    //While lock file missing, create, or loop until it disapears.
-    FILE *stream;
-    while(1)
-    {
-        stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
-            stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
-                printf("Error msgforums.lck!");
-                return FALSE;
-            }
-            else
-            {
-                fclose(stream);
-                return TRUE;
-            }
+
+        std::string path = LOCKPATH;
+        path += "msgforums.lck";
+
+        if (!onoff) {
+            remove((char *)path.c_str());
+            return TRUE;
         }
-        fclose(stream);
-        usleep(10*20000);
-    }
+
+        //While lock file missing, create, or loop until it disapears.
+        FILE *stream;
+        while(1) {
+            stream = fopen(path.c_str(),"rb+");
+            if(stream == NULL) {
+                stream = fopen(path.c_str(), "wb");
+                if(stream == NULL) {
+                    printf("Error msgforums.lck!");
+                    return FALSE;
+                }
+                else {
+                    fclose(stream);
+                    return TRUE;
+                }
+            }
+            fclose(stream);
+            usleep(10*20000);
+        }
 }
 
 /**
@@ -125,6 +128,7 @@ int msgs::read_mbaselist(mb_list_rec *mr, int rec)
 {
     int x = 0;
     std::string path = DATAPATH;
+
     path += "msgforums.dat";
 
     mbaselist_lockSet(TRUE);
@@ -139,12 +143,15 @@ int msgs::read_mbaselist(mb_list_rec *mr, int rec)
             return x;
         }
     }
-    if(fseek(fptr, (int) rec*sizeof(mb_list_rec),SEEK_SET) ==0)
+
+    if(fseek(fptr,(int)rec*sizeof(mb_list_rec),SEEK_SET)==0)
         x=fread(mr,sizeof(mb_list_rec),1,fptr);
+
     fclose(fptr);
     mbaselist_lockSet(FALSE);
-    return (x);
+    return(x);
 }
+
 
 /**
  * Message Area File - Temp Holder When removing
@@ -153,7 +160,9 @@ int msgs::save_mbasetemp(mb_list_rec *mr, int rec)
 {
     FILE *fptr;
     int x = 0;
+
     std::string path = DATAPATH;
+
     path += "msgforums.tmp";
 
     mbaselist_lockSet(TRUE);
@@ -168,12 +177,15 @@ int msgs::save_mbasetemp(mb_list_rec *mr, int rec)
             return x;
         }
     }
-    if(fseek(fptr, (int) rec*sizeof(mb_list_rec),SEEK_SET) ==0)
+
+    if(fseek(fptr,(int)rec*sizeof(mb_list_rec),SEEK_SET)==0)
         x=fwrite(mr,sizeof(mb_list_rec),1,fptr);
+
     fclose(fptr);
     mbaselist_lockSet(FALSE);
-    return (x);
+    return(x);
 }
+
 
 /**
  * Message Area File - Save Message Area
@@ -181,6 +193,7 @@ int msgs::save_mbasetemp(mb_list_rec *mr, int rec)
 int msgs::save_mbaselist(mb_list_rec *mr, int rec)
 {
     std::string path = DATAPATH;
+
     path += "msgforums.dat";
 
     mbaselist_lockSet(TRUE);
@@ -196,18 +209,20 @@ int msgs::save_mbaselist(mb_list_rec *mr, int rec)
             return x;
         }
     }
-    if(fseek(stream, (int) rec*sizeof(mb_list_rec),SEEK_SET) ==0)
+    if(fseek(stream,(int)rec*sizeof(mb_list_rec),SEEK_SET)==0)
         x = fwrite(mr,sizeof(mb_list_rec),1,stream);
     fclose(stream);
     mbaselist_lockSet(FALSE);
     return x;
 }
 
+
 /**
  * Message Area File - Count Message Areas
  */
 int msgs::msg_count()
 {
+
     int i = 0;
     mb_list_rec mb;
 
@@ -218,7 +233,7 @@ int msgs::msg_count()
     ++i;
     if(i < 1)   i = -1;
     else i--;
-    return (i);
+    return(i);
 }
 
 
@@ -227,6 +242,7 @@ int msgs::msg_count()
  */
 int msgs::msg_find(char *tfile)
 {
+
     string temp1, temp2;
     mb_list_rec mb;
     temp1 = (tfile);
@@ -235,10 +251,10 @@ int msgs::msg_find(char *tfile)
     while(read_mbaselist(&mb,idx))
     {
         temp2 = (char *)(mb.mbfile);
-        if(temp1 == temp2) return (idx);
+        if(temp1 == temp2) return(idx);
         idx++;
     }
-    return (-1);
+    return(-1);
 }
 
 /**
@@ -246,14 +262,17 @@ int msgs::msg_find(char *tfile)
  */
 int msgs::jlr_lockSet(int onoff)
 {
+
     std::string path = LOCKPATH;
     path += "ljr.lck";
-    if(!onoff)
+
+    if (!onoff)
     {
-        remove((char *) path.c_str());
+        remove((char *)path.c_str());
         return TRUE;
     }
-    //While lock file present, loop untill it disapears.
+
+    //While lock file missing, loop untill it disapears.
     FILE *stream;
     while(1)
     {
@@ -282,13 +301,15 @@ int msgs::jlr_lockSet(int onoff)
  */
 int msgs::readlr(LastRead *lr, int idx, mb_list_rec *mb)
 {
+
     char path[1024]= {0};
     //printf("%s%s.jlr", mb->mbpath, mb->mbfile);
-    sprintf(path,"%s%s.jlr2", MESGPATH, (char *) mb->mbfile);
+    sprintf(path,"%s%s.jlr2", MESGPATH, (char *)mb->mbfile);
     jlr_lockSet(TRUE);
 
     int x = 0;
     FILE *stream;
+
     stream = fopen(path,"rb+");
     if(stream == NULL)
     {
@@ -298,7 +319,7 @@ int msgs::readlr(LastRead *lr, int idx, mb_list_rec *mb)
     else fclose(stream);
 
     stream = fopen(path, "rb");
-    if(fseek(stream, (int) idx*sizeof(LastRead),SEEK_SET) ==0)
+    if(fseek(stream,(int)idx*sizeof(LastRead),SEEK_SET)==0)
         x = fread(lr,sizeof(LastRead),1,stream);
     fclose(stream);
     jlr_lockSet(FALSE);
@@ -310,12 +331,14 @@ int msgs::readlr(LastRead *lr, int idx, mb_list_rec *mb)
  */
 int msgs::writelr(LastRead *lr, int idx, mb_list_rec *mb)
 {
+
     char path[1024]= {0};
-    sprintf(path,"%s%s.jlr2", MESGPATH, (char *) mb->mbfile);
+    sprintf(path,"%s%s.jlr2", MESGPATH, (char *)mb->mbfile);
     jlr_lockSet(TRUE);
 
     FILE *stream;
     int x = 0;
+
     stream=fopen(path,"rb+");
     if(stream == NULL)
     {
@@ -328,12 +351,13 @@ int msgs::writelr(LastRead *lr, int idx, mb_list_rec *mb)
             return 0;
         }
     }
-    if(fseek(stream, (int) idx*sizeof(LastRead),SEEK_SET) ==0)
+    if(fseek(stream,(int)idx*sizeof(LastRead),SEEK_SET)==0)
         x = fwrite(lr,sizeof(LastRead),1,stream);
     fclose(stream);
     jlr_lockSet(FALSE);
     return (x);
 }
+
 
 /**
  * Custom Jam Message Pointers, Pointers by Msg # is retarded
@@ -342,28 +366,35 @@ int msgs::writelr(LastRead *lr, int idx, mb_list_rec *mb)
  */
 ulong msgs::JamAreaGetLast(long usernum, mb_list_rec *mb)
 {
+
     SESSION _s;
+
     LastRead lr;
     memset(&lr,0,sizeof(LastRead));
-    if(!readlr(&lr,usernum,mb))
+
+    if (!readlr(&lr,usernum,mb))
     {
         return 0;
     }
+
     // First we check with a quick and dirty by msg #, like old way, but
     // We verify the CRC32 value of the MSGID to make sure.
     std::string tmp;
-    unsigned long crcvalue = (ulong) jamapi_readmsgid(mb,lr.RepID,tmp);
-    if(lr.MsgID == crcvalue)
+    unsigned long crcvalue = (ulong)jamapi_readmsgid(mb,lr.RepID,tmp);
+    if (lr.MsgID == crcvalue)
     {
         return (lr.RepID);
     }
+
     // Else we have to search through all messages. or start at begining.
     // Returns 0L for Nuttin, or Message Number of Matching MsgID.
     unsigned long ret;
     ret = buildmsgid(lr.MsgID,mb);
-    if(ret != 0) ++ret;    // When we set, we minus 1, add it back now.
+    if (ret != 0) ++ret; // When we set, we minus 1, add it back now.
+
     return (ret);
 }
+
 
 /**
  * Set is now done by MSGID, it's universal and unique, and holds better
@@ -376,19 +407,26 @@ void msgs::JamAreaSetLast(long usernum, long msgnum, mb_list_rec *mb)
     // Now we need take the currnet message_index
     // then we need to get the header with the MSGID.
     // we then save the msgid that will be in crc32 into lr. MsgID
+
     LastRead lr;
     memset(&lr,0,sizeof(LastRead));
-    std::string tmp;
-    //    Get msg id..
-    //    Header_S.MsgIdCRC=JAM_Crc32(buf,strlen((char *)buf));
-    lr.RepID = msgnum; //original message # (Quick Searches)
-    lr.MsgID = (ulong) jamapi_readmsgid(mb, msgnum, tmp);
 
-    if(!writelr(&lr,usernum,mb))
-    {
-        //    _s.errlog((char *)"JamAreaSetLast: lr.RepID CRC32 (%lu) lr.MsgID CRC32 (%lu)",lr.RepID,lr.MsgID);
-    }
+    std::string tmp;
+
+    //	Get msg id..
+    //	Header_S.MsgIdCRC=JAM_Crc32(buf,strlen((char *)buf));
+
+    lr.RepID = msgnum; //original message # (Quick Searches)
+    lr.MsgID = (ulong)jamapi_readmsgid(mb, msgnum, tmp);
+
+
+    if (!writelr(&lr,usernum,mb))
+	{
+		//	_s.errlog((char *)"JamAreaSetLast: lr.RepID CRC32 (%lu) lr.MsgID CRC32 (%lu)",lr.RepID,lr.MsgID);
+	}
 }
+
+
 
 /**
  * Read Area and get Count of Total Messages
@@ -397,15 +435,17 @@ void msgs::JamAreaSetLast(long usernum, long msgnum, mb_list_rec *mb)
  */
 unsigned long msgs::CountMsgs(unsigned long mbnum, UserRec *usr)
 {
-    mb_list_rec   mb;
-    memset(&mb,0,sizeof(mb_list_rec));
+	mb_list_rec   mb;
+	memset(&mb,0,sizeof(mb_list_rec));
 
-    // Get Public/Private status of currnet area
+	// Get Public/Private status of currnet area
     read_mbaselist(&mb, mbnum);
-    // This procedure uses ja->active as real true count of total
-    // Live messages per area.
-    return jamapi_countmsgs(&mb, usr);
+
+	// This procedure uses ja->active as real true count of total
+	// Live messages per area.
+	return jamapi_countmsgs(&mb, usr);
 }
+
 
 /**
  * Count new message from Area passed.
@@ -413,28 +453,34 @@ unsigned long msgs::CountMsgs(unsigned long mbnum, UserRec *usr)
  */
 unsigned long msgs::CountNewMsgs(unsigned long mbnum, UserRec *usr)
 {
-    SESSION       s(usr);    // Pass User Incase there are MCI Codes for User Info.
-    mb_list_rec mr;
 
-    memset(&mr,0,sizeof(mb_list_rec));
+	SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
+
+	mb_list_rec mr;
+
+	memset(&mr,0,sizeof(mb_list_rec));
     read_mbaselist(&mr, mbnum);
 
     unsigned long msgcnt = 0;
     msgcnt = CountMsgs(mbnum, usr);
 
     unsigned long lastread = JamAreaGetLast(usr->idx, &mr);
-//    s.errlog2((char *)"CountNewMessages() mbnum %lu, msgcnt %lu, lastread %lu ",mbnum, msgcnt, lastread);
-    // No New Messages
-    if(lastread >= msgcnt || msgcnt == 0)
-        return 0;
-    // Last Read is Index of eList[] Array 0 Based.
-    // Incriment 1 so we can subtract from total messages, not Zero Based.
-    if(lastread < msgcnt)
-    {
-        return (msgcnt - lastread);
-    }
-    return 0;
+
+//	s.errlog2((char *)"CountNewMessages() mbnum %lu, msgcnt %lu, lastread %lu ",mbnum, msgcnt, lastread);
+
+	// No New Messages
+	if (lastread >= msgcnt || msgcnt == 0)
+		return 0;
+
+	// Last Read is Index of eList[] Array 0 Based.
+	// Incriment 1 so we can subtract from total messages, not Zero Based.
+    if (lastread < msgcnt)
+	{
+		return (msgcnt - lastread);
+	}
+	return 0;
 }
+
 
 /**
  * Counts New Mesages for All Areas (Includes Email)
@@ -442,19 +488,24 @@ unsigned long msgs::CountNewMsgs(unsigned long mbnum, UserRec *usr)
  */
 unsigned long msgs::CountAllNewMsgs(UserRec *usr)
 {
+
     ulong counter = 1;
-    ulong msgcnt  = 0;
-    msgcnt = 0;  // Skip Email!
+	ulong msgcnt  = 0;
+
+	msgcnt = 0;  // Skip Email!
 
     mb_list_rec   mb;
-    memset(&mb,0,sizeof(mb_list_rec));
+	memset(&mb,0,sizeof(mb_list_rec));
+
     while(read_mbaselist(&mb, counter))
     {
         msgcnt += CountNewMsgs(counter, usr);
         ++counter;
     }
-    return (msgcnt);
+
+    return(msgcnt);
 }
+
 
 /**
  * New User, Reset all Last Reads Pointers to 0
@@ -464,7 +515,7 @@ void msgs::resetlastread(UserRec *usr)
 {
     unsigned long i = 0;
     mb_list_rec mb;
-    memset(&mb,0,sizeof(mb_list_rec));
+	memset(&mb,0,sizeof(mb_list_rec));
 
     while(read_mbaselist(&mb,i))
     {
@@ -472,3 +523,4 @@ void msgs::resetlastread(UserRec *usr)
         ++i;
     }
 }
+

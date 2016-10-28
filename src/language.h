@@ -12,20 +12,20 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
+// Enthral SVN: $Id: language.h 1 2014-03-29 07:30:21Z mercyful $
+// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/language.h $
+// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
+// $LastChangedRevision: 1 $
+// $LastChangedBy: mercyful $
 
 # ifndef LANGUAGE_H
 # define LANGUAGE_H
 
-# include "struct.h"
-
 # include <string>
 
 using namespace std;
+
+# include "struct.h"
 
 class language
 {
@@ -38,6 +38,8 @@ public:
     void lang_get(char *lang, int idx);
     void lang_check(std::string lang);
     void lang_compile();
+
 };
+
 
 # endif
