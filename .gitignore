@@ -14,6 +14,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+#Project and Temp Files
+*.Tpo
+*.Po
+*.o
+*.m4
+
+
+
 # Windows shortcuts
 *.lnk
 

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../src/enthral.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="7373" topLine="62" />
+	</File>
+	<File name="../src/user_list.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1451" topLine="0" />
+	</File>
+	<File name="../src/users.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2200" topLine="0" />
+	</File>
 </CodeBlocks_layout_file>
