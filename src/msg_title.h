@@ -92,9 +92,9 @@ public:
     void  SetupList(UserRec *user, int isPrivate);
 
     int   StartTitleList(int newscan,
-                        unsigned long marea,
-                        vector<unsigned long> &elist,
-                        unsigned long currmsg);
+                         unsigned long marea,
+                         vector<unsigned long> &elist,
+                         unsigned long currmsg);
 
 };
 

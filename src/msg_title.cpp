@@ -394,8 +394,8 @@ void msg_title::ParseHeader(char *filename)
 
         //If we Parsed Justify, then Erase that MCI Code as well.
         (space != 0) ?
-            buff.replace(id1,6,sTemp):
-            buff.replace(id1,3,sTemp);
+        buff.replace(id1,6,sTemp):
+        buff.replace(id1,3,sTemp);
     }
     //elog("Finished Parsing MCI Codes...");
     pipe2ansi((char *)buff.c_str());
@@ -410,8 +410,8 @@ void msg_title::SetupList(UserRec *user, int isPrivate)
     // Still WIP, Need to update .ans pull from ini file.
     // Use a different theme ansi for Public vs Private Title Scans
     (isPrivate) ?
-        sprintf(sININAME,"%s",(char *)"msgtitle_private.ini"):
-        sprintf(sININAME,"%s",(char *)"msgtitle_public.ini");
+    sprintf(sININAME,"%s",(char *)"msgtitle_private.ini"):
+    sprintf(sININAME,"%s",(char *)"msgtitle_public.ini");
 
 
     thisuser = user;
@@ -878,7 +878,7 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
                 break;
             }
 
-             temp3.erase();
+            temp3.erase();
 
         } // End of (4) Look for each string.
 
@@ -914,9 +914,9 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
  * Title Scan - Start Interface
  */
 int msg_title::StartTitleList(int newscan,
-                               unsigned long marea,
-                               vector<unsigned long> &elist,
-                               unsigned long currmsg)
+                              unsigned long marea,
+                              vector<unsigned long> &elist,
+                              unsigned long currmsg)
 {
     menu_func   _mnuf;
     msg_readll  mLink;
@@ -1129,7 +1129,7 @@ JMPINPUT1:
                         goto JMPINPUT1;
                     break;
 
-                // hit ENTER
+                    // hit ENTER
                 case 'E': // Read Selected Message
                     mLink.dispose_list();
                     vector<list_bar>() . swap(result); // Free Vector Up.
@@ -1251,9 +1251,9 @@ JMPINPUT1:
                     mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                     break;
 
-                // Pass through, any functionaly that should
-                // Be handeled in Reader.
-                // to the Message Reader. ie post ,reply, delete...
+                    // Pass through, any functionaly that should
+                    // Be handeled in Reader.
+                    // to the Message Reader. ie post ,reply, delete...
                 default :
 
                     mLink.dispose_list();

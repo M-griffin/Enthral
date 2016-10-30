@@ -93,32 +93,37 @@ int msgs::mbaselist_lockSet(int onoff)
 {
 
 
-        std::string path = LOCKPATH;
-        path += "msgforums.lck";
+    std::string path = LOCKPATH;
+    path += "msgforums.lck";
 
-        if (!onoff) {
-            remove((char *)path.c_str());
-            return TRUE;
-        }
+    if (!onoff)
+    {
+        remove((char *)path.c_str());
+        return TRUE;
+    }
 
-        //While lock file missing, create, or loop until it disapears.
-        FILE *stream;
-        while(1) {
-            stream = fopen(path.c_str(),"rb+");
-            if(stream == NULL) {
-                stream = fopen(path.c_str(), "wb");
-                if(stream == NULL) {
-                    printf("Error msgforums.lck!");
-                    return FALSE;
-                }
-                else {
-                    fclose(stream);
-                    return TRUE;
-                }
+    //While lock file missing, create, or loop until it disapears.
+    FILE *stream;
+    while(1)
+    {
+        stream = fopen(path.c_str(),"rb+");
+        if(stream == NULL)
+        {
+            stream = fopen(path.c_str(), "wb");
+            if(stream == NULL)
+            {
+                printf("Error msgforums.lck!");
+                return FALSE;
             }
-            fclose(stream);
-            usleep(10*20000);
+            else
+            {
+                fclose(stream);
+                return TRUE;
+            }
         }
+        fclose(stream);
+        usleep(10*20000);
+    }
 }
 
 /**
@@ -421,9 +426,9 @@ void msgs::JamAreaSetLast(long usernum, long msgnum, mb_list_rec *mb)
 
 
     if (!writelr(&lr,usernum,mb))
-	{
-		//	_s.errlog((char *)"JamAreaSetLast: lr.RepID CRC32 (%lu) lr.MsgID CRC32 (%lu)",lr.RepID,lr.MsgID);
-	}
+    {
+        //	_s.errlog((char *)"JamAreaSetLast: lr.RepID CRC32 (%lu) lr.MsgID CRC32 (%lu)",lr.RepID,lr.MsgID);
+    }
 }
 
 
@@ -435,15 +440,15 @@ void msgs::JamAreaSetLast(long usernum, long msgnum, mb_list_rec *mb)
  */
 unsigned long msgs::CountMsgs(unsigned long mbnum, UserRec *usr)
 {
-	mb_list_rec   mb;
-	memset(&mb,0,sizeof(mb_list_rec));
+    mb_list_rec   mb;
+    memset(&mb,0,sizeof(mb_list_rec));
 
-	// Get Public/Private status of currnet area
+    // Get Public/Private status of currnet area
     read_mbaselist(&mb, mbnum);
 
-	// This procedure uses ja->active as real true count of total
-	// Live messages per area.
-	return jamapi_countmsgs(&mb, usr);
+    // This procedure uses ja->active as real true count of total
+    // Live messages per area.
+    return jamapi_countmsgs(&mb, usr);
 }
 
 
@@ -454,11 +459,11 @@ unsigned long msgs::CountMsgs(unsigned long mbnum, UserRec *usr)
 unsigned long msgs::CountNewMsgs(unsigned long mbnum, UserRec *usr)
 {
 
-	SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
+    SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
 
-	mb_list_rec mr;
+    mb_list_rec mr;
 
-	memset(&mr,0,sizeof(mb_list_rec));
+    memset(&mr,0,sizeof(mb_list_rec));
     read_mbaselist(&mr, mbnum);
 
     unsigned long msgcnt = 0;
@@ -468,17 +473,17 @@ unsigned long msgs::CountNewMsgs(unsigned long mbnum, UserRec *usr)
 
 //	s.errlog2((char *)"CountNewMessages() mbnum %lu, msgcnt %lu, lastread %lu ",mbnum, msgcnt, lastread);
 
-	// No New Messages
-	if (lastread >= msgcnt || msgcnt == 0)
-		return 0;
+    // No New Messages
+    if (lastread >= msgcnt || msgcnt == 0)
+        return 0;
 
-	// Last Read is Index of eList[] Array 0 Based.
-	// Incriment 1 so we can subtract from total messages, not Zero Based.
+    // Last Read is Index of eList[] Array 0 Based.
+    // Incriment 1 so we can subtract from total messages, not Zero Based.
     if (lastread < msgcnt)
-	{
-		return (msgcnt - lastread);
-	}
-	return 0;
+    {
+        return (msgcnt - lastread);
+    }
+    return 0;
 }
 
 
@@ -490,12 +495,12 @@ unsigned long msgs::CountAllNewMsgs(UserRec *usr)
 {
 
     ulong counter = 1;
-	ulong msgcnt  = 0;
+    ulong msgcnt  = 0;
 
-	msgcnt = 0;  // Skip Email!
+    msgcnt = 0;  // Skip Email!
 
     mb_list_rec   mb;
-	memset(&mb,0,sizeof(mb_list_rec));
+    memset(&mb,0,sizeof(mb_list_rec));
 
     while(read_mbaselist(&mb, counter))
     {
@@ -515,7 +520,7 @@ void msgs::resetlastread(UserRec *usr)
 {
     unsigned long i = 0;
     mb_list_rec mb;
-	memset(&mb,0,sizeof(mb_list_rec));
+    memset(&mb,0,sizeof(mb_list_rec));
 
     while(read_mbaselist(&mb,i))
     {

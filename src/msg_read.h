@@ -98,7 +98,7 @@ private:
     int  tTop,
     tBot,
     firstscan,    // Firstscan of current area
-	gblNewScan;   // Global NewScan
+    gblNewScan;   // Global NewScan
 
     ulong Views;
 
@@ -121,9 +121,9 @@ public:
     // Parsing the Message Header
     void ansi_file(char *filename);
 
-	// Read in Message Only, for replying from title scan
-	void ReadInMsgOnly(ulong marea);
-		
+    // Read in Message Only, for replying from title scan
+    void ReadInMsgOnly(ulong marea);
+
     // Process both Normal and email/netmail message reading.
     int  ReadMsg(ulong mbnum, int showit, int newmsg, int private_area=FALSE);
 

@@ -29,7 +29,7 @@
 # include <cstring> //gcc 4.3
 # include <cstdlib> //gcc 4.3
 # include <string>
-# include <sstream> 
+# include <sstream>
 
 
 using namespace std;
@@ -89,69 +89,69 @@ int main () {
 // Split this up into MCI Codes for Days, Hours, minues, seconds!!
 char *getLastCallDays(std::time_t lastcall)
 {
-	std::time_t  theTime, callTime;
+    std::time_t  theTime, callTime;
 
 
     // Convert Current Time to Breakdown Format
     theTime = time(0);
     callTime = lastcall;
 
-	std::string s;
-	std::stringstream ss;
-  	  
+    std::string s;
+    std::stringstream ss;
+
     if ( theTime != (std::time_t)(-1) && callTime != (std::time_t)(-1) )
     {
         double difference = std::difftime(theTime, callTime); /// (60 * 60 * 24);
 
-		int days = (int)difference / 86400;
- 		int hours = (int)(difference / 3600) - (days * 24);
- 		int mins = (int)(difference / 60) - (days * 1440) - (hours * 60);
- 		int secs = (int)difference % 60;
+        int days = (int)difference / 86400;
+        int hours = (int)(difference / 3600) - (days * 24);
+        int mins = (int)(difference / 60) - (days * 1440) - (hours * 60);
+        int secs = (int)difference % 60;
 
-		// Use Space for Padding each Time 
-		bool space = false;
-		
-		if (days > 0)
-		{
-			space = true;
-			if (days > 1)
-				ss << days  << ") Days";
-			else
-				ss << days  << ") Day";
-		}
-		if (hours > 0)
-		{
-			if (space)
-				ss << ", ";
-			space = true;
-			if (hours > 1)
-				ss << hours << ") Hours";
-			else
-				ss << hours << ") Hour";
-		}
-		if (mins > 0)
-		{
-			if (space)
-				ss << ", ";
-			space = true;
-			if (mins > 1)
-				ss << mins  << ") Minutes";
-			else
-				ss << mins  << ") Minute";
-		}
-		if (secs > 0 )
-		{
-			if (space)
-				ss << ", ";
-			if (secs > 1)
-				ss << secs  << ") Seconds";
-			else
-				ss << secs  << ") Second";			
-		}
+        // Use Space for Padding each Time
+        bool space = false;
 
-		s = ss.str();
-	    return (char *)s.c_str();
-		
+        if (days > 0)
+        {
+            space = true;
+            if (days > 1)
+                ss << days  << ") Days";
+            else
+                ss << days  << ") Day";
+        }
+        if (hours > 0)
+        {
+            if (space)
+                ss << ", ";
+            space = true;
+            if (hours > 1)
+                ss << hours << ") Hours";
+            else
+                ss << hours << ") Hour";
+        }
+        if (mins > 0)
+        {
+            if (space)
+                ss << ", ";
+            space = true;
+            if (mins > 1)
+                ss << mins  << ") Minutes";
+            else
+                ss << mins  << ") Minute";
+        }
+        if (secs > 0 )
+        {
+            if (space)
+                ss << ", ";
+            if (secs > 1)
+                ss << secs  << ") Seconds";
+            else
+                ss << secs  << ") Second";
+        }
+
+        s = ss.str();
+        return (char *)s.c_str();
+
     }
     return (char *)"error";
 }
@@ -169,24 +169,24 @@ char *getAge(std::time_t sec)
 
     int currentday   = aTime->tm_mday;
     int currentmonth = aTime->tm_mon  + 1;     // Month is 0 - 11, add 1 to get a jan-dec 1-12 concept
-    int currentyear  = aTime->tm_year + 1900; 
+    int currentyear  = aTime->tm_year + 1900;
 
     // Convert Birth Time to Breakdown Format
-	birthTime = sec;
+    birthTime = sec;
     bTime = std::localtime(&birthTime);
 
-	int birthday   = bTime->tm_mday;
+    int birthday   = bTime->tm_mday;
     int birthmonth = bTime->tm_mon  + 1;     // Month is 0 - 11, add 1 to get a jan-dec 1-12 concept
-    int birthyear  = bTime->tm_year + 1900; 
+    int birthyear  = bTime->tm_year + 1900;
 
-	int ageInYears = currentyear - birthyear;
-	if (birthmonth > currentmonth)
-		--ageInYears;
-	else if (birthmonth == currentmonth && birthday >= currentday)
-		--ageInYears;
+    int ageInYears = currentyear - birthyear;
+    if (birthmonth > currentmonth)
+        --ageInYears;
+    else if (birthmonth == currentmonth && birthday >= currentday)
+        --ageInYears;
 
-	std::string s = boost::lexical_cast<std::string>(ageInYears);
-	return (char *)s.c_str();
+    std::string s = boost::lexical_cast<std::string>(ageInYears);
+    return (char *)s.c_str();
 }
 
 
@@ -197,7 +197,7 @@ int isBday(std::time_t sec)
     std::tm     *t2;
 
     char date[25]= {0},
-        date2[25]= {0};
+                   date2[25]= {0};
 
     //static char buff[4]={0};
 
@@ -311,23 +311,23 @@ char *Sec2Date(std::time_t sec)
 {
 
     std::time_t currnetTime;
-	std::tm     *tStamp;
-	char buf[256] = {0};
+    std::tm     *tStamp;
+    char buf[256] = {0};
 
     currnetTime = sec;
     tStamp = std::localtime(&currnetTime);
 
-	//cout << "sec test: " << sec << endl;
-	/*
-	int currentday   = tStamp->tm_mday;
+    //cout << "sec test: " << sec << endl;
+    /*
+    int currentday   = tStamp->tm_mday;
     int currentmonth = tStamp->tm_mon  + 1;     // Month is 0 - 11, add 1 to get a jan-dec 1-12 concept
-    int currentyear  = tStamp->tm_year + 1900; 
-	*/
-	//cout << "date test: " << currentmonth << currentday << currentyear << endl;
-		
+    int currentyear  = tStamp->tm_year + 1900;
+    */
+    //cout << "date test: " << currentmonth << currentday << currentyear << endl;
+
     strftime(buf, 256, "%m/%d/%Y", tStamp);
 
-	std::string s = buf;
+    std::string s = buf;
     return (char *)s.c_str();
 }
 
@@ -339,7 +339,7 @@ time_t Date2Sec(char *strdate)    // "04/04/1977"
     dtCompare = strdate;
 
     std::string::size_type id1 = 0;
-	
+
     id1 = dtCompare.find("/",0);
     // Insert Preceeding 0 to update to 01/ from 1/
     if (id1 < 2)
@@ -376,9 +376,9 @@ time_t Date2Sec(char *strdate)    // "04/04/1977"
     yy = atoi(dt);
 
 
-	//cout << "test: " << dd << mm << yy << endl;
+    //cout << "test: " << dd << mm << yy << endl;
 
-	
+
     ts.tm_mday  = dd;
     ts.tm_mon   = mm - 1;
     ts.tm_year  = yy - 1900;
@@ -387,16 +387,16 @@ time_t Date2Sec(char *strdate)    // "04/04/1977"
     time_t tmp_t;
     tmp_t = mktime(&ts);
 
-	//cout << "epoc: " << tmp_t << endl;
-	
+    //cout << "epoc: " << tmp_t << endl;
+
     return (tmp_t);
 }
 
 
 char *Sec2DateTM(std::time_t time, int format)
-{    
+{
     std::time_t  the_time;
-	std::tm *tm_ptr;
+    std::tm *tm_ptr;
 
     char buff[256] = {0};
     memset (&buff,0,sizeof(buff));
@@ -404,13 +404,13 @@ char *Sec2DateTM(std::time_t time, int format)
     the_time = (time_t)time;
     tm_ptr = std::localtime(&the_time);
 
-	/*
-	int currentday   = tm_ptr->tm_mday;
+    /*
+    int currentday   = tm_ptr->tm_mday;
     int currentmonth = tm_ptr->tm_mon  + 1;     // Month is 0 - 11, add 1 to get a jan-dec 1-12 concept
-    int currentyear  = tm_ptr->tm_year + 1900; 
+    int currentyear  = tm_ptr->tm_year + 1900;
 
-	cout << "date test: " << currentday << currentmonth << currentyear << endl;
-	*/
+    cout << "date test: " << currentday << currentmonth << currentyear << endl;
+    */
 
     // Setup Formatting For Every DAT & Seperate Time Format (WIP)
     switch (format)
@@ -443,7 +443,7 @@ char *Sec2DateTM(std::time_t time, int format)
         break;
     }
 
-	std::string s = buff;
+    std::string s = buff;
     return (char *)s.c_str();
 
 }

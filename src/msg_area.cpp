@@ -892,7 +892,7 @@ void msg_area::ParseHeader(char *filename)
 }
 
 /**
- * Message Areas - Setup The Area List, 
+ * Message Areas - Setup The Area List,
  * Also check default Ansi Theme and set per user
  */
 void msg_area::SetupList(UserRec *user)
@@ -909,7 +909,7 @@ void msg_area::SetupList(UserRec *user)
 }
 
 /**
- * Message Areas - Change Ansi Theme if available. 
+ * Message Areas - Change Ansi Theme if available.
  */
 int msg_area::change_theme(int idx)
 {
@@ -1078,7 +1078,7 @@ char *msg_area::StartList()
             _output += outBuffer;
 
             pipe2ansi((char *)_output.c_str());
-			
+
             // Blank out the previous menu so we can reload, / redraw on restart.
             //memset(&_mnuf._premenu,0,sizeof(_mnuf._premenu));
 
@@ -1110,12 +1110,12 @@ JMPINPUT:
             // Draw Input Box
             memset(&text,0, sizeof(text));
             strcpy(text,sINPUT_BOX);
-			
-            sprintf(outBuffer,"%d",mLink.Tot);	
-			len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
-			inputfield(text,len);
 
-			_output = text;
+            sprintf(outBuffer,"%d",mLink.Tot);
+            len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
+            inputfield(text,len);
+
+            _output = text;
             _output += "|16";
             pipe2ansi((char *)_output.c_str());
 
@@ -1142,9 +1142,9 @@ JMPINPUT:
                     {
                         --CurrentPage;
 
-						// Reset Bar to first Listing on each Page.
-						// CurrentPage = CURRENT_MAREA / boxsize;
-						CURRENT_MAREA = CurrentPage * boxsize;
+                        // Reset Bar to first Listing on each Page.
+                        // CurrentPage = CURRENT_MAREA / boxsize;
+                        CURRENT_MAREA = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                     }
                     else
@@ -1156,9 +1156,9 @@ JMPINPUT:
                     {
                         ++CurrentPage;
 
-						// Reset Bar to first Listing on each Page.
-						// CurrentPage = CURRENT_MAREA / boxsize;
-						CURRENT_MAREA = CurrentPage * boxsize;
+                        // Reset Bar to first Listing on each Page.
+                        // CurrentPage = CURRENT_MAREA / boxsize;
+                        CURRENT_MAREA = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                     }
                     else
@@ -1326,10 +1326,10 @@ JMPINPUT:
                     memset(&rBuffer,0, sizeof(rBuffer));
                     memset(&text,0, sizeof(text));
                     strcpy(text,sINPUT_BOX);
-					
-                    sprintf(outBuffer,"%d",mLink.Tot);	
-					len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
-					
+
+                    sprintf(outBuffer,"%d",mLink.Tot);
+                    len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
+
                     inputfield(text,len);
                     pipe2ansi(text);
                     sprintf(sNum,"%c",ch);
@@ -1349,10 +1349,10 @@ JMPINPUT:
                         // Redraw input box
                         memset(&text,0, sizeof(text));
                         strcpy(text,sINPUT_BOX);
-						
-                        sprintf(outBuffer,"%d",mLink.Tot);	
-						len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
-						
+
+                        sprintf(outBuffer,"%d",mLink.Tot);
+                        len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
+
                         inputfield(text,len);
                         pipe2ansi(text);
                         goto JMPINPUT;
@@ -1384,8 +1384,8 @@ JMPINPUT:
                         {
                             --CurrentPage;
 
-							// Reset Bar to first Listing on each Page.							
-							CURRENT_MAREA = CurrentPage * boxsize;
+                            // Reset Bar to first Listing on each Page.
+                            CURRENT_MAREA = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                         }
                         else
@@ -1396,8 +1396,8 @@ JMPINPUT:
                         if (CurrentPage+1 != mLink.TotPages)
                         {
                             ++CurrentPage;
-							// Reset Bar to first Listing on each Page.							
-							CURRENT_MAREA = CurrentPage * boxsize;
+                            // Reset Bar to first Listing on each Page.
+                            CURRENT_MAREA = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                         }
                         else

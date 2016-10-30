@@ -418,7 +418,7 @@ void msg_quote::ParseMQuote(char *filename)
     while(id1 != std::string::npos);
 
     //write(0,(char *)temp.c_str(),temp.size());
-	pipe2ansi((char *)temp.c_str());
+    pipe2ansi((char *)temp.c_str());
 }
 
 /*
@@ -447,15 +447,15 @@ void msg_quote::setup_quoter()
 void msg_quote::insert_lines(LineRec *orgLink, msg_readll *mLink)
 {
 
-	
+
     int count = 1;
     std::string::size_type id1 = 0, id2 = 0;
-	std::string currLine;
-	std::string newLine;
-	std::string tmpLine;
+    std::string currLine;
+    std::string newLine;
+    std::string tmpLine;
     LineRec *lineTmp;
 
-	vector<string> newList;
+    vector<string> newList;
 
     if(orgLink == 0)
     {
@@ -463,18 +463,18 @@ void msg_quote::insert_lines(LineRec *orgLink, msg_readll *mLink)
     }
 
     lineTmp = orgLink;
-	
+
     while ( lineTmp != 0 )
-    {        			
+    {
         while (1)    // Remove any PIPE Color Codes in Quoting.
         {
             id1 = lineTmp->data.find("|", 0);
-            if (id1 != std::string::npos && 
-            		isdigit(lineTmp->data[id1+1]) && 
-            		isdigit(lineTmp->data[id1+2]))
+            if (id1 != std::string::npos &&
+                    isdigit(lineTmp->data[id1+1]) &&
+                    isdigit(lineTmp->data[id1+2]))
                 lineTmp->data.erase(id1,3);
-            else 
-				break;
+            else
+                break;
         }
 
         while (1)    // Remove any ANSI Color Codes
@@ -488,151 +488,151 @@ void msg_quote::insert_lines(LineRec *orgLink, msg_readll *mLink)
             else break;
         }
 
-		// Add to Vecor for New Parsing.
-		newList.push_back(lineTmp->data);
+        // Add to Vecor for New Parsing.
+        newList.push_back(lineTmp->data);
 
-		// Next Line
-		if (lineTmp->dn_link == 0)
-			break;	
-		
-		lineTmp = lineTmp->dn_link;
-	}
+        // Next Line
+        if (lineTmp->dn_link == 0)
+            break;
+
+        lineTmp = lineTmp->dn_link;
+    }
 
 
-	newLine.erase();
-	std::string qInitials;
-		
-	//Loop Vecor List and Word Wrap
-	for(std::string str : newList)
+    newLine.erase();
+    std::string qInitials;
+
+    //Loop Vecor List and Word Wrap
+for(std::string str : newList)
     {
 
-		// When quoting quoted text, removing starting "> "
-		// This doesn't wrap properly.
+        // When quoting quoted text, removing starting "> "
+        // This doesn't wrap properly.
 
-		//id1 = str.find(" II> ");  Find initial. 
-		
+        //id1 = str.find(" II> ");  Find initial.
 
-		// When quoting quoted text, removing starting "> "
-		// This doesn't wrap properly.
-		id1 = str.find("> ");
-		if (id1 != std::string::npos)
-		{
-			if (id1 == 0)
-				str.erase(0,2);
-		}
 
-		id1 = str.find(">> ");
-		if (id1 != std::string::npos)
-		{
-			if (id1 == 0)
-				str.erase(0,1);
-		}
-		
-		// Networking Message Quote,  Remove Initials that mess up word wrapping.
-		// Cover Most Editors, Some Oneoff's migth not wrap right if quoted textline
-		// Goes all the way to col 80!?!?! 
-		// Tripple Quoting, hey are on their Own!
+        // When quoting quoted text, removing starting "> "
+        // This doesn't wrap properly.
+        id1 = str.find("> ");
+        if (id1 != std::string::npos)
+        {
+            if (id1 == 0)
+                str.erase(0,2);
+        }
 
-		id1 = str.find(">",1);  // Ship First Space.
-		if (id1 != std::string::npos)
-		{
+        id1 = str.find(">> ");
+        if (id1 != std::string::npos)
+        {
+            if (id1 == 0)
+                str.erase(0,1);
+        }
 
-			if (str[0] == ' ' && str[1] == '>' && str[2] == '>' && str[3] == ' ')  // " >> "
-			{
-				str.erase(0,2);
-			}
-		
-			else if (str[0] == ' ' && str[2] == '>' && str[3] == ' ') // " I> "
-			{
-				str.erase(0,2);
-			}
-		
-			else if (str[0] == ' ' && str[3] == '>' && str[4] == ' ') // " IN> "
-			{
-				str.erase(0,3);
-			}
-		
-			else if (str[0] == ' ' && str[3] == '>' && str[4] == '>' && str[5] == ' ') // " IN>> "
-			{
-				str.erase(0,4);
-			}
+        // Networking Message Quote,  Remove Initials that mess up word wrapping.
+        // Cover Most Editors, Some Oneoff's migth not wrap right if quoted textline
+        // Goes all the way to col 80!?!?!
+        // Tripple Quoting, hey are on their Own!
 
-			else if (str[0] == ' ' && str[2] == '>') // " I>"
-			{
-				str.erase(0,2);
-			}
-			
-			else if (str[0] == ' ' && str[3] == '>') // " IN>"
-			{
-				str.erase(0,3);
-			}
+        id1 = str.find(">",1);  // Ship First Space.
+        if (id1 != std::string::npos)
+        {
 
-			else if (str[0] == ' ' && str[1] == '>' && str[2] == ' ' && str[3] == '>' && str[4] == ' ')  // " > > "
-			{
-				str.erase(0,3);
-			}
+            if (str[0] == ' ' && str[1] == '>' && str[2] == '>' && str[3] == ' ')  // " >> "
+            {
+                str.erase(0,2);
+            }
 
-			else if (str[0] == ' ' && str[1] == '>' && str[2] == ' ' && str[3] == ' ' && str[4] == '>' && str[5] == ' ')  // " >  > "
-			{
-				str.erase(0,4);
-			}
+            else if (str[0] == ' ' && str[2] == '>' && str[3] == ' ') // " I> "
+            {
+                str.erase(0,2);
+            }
 
-			else if (str[0] == ' ' && str[1] == '>' && str[2] == ' ' && str[3] == '>' && str[4] == '>' && str[5] == ' ')  // " > >> "
-			{
-				str.erase(0,4);
-			}
+            else if (str[0] == ' ' && str[3] == '>' && str[4] == ' ') // " IN> "
+            {
+                str.erase(0,3);
+            }
 
-			// Catch any that fell through.
-			if (str[0] == ' ' && str[1] == '>' && str[2] == ' ') // " > "
-			{
-				str.erase(0,1);
-			}
-			if (str[0] == ' ' && str[1] == '>') // " >"
-			{
-				str.erase(0,1);
-			}
-		}
-		
-		if ((signed)newLine.size() > 0)
-		{
-			str = newLine + " " + str;
-			newLine.erase();
-		}
+            else if (str[0] == ' ' && str[3] == '>' && str[4] == '>' && str[5] == ' ') // " IN>> "
+            {
+                str.erase(0,4);
+            }
 
-		if ((signed)str.size() > 74)
-		{		
-			id1 = str.rfind(" ",74);
-			if (id1 != std::string::npos)
-			{
-				// Space in Line, cut at last Word
-				mLink->add_to_list(str.substr(0,id1));
-				newLine = str.substr(id1+1);
-			}
-			else
-			{
-				// No Spaces in line, cut and wrap at 74.
-				mLink->add_to_list(str.substr(0,74));
-				newLine = str.substr(75);
-			}
-		}
-		else
-		{
-			mLink->add_to_list(str);
-		}
-		
-		mLink->current_node->lineNum = count;
-		++count;				
-	}
+            else if (str[0] == ' ' && str[2] == '>') // " I>"
+            {
+                str.erase(0,2);
+            }
 
-	// If we had to copy the Last line, add a new line/
-	if ((signed)newLine.size() > 0)
-	{
-			mLink->add_to_list(newLine);
-			mLink->current_node->lineNum = count;
-			++count;
-			newLine.erase();
-	}
-	
+            else if (str[0] == ' ' && str[3] == '>') // " IN>"
+            {
+                str.erase(0,3);
+            }
+
+            else if (str[0] == ' ' && str[1] == '>' && str[2] == ' ' && str[3] == '>' && str[4] == ' ')  // " > > "
+            {
+                str.erase(0,3);
+            }
+
+            else if (str[0] == ' ' && str[1] == '>' && str[2] == ' ' && str[3] == ' ' && str[4] == '>' && str[5] == ' ')  // " >  > "
+            {
+                str.erase(0,4);
+            }
+
+            else if (str[0] == ' ' && str[1] == '>' && str[2] == ' ' && str[3] == '>' && str[4] == '>' && str[5] == ' ')  // " > >> "
+            {
+                str.erase(0,4);
+            }
+
+            // Catch any that fell through.
+            if (str[0] == ' ' && str[1] == '>' && str[2] == ' ') // " > "
+            {
+                str.erase(0,1);
+            }
+            if (str[0] == ' ' && str[1] == '>') // " >"
+            {
+                str.erase(0,1);
+            }
+        }
+
+        if ((signed)newLine.size() > 0)
+        {
+            str = newLine + " " + str;
+            newLine.erase();
+        }
+
+        if ((signed)str.size() > 74)
+        {
+            id1 = str.rfind(" ",74);
+            if (id1 != std::string::npos)
+            {
+                // Space in Line, cut at last Word
+                mLink->add_to_list(str.substr(0,id1));
+                newLine = str.substr(id1+1);
+            }
+            else
+            {
+                // No Spaces in line, cut and wrap at 74.
+                mLink->add_to_list(str.substr(0,74));
+                newLine = str.substr(75);
+            }
+        }
+        else
+        {
+            mLink->add_to_list(str);
+        }
+
+        mLink->current_node->lineNum = count;
+        ++count;
+    }
+
+    // If we had to copy the Last line, add a new line/
+    if ((signed)newLine.size() > 0)
+    {
+        mLink->add_to_list(newLine);
+        mLink->current_node->lineNum = count;
+        ++count;
+        newLine.erase();
+    }
+
     return;
 }
 
@@ -660,7 +660,7 @@ void msg_quote::par_qstring(char *rBuffer, msg_readll *mLink)
         id2   = rBuff.find(",",0);
         // Check if Range and Single Line Selection Are both Present
         if (id1 != std::string::npos &&
-            id2 != std::string::npos)
+                id2 != std::string::npos)
         {
             // Chop up String between each ',' char... then process seperatly.
             num2 = id2;
@@ -972,7 +972,7 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
 
                 // If a Single #, Check if Valid
                 if (id1 == std::string::npos &&
-                    id2 == std::string::npos)
+                        id2 == std::string::npos)
                 {
                     id1 = atol(rBuffer);
                     if ((signed)id1 > mLink.Tot || (signed)id1 == 0 || strlen(rBuffer) > 3)

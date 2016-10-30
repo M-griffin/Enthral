@@ -183,7 +183,7 @@ void msg_readll::GetBuffer(std::string &mBuf)
     {
         if (quote == TRUE && current_node->flag == TRUE)
         {
-			mBuf += "> " + current_node->data + '\r';
+            mBuf += "> " + current_node->data + '\r';
         }
         else if (quote == FALSE)
         {
@@ -615,7 +615,7 @@ void msg_readll::flag_line(int iNum)
 
 }
 
- 
+
 /**
  * delete current line and Move up CTRL+Y
  */
@@ -651,7 +651,7 @@ void msg_readll::delete_line_up()
     Tot = 1;
 }
 
- 
+
 /**
  * Add Line to Link List
  */
@@ -983,7 +983,7 @@ char *msg_readll::parsereadcolors(char *cap,
 
     // Quote Color
     //if (tmp[0] == '>' || tmp[1] == '>' || tmp[2] == '>')
-	id1 = tmp.find(">", 0);	
+    id1 = tmp.find(">", 0);
     if (id1 != std::string::npos && id1 <= 3)
     {
 
@@ -1054,7 +1054,7 @@ char *msg_readll::parseReadColorScroller(char *cap, std::string data)
 
     // Quote Color
     //if (tmp[0] == '>' || tmp[1] == '>' || tmp[2] == '>')
-	id1 = tmp.find(">", 0);	
+    id1 = tmp.find(">", 0);
     if (id1 != std::string::npos && id1 <= 3)
     {
         sprintf(cap, "%s%s",QUOTE_COLOR,tmp.c_str());
@@ -1118,12 +1118,12 @@ void msg_readll::box_start(unsigned long CURRENT)
 
     //display_list();
 
-	//Now clear the box First
-	for (int t = 0; t < boxsize; t++)
-	{
-	    sprintf(capture, "\x1b[%i;%iH\x1b[K", (Top)+t, 1);
-	    _editbox += capture;
-	}
+    //Now clear the box First
+    for (int t = 0; t < boxsize; t++)
+    {
+        sprintf(capture, "\x1b[%i;%iH\x1b[K", (Top)+t, 1);
+        _editbox += capture;
+    }
 
 
     // Now Grab as many lines as will fit in the box
@@ -1132,8 +1132,8 @@ void msg_readll::box_start(unsigned long CURRENT)
     {
         if (quote)
         {
-			lData = current_node->data;
-			/*
+            lData = current_node->data;
+            /*
             lData = current_node->data.substr(0,74);
             if (lData.size() < 74)
             {
@@ -1194,12 +1194,12 @@ void msg_readll::box_scroll_reader()
     pgRows = 0;
 
     int iCoordX = Top,
-    //iCoordY,
-    iPause;
+                  //iCoordY,
+                  iPause;
 
- 	int boxsize = TERM_HEIGHT-1;
+    int boxsize = TERM_HEIGHT-1;
 
-     // Now Grab as many lines as will fit in the screen up to 24 Lines!
+    // Now Grab as many lines as will fit in the screen up to 24 Lines!
     current_node = head; //->dn_link;
     for (int i = iCoordX; i < boxsize+1; i++)
     {
@@ -1258,12 +1258,12 @@ REDRAW:
     //_editbox += "|CR";
     pipe2ansi((char *)_editbox.c_str());
 
-    if (Page == TotPages) 
-	{
-		pipe2ansi((char *)"|CR");
-		return;
-	}
-	
+    if (Page == TotPages)
+    {
+        pipe2ansi((char *)"|CR");
+        return;
+    }
+
     //errlog2((char *)"box scroll reader 5");
     if (Page == 0)
     {
@@ -1394,8 +1394,8 @@ void msg_readll::box_scrolldn()
     {
         if (quote)
         {
-			lData = current_node->data;
-			/*
+            lData = current_node->data;
+            /*
             //errlog2(" $$$ box_scrolldn 3.1");
             lData = current_node->data.substr(0,74);
             if (lData.size() < 74)
@@ -1518,9 +1518,9 @@ void msg_readll::box_pgdn()
     {
         if (quote)
         {
-			lData = current_node->data;
+            lData = current_node->data;
             //errlog2(" $$$ box_pgdn 5.1");
-			/*
+            /*
             lData = current_node->data.substr(0,74);
             if (lData.size() < 74)
             {
@@ -1528,7 +1528,7 @@ void msg_readll::box_pgdn()
                 rspacing(capture,74);
                 lData = capture;
             }
-			*/
+            */
             sprintf(lineNum,"%i",current_node->lineNum);
             lspacing(lineNum,3);
 
@@ -1608,8 +1608,8 @@ void msg_readll::box_pgup()
     {
         if (quote)
         {
-			lData = current_node->data;
-			/*
+            lData = current_node->data;
+            /*
             lData = current_node->data.substr(0,74);
             if (lData.size() < 74)
             {
@@ -2006,18 +2006,18 @@ void msg_readll::box_start_vector(unsigned long page, unsigned long list)
         TotPages = 1;
 
 
-	// This doesn't work in full screen message read?!?!?!
-	// Testing, only clear the box, if total pages > 1,
-	// Otherwise no need to clear since it's fresh draw.
-	if (TotPages > 1)
-	{
-		//Now clear the box First
-		for (int t = 0; t < boxsize; t++)
-		{
-		    sprintf(capture, "\x1b[%i;%iH\x1b[K", (Top)+t, 1);
-		    _editbox += capture;
-		}
-	}
+    // This doesn't work in full screen message read?!?!?!
+    // Testing, only clear the box, if total pages > 1,
+    // Otherwise no need to clear since it's fresh draw.
+    if (TotPages > 1)
+    {
+        //Now clear the box First
+        for (int t = 0; t < boxsize; t++)
+        {
+            sprintf(capture, "\x1b[%i;%iH\x1b[K", (Top)+t, 1);
+            _editbox += capture;
+        }
+    }
 
     // Now Grab as many lines as will fit in the box
     for (int i = 1; i < boxsize+1; i++)

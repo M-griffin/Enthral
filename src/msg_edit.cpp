@@ -443,10 +443,10 @@ void msg_edit::mod_mbase(int mbnum)
         sprintf(sLine,"|CR |15B|07. Filename            |11%s|16", (char *)mbl.mbfile);
         output += sLine;
 
-		//if (mbl.Type == MSGTYPE_JAM) TF = "JAM";
+        //if (mbl.Type == MSGTYPE_JAM) TF = "JAM";
         //else TF = "SQUISH";
 
-		TF = "JAM";
+        TF = "JAM";
 
         sprintf(sLine,"|CR |15C|07. Message Type        |11%s|16", TF.c_str());
         output += sLine;
@@ -750,7 +750,7 @@ int msg_edit::list_message_bases(int page)
 
 
                 strcpy(disp, (char *)mbl.mbdisplay);
-				strcpy(tType,"Jam");
+                strcpy(tType,"Jam");
                 //if(mbl.Type == MSGTYPE_JAM)	 strcpy(tType,"Jam");
                 //if(mbl.Type == MSGTYPE_SQUISH) strcpy(tType,"Squish");
                 sprintf(outbuff,
@@ -892,12 +892,12 @@ void msg_edit::mbeditmenu()
         case 'M':
             move_mbase();
             break;
-		/*
-        case 'C':
-            compile_mbase();
-            break;*/
+            /*
+            case 'C':
+                compile_mbase();
+                break;*/
 
-        //case 'B':	import_backbone();	break;
+            //case 'B':	import_backbone();	break;
         case 'Q':
             isSysop = TRUE;
             return;

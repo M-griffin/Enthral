@@ -360,8 +360,8 @@ msg_read::msg_read()
     tBot       = 1;
     Views      = 0;
     opscan     = FALSE;
-	firstscan  = 0;
-	gblNewScan = 0;
+    firstscan  = 0;
+    gblNewScan = 0;
 }
 
 
@@ -421,8 +421,8 @@ void msg_read::ansi_file(char *filename)
     // Buffer in Ansi
     readinAnsi(filename, buff);
 
-	// Calcuate how many messages total and left by current index.
-	TotMsgs = msgidx_translation->size();
+    // Calcuate how many messages total and left by current index.
+    TotMsgs = msgidx_translation->size();
     CurMsgs = current_msgidx+1;
     MsgsLeft = TotMsgs - CurMsgs;
 
@@ -492,7 +492,7 @@ void msg_read::ansi_file(char *filename)
         }
         else if (strcmp(MCI,"CM") == 0)
         {
-			sprintf(sTemp,"%lu", CurMsgs);  // Currnet Message
+            sprintf(sTemp,"%lu", CurMsgs);  // Currnet Message
         }
         else if (strcmp(MCI,"HM") == 0)
         {
@@ -532,14 +532,14 @@ void msg_read::ansi_file(char *filename)
  */
 void msg_read::ReadInMsgOnly(ulong marea)
 {
-	// Read Data from Jam Message Area
+    // Read Data from Jam Message Area
     if(!ReadMsgArea(marea))
     {
         return;
     }
-	MsgSetupTxt(); // Title Scan
+    MsgSetupTxt(); // Title Scan
 }
-	
+
 /**
  * Message Reader - Main Reader Function
  */
@@ -547,11 +547,11 @@ int msg_read::ReadMsg(ulong marea, int showit, int newmsg, int private_area)
 {
     ulong lr = 0;
 
-	// Make Sure index is not greater then last message.
-	if (current_msgidx >= msgidx_translation->size())
-	{
-		return FALSE;
-	}
+    // Make Sure index is not greater then last message.
+    if (current_msgidx >= msgidx_translation->size())
+    {
+        return FALSE;
+    }
 
     // Get Last Read, If we read private messages past last read set
     lr = GetLastRead(thisuser->idx);
@@ -644,8 +644,8 @@ int msg_read::ReadMessages(ulong marea)
 void msg_read::JumpToMessage()
 {
     std::string AnsiString = "";
-	char choice[100]   = {0};
-  //  char szTmp[3]      = {0};
+    char choice[100]   = {0};
+    //  char szTmp[3]      = {0};
     char szReplace[10] = {0};
 
     std::string::size_type id1 =  0;
@@ -655,8 +655,8 @@ void msg_read::JumpToMessage()
     id1 = AnsiString.find("|HM",0);
     if (id1 != std::string::npos)
     {
-  //      szTmp[0] = AnsiString[id1+1];
-  //      szTmp[1] = AnsiString[id1+2];
+        //      szTmp[0] = AnsiString[id1+1];
+        //      szTmp[1] = AnsiString[id1+2];
 
         sprintf(szReplace,"%lu",TotMsgs);
         AnsiString.replace(id1,3,szReplace);
@@ -668,19 +668,19 @@ void msg_read::JumpToMessage()
     pipe2ansi(choice);
     getline(choice,len);
 
-	if ((id1 = atoi(choice)) > 0);
-        --id1; // Move to 0 based array.
+    if ((id1 = atoi(choice)) > 0);
+    --id1; // Move to 0 based array.
 
-	// Move to new Message
+    // Move to new Message
     if ( (signed)id1 >= 0 && id1 < msgidx_translation->size() )
-	{
+    {
         thisuser->lastmsg = msgidx_translation->at( id1 );
-		current_msgidx = id1;
-	}
-	else
-	{
-		pipe2ansi((char *)"|CR|CR|15Invalid: |07Message number.  Try again! |DE |DE");
-	}
+        current_msgidx = id1;
+    }
+    else
+    {
+        pipe2ansi((char *)"|CR|CR|15Invalid: |07Message number.  Try again! |DE |DE");
+    }
 
 }
 
@@ -689,11 +689,11 @@ void msg_read::JumpToMessage()
  */
 void msg_read::IgnoreTheRest(ulong marea)
 {
-	ulong curr_msg = 0;
+    ulong curr_msg = 0;
 
-	curr_msg = msgidx_translation->size()-1;
-	thisuser->lastmsg = msgidx_translation->at( msgidx_translation->size()-1 );
-	current_msgidx = curr_msg;
+    curr_msg = msgidx_translation->size()-1;
+    thisuser->lastmsg = msgidx_translation->at( msgidx_translation->size()-1 );
+    current_msgidx = curr_msg;
     SetLastRead(thisuser->idx, curr_msg+1); // Set to greater then entire area.
 }
 
@@ -706,7 +706,7 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
     char text[1024]= {0};
     unsigned char ch;
     int lastReadIdx = 0;
-	int currReadIdx = -1;
+    int currReadIdx = -1;
 
     _lang.lang_get(text,28);
     int len = 3;
@@ -728,10 +728,10 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
                 //continue;
             }
             else if (isSysop == TRUE)
-			{
-				//continue;
-			}
-			else
+            {
+                //continue;
+            }
+            else
             {
                 // Then user can't remove this message, add Security check
                 // later on for sysop / cosysop
@@ -741,7 +741,7 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
                 return FALSE;
             }
         }
-		// Add check if real name or handle used here!! 
+        // Add check if real name or handle used here!!
         else if (strcmp((char *)thisuser->handle, mHead.from) != 0)
         {
             // Then user can't remove this message, add Security check
@@ -756,12 +756,12 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
         return FALSE;
 
 
-	//std::stringstream ss;
-	//std::string str;
-	//ss << "msgnum: " << msgnum;
-	//str = ss.str();	
-	//errlog2((char *)str.c_str());
-	
+    //std::stringstream ss;
+    //std::string str;
+    //ss << "msgnum: " << msgnum;
+    //str = ss.str();
+    //errlog2((char *)str.c_str());
+
     BOOL res;
     res = jamapi_purgemsg(&mr, msgnum);
     if (res)
@@ -770,92 +770,92 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
 //		errlog2((char *)"Failed to Purge Message");
         return FALSE;
     }
-	
+
     // Reset Evenyone's Last Read Pointer if it's Greater Then message num = -1!
     users _usr;
     int iTotal = _usr.idx_count();
 
-	//int msg_total = msgidx_translation->size();
-	
-	// Loop through and get currnet idx from Msg Number
-	// We're at / We just deleted.
-	// Reverse Lookup.
+    //int msg_total = msgidx_translation->size();
 
-	for (int j = msgidx_translation->size()-1; j >= 0; j--)
-	{
-		if (msgidx_translation->at(j) == msgnum)
-			currReadIdx = j;
-	}
+    // Loop through and get currnet idx from Msg Number
+    // We're at / We just deleted.
+    // Reverse Lookup.
 
-	// Should never get here.
-	if (currReadIdx == -1)
-	{
+    for (int j = msgidx_translation->size()-1; j >= 0; j--)
+    {
+        if (msgidx_translation->at(j) == msgnum)
+            currReadIdx = j;
+    }
+
+    // Should never get here.
+    if (currReadIdx == -1)
+    {
 //		errlog2((char *)"Error: Purge Message: currReadIdx == -1");
-		return FALSE;
-	}
+        return FALSE;
+    }
 
-	// Currnet Message Deleted, so move to previous message.
-	if (currReadIdx > 0)
-		--currReadIdx;
+    // Currnet Message Deleted, so move to previous message.
+    if (currReadIdx > 0)
+        --currReadIdx;
 
-	// Only reset current person for private areas.
-	if (mr.Pubpriv == PRIVATE)
-	{
+    // Only reset current person for private areas.
+    if (mr.Pubpriv == PRIVATE)
+    {
 
-		// In a private area, we have a indivdual index, we need to first get current
-		// Index position of message deleted, then lower by one for current message.
-		// then reset the last read pointer by 1. if it's greater then message purged.
+        // In a private area, we have a indivdual index, we need to first get current
+        // Index position of message deleted, then lower by one for current message.
+        // then reset the last read pointer by 1. if it's greater then message purged.
 
-		// Get Last Read Pointer for Updating.		
-		lastReadIdx = GetLastRead(thisuser->idx);
+        // Get Last Read Pointer for Updating.
+        lastReadIdx = GetLastRead(thisuser->idx);
 
 
-		// Check Last Read if too high, we want to reset
-		if (lastReadIdx > (signed)msgidx_translation->size())
-			lastReadIdx = msgidx_translation->size();		
-	
-		// Last Read, > Deleted Message, decrement index to line back up
-		// with removed message
-		if (lastReadIdx > currReadIdx+1)
-		{
-			// Don't allow Negative index's, Always start at 0
-			if (lastReadIdx <= 0)
-				lastReadIdx = 1;
-			SetLastRead(thisuser->idx, lastReadIdx-1);
-		}
-	}
-	else 
-	{
-		// This is a Public Area, Global Message Number(s)
-		// Here we loop all Users and fix their lastRead.		
-		for (int iCnt = 0; iCnt != iTotal; iCnt++)
-		{
-			// Get Last Read Pointer for Updating.		
-			lastReadIdx = GetLastRead(iCnt);
+        // Check Last Read if too high, we want to reset
+        if (lastReadIdx > (signed)msgidx_translation->size())
+            lastReadIdx = msgidx_translation->size();
 
-			// Check Last Read if too high, we want to reset
-			if (lastReadIdx > (signed)msgidx_translation->size())
-				lastReadIdx = msgidx_translation->size();
-	
-			// Last Read, > Deleted Message, decrement index to line back up
-			// with removed message
-			if (lastReadIdx > currReadIdx+1)
-			{
-				// Don't allow Negative index's, Always start at 0
-				if (lastReadIdx <= 0)
-					lastReadIdx = 1;
-				SetLastRead(iCnt, lastReadIdx-1);
-			}
-		}
-	}
+        // Last Read, > Deleted Message, decrement index to line back up
+        // with removed message
+        if (lastReadIdx > currReadIdx+1)
+        {
+            // Don't allow Negative index's, Always start at 0
+            if (lastReadIdx <= 0)
+                lastReadIdx = 1;
+            SetLastRead(thisuser->idx, lastReadIdx-1);
+        }
+    }
+    else
+    {
+        // This is a Public Area, Global Message Number(s)
+        // Here we loop all Users and fix their lastRead.
+        for (int iCnt = 0; iCnt != iTotal; iCnt++)
+        {
+            // Get Last Read Pointer for Updating.
+            lastReadIdx = GetLastRead(iCnt);
 
-	// Reset current message in Reader/Title Scan now
+            // Check Last Read if too high, we want to reset
+            if (lastReadIdx > (signed)msgidx_translation->size())
+                lastReadIdx = msgidx_translation->size();
+
+            // Last Read, > Deleted Message, decrement index to line back up
+            // with removed message
+            if (lastReadIdx > currReadIdx+1)
+            {
+                // Don't allow Negative index's, Always start at 0
+                if (lastReadIdx <= 0)
+                    lastReadIdx = 1;
+                SetLastRead(iCnt, lastReadIdx-1);
+            }
+        }
+    }
+
+    // Reset current message in Reader/Title Scan now
     thisuser->lastmsg = msgidx_translation->at(currReadIdx);
-	CURRENT_MSGTITLE = currReadIdx;
+    CURRENT_MSGTITLE = currReadIdx;
 
     // Write History.
     //hist_update(HIST_DELETES, thisuser);
-	return TRUE;
+    return TRUE;
 }
 
 /**
@@ -867,8 +867,8 @@ int msg_read::NextAreaScan()
 
     total = _msgf.msg_count(); // Counts total Message Areas
 
-	// Moe to next area to continue scan
-	if((signed)thisuser->lastmbarea < (total-1))
+    // Moe to next area to continue scan
+    if((signed)thisuser->lastmbarea < (total-1))
     {
         ++thisuser->lastmbarea;
         CURRENT_MAREA = thisuser->lastmbarea;
@@ -942,9 +942,9 @@ int msg_read::read_usersig(std::string &sig)
     for (;;)
     {
         std::getline(ins,data,'\r');
-		if (ins.eof()) break;
-		sig.append(data);
-		if (ins.eof()) break;
+        if (ins.eof()) break;
+        sig.append(data);
+        if (ins.eof()) break;
         sig += '\r';
     }
     ins.close();
@@ -994,7 +994,7 @@ int msg_read::SetupUserSig()
     msg_readll  mLinkll; // Message Text;
 
     memset(&mHLocal,0,sizeof(MsgHead));
-	
+
 
     // Check if Exists already in usersig folder.
     char usersig[1024]= {0};
@@ -1005,33 +1005,33 @@ int msg_read::SetupUserSig()
         exists = TRUE;
         fclose(stream);
     }
-	
-	int ch = 0;
 
-	// Prompt to Create/Edit, or Remove Existing.
-	if (exists) 
-	{
-		pipe2ansi ((char*)"|CS|CR |06Hit |14|18 ENTER |06|16 to Create/Edit, or |14|18 K |06|16 to Remove Current AutoSig|08: |07");
-		int done = FALSE;
-		while(!done)
-		{
-			ch = getkey(true);
-			switch(toupper(ch))
-			{
-				case 10 : // ENTER
-					done = TRUE;
-					break;
-			
-				case 'K':
-					remove(usersig);
-					pipe2ansi ((char*)"|CS|CR |06|06AutoSig has been removed. |CR|PA");
-					return TRUE;
-				
-				default : 
-					continue;
-			}
-		}
-	}
+    int ch = 0;
+
+    // Prompt to Create/Edit, or Remove Existing.
+    if (exists)
+    {
+        pipe2ansi ((char*)"|CS|CR |06Hit |14|18 ENTER |06|16 to Create/Edit, or |14|18 K |06|16 to Remove Current AutoSig|08: |07");
+        int done = FALSE;
+        while(!done)
+        {
+            ch = getkey(true);
+            switch(toupper(ch))
+            {
+            case 10 : // ENTER
+                done = TRUE;
+                break;
+
+            case 'K':
+                remove(usersig);
+                pipe2ansi ((char*)"|CS|CR |06|06AutoSig has been removed. |CR|PA");
+                return TRUE;
+
+            default :
+                continue;
+            }
+        }
+    }
 
     buff.erase();
     msg_fse _msge(thisuser); // INIT FSE
@@ -1039,11 +1039,11 @@ int msg_read::SetupUserSig()
     strcpy(mHLocal.to,"all");
     strcpy(mHLocal.from, (char *)thisuser->handle);
 
-	if (exists)
-    	strcpy(mHLocal.subj,"Edit Your Message Auto Signature");
-	if (!exists)
-		strcpy(mHLocal.subj,"Create Your Message Auto Signature");
-	
+    if (exists)
+        strcpy(mHLocal.subj,"Edit Your Message Auto Signature");
+    if (!exists)
+        strcpy(mHLocal.subj,"Create Your Message Auto Signature");
+
     strcpy(mHLocal.area,"Internal Editor");
 
     if (exists == TRUE)
@@ -1075,7 +1075,7 @@ int msg_read::SetupUserSig()
     // Get the Buffer back from FSE on Completed Message.
     tmp.erase();
     tmp = _msge.buffer;
-	
+
     write_usersig(tmp);
 
     _lang.lang_get(text,34);
@@ -1295,9 +1295,9 @@ void msg_read::DoPostEmail(int Reply)
     {
         if (tmp.size() > 1)
         {
-			buff += "\r\r";  // Line Before Autosig.            
+            buff += "\r\r";  // Line Before Autosig.
             buff += tmp;
-			buff += "\r";    // Line After Autosig.
+            buff += "\r";    // Line After Autosig.
         }
     }
 
@@ -1306,12 +1306,12 @@ void msg_read::DoPostEmail(int Reply)
         if (mr.aka.point != 0)
         {
             sprintf(faddr," (%d:%d/%d.%d)",
-                mr.aka.zone, mr.aka.net, mr.aka.node, mr.aka.point);
+                    mr.aka.zone, mr.aka.net, mr.aka.node, mr.aka.point);
         }
         else
         {
             sprintf(faddr," (%d:%d/%d) ",
-                mr.aka.zone, mr.aka.net, mr.aka.node);
+                    mr.aka.zone, mr.aka.net, mr.aka.node);
         }
         buff += "\r--- ";
         buff += BBSVERSION;
@@ -1320,7 +1320,7 @@ void msg_read::DoPostEmail(int Reply)
         buff += "\r * Origin: ";
         buff += (char *)mr.origin_line;
         buff += faddr;
-		buff += "\r";
+        buff += "\r";
     }
 
     strcpy((char*)xmsg.from, mHLocal.from);
@@ -1350,10 +1350,10 @@ void msg_read::DoPost(int mbnum, int Reply)
     std::string tmp;
 
     char to[21]   = {0};
-	char from[21] = {0};
+    char from[21] = {0};
     char subj[61] = {0};
 
-	MsgHead mHLocal;
+    MsgHead mHLocal;
 
     // Get Current (Mesage Area)
     msgs _msgf;
@@ -1376,7 +1376,7 @@ void msg_read::DoPost(int mbnum, int Reply)
     // Change this to mr.type == sysop post only, not same as sysop area.
     // Test if Sysop Base, then only sysop may post!
     if (strcmp((char *)mr.mbfile,"system") == 0 ||
-        strcmp((char *)mr.mbfile,"notice") == 0)
+            strcmp((char *)mr.mbfile,"notice") == 0)
     {
         if (isSysop == FALSE)
         {
@@ -1470,7 +1470,7 @@ void msg_read::DoPost(int mbnum, int Reply)
     // If were in reply, send current Message text to FSE for Quoting!
     //elog ("just in message editor");
     msg_fse _msge(thisuser); // INIT
-	
+
     if (Reply)
     {
         // Send Original Message for Quoter to FSE.
@@ -1492,9 +1492,9 @@ void msg_read::DoPost(int mbnum, int Reply)
         _lang.lang_get(text,35);
         pipe2ansi(text);
 
-		// Clear Buffers.
-		_msge.buffer.erase();
-		buff.erase();
+        // Clear Buffers.
+        _msge.buffer.erase();
+        buff.erase();
         return;
     }
 
@@ -1509,15 +1509,15 @@ void msg_read::DoPost(int mbnum, int Reply)
     {
         if (tmp.size() > 1)
         {
-            buff += "\r\r";  // Line Before Autosig.            
+            buff += "\r\r";  // Line Before Autosig.
             buff += tmp;
 
-			if (mr.Kind != LOCAL && mr.Kind != EMAIL)
-				{ }
-			else 
-				buff += "\r";  // Line After Autosig.
+            if (mr.Kind != LOCAL && mr.Kind != EMAIL)
+                { }
+            else
+                buff += "\r";  // Line After Autosig.
 
-			/*
+            /*
             // We have echomail, add \r after sig For Orgin lines etc...
             if (mr.Kind != LOCAL && mr.Kind != EMAIL)
             {
@@ -1550,11 +1550,11 @@ void msg_read::DoPost(int mbnum, int Reply)
 
 
 //		errlog2((char *)"Echomail Test");
-		///errlog2((char *)BBSVERSION);
-		//errlog2((char *)OSSYSTEM);
-		//errlog2((char *)mr.origin_line);
-		//errlog2(faddr);
-		
+        ///errlog2((char *)BBSVERSION);
+        //errlog2((char *)OSSYSTEM);
+        //errlog2((char *)mr.origin_line);
+        //errlog2(faddr);
+
         buff += "\r--- ";
         buff += BBSVERSION;
         buff += " ";
@@ -1562,7 +1562,7 @@ void msg_read::DoPost(int mbnum, int Reply)
         buff += "\r * Origin: ";
         buff += (char *)mr.origin_line;
         buff += faddr;
-		buff += "\r";
+        buff += "\r";
     }
 
     strcpy((char*)xmsg.from, mHLocal.from);
@@ -1587,8 +1587,8 @@ void msg_read::DoPost(int mbnum, int Reply)
     {
         hist_update(HIST_POSTS,thisuser);
     }
-    else 
-		hist_update(HIST_LOCAL,thisuser);
+    else
+        hist_update(HIST_LOCAL,thisuser);
 }
 
 /**
@@ -1617,7 +1617,7 @@ void msg_read::DoEdit(int mbnum)
 
     unsigned char ch;
 
-	//OpenMsgArea(mbnum);
+    //OpenMsgArea(mbnum);
     if(!ReadMsgArea(mbnum))
     {
         return;
@@ -1761,9 +1761,9 @@ void msg_read::EditMessage()
             return;
         }
     }
-    else 
-		return;
-	
+    else
+        return;
+
     DoEdit(thisuser->lastmbarea);
 }
 
@@ -1779,726 +1779,727 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
     // Keep original Area before doing any processing.
     unsigned long prevarea     = thisuser->lastmbarea;
 
-	         long prevmsgcount = -1; // Check Mesasge Count has changed to reload
+    long prevmsgcount = -1; // Check Mesasge Count has changed to reload
     unsigned long msgcount     = 0;  // Count of Messages
-	unsigned long newmsgcount  = 0;  // Count New Messages 
+    unsigned long newmsgcount  = 0;  // Count New Messages
     unsigned long lastread     = 0;  // Users Last Read
 
-	// Set class variable if were in a global newscan of all areas.
-	gblNewScan = multiscan;
+    // Set class variable if were in a global newscan of all areas.
+    gblNewScan = multiscan;
 
     int private_area = FALSE;
-	int read_return  = 0;     // Hold Return Code from Reader / RET = TitleScan
+    int read_return  = 0;     // Hold Return Code from Reader / RET = TitleScan
     CURRENT_MSGTITLE = 0;     // Reset Message Title to Begining for start.
 
 
     // Check if Overide on Area to Read/Scan,  ie System Announcements, Email..
     // Passed from a Menu Command.
-	
-	//std::ostringstream oconvert;         // Out
-	std::stringstream iconvert(mString);   // In
 
-	int i = 0;
-	// Convert String to Int
-	if (iconvert >> i)
+    //std::ostringstream oconvert;         // Out
+    std::stringstream iconvert(mString);   // In
+
+    int i = 0;
+    // Convert String to Int
+    if (iconvert >> i)
 //  if (atoi(mString) != 0 && multiscan == FALSE)
     {
         // Setup Current Message Area
         // This is 0 Based, make sure you translaste 1 -> 0.
 
-		//pipe2ansi((char *)"|CR|15force area |CR|PA");
+        //pipe2ansi((char *)"|CR|15force area |CR|PA");
         //thisuser->lastmbarea = atoi(mString);
-		if (!multiscan)
-		{
-			thisuser->lastmbarea = i;
-        	CURRENT_MAREA = thisuser->lastmbarea;
-		}
+        if (!multiscan)
+        {
+            thisuser->lastmbarea = i;
+            CURRENT_MAREA = thisuser->lastmbarea;
+        }
     }
-	iconvert.clear();
+    iconvert.clear();
     iconvert.str("");
-  
+
     std::string AnsiString;
     char outbuff[1024] = {0};
-	char szReplace[20] = {0};
-	std::string::size_type id1;
+    char szReplace[20] = {0};
+    std::string::size_type id1;
 
-	// Used for Purge a message in titlescan
-	//users _usr;
-	//int iTotal = 0;
-	//int cMesg  = 0;
-	
+    // Used for Purge a message in titlescan
+    //users _usr;
+    //int iTotal = 0;
+    //int cMesg  = 0;
+
     // Title Scan Class, Dynamic Allocation for quick and clean refreshes
     // On the fly for different areas.
     msg_title *_tlist;
 
     unsigned long current_msg = 0;	// For Inter Loop When reading from Title Scan.
 
-	
+
     // List that will hold all message for passing to title scan class.
     vector < unsigned long > elist;
     current_msg = 0;
     //ulong total_emails;
 
     int first_titlescan = TRUE;
-	int ret = 0;
-	int ch  = 0;
+    int ret = 0;
+    int ch  = 0;
 
-	// If this is the first loop on an all area scan, set to first area
-	if (multiscan && first_titlescan)
-	{			
-		thisuser->lastmbarea = 0;
-    	CURRENT_MAREA = 0;
-	}
+    // If this is the first loop on an all area scan, set to first area
+    if (multiscan && first_titlescan)
+    {
+        thisuser->lastmbarea = 0;
+        CURRENT_MAREA = 0;
+    }
 
-	std::string        tmp1;	
+    std::string        tmp1;
 
     // Display Scanning Message Screen,.
     ansiPrintf ((char *)"mscan");
 
     if (multiscan)
         pipe2ansi((char *)"|CR|09Starting Global Message NewScan ...|CR |DE");
-	
-	// Message Pre-Scan Loop.
-	while(1)
-    {		
-		/* TESTING GLOBAL NEWSCAN
-		convert << CURRENT_MAREA;
-		tmp1 = convert.str();
-		convert.str( std::string() );
-		convert.clear();
 
-		pipe2ansi ((char *)"|CS CURRENT_MAREA: ");
-		pipe2ansi ((char *)tmp1.c_str());
-		tmp1.erase();
+    // Message Pre-Scan Loop.
+    while(1)
+    {
+        /* TESTING GLOBAL NEWSCAN
+        convert << CURRENT_MAREA;
+        tmp1 = convert.str();
+        convert.str( std::string() );
+        convert.clear();
 
-		convert << thisuser->lastmbarea;
-		tmp1 = convert.str();
-		convert.str( std::string() );
-		convert.clear();
-		
-		pipe2ansi ((char *)"|CR thisuser->lastmbarea: ");
-		pipe2ansi ((char *)tmp1.c_str());
+        pipe2ansi ((char *)"|CS CURRENT_MAREA: ");
+        pipe2ansi ((char *)tmp1.c_str());
+        tmp1.erase();
 
-		tmp1.erase();
-		pipe2ansi((char *)"|CR|PA");
-		*/
+        convert << thisuser->lastmbarea;
+        tmp1 = convert.str();
+        convert.str( std::string() );
+        convert.clear();
 
-		memset(&mr,0,sizeof(mb_list_rec));
-		
-		// Read in current area info/flags
-		_msgf.read_mbaselist(&mr, thisuser->lastmbarea);
+        pipe2ansi ((char *)"|CR thisuser->lastmbarea: ");
+        pipe2ansi ((char *)tmp1.c_str());
 
-		// Set if this is a Public/Private Message Area
-		if (mr.Pubpriv == PRIVATE)
-			private_area = TRUE;
-		else
-			private_area = FALSE;
+        tmp1.erase();
+        pipe2ansi((char *)"|CR|PA");
+        */
 
-		// If new get users last read for area
-	    if (newmsg)
-	    {
-	        lastread = GetLastRead(thisuser->idx);
-	    }
-		
-		// Get Total Number of Messages
-		msgcount = CountMsgs(thisuser->lastmbarea, thisuser);        
+        memset(&mr,0,sizeof(mb_list_rec));
 
-		// Count how many NEW unread messages
-		newmsgcount = CountNewMsgs(thisuser->lastmbarea, thisuser);
+        // Read in current area info/flags
+        _msgf.read_mbaselist(&mr, thisuser->lastmbarea);
 
-		// Don't re-read the area unless title scan is reset or message count changes.
-		// Also so we don't reload each time we exit from msg read back to title scan
-		if (first_titlescan || prevmsgcount < (signed)msgcount)
-		{
+        // Set if this is a Public/Private Message Area
+        if (mr.Pubpriv == PRIVATE)
+            private_area = TRUE;
+        else
+            private_area = FALSE;
 
-			// Set the Prev Mesage Count.
-			prevmsgcount = msgcount;
-				
-		    // Clear and Start Fresh List with Updates.
-			// On first Run only, other runs keep elist static until exit 
-			// from this current message area.
-		    if (elist.size() > 0) //&& prevmsgcount == -1)
-		        vector < unsigned long >() . swap(elist); // Clear Vector.
+        // If new get users last read for area
+        if (newmsg)
+        {
+            lastread = GetLastRead(thisuser->idx);
+        }
 
-		    current_msg = 0;
+        // Get Total Number of Messages
+        msgcount = CountMsgs(thisuser->lastmbarea, thisuser);
 
-		    // Build the message listings to pass to Title Scan Class
-		    // Reads jam areas and grabs all messages into vector translation array
-		    // Public areas are 1 -> 1, Emails can have offset 1,3,5 -> 1
-		    // We keep the illusion by using array index as message number.
+        // Count how many NEW unread messages
+        newmsgcount = CountNewMsgs(thisuser->lastmbarea, thisuser);
 
-			AnsiString.erase();
+        // Don't re-read the area unless title scan is reset or message count changes.
+        // Also so we don't reload each time we exit from msg read back to title scan
+        if (first_titlescan || prevmsgcount < (signed)msgcount)
+        {
 
+            // Set the Prev Mesage Count.
+            prevmsgcount = msgcount;
 
-			/**************
-			 * 
-			 * Move these Strings to the Language file!!
-			 * 
-			 */
-			 						
-			if (newmsg)
-				AnsiString.append("|CR|15|M#|07. |03|MA |15- |09Scanning |13|NM |09new out of |11|HM |09messages.");
-			else
-				AnsiString.append("|CR|15|M#|07. |03|MA |15- |09Scanning |11|HM |09total messages.");
-			   
+            // Clear and Start Fresh List with Updates.
+            // On first Run only, other runs keep elist static until exit
+            // from this current message area.
+            if (elist.size() > 0) //&& prevmsgcount == -1)
+                vector < unsigned long >() . swap(elist); // Clear Vector.
+
+            current_msg = 0;
+
+            // Build the message listings to pass to Title Scan Class
+            // Reads jam areas and grabs all messages into vector translation array
+            // Public areas are 1 -> 1, Emails can have offset 1,3,5 -> 1
+            // We keep the illusion by using array index as message number.
+
+            AnsiString.erase();
 
 
-			// If we have more then 1 new message, then display loading.
-			if (newmsg && newmsgcount > 0)	
-				AnsiString.append("|CR|CR|15Loading Messages... |031 Moment|15. |DE");
+            /**************
+             *
+             * Move these Strings to the Language file!!
+             *
+             */
 
-			// If we have more then 1 while reading, then display loading.
-			if (!newmsg && msgcount > 0) 
-				AnsiString.append("|CR|CR|15Loading Messages... |031 Moment|15. |DE");
-		
-			// Parse Local MCI Codes from String.
-			sprintf(outbuff,"%lu", msgcount);
-			ParseLocalMCI(AnsiString, "|HM", outbuff);
-
-			sprintf(outbuff,"%lu", newmsgcount);
-			ParseLocalMCI(AnsiString, "|NM", outbuff);
-			
-			pipe2ansi ((char *)AnsiString.c_str());
+            if (newmsg)
+                AnsiString.append("|CR|15|M#|07. |03|MA |15- |09Scanning |13|NM |09new out of |11|HM |09messages.");
+            else
+                AnsiString.append("|CR|15|M#|07. |03|MA |15- |09Scanning |11|HM |09total messages.");
 
 
-			// If no Message in area then check if multiscan
-			// to Skip to Next Area or exit.
-		    if (msgcount == 0)
-		    {
+
+            // If we have more then 1 new message, then display loading.
+            if (newmsg && newmsgcount > 0)
+                AnsiString.append("|CR|CR|15Loading Messages... |031 Moment|15. |DE");
+
+            // If we have more then 1 while reading, then display loading.
+            if (!newmsg && msgcount > 0)
+                AnsiString.append("|CR|CR|15Loading Messages... |031 Moment|15. |DE");
+
+            // Parse Local MCI Codes from String.
+            sprintf(outbuff,"%lu", msgcount);
+            ParseLocalMCI(AnsiString, "|HM", outbuff);
+
+            sprintf(outbuff,"%lu", newmsgcount);
+            ParseLocalMCI(AnsiString, "|NM", outbuff);
+
+            pipe2ansi ((char *)AnsiString.c_str());
+
+
+            // If no Message in area then check if multiscan
+            // to Skip to Next Area or exit.
+            if (msgcount == 0)
+            {
                 if (multiscan)
-                { }
+                    { }
                 else
-		            pipe2ansi((char *)"|CR|CR|07Sorry: |15No messages found at this time.|CR|CR");            
+                    pipe2ansi((char *)"|CR|CR|07Sorry: |15No messages found at this time.|CR|CR");
 
-				if (multiscan)
-				{
-					if (NextAreaScan() == FALSE)
-					{
+                if (multiscan)
+                {
+                    if (NextAreaScan() == FALSE)
+                    {
 
-						AnsiString.erase();		
-						AnsiString.append("|CS|CR|15NewScan Completed |07... |DE |CR|PA");
-						pipe2ansi ((char *)AnsiString.c_str());
-				
-						vector < unsigned long >() . swap(elist); // Clear Vector.
-				
+                        AnsiString.erase();
+                        AnsiString.append("|CS|CR|15NewScan Completed |07... |DE |CR|PA");
+                        pipe2ansi ((char *)AnsiString.c_str());
+
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
+
 //						errlog2((char *)"NextAreaScan FALSE!");
 
-				        // Before exiting system, go back to original area!
-				        thisuser->lastmbarea = prevarea;
-				        CURRENT_MAREA = thisuser->lastmbarea;
-						if (elist.size() > 0) //&& prevmsgcount == -1)
-		        			vector < unsigned long >() . swap(elist); // Clear Vector.
-						return 0;
-				    }
-					//pipe2ansi((char *)"|DE ");
-					first_titlescan = TRUE;
-					prevmsgcount = -1;
-					continue;
-				}
-				// Else were done.			
-				if (elist.size() > 0) //&& prevmsgcount == -1)
-		        	vector < unsigned long >() . swap(elist); // Clear Vector.
-				pipe2ansi((char *)"|PA ");				
-				return FALSE;
-			}
+                        // Before exiting system, go back to original area!
+                        thisuser->lastmbarea = prevarea;
+                        CURRENT_MAREA = thisuser->lastmbarea;
+                        if (elist.size() > 0) //&& prevmsgcount == -1)
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
+                        return 0;
+                    }
+                    //pipe2ansi((char *)"|DE ");
+                    first_titlescan = TRUE;
+                    prevmsgcount = -1;
+                    continue;
+                }
+                // Else were done.
+                if (elist.size() > 0) //&& prevmsgcount == -1)
+                    vector < unsigned long >() . swap(elist); // Clear Vector.
+                pipe2ansi((char *)"|PA ");
+                return FALSE;
+            }
 
-			// If new message scan, check if any new messages, if none
-			// Check if multiscan to skip to next area.
-			if (newmsg && newmsgcount == 0)
-			{
+            // If new message scan, check if any new messages, if none
+            // Check if multiscan to skip to next area.
+            if (newmsg && newmsgcount == 0)
+            {
                 if (multiscan)
-                { }
+                    { }
                 else
-				    pipe2ansi((char *)"|CR|CR|07Sorry: |15No New messages found at this time.|CR|CR");
-			
-				// Goto Next Area or Exit.
-				if (multiscan)
-				{
-				
-					if (NextAreaScan() == FALSE)
-					{
-						AnsiString.erase();		
-						AnsiString.append("|CR|CR|15NewScan Completed |07... |DE |CR|PA");
-						pipe2ansi ((char *)AnsiString.c_str());
-				
-						vector < unsigned long >() . swap(elist); // Clear Vector.
-				
-					//	errlog2((char *)"NextAreaScan FALSE!");
+                    pipe2ansi((char *)"|CR|CR|07Sorry: |15No New messages found at this time.|CR|CR");
 
-				        // Before exiting system, go back to original area!
-				        thisuser->lastmbarea = prevarea;
-				        CURRENT_MAREA = thisuser->lastmbarea;
-						if (elist.size() > 0) //&& prevmsgcount == -1)
-		        			vector < unsigned long >() . swap(elist); // Clear Vector.
-						return 0;
-				    }
-					//pipe2ansi((char *)"|DE ");
-					first_titlescan = TRUE;
-					prevmsgcount = -1;
-					if (elist.size() > 0) //&& prevmsgcount == -1)
-		        		vector < unsigned long >() . swap(elist); // Clear Vector.
-					continue;
-				}
-				else			
-				{
-					if (elist.size() > 0) //&& prevmsgcount == -1)
-		        		vector < unsigned long >() . swap(elist); // Clear Vector.
-					pipe2ansi((char *)"|PA ");
-		        	return FALSE;
-				}
-		    }
+                // Goto Next Area or Exit.
+                if (multiscan)
+                {
 
-			if (elist.size() > 0) //&& prevmsgcount == -1)
-		    	vector < unsigned long >() . swap(elist); // Clear Vector.
+                    if (NextAreaScan() == FALSE)
+                    {
+                        AnsiString.erase();
+                        AnsiString.append("|CR|CR|15NewScan Completed |07... |DE |CR|PA");
+                        pipe2ansi ((char *)AnsiString.c_str());
 
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
 
-			// TESTING GLOBAL NEWSCAN
-			//pipe2ansi ((char*)"|CR|CRReload elist |CR|PA");
-			
-			// Loads Entire Area into Vector List for quick reading.
-			// This might need to be redone lateron for currnet page.
-		    if (private_area)
-		    {
-		        elist = jamapi_build_private(&mr, thisuser);
-		    }
-		    else
-		    {
-		        elist = jamapi_build_public(&mr, thisuser);
-		    }
+                        //	errlog2((char *)"NextAreaScan FALSE!");
+
+                        // Before exiting system, go back to original area!
+                        thisuser->lastmbarea = prevarea;
+                        CURRENT_MAREA = thisuser->lastmbarea;
+                        if (elist.size() > 0) //&& prevmsgcount == -1)
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
+                        return 0;
+                    }
+                    //pipe2ansi((char *)"|DE ");
+                    first_titlescan = TRUE;
+                    prevmsgcount = -1;
+                    if (elist.size() > 0) //&& prevmsgcount == -1)
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
+                    continue;
+                }
+                else
+                {
+                    if (elist.size() > 0) //&& prevmsgcount == -1)
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
+                    pipe2ansi((char *)"|PA ");
+                    return FALSE;
+                }
+            }
+
+            if (elist.size() > 0) //&& prevmsgcount == -1)
+                vector < unsigned long >() . swap(elist); // Clear Vector.
 
 
-			// TESTING GLOBAL NEWSCAN
-			/*
-			convert << elist.size();
-			tmp1 = convert.str();
-			convert.str( std::string() );
-			convert.clear();
+            // TESTING GLOBAL NEWSCAN
+            //pipe2ansi ((char*)"|CR|CRReload elist |CR|PA");
 
-			pipe2ansi ((char *)"|CS |15elist.size(): ");
-			pipe2ansi ((char *)tmp1.c_str());
-			tmp1.erase();
-			pipe2ansi ((char *)"|CR|PA");
-			*/
-			
-			if ((newmsgcount > 0) || (msgcount > 0))	
-				pipe2ansi ((char *)"|CR|CR|15Loading Messages... |03Completed|15. |DE");
-		
+            // Loads Entire Area into Vector List for quick reading.
+            // This might need to be redone lateron for currnet page.
+            if (private_area)
+            {
+                elist = jamapi_build_private(&mr, thisuser);
+            }
+            else
+            {
+                elist = jamapi_build_public(&mr, thisuser);
+            }
 
-		    // Setup Initial Starting Position in Title Scan
-		    // If NewScan start at Users LastRead Pointer.
-		    // Otherwise start at the first message in the array / list.
-		    if (first_titlescan)
-		    {
-		        first_titlescan = FALSE;
-		        if (newmsg)
-		        {
-		            // Check if LastRead is past the end, means no new messages.
-		            if (lastread < elist.size())
-		            {
-		                //errlog2((char *)" #### lastread: %lu, %lu ", lastread, elist.size());
 
-		                current_msg       = elist[lastread];
-		                thisuser->lastmsg = current_msg;
-		                CURRENT_MSGTITLE  = lastread;
-		            }
-		            else
-		            {
-		                // Last Read is greater then message area bounds.
-		                // No new messages left to read.
+            // TESTING GLOBAL NEWSCAN
+            /*
+            convert << elist.size();
+            tmp1 = convert.str();
+            convert.str( std::string() );
+            convert.clear();
+
+            pipe2ansi ((char *)"|CS |15elist.size(): ");
+            pipe2ansi ((char *)tmp1.c_str());
+            tmp1.erase();
+            pipe2ansi ((char *)"|CR|PA");
+            */
+
+            if ((newmsgcount > 0) || (msgcount > 0))
+                pipe2ansi ((char *)"|CR|CR|15Loading Messages... |03Completed|15. |DE");
+
+
+            // Setup Initial Starting Position in Title Scan
+            // If NewScan start at Users LastRead Pointer.
+            // Otherwise start at the first message in the array / list.
+            if (first_titlescan)
+            {
+                first_titlescan = FALSE;
+                if (newmsg)
+                {
+                    // Check if LastRead is past the end, means no new messages.
+                    if (lastread < elist.size())
+                    {
+                        //errlog2((char *)" #### lastread: %lu, %lu ", lastread, elist.size());
+
+                        current_msg       = elist[lastread];
+                        thisuser->lastmsg = current_msg;
+                        CURRENT_MSGTITLE  = lastread;
+                    }
+                    else
+                    {
+                        // Last Read is greater then message area bounds.
+                        // No new messages left to read.
 
                         if (multiscan)
-                        { }
+                            { }
                         else
-		                    pipe2ansi((char *)"|CR|CR|07Sorry: |15No new messages found at this time.|CR|CR");
-                        
-						vector < unsigned long >() . swap(elist); // Clear Vector.
+                            pipe2ansi((char *)"|CR|CR|07Sorry: |15No new messages found at this time.|CR|CR");
 
-						// Goto next area or exit.
-						if (multiscan)
-						{
-							if (NextAreaScan() == FALSE)
-							{
-								AnsiString.erase();		
-								AnsiString.append("|CR|CR|15NewScan Completed |07... |CR|PA");
-								pipe2ansi ((char *)AnsiString.c_str());
-				
-								vector < unsigned long >() . swap(elist); // Clear Vector.
-				
-							//	errlog2((char *)"NextAreaScan FALSE!");
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
 
-								// Before exiting system, go back to original area!
-								thisuser->lastmbarea = prevarea;
-								CURRENT_MAREA = thisuser->lastmbarea;
-								if (elist.size() > 0) //&& prevmsgcount == -1)
-		        					vector < unsigned long >() . swap(elist); // Clear Vector.
-								return 0;
-							}
-							// Jump to next area
+                        // Goto next area or exit.
+                        if (multiscan)
+                        {
+                            if (NextAreaScan() == FALSE)
+                            {
+                                AnsiString.erase();
+                                AnsiString.append("|CR|CR|15NewScan Completed |07... |CR|PA");
+                                pipe2ansi ((char *)AnsiString.c_str());
 
-							first_titlescan = TRUE;
-							//pipe2ansi((char *)"|DE ");
-							prevmsgcount = -1;
-							if (elist.size() > 0) //&& prevmsgcount == -1)
-		        				vector < unsigned long >() . swap(elist); // Clear Vector.
-							continue;
-						}
-						else
-						{
-							if (elist.size() > 0) //&& prevmsgcount == -1)
-		        				vector < unsigned long >() . swap(elist); // Clear Vector.
-							pipe2ansi((char *)"|PA ");	
-		                	return 0;
-						}
-		            }
-		        }
-		        else
-		        {
-		            // Reading Normal Scan, Start at first Message
-		            // Set Starting Message / Light to First Message.
-		            current_msg = elist[0];
-		            thisuser->lastmsg = current_msg;  // Set First Message
+                                vector < unsigned long >() . swap(elist); // Clear Vector.
 
-		            // Title Scan message, should be lightbarm or elist Position
-		            // Fix this!!
-		            CURRENT_MSGTITLE = 0; // Set First Message
-		        }
-		    }
-		}
+                                //	errlog2((char *)"NextAreaScan FALSE!");
 
-		
-		// Setup Message Title Scan Class, for Selecting Message to Read/Scan
+                                // Before exiting system, go back to original area!
+                                thisuser->lastmbarea = prevarea;
+                                CURRENT_MAREA = thisuser->lastmbarea;
+                                if (elist.size() > 0) //&& prevmsgcount == -1)
+                                    vector < unsigned long >() . swap(elist); // Clear Vector.
+                                return 0;
+                            }
+                            // Jump to next area
+
+                            first_titlescan = TRUE;
+                            //pipe2ansi((char *)"|DE ");
+                            prevmsgcount = -1;
+                            if (elist.size() > 0) //&& prevmsgcount == -1)
+                                vector < unsigned long >() . swap(elist); // Clear Vector.
+                            continue;
+                        }
+                        else
+                        {
+                            if (elist.size() > 0) //&& prevmsgcount == -1)
+                                vector < unsigned long >() . swap(elist); // Clear Vector.
+                            pipe2ansi((char *)"|PA ");
+                            return 0;
+                        }
+                    }
+                }
+                else
+                {
+                    // Reading Normal Scan, Start at first Message
+                    // Set Starting Message / Light to First Message.
+                    current_msg = elist[0];
+                    thisuser->lastmsg = current_msg;  // Set First Message
+
+                    // Title Scan message, should be lightbarm or elist Position
+                    // Fix this!!
+                    CURRENT_MSGTITLE = 0; // Set First Message
+                }
+            }
+        }
+
+
+        // Setup Message Title Scan Class, for Selecting Message to Read/Scan
         _tlist = new msg_title;
         _tlist->SetupList(thisuser, private_area); // Reset Thisuser in title clas
-		ret = _tlist->StartTitleList(newmsg, thisuser->lastmbarea, elist, CURRENT_MSGTITLE);    
+        ret = _tlist->StartTitleList(newmsg, thisuser->lastmbarea, elist, CURRENT_MSGTITLE);
 
-		// Need to keep track of this 
-		CURRENT_MSGTITLE = _tlist->CURRENT_BAR;		
-		delete _tlist;
+        // Need to keep track of this
+        CURRENT_MSGTITLE = _tlist->CURRENT_BAR;
+        delete _tlist;
 
 
-		// Done Scanning Exit!
+        // Done Scanning Exit!
         if (ret == EOF)
         {
-			// Quit Hit, If in GLobal NewScan check for next area contiue or exit.
-			// Goto Next Area or Exit.
-			if (multiscan)
-			{				
-				
-				// Add to language file.
-				ansiPrintf ((char *)"mscan"); // Display Ansi Header First
-				pipe2ansi((char *)"|CR|09Global Message NewScan|CR|CR|15|M#|07. |03|MA |15- |09Scanning Exited.");
-				pipe2ansi((char *)"|CR|CR|15Use: |CR|15[|11ENTER|15] |07Continue to Next Area, or |15[|11Q|15] |07to Quit Global NewScan|08: |07");
-				while (1) 
-				{
-					ch = getkey(true);
-					
-					if ((int)ch == 10) // ENTER
-					{
+            // Quit Hit, If in GLobal NewScan check for next area contiue or exit.
+            // Goto Next Area or Exit.
+            if (multiscan)
+            {
 
-						// If ENTER, Continue to Scan next area.
-						if (NextAreaScan() == FALSE)
-						{
-							AnsiString.erase();		
-							AnsiString.append("|CR|CR|15NewScan Completed |07... |DE |CR|PA");
-							pipe2ansi ((char *)AnsiString.c_str());
-		
-							vector < unsigned long >() . swap(elist); // Clear Vector.
-		
-							// Before exiting system, go back to original area!
-							thisuser->lastmbarea = prevarea;
-							CURRENT_MAREA = thisuser->lastmbarea;
-							if (elist.size() > 0) //&& prevmsgcount == -1)
-		        				vector < unsigned long >() . swap(elist); // Clear Vector.
-							return 0;
-						}
+                // Add to language file.
+                ansiPrintf ((char *)"mscan"); // Display Ansi Header First
+                pipe2ansi((char *)"|CR|09Global Message NewScan|CR|CR|15|M#|07. |03|MA |15- |09Scanning Exited.");
+                pipe2ansi((char *)"|CR|CR|15Use: |CR|15[|11ENTER|15] |07Continue to Next Area, or |15[|11Q|15] |07to Quit Global NewScan|08: |07");
+                while (1)
+                {
+                    ch = getkey(true);
 
-						// Continue to Next Area Scan
-						first_titlescan = TRUE;
-						prevmsgcount = -1;
-						if (elist.size() > 0) //&& prevmsgcount == -1)
-		        			vector < unsigned long >() . swap(elist); // Clear Vector.
-						break;
-					}
-					// If Q, Then exit Scan and return to menu.
-					else if (toupper(ch) == 'Q')			
-					{
-						// Done with NewScan Exit.		
-						AnsiString.erase();		
-						AnsiString.append("|CR|CR|15Exiting Title Scan |07... |DE");
-						pipe2ansi ((char *)AnsiString.c_str());
+                    if ((int)ch == 10) // ENTER
+                    {
 
-						if (elist.size() > 0) //&& prevmsgcount == -1)
-		        			vector < unsigned long >() . swap(elist); // Clear Vector.
-						return 0;
-					}
-				}
+                        // If ENTER, Continue to Scan next area.
+                        if (NextAreaScan() == FALSE)
+                        {
+                            AnsiString.erase();
+                            AnsiString.append("|CR|CR|15NewScan Completed |07... |DE |CR|PA");
+                            pipe2ansi ((char *)AnsiString.c_str());
 
-				// if ENTER was hit in while loop, start over for next area scan
-				if ((int)ch == 10) // ENTER
-				{
-					ch = 0;
-					continue;
-				}
-			}
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
 
-			// Normal Exit on NewScan or Reading.
-			AnsiString.erase();		
-			AnsiString.append("|CR|CR|15Exiting Title Scan |07... |DE");
-			pipe2ansi ((char *)AnsiString.c_str());
+                            // Before exiting system, go back to original area!
+                            thisuser->lastmbarea = prevarea;
+                            CURRENT_MAREA = thisuser->lastmbarea;
+                            if (elist.size() > 0) //&& prevmsgcount == -1)
+                                vector < unsigned long >() . swap(elist); // Clear Vector.
+                            return 0;
+                        }
 
-			if (elist.size() > 0) //&& prevmsgcount == -1)
-		    	vector < unsigned long >() . swap(elist); // Clear Vector.
-			return 0;
+                        // Continue to Next Area Scan
+                        first_titlescan = TRUE;
+                        prevmsgcount = -1;
+                        if (elist.size() > 0) //&& prevmsgcount == -1)
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
+                        break;
+                    }
+                    // If Q, Then exit Scan and return to menu.
+                    else if (toupper(ch) == 'Q')
+                    {
+                        // Done with NewScan Exit.
+                        AnsiString.erase();
+                        AnsiString.append("|CR|CR|15Exiting Title Scan |07... |DE");
+                        pipe2ansi ((char *)AnsiString.c_str());
+
+                        if (elist.size() > 0) //&& prevmsgcount == -1)
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
+                        return 0;
+                    }
+                }
+
+                // if ENTER was hit in while loop, start over for next area scan
+                if ((int)ch == 10) // ENTER
+                {
+                    ch = 0;
+                    continue;
+                }
+            }
+
+            // Normal Exit on NewScan or Reading.
+            AnsiString.erase();
+            AnsiString.append("|CR|CR|15Exiting Title Scan |07... |DE");
+            pipe2ansi ((char *)AnsiString.c_str());
+
+            if (elist.size() > 0) //&& prevmsgcount == -1)
+                vector < unsigned long >() . swap(elist); // Clear Vector.
+            return 0;
         }
-		// Continue to next area in newscan
-		else if(ret == -2 && multiscan)
-		{
+        // Continue to next area in newscan
+        else if(ret == -2 && multiscan)
+        {
 
-			pipe2ansi((char *)"|CR|CR|15Skipping to Next Area |07... |DE");
-			// Received Jump to Next Area
-			if (NextAreaScan() == FALSE)
-			{
+            pipe2ansi((char *)"|CR|CR|15Skipping to Next Area |07... |DE");
+            // Received Jump to Next Area
+            if (NextAreaScan() == FALSE)
+            {
 
-				// No area's left in scan, so exit.
-				AnsiString.erase();		
-				AnsiString.append("|CS|CR|15NewScan Completed |07... |CR|PA");
-				pipe2ansi ((char *)AnsiString.c_str());
-				
-				vector < unsigned long >() . swap(elist); // Clear Vector.
-				
+                // No area's left in scan, so exit.
+                AnsiString.erase();
+                AnsiString.append("|CS|CR|15NewScan Completed |07... |CR|PA");
+                pipe2ansi ((char *)AnsiString.c_str());
+
+                vector < unsigned long >() . swap(elist); // Clear Vector.
+
 //        		errlog2((char *)"NextAreaScan FALSE!");
 
                 // Before exiting system, go back to original area!
                 thisuser->lastmbarea = prevarea;
                 CURRENT_MAREA = thisuser->lastmbarea;
-				if (elist.size() > 0) //&& prevmsgcount == -1)
-		       		vector < unsigned long >() . swap(elist); // Clear Vector.
-				return 0;
+                if (elist.size() > 0) //&& prevmsgcount == -1)
+                    vector < unsigned long >() . swap(elist); // Clear Vector.
+                return 0;
             }
-			// Jump to next area
+            // Jump to next area
 
-			first_titlescan = TRUE;
-			prevmsgcount = -1;
-			if (elist.size() > 0) //&& prevmsgcount == -1)
-		    	vector < unsigned long >() . swap(elist); // Clear Vector.
-			continue;
-		}
+            first_titlescan = TRUE;
+            prevmsgcount = -1;
+            if (elist.size() > 0) //&& prevmsgcount == -1)
+                vector < unsigned long >() . swap(elist); // Clear Vector.
+            continue;
+        }
 
-		// Handle Passthrough options from Title Scan.
-		// Negative numbers are exit and next area and passthrough codes.
-		if (ret != -3)
-		{			
-			// Translate Current Message for Functions
-			thisuser->lastmsg = elist[CURRENT_MSGTITLE];
-			switch (ret)
-			{
-				// Global NewScan Only.
-				case 'B': // Bypass -  Leave Message Unread, skip to next area
-					if (newmsg)
-					{
-						current_msg = 0;
-						current_msg = elist.size()-1;
-						thisuser->lastmsg = elist.at( elist.size()-1 );
-						CURRENT_MSGTITLE = current_msg;
-						pipe2ansi((char *)"|CR|CR|07FYI: |15Remaining messages bypassed, left as |03unread|15.|CR|CR|PA");
-						// If global newscan skip to next area now.
-						if (multiscan)
-						{
-							pipe2ansi((char *)"|CR|CR|15Skipping to Next Area |07... |DE");
-							// Received Jump to Next Area
-							if (NextAreaScan() == FALSE)
-							{
+        // Handle Passthrough options from Title Scan.
+        // Negative numbers are exit and next area and passthrough codes.
+        if (ret != -3)
+        {
+            // Translate Current Message for Functions
+            thisuser->lastmsg = elist[CURRENT_MSGTITLE];
+            switch (ret)
+            {
+                // Global NewScan Only.
+            case 'B': // Bypass -  Leave Message Unread, skip to next area
+                if (newmsg)
+                {
+                    current_msg = 0;
+                    current_msg = elist.size()-1;
+                    thisuser->lastmsg = elist.at( elist.size()-1 );
+                    CURRENT_MSGTITLE = current_msg;
+                    pipe2ansi((char *)"|CR|CR|07FYI: |15Remaining messages bypassed, left as |03unread|15.|CR|CR|PA");
+                    // If global newscan skip to next area now.
+                    if (multiscan)
+                    {
+                        pipe2ansi((char *)"|CR|CR|15Skipping to Next Area |07... |DE");
+                        // Received Jump to Next Area
+                        if (NextAreaScan() == FALSE)
+                        {
 
-								// No area's left in scan, so exit.
-								AnsiString.erase();		
-								AnsiString.append("|CR|CR|15NewScan Completed |07... |CR|PA");
-								pipe2ansi ((char *)AnsiString.c_str());
-				
-								vector < unsigned long >() . swap(elist); // Clear Vector.
-				
-								//errlog2((char *)"NextAreaScan FALSE!");
+                            // No area's left in scan, so exit.
+                            AnsiString.erase();
+                            AnsiString.append("|CR|CR|15NewScan Completed |07... |CR|PA");
+                            pipe2ansi ((char *)AnsiString.c_str());
 
-								// Before exiting system, go back to original area!
-								thisuser->lastmbarea = prevarea;
-								CURRENT_MAREA = thisuser->lastmbarea;
-								if (elist.size() > 0) //&& prevmsgcount == -1)
-				    				vector < unsigned long >() . swap(elist); // Clear Vector.
-								return 0;
-							}
-							// Jump to next area
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
 
-							first_titlescan = TRUE;
-							prevmsgcount = -1;
-							if (elist.size() > 0) //&& prevmsgcount == -1)
-				    			vector < unsigned long >() . swap(elist); // Clear Vector.
-							continue;
-						}
-						continue;
-					}
-					continue;
-					
-				case 'I': // Ignore -  Mark Remaining as Read
-					current_msg = 0;
+                            //errlog2((char *)"NextAreaScan FALSE!");
 
-					current_msg = elist.size()-1;
-					thisuser->lastmsg = elist.at( elist.size()-1 );
-					CURRENT_MSGTITLE = current_msg;
-    				SetLastRead(thisuser->idx, current_msg+1); // Set to greater then entire area.
+                            // Before exiting system, go back to original area!
+                            thisuser->lastmbarea = prevarea;
+                            CURRENT_MAREA = thisuser->lastmbarea;
+                            if (elist.size() > 0) //&& prevmsgcount == -1)
+                                vector < unsigned long >() . swap(elist); // Clear Vector.
+                            return 0;
+                        }
+                        // Jump to next area
 
-					pipe2ansi((char *)"|CR|CR|07FYI: |15Remaining messages ignored, marked as |03read|15.|CR|CR|PA");
+                        first_titlescan = TRUE;
+                        prevmsgcount = -1;
+                        if (elist.size() > 0) //&& prevmsgcount == -1)
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
+                        continue;
+                    }
+                    continue;
+                }
+                continue;
 
-					first_titlescan = TRUE;
-					prevmsgcount = -1;
-				
-					// If global newscan skip to next area now.
-					if (multiscan)
-					{
-						pipe2ansi((char *)"|CR|CR|15Jumping to Next Area |07... |DE");
-						// Received Jump to Next Area
-						if (NextAreaScan() == FALSE)
-						{
+            case 'I': // Ignore -  Mark Remaining as Read
+                current_msg = 0;
 
-							// No area's left in scan, so exit.
-							AnsiString.erase();		
-							AnsiString.append("|CR|CR|15NewScan Completed |07... |CR|PA");
-							pipe2ansi ((char *)AnsiString.c_str());
-				
-							vector < unsigned long >() . swap(elist); // Clear Vector.
-				
+                current_msg = elist.size()-1;
+                thisuser->lastmsg = elist.at( elist.size()-1 );
+                CURRENT_MSGTITLE = current_msg;
+                SetLastRead(thisuser->idx, current_msg+1); // Set to greater then entire area.
+
+                pipe2ansi((char *)"|CR|CR|07FYI: |15Remaining messages ignored, marked as |03read|15.|CR|CR|PA");
+
+                first_titlescan = TRUE;
+                prevmsgcount = -1;
+
+                // If global newscan skip to next area now.
+                if (multiscan)
+                {
+                    pipe2ansi((char *)"|CR|CR|15Jumping to Next Area |07... |DE");
+                    // Received Jump to Next Area
+                    if (NextAreaScan() == FALSE)
+                    {
+
+                        // No area's left in scan, so exit.
+                        AnsiString.erase();
+                        AnsiString.append("|CR|CR|15NewScan Completed |07... |CR|PA");
+                        pipe2ansi ((char *)AnsiString.c_str());
+
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
+
 //							errlog2((char *)"NextAreaScan FALSE!");
 
-						    // Before exiting system, go back to original area!
-						    thisuser->lastmbarea = prevarea;
-						    CURRENT_MAREA = thisuser->lastmbarea;
-							if (elist.size() > 0) //&& prevmsgcount == -1)
-		        				vector < unsigned long >() . swap(elist); // Clear Vector.
-							return 0;
-						}
-						// Jump to next area
-
-						first_titlescan = TRUE;
-						prevmsgcount = -1;
-						if (elist.size() > 0) //&& prevmsgcount == -1)
-		        			vector < unsigned long >() . swap(elist); // Clear Vector.
-						continue;
-					}
-					continue;
-
-				
-				case 'K': // Kill / Delete Message
-					// Readin, then Test if User has Access to Remove Message.
-
-//					errlog2((char *)"Kill / Delete Message");				
-					ReadInMsgOnly(CURRENT_MAREA);
-
-					// Build Index to Pass for Delete Function
-					msgidx_translation = new vector<ulong>;
-        			for (int j = 0; j < (signed)elist.size(); j++)
-        			{
-		        		// Class Global, so Readers have access to this!!
-		        		// Set message ordering for reader to parse
-		        		// correct message number
-		        		msgidx_translation->push_back(elist.at(j));
-        			}
-
-					
-					if(DelCurMsg(thisuser->lastmbarea, thisuser->lastmsg))
-					{
-						pipe2ansi((char *)"|CR|CR|07FYI: |15Current Message has been deleted.|CR|CR|PA");
-						//first_titlescan = TRUE;
-						prevmsgcount = -1;
-						if (elist.size() > 0) //&& prevmsgcount == -1)
-		        			vector < unsigned long >() . swap(elist); // Clear Vector.
-					}	
-
-					delete msgidx_translation;
-
-					mLink.Lines = 0;
-                    mLink.dispose();
-					continue;
-
-				
-				case 'E': // Edit Message
-					pipe2ansi((char *)"|CR|CR|07FYI: |15WIP - Not yet Implimented.|CR|CR|PA");
-					continue;
-
-				
-				case 'H': // Set Pointer
-					memset(&outbuff,0,sizeof(outbuff));
-
-                    SetLastRead(thisuser->idx, CURRENT_MSGTITLE+1);
-
-                    _lang.lang_get(outbuff,37);
-                    AnsiString = outbuff;
-                    id1 = AnsiString.find("|M#",0);
-                    if (id1 != std::string::npos)
-                    {
-                        // 0 Based, att once when showing current message.
-                        sprintf(szReplace,"%d", CURRENT_MSGTITLE+1);
-                        AnsiString.replace(id1,3,szReplace);
+                        // Before exiting system, go back to original area!
+                        thisuser->lastmbarea = prevarea;
+                        CURRENT_MAREA = thisuser->lastmbarea;
+                        if (elist.size() > 0) //&& prevmsgcount == -1)
+                            vector < unsigned long >() . swap(elist); // Clear Vector.
+                        return 0;
                     }
-                    pipe2ansi((char*)AnsiString.c_str());
-					continue;
-				
-				case 'P': // Post a New Message
-					// Translater current message 
-                    //DoPost(CURRENT_MAREA, FALSE);
+                    // Jump to next area
 
-					if (mr.Pubpriv == PRIVATE)
-    				{
-        				DoPostEmail(FALSE);
-    				}
-    				else
-    				{
-        				DoPost(CURRENT_MAREA, FALSE);
-    				}
-				
-                    pipe2ansi((char *)"|CS");
-					// Reset and Rescan Current Area
-					//first_titlescan = TRUE;
-					prevmsgcount = -1;
-					if (elist.size() > 0) //&& prevmsgcount == -1)
-		        		vector < unsigned long >() . swap(elist); // Clear Vector.
-
-					mLink.Lines = 0;
-                    mLink.dispose();
-					continue;
-
-                case 'R': // Reply to a Message
-					ReadInMsgOnly(CURRENT_MAREA);
-				
-                    if (mr.Pubpriv == PRIVATE)
-    				{
-        				DoPostEmail(TRUE);
-    				}
-    				else
-    				{
-        				DoPost(CURRENT_MAREA, TRUE);
-    				}
-				
-                    pipe2ansi((char *)"|CS");
-					// Reset and Rescan Current Area
-					//first_titlescan = TRUE;
-					prevmsgcount = -1;
-					if (elist.size() > 0) //&& prevmsgcount == -1)
-		        		vector < unsigned long >() . swap(elist); // Clear Vector.
-
-					// Clear Message That was read in.
-					mLink.Lines = 0;
-                    mLink.dispose();
-				
-					continue;
-				
-				default: continue;
-			}
-		}
+                    first_titlescan = TRUE;
+                    prevmsgcount = -1;
+                    if (elist.size() > 0) //&& prevmsgcount == -1)
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
+                    continue;
+                }
+                continue;
 
 
-		// Then we have area from title scan
-		if (ret == -3)
-			ret = CURRENT_MSGTITLE;
-		else continue;
-		
+            case 'K': // Kill / Delete Message
+                // Readin, then Test if User has Access to Remove Message.
+
+//					errlog2((char *)"Kill / Delete Message");
+                ReadInMsgOnly(CURRENT_MAREA);
+
+                // Build Index to Pass for Delete Function
+                msgidx_translation = new vector<ulong>;
+                for (int j = 0; j < (signed)elist.size(); j++)
+                {
+                    // Class Global, so Readers have access to this!!
+                    // Set message ordering for reader to parse
+                    // correct message number
+                    msgidx_translation->push_back(elist.at(j));
+                }
+
+
+                if(DelCurMsg(thisuser->lastmbarea, thisuser->lastmsg))
+                {
+                    pipe2ansi((char *)"|CR|CR|07FYI: |15Current Message has been deleted.|CR|CR|PA");
+                    //first_titlescan = TRUE;
+                    prevmsgcount = -1;
+                    if (elist.size() > 0) //&& prevmsgcount == -1)
+                        vector < unsigned long >() . swap(elist); // Clear Vector.
+                }
+
+                delete msgidx_translation;
+
+                mLink.Lines = 0;
+                mLink.dispose();
+                continue;
+
+
+            case 'E': // Edit Message
+                pipe2ansi((char *)"|CR|CR|07FYI: |15WIP - Not yet Implimented.|CR|CR|PA");
+                continue;
+
+
+            case 'H': // Set Pointer
+                memset(&outbuff,0,sizeof(outbuff));
+
+                SetLastRead(thisuser->idx, CURRENT_MSGTITLE+1);
+
+                _lang.lang_get(outbuff,37);
+                AnsiString = outbuff;
+                id1 = AnsiString.find("|M#",0);
+                if (id1 != std::string::npos)
+                {
+                    // 0 Based, att once when showing current message.
+                    sprintf(szReplace,"%d", CURRENT_MSGTITLE+1);
+                    AnsiString.replace(id1,3,szReplace);
+                }
+                pipe2ansi((char*)AnsiString.c_str());
+                continue;
+
+            case 'P': // Post a New Message
+                // Translater current message
+                //DoPost(CURRENT_MAREA, FALSE);
+
+                if (mr.Pubpriv == PRIVATE)
+                {
+                    DoPostEmail(FALSE);
+                }
+                else
+                {
+                    DoPost(CURRENT_MAREA, FALSE);
+                }
+
+                pipe2ansi((char *)"|CS");
+                // Reset and Rescan Current Area
+                //first_titlescan = TRUE;
+                prevmsgcount = -1;
+                if (elist.size() > 0) //&& prevmsgcount == -1)
+                    vector < unsigned long >() . swap(elist); // Clear Vector.
+
+                mLink.Lines = 0;
+                mLink.dispose();
+                continue;
+
+            case 'R': // Reply to a Message
+                ReadInMsgOnly(CURRENT_MAREA);
+
+                if (mr.Pubpriv == PRIVATE)
+                {
+                    DoPostEmail(TRUE);
+                }
+                else
+                {
+                    DoPost(CURRENT_MAREA, TRUE);
+                }
+
+                pipe2ansi((char *)"|CS");
+                // Reset and Rescan Current Area
+                //first_titlescan = TRUE;
+                prevmsgcount = -1;
+                if (elist.size() > 0) //&& prevmsgcount == -1)
+                    vector < unsigned long >() . swap(elist); // Clear Vector.
+
+                // Clear Message That was read in.
+                mLink.Lines = 0;
+                mLink.dispose();
+
+                continue;
+
+            default:
+                continue;
+            }
+        }
+
+
+        // Then we have area from title scan
+        if (ret == -3)
+            ret = CURRENT_MSGTITLE;
+        else continue;
+
         // Translate from Title Scan # to Real Message Number for Readin
         // Now universal!
 
@@ -2524,77 +2525,77 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
         read_return = StartReader(newmsg, ret);
 
 
-		// Now Check Return Code From Reader, for Global NewScans,
-		// If end of message, bypass, ignore,  we get -2 for skip to next area 
-		// in the NewScan.  Otherwise passthrough.
+        // Now Check Return Code From Reader, for Global NewScans,
+        // If end of message, bypass, ignore,  we get -2 for skip to next area
+        // in the NewScan.  Otherwise passthrough.
 
-		// Continue to next area in newscan
-		if(read_return == -2 && multiscan)
-		{
-			pipe2ansi((char *)"|CS|CR|15Jumping to Next Area |07... |DE");
-			// Received Jump to Next Area
-			if (NextAreaScan() == FALSE)
-			{
+        // Continue to next area in newscan
+        if(read_return == -2 && multiscan)
+        {
+            pipe2ansi((char *)"|CS|CR|15Jumping to Next Area |07... |DE");
+            // Received Jump to Next Area
+            if (NextAreaScan() == FALSE)
+            {
 
-				// No area's left in scan, so exit.
-				AnsiString.erase();		
-				AnsiString.append("|CS|CR|15NewScan Completed |07... |CR|PA");
-				pipe2ansi ((char *)AnsiString.c_str());
-				
-				vector < unsigned long >() . swap(elist); // Clear Vector.
-				
-        		//errlog2((char *)"NextAreaScan FALSE!");
+                // No area's left in scan, so exit.
+                AnsiString.erase();
+                AnsiString.append("|CS|CR|15NewScan Completed |07... |CR|PA");
+                pipe2ansi ((char *)AnsiString.c_str());
+
+                vector < unsigned long >() . swap(elist); // Clear Vector.
+
+                //errlog2((char *)"NextAreaScan FALSE!");
 
                 // Before exiting system, go back to original area!
                 thisuser->lastmbarea = prevarea;
                 CURRENT_MAREA = thisuser->lastmbarea;
-				if (elist.size() > 0) //&& prevmsgcount == -1)
-		       		vector < unsigned long >() . swap(elist); // Clear Vector.
-				return 0;
+                if (elist.size() > 0) //&& prevmsgcount == -1)
+                    vector < unsigned long >() . swap(elist); // Clear Vector.
+                return 0;
             }
-			// Jump to next area
+            // Jump to next area
 
-			first_titlescan = TRUE;
-			prevmsgcount = -1;
-			if (elist.size() > 0) //&& prevmsgcount == -1)
-		    	vector < unsigned long >() . swap(elist); // Clear Vector.
-			continue;
-		}
+            first_titlescan = TRUE;
+            prevmsgcount = -1;
+            if (elist.size() > 0) //&& prevmsgcount == -1)
+                vector < unsigned long >() . swap(elist); // Clear Vector.
+            continue;
+        }
 
-		// Deleted a message, fresh and drop back to Title Scan`
-		if(read_return == -3)
-		{
-			prevmsgcount = -1;
-			delete msgidx_translation;
-			if (elist.size() > 0) //&& prevmsgcount == -1)
-		    	vector < unsigned long >() . swap(elist); // Clear Vector.
-			continue;
-		}
+        // Deleted a message, fresh and drop back to Title Scan`
+        if(read_return == -3)
+        {
+            prevmsgcount = -1;
+            delete msgidx_translation;
+            if (elist.size() > 0) //&& prevmsgcount == -1)
+                vector < unsigned long >() . swap(elist); // Clear Vector.
+            continue;
+        }
 
-		/*
-		if (msgidx_translation->size() == elist.size())
-		{
+        /*
+        if (msgidx_translation->size() == elist.size())
+        {
         	// Clear Message Listing Array,.
-			// And continue normal
+        	// And continue normal
         	delete msgidx_translation;
-		}*/
-		else
-		{
-			// msgidx_translation is < elist.size() from pop_back().
+        }*/
+        else
+        {
+            // msgidx_translation is < elist.size() from pop_back().
 
-			// Skip Incriments, and refresh loop, stay at current message
-			// Since we decremented to previous message from mesg purged.
+            // Skip Incriments, and refresh loop, stay at current message
+            // Since we decremented to previous message from mesg purged.
 
-			// Comes here when we purge a message, now we need to refresh the
-			// title list before we continue.
-			delete msgidx_translation;
+            // Comes here when we purge a message, now we need to refresh the
+            // title list before we continue.
+            delete msgidx_translation;
 
-			AnsiString.erase();		
-			AnsiString.append("|CS|CR|15Returning to Title Scan |07... ");
-			pipe2ansi ((char *)AnsiString.c_str());
+            AnsiString.erase();
+            AnsiString.append("|CS|CR|15Returning to Title Scan |07... ");
+            pipe2ansi ((char *)AnsiString.c_str());
 
-			continue;
-		}
+            continue;
+        }
 
 
         // Test if were past the last message in the current area, if we are
@@ -2619,17 +2620,17 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
         // Move to Next Lightbar in Title Scan.
         CURRENT_MSGTITLE++;
 
-		AnsiString.erase();		
-		AnsiString.append("|CS|CR|15Returning to Title Scan |07... ");
-		pipe2ansi ((char *)AnsiString.c_str());
+        AnsiString.erase();
+        AnsiString.append("|CS|CR|15Returning to Title Scan |07... ");
+        pipe2ansi ((char *)AnsiString.c_str());
 
     } // End While
 
     thisuser->lastmbarea = prevarea;
     CURRENT_MAREA = prevarea;
-	if (elist.size() > 0) //&& prevmsgcount == -1)
-		vector < unsigned long >() . swap(elist); // Clear Vector.
-	return 0;
+    if (elist.size() > 0) //&& prevmsgcount == -1)
+        vector < unsigned long >() . swap(elist); // Clear Vector.
+    return 0;
 }
 
 
@@ -2687,8 +2688,8 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
     Views = 0;
 
 
-	//	errlog((char *)"SCAN/READ - 1st. Get # of messages in current area for Scan ");
-	if(!ReadMsgArea(thisuser->lastmbarea))
+    //	errlog((char *)"SCAN/READ - 1st. Get # of messages in current area for Scan ");
+    if(!ReadMsgArea(thisuser->lastmbarea))
     {
         MI.high_msg   = 0;
         MI.high_water = 0;
@@ -2697,8 +2698,8 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
     sprintf(szReplace,"%lu",MI.high_msg);
 
-	// Clear Header for fresh run.
-	memset(&mHead,0, sizeof(MsgHead));
+    // Clear Header for fresh run.
+    memset(&mHead,0, sizeof(MsgHead));
 
     // Check if were doing a New Scan, or user is selecting starting #
     if (newmsg == TRUE)
@@ -2821,10 +2822,10 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
             // figure out text range by subtracting size of message header.
             ansi_file(sANSI_FILE);
 
-			// Grab from ini file.
-	   		aCoordX = iTop;
-			bCoordX = 24;
-		
+            // Grab from ini file.
+            aCoordX = iTop;
+            bCoordX = 24;
+
             pipe2ansi((char *)"|CR");
 
             // Get the size of the Mesage Header
@@ -2916,7 +2917,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
 
                 // Show Current/Total Pages Per Message!
-				// Usually noit going over 99 pages,, so 2d here is good.
+                // Usually noit going over 99 pages,, so 2d here is good.
                 sprintf(outBuffer,"%s%.2d",sPAGENUM,mLink.Page);
                 _output += outBuffer;
                 sprintf(outBuffer,"%s%.2d",sPAGETOTAL,mLink.TotPages);
@@ -2990,11 +2991,11 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                         CURRENT_MSGTITLE +=1;
                         thisuser->lastmsg = msgidx_translation->at(current_msgidx);
 
-						
-						mLink.Lines = 0;
-						mLink.dispose();
-						same = FALSE;
-						break;
+
+                        mLink.Lines = 0;
+                        mLink.dispose();
+                        same = FALSE;
+                        break;
                     }
                     else
                     {
@@ -3004,59 +3005,59 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
                         pipe2ansi((char *)"|CS|CR|07FYI: |15You're at the highest message available.|CR|CR");
 
-						// If were in a newscan, check if we want to continue scan 
-						// or return to titlescan
-						if (newmsg && gblNewScan)
-						{
+                        // If were in a newscan, check if we want to continue scan
+                        // or return to titlescan
+                        if (newmsg && gblNewScan)
+                        {
 
-							// Moce to Language File
-							//pipe2ansi((char *)"|15Use: |CR|15[|11ENTER|15] |07Continue to Next Area, or |15[|11Q|15] |07to Quit back to the TitleScan |08: |07");
-							//pipe2ansi((char *)"|DFmcont");  - Need to fix this, not cuting off full ansi name, t shows!
-							ansiPrintf ((char *)"mcont");
+                            // Moce to Language File
+                            //pipe2ansi((char *)"|15Use: |CR|15[|11ENTER|15] |07Continue to Next Area, or |15[|11Q|15] |07to Quit back to the TitleScan |08: |07");
+                            //pipe2ansi((char *)"|DFmcont");  - Need to fix this, not cuting off full ansi name, t shows!
+                            ansiPrintf ((char *)"mcont");
 
-							// Done with NewScan, Mark Messages As Read
-							// Then either goto next are or back to title scan.
-							while(1)
-							{
-								ch = getkey(true);
+                            // Done with NewScan, Mark Messages As Read
+                            // Then either goto next are or back to title scan.
+                            while(1)
+                            {
+                                ch = getkey(true);
 
-								if (ch == 10)
-								{	
-									pipe2ansi((char *)" |CS ");
-									IgnoreTheRest(thisuser->lastmbarea);
-									mLink.Lines = 0;
-									mLink.dispose();
-									same = FALSE;
-									done = TRUE;
-									_mnuf.choice = 0;
-									rtnval = -2;
-									break;
-								}
-								else if (toupper(ch) == 'Q')
-								{
-									pipe2ansi((char *)" |CS ");
-									IgnoreTheRest(thisuser->lastmbarea);
-									mLink.Lines = 0;
-                					mLink.dispose();
-                					same = FALSE;
-									done = TRUE;
-									break;
-								}
-							}
-						}
-						else
-						{
+                                if (ch == 10)
+                                {
+                                    pipe2ansi((char *)" |CS ");
+                                    IgnoreTheRest(thisuser->lastmbarea);
+                                    mLink.Lines = 0;
+                                    mLink.dispose();
+                                    same = FALSE;
+                                    done = TRUE;
+                                    _mnuf.choice = 0;
+                                    rtnval = -2;
+                                    break;
+                                }
+                                else if (toupper(ch) == 'Q')
+                                {
+                                    pipe2ansi((char *)" |CS ");
+                                    IgnoreTheRest(thisuser->lastmbarea);
+                                    mLink.Lines = 0;
+                                    mLink.dispose();
+                                    same = FALSE;
+                                    done = TRUE;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
 
-							pipe2ansi((char *)"|PA |CS ");
-							mLink.Lines = 0;
-							mLink.dispose();
-							same = FALSE;
-							break;
+                            pipe2ansi((char *)"|PA |CS ");
+                            mLink.Lines = 0;
+                            mLink.dispose();
+                            same = FALSE;
+                            break;
 
-						}
+                        }
 
-					}
-					break;
+                    }
+                    break;
 
                 case '-': // Previous Message
                     mLink.Lines = 0;
@@ -3110,46 +3111,46 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                 case 'P': // Post a New Message
                     //DoPost(thisuser->lastmbarea,FALSE);
 
-					if (mr.Pubpriv == PRIVATE)
-    				{
-        				DoPostEmail(FALSE);
-    				}
-    				else
-    				{
-        				DoPost(CURRENT_MAREA, FALSE);
-    				}
-					
+                    if (mr.Pubpriv == PRIVATE)
+                    {
+                        DoPostEmail(FALSE);
+                    }
+                    else
+                    {
+                        DoPost(CURRENT_MAREA, FALSE);
+                    }
+
                     mLink.Lines = 0;
                     mLink.dispose();
                     same = FALSE; // Refresh Message
                     pipe2ansi((char *)"|CS");
                     _mnuf.choice = 0;
 
-					// On new message, dump back to title scan
-					// so we refresh message count
-					rtnval = FALSE;
+                    // On new message, dump back to title scan
+                    // so we refresh message count
+                    rtnval = FALSE;
                     done = TRUE;
 
                     break;
 
                 case 'R': // Reply to a Message
                     if (mr.Pubpriv == PRIVATE)
-    				{
-        				DoPostEmail(TRUE);
-    				}
-    				else
-    				{
-        				DoPost(CURRENT_MAREA, TRUE);
-    				}
+                    {
+                        DoPostEmail(TRUE);
+                    }
+                    else
+                    {
+                        DoPost(CURRENT_MAREA, TRUE);
+                    }
                     mLink.Lines = 0;
                     mLink.dispose();
                     same = FALSE; // Refresh Message
                     pipe2ansi((char *)"|CS");
                     _mnuf.choice = 0;
 
-					// On new message, dump back to title scan
-					// so we refresh message count
-					rtnval = FALSE;
+                    // On new message, dump back to title scan
+                    // so we refresh message count
+                    rtnval = FALSE;
                     done = TRUE;
                     break;
 
@@ -3188,17 +3189,17 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
                 case 'I': // Ignore
                     IgnoreTheRest(thisuser->lastmbarea);
-                                  //done = TRUE;
+                    //done = TRUE;
                     //thisuser->lastmbarea = CURRENT_MAREA;
-      				mLink.Lines = 0;
+                    mLink.Lines = 0;
                     mLink.dispose();
                     same = FALSE;
-					done = TRUE;
+                    done = TRUE;
 
-					pipe2ansi((char *)"|CS|CR|07FYI: |15Remaining messages ignored, marked as read.|CR|CR|PA");
+                    pipe2ansi((char *)"|CS|CR|07FYI: |15Remaining messages ignored, marked as read.|CR|CR|PA");
                     /*
 
-					 if (new// If next Message, less then total, switch to it.
+                     if (new// If next Message, less then total, switch to it.
                     current_msgidx = msgidx_translation->size()-1;
                     thisuser->lastmsg = msgidx_translation->at(current_msgidx);msg) { // Scan Completed
                             _msgf.read_mbaselist(&mr, thisuser->lastmbarea);
@@ -3207,36 +3208,36 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                             pipe2ansi((char*)AnsiString.c_str());
                         }
                         pipe2ansi((char *)"|CS");
-                   */
+                                       */
                     _mnuf.choice = 0;
 
-					// Pushes to Next Area in Global NewScan
-					if (newmsg && gblNewScan)
-						rtnval = -2;
-						
+                    // Pushes to Next Area in Global NewScan
+                    if (newmsg && gblNewScan)
+                        rtnval = -2;
+
                     break;
 
-                case 'B': // Bypass The Rest (Doesn't Mark        
-                        // Set to Last Message, This doesn't set Previous did message +1    
-                        // Might need to fix or test this lateron,
+                case 'B': // Bypass The Rest (Doesn't Mark
+                    // Set to Last Message, This doesn't set Previous did message +1
+                    // Might need to fix or test this lateron,
                     current_msgidx = msgidx_translation->size()-1;
                     thisuser->lastmsg = msgidx_translation->at(current_msgidx);
 
-					mLink.Lines = 0;
+                    mLink.Lines = 0;
                     mLink.dispose();
                     same = FALSE;
-					done = TRUE;
+                    done = TRUE;
                     _mnuf.choice = 0;
 
-					pipe2ansi((char *)"|CS|CR|07FYI: |15Remaining messages bypassed, not marked as read.|CR|CR|PA");
+                    pipe2ansi((char *)"|CS|CR|07FYI: |15Remaining messages bypassed, not marked as read.|CR|CR|PA");
 
-					// Pushes to Next Area in Global NewScan
-					if (newmsg && gblNewScan)
-						rtnval = -2;
+                    // Pushes to Next Area in Global NewScan
+                    if (newmsg && gblNewScan)
+                        rtnval = -2;
 
                     break;
 
-					/*
+                    /*
                     if (newmsg) { // Scan Completed
                         _msgf.read_mbaselist(&mr, thisuser->lastmbarea);
                         _lang.lang_get(text,36);
@@ -3249,29 +3250,29 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
                 case 'K': // Kill Current Message
 
-					// Then return to title Scan to refresh!
-					// Other then sysop, make sure only user who posts
-				    // can kill a message.
+                    // Then return to title Scan to refresh!
+                    // Other then sysop, make sure only user who posts
+                    // can kill a message.
 
                     if (DelCurMsg(thisuser->lastmbarea, thisuser->lastmsg))
-					{
-						// Use this to go to previous message before deleted.		
-						pipe2ansi((char *)"|CS|CR|07FYI: |15Current Message has been deleted.|CR|CR|PA");
-						mLink.Lines = 0;
-                    	mLink.dispose();
-                    	same = FALSE;
-						done = TRUE;
-						pipe2ansi((char *)"|CS");
-                    	_mnuf.choice = 0;
-						rtnval = -3;
-						break;
-					}						
+                    {
+                        // Use this to go to previous message before deleted.
+                        pipe2ansi((char *)"|CS|CR|07FYI: |15Current Message has been deleted.|CR|CR|PA");
+                        mLink.Lines = 0;
+                        mLink.dispose();
+                        same = FALSE;
+                        done = TRUE;
+                        pipe2ansi((char *)"|CS");
+                        _mnuf.choice = 0;
+                        rtnval = -3;
+                        break;
+                    }
 
                     mLink.Lines = 0;
                     mLink.dispose();
                     same = FALSE;
-					done = TRUE;
-					pipe2ansi((char *)"|CS");
+                    done = TRUE;
+                    pipe2ansi((char *)"|CS");
                     _mnuf.choice = 0;
                     break;
 

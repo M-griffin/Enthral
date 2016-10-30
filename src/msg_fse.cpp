@@ -157,17 +157,17 @@ void msg_fse::stripCRONLY(char *ostr)
     strcpy(ostr,(char *)tstr.c_str());
 }
 
- 
+
 /**
  * Full Screen Editor - Copy Data From buffer (Mesage Quoter) into Link List (Message)
- * Or Any Text Being passed to the Interface ie AutoSig!  
+ * Or Any Text Being passed to the Interface ie AutoSig!
  */
 void msg_fse::PutBuffer(char *mBuff)
 {
     std::string MsgText, Line;
     MsgText = mBuff;
 
-	std::string::size_type id1 = 0;
+    std::string::size_type id1 = 0;
     int i = 0;
     char TmpStrip[200]= {0};
 
@@ -282,7 +282,7 @@ void msg_fse::save_all()
 
 }
 
- 
+
 /**
  * Full Screen Editor - Move to Previous Line
  */
@@ -302,7 +302,7 @@ int msg_fse::move_up()
     return TRUE;
 }
 
- 
+
 /**
  * Full Screen Editor - Move Down to Next Line
  */
@@ -332,7 +332,7 @@ void msg_fse::move_first()
     Num = 1;
 }
 
- 
+
 /**
  * Full Screen Editor - Jump to End of Message
  */
@@ -392,9 +392,9 @@ void msg_fse::move_last()
         Row = Bot-Top;
 }
 
- 
+
 /**
- * Full Screen Editor - Count how many lines in list from 
+ * Full Screen Editor - Count how many lines in list from
  *						current all the way down
  */
 int msg_fse::line_count()
@@ -499,7 +499,7 @@ void msg_fse::delete_line_up()
         Tot = line_total();
         return;
 
-	}
+    }
 
     head = current_node;
 
@@ -673,7 +673,7 @@ void msg_fse::clear_all()
     Tot = 1;
 }
 
- 
+
 /**
  * Full Screen Editor - Insert line in middle of paragraph on screen
  */
@@ -991,7 +991,7 @@ int msg_fse::format_paragraph()
 
 }
 
- 
+
 /**
  * Full Screen Editor - Extended Word Wrapping, For Insert Pushing inside Current Line
  */
@@ -1009,7 +1009,7 @@ void msg_fse::word_wrapex()
     std::string::size_type iLineSize;  // Current Line Size
     std::string::size_type iPos;       // String Position
     std::string::size_type id1;
-	int iRet;
+    int iRet;
 
     iLineSize = Line.size();
 //    iColPos   = Col-1;
@@ -1120,7 +1120,7 @@ void msg_fse::word_wrapex()
     box_redraw();
 }
 
- 
+
 /**
  * Full Screen Editor - Add char to current line, and test what mode were in
  */
@@ -1372,7 +1372,7 @@ void msg_fse::Last_Line()
 
 // Not being used!!
 /**
- * Full Screen Editor - Last Page, Scroll from Bottom up 
+ * Full Screen Editor - Last Page, Scroll from Bottom up
  */
 void msg_fse::box_scrolldn()
 {
@@ -1414,7 +1414,7 @@ void msg_fse::box_scrolldn()
 
 
 /**
- * Full Screen Editor - Parse Subject for Regarding (reply) 
+ * Full Screen Editor - Parse Subject for Regarding (reply)
  */
 int msg_fse::parsere(char *qText)
 {
@@ -1438,7 +1438,7 @@ int msg_fse::parsere(char *qText)
 }
 
 /**
- * Full Screen Editor - Options with ESC or / is hit. 
+ * Full Screen Editor - Options with ESC or / is hit.
  */
 int msg_fse::options_prompt(unsigned char c)
 {
@@ -1453,7 +1453,7 @@ int msg_fse::options_prompt(unsigned char c)
     std::string QuoteStr;
     std::string sOrgMsg;
     int idx = 0;
-	int id1 = 0;
+    int id1 = 0;
 
 //RESTART:
 
@@ -1677,9 +1677,9 @@ void msg_fse::insert_lines()
  * Full Screen Editor - Split line into seperate list of words.
  * Future Spell Check?!? :)
  */
-std::vector<std::string> inline msg_fse::split_string(const std::string &source, 
-                                                      const char *delimiter, 
-                                                      bool keepEmpty)
+std::vector<std::string> inline msg_fse::split_string(const std::string &source,
+        const char *delimiter,
+        bool keepEmpty)
 {
     std::vector<std::string> results;
 
@@ -1708,82 +1708,82 @@ std::vector<std::string> inline msg_fse::split_string(const std::string &source,
  */
 void msg_fse::delete_key()
 {
-	std::string::size_type id1 = 0;
-	std::string sTmp;  // Delete lineup clears line, so we need to store it.
-	int TCol = Col;    // Keep track of original position
-	
-	char sLine[1024]={0};
+    std::string::size_type id1 = 0;
+    std::string sTmp;  // Delete lineup clears line, so we need to store it.
+    int TCol = Col;    // Keep track of original position
 
-	int iRepeat = 0;
+    char sLine[1024]= {0};
+
+    int iRepeat = 0;
     int iLineSize;
     int iColPos;
-	int bPush;
+    int bPush;
 
     iLineSize = Line.size();
     iColPos   = Col-1;
-	
-	//if ((signed)Line.size() < (Col-1))
-	if (Col < (signed)Line.size()+1)
-	{
-		//putline("\r\ndel");
-		Line.erase(Col-1,1);
-		current_node->data = Line;
-		// Delete Current Line then redraw it
-		sprintf(sLine,"\x1b[%i;%iH\x1b[K%s\x1b[%i;%iH", Row+Top-1, 1,Line.c_str(), Row+Top-1, Col);
-		putline(sLine);
-	}
-	//((signed)Line.size()+1 > Col)     // Were in Insert Mode	
-	// If were at the end of a line, pull text from line below up.
-	else 
+
+    //if ((signed)Line.size() < (Col-1))
+    if (Col < (signed)Line.size()+1)
+    {
+        //putline("\r\ndel");
+        Line.erase(Col-1,1);
+        current_node->data = Line;
+        // Delete Current Line then redraw it
+        sprintf(sLine,"\x1b[%i;%iH\x1b[K%s\x1b[%i;%iH", Row+Top-1, 1,Line.c_str(), Row+Top-1, Col);
+        putline(sLine);
+    }
+    //((signed)Line.size()+1 > Col)     // Were in Insert Mode
+    // If were at the end of a line, pull text from line below up.
+    else
     {
         // First Make sure all characters on currnet are saved.
         current_node->data = Line;
 
-		// Second we need to check if cursor is past line size, if so we need to pad it
-		// So when we pull new text up it lines with cursor, not the end of the line.
-		if (iColPos < iLineSize)
-		    bPush = TRUE;
-		else
-		    bPush = FALSE;
+        // Second we need to check if cursor is past line size, if so we need to pad it
+        // So when we pull new text up it lines with cursor, not the end of the line.
+        if (iColPos < iLineSize)
+            bPush = TRUE;
+        else
+            bPush = FALSE;
 
-		// First Eval if were pushing text from the middle of a line.
-		if (bPush == FALSE)
-		{
-		    // If Cursor is past the allocated space, Buffer Line to Current Position!
-		    if (iColPos > iLineSize)
-		    {
-		        iRepeat = (iColPos - iLineSize);
-		        for(int i = 0; i < iRepeat; i++)
-		        {
-		            Line += ' ';
-		        }
-		    }
-		}
+        // First Eval if were pushing text from the middle of a line.
+        if (bPush == FALSE)
+        {
+            // If Cursor is past the allocated space, Buffer Line to Current Position!
+            if (iColPos > iLineSize)
+            {
+                iRepeat = (iColPos - iLineSize);
+                for(int i = 0; i < iRepeat; i++)
+                {
+                    Line += ' ';
+                }
+            }
+        }
 
-		current_node->data = Line;
-		
-        
-        // Currnet Line, Make Backup for testing. 
+        current_node->data = Line;
+
+
+        // Currnet Line, Make Backup for testing.
         TLine = current_node->data;
 
         if (!move_down())
-			return;
-		
+            return;
+
         // Line Below current
         sTmp = current_node->data;
 
-		// First check if line below is empty, 
-		// if it is, just delete it and return
-		if (sTmp.size() == 0)
-    	{
-			//putline("\r\nempty");
-			++Row;
-		    delete_line_up();
-			--Row;
-			Col = TCol;
-		    box_redraw();
-			return;
-    	}
+        // First check if line below is empty,
+        // if it is, just delete it and return
+        if (sTmp.size() == 0)
+        {
+            //putline("\r\nempty");
+            ++Row;
+            delete_line_up();
+            --Row;
+            Col = TCol;
+            box_redraw();
+            return;
+        }
 
         // First Check if Currnet Line we are on TLine has room on it
         // If TLine has no room, then don't do anything with Line!
@@ -1794,64 +1794,64 @@ void msg_fse::delete_key()
             if (TLine.size()+sTmp.size() <= MAX_WIDTH)
             {
                 //          errlog2((char *)"FSE Backspace 2.3");
-				++Num;
+                ++Num;
                 delete_line_up();
-             //   if (Row > 1) --Row;
+                //   if (Row > 1) --Row;
                 //if (Num > 1) --Num;
                 //if (Tot > 1) --Tot;
                 //Col = current_node->data.size()+1; // doesn't change.
                 current_node->data += " " + sTmp;
                 Line = current_node->data;
-				Col = TCol;     // Restore original Col Position.
+                Col = TCol;     // Restore original Col Position.
                 box_redraw();
             }
             else
             {
 
-				// New Logic, come from the back string, so we catch leading spaces if any, 
-			    // Loop through each space untill we get enough words that will fit in
-			    // the line above us.
-				id1 = sTmp.size()-1;
-				id1 = sTmp.rfind(" ",id1);
-				
-				while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos)
-				{
-					//putline("loop");
-                	id1 = sTmp.rfind(" ",id1-1);
-				}
-				
+                // New Logic, come from the back string, so we catch leading spaces if any,
+                // Loop through each space untill we get enough words that will fit in
+                // the line above us.
+                id1 = sTmp.size()-1;
+                id1 = sTmp.rfind(" ",id1);
+
+                while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos)
+                {
+                    //putline("loop");
+                    id1 = sTmp.rfind(" ",id1-1);
+                }
+
                 if ((TLine.size()+id1+1) <= MAX_WIDTH && id1 != std::string::npos)
                 {
-                    //errlog2((char *)"FSE Backspace 2.5");							
-					move_up();
+                    //errlog2((char *)"FSE Backspace 2.5");
+                    move_up();
 
-					// Append and Assign update line
-					//TLine.append(" ");          // Padd Concat with 1 space.		
-					//TCol = TLine.size()+1;        // Update Column poition								
-					TLine.append(sTmp.substr(0, id1));
-					
-					current_node->data = TLine;   // Now Concat
+                    // Append and Assign update line
+                    //TLine.append(" ");          // Padd Concat with 1 space.
+                    //TCol = TLine.size()+1;        // Update Column poition
+                    TLine.append(sTmp.substr(0, id1));
 
-					// Move back down to original line, and cut out text moved
-					// To the Above line.
-					move_down();
-					sTmp.erase(0,id1+1); // +1 to remove the space.	
-					//add_to_list(Line);
-					current_node->data = sTmp;
+                    current_node->data = TLine;   // Now Concat
 
-					// Now move back up and assign cusor to end of line.
-					move_up();
+                    // Move back down to original line, and cut out text moved
+                    // To the Above line.
+                    move_down();
+                    sTmp.erase(0,id1+1); // +1 to remove the space.
+                    //add_to_list(Line);
+                    current_node->data = sTmp;
 
-					// Reset Line Data to Current Line
-					Line = current_node->data;									
-					//Col = TCol;                   // Assing position
-					//if (Row > 1) --Row;	
-					//if (Num > 1) --Num;
-					box_redraw();				  // Redraw
+                    // Now move back up and assign cusor to end of line.
+                    move_up();
+
+                    // Reset Line Data to Current Line
+                    Line = current_node->data;
+                    //Col = TCol;                   // Assing position
+                    //if (Row > 1) --Row;
+                    //if (Num > 1) --Num;
+                    box_redraw();				  // Redraw
                 }
             }
         }
-    }    
+    }
 }
 
 
@@ -1866,18 +1866,18 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
     //pipe2ansi("|XY0101 - TEST");
     //getkey(true);
 
-	// Variables for Client Side Key Sequences
-	std::string changemsg;
+    // Variables for Client Side Key Sequences
+    std::string changemsg;
 
-	UserRec usr;
+    UserRec usr;
 
-	#define ESC '\x1b'
-	#define DELETE 0x7f
-	#define BACKSPACE 0x08
-	
-	int clientBS  = BACKSPACE;
-	int clientDEL = DELETE;
-	
+#define ESC '\x1b'
+#define DELETE 0x7f
+#define BACKSPACE 0x08
+
+    int clientBS  = BACKSPACE;
+    int clientDEL = DELETE;
+
     char sLine[255]= {0};
     std::string  tmp2;
 
@@ -1949,19 +1949,19 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
     while (1)
     {
 
-		// Filp Backspace and DEL chars betwene Windows Telnet and *nix terminals
-		if (thisuser->bsdel_swap == TRUE)
-		{
-			clientBS  = DELETE;
-			clientDEL = BACKSPACE;
-		}
-		else
-		{
-			clientBS  = BACKSPACE;
-			clientDEL = DELETE;
-		}
-		
-		
+        // Filp Backspace and DEL chars betwene Windows Telnet and *nix terminals
+        if (thisuser->bsdel_swap == TRUE)
+        {
+            clientBS  = DELETE;
+            clientDEL = BACKSPACE;
+        }
+        else
+        {
+            clientBS  = BACKSPACE;
+            clientDEL = DELETE;
+        }
+
+
         sprintf(sLine,"%s%s%.2d%s%.2d\x1b[%i;%iH",sTEXT_COLOR,sRow,Num,sCol,Col,Row+Top-1, Col);
         pipe2ansi(sLine);
 
@@ -1978,41 +1978,41 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
         current_node->data = Line;
 
 
-		// Swap BackSpace and DEL
-		if (c == 0x18) // CTRL X
-		{
-			changemsg.erase();
-			if (thisuser->bsdel_swap == TRUE)
-			{
-				pipe2ansi((char *)"|CS|CR|15Toggled Backspace & Delete keys to |07[|12Telnet Client Mode|07]|15.|CR|CR|PA |CS");								
-				thisuser->bsdel_swap = FALSE;
-			}
-			else
-			{			
-				pipe2ansi((char *)"|CS|CR|15Toggled Backspace & Delete keys to |07[|12Terminal Mode|07]|15.|CR|CR|PA |CS");
-				thisuser->bsdel_swap = TRUE;
-			}
+        // Swap BackSpace and DEL
+        if (c == 0x18) // CTRL X
+        {
+            changemsg.erase();
+            if (thisuser->bsdel_swap == TRUE)
+            {
+                pipe2ansi((char *)"|CS|CR|15Toggled Backspace & Delete keys to |07[|12Telnet Client Mode|07]|15.|CR|CR|PA |CS");
+                thisuser->bsdel_swap = FALSE;
+            }
+            else
+            {
+                pipe2ansi((char *)"|CS|CR|15Toggled Backspace & Delete keys to |07[|12Terminal Mode|07]|15.|CR|CR|PA |CS");
+                thisuser->bsdel_swap = TRUE;
+            }
 
-			// Save Change
-			usr = *thisuser;
-			users _usr;
-			_usr.users_write(&usr,usr.idx);
+            // Save Change
+            usr = *thisuser;
+            users _usr;
+            _usr.users_write(&usr,usr.idx);
 
-			ansi_file(sANSI_FILE);
-            box_redraw();	
-		}
+            ansi_file(sANSI_FILE);
+            box_redraw();
+        }
         // Do Delete
         else if (c == clientDEL )
         {
-			// Moved to Function
-            delete_key();				
+            // Moved to Function
+            delete_key();
         }
-		
+
         // Do Destructive Backspace
         // BS = 0x08 - in VT100 Backspace can be 127 as well, but
         // to avoid confusion this has to be disabled unless we make a toggle.
-		// Becaseu it's also used as DEL.
-        else if (c == clientBS) 
+        // Becaseu it's also used as DEL.
+        else if (c == clientBS)
         {
             // || c == 0x0e00) {
             if ((signed)Line.size() < (Col-1))
@@ -2080,46 +2080,46 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
                             }
                             else
                             {
-		     					// New Logic, come from the back string, so we catch leading spaces if any, 
-							    // Loop through each space untill we get enough words that will fit in
-							    // the line above us.
-								id1 = tmp2.size()-1;
-								id1 = tmp2.rfind(" ",id1);
-								
-								while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos)
-								{
-									//putline("loop");
-                                	id1 = tmp2.rfind(" ",id1-1);
-								}
-								
+                                // New Logic, come from the back string, so we catch leading spaces if any,
+                                // Loop through each space untill we get enough words that will fit in
+                                // the line above us.
+                                id1 = tmp2.size()-1;
+                                id1 = tmp2.rfind(" ",id1);
+
+                                while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos)
+                                {
+                                    //putline("loop");
+                                    id1 = tmp2.rfind(" ",id1-1);
+                                }
+
                                 if ((TLine.size()+id1+1) <= MAX_WIDTH && id1 != std::string::npos)
                                 {
-                                    //errlog2((char *)"FSE Backspace 2.5");							
-									move_up();
+                                    //errlog2((char *)"FSE Backspace 2.5");
+                                    move_up();
 
-									// Append and Assign update line
-									//TLine.append(" ");          // Padd Concat with 1 space.		
-									TCol = TLine.size()+1;        // Update Column poition								
-									TLine.append(Line.substr(0, id1));
-									
-									current_node->data = TLine;   // Now Concat
+                                    // Append and Assign update line
+                                    //TLine.append(" ");          // Padd Concat with 1 space.
+                                    TCol = TLine.size()+1;        // Update Column poition
+                                    TLine.append(Line.substr(0, id1));
 
-									// Move back down to original line, and cut out text moved
-									// To the Above line.
-									move_down();
-									Line.erase(0,id1+1); // +1 to remove the space.	
-									//add_to_list(Line);
-									current_node->data = Line;
+                                    current_node->data = TLine;   // Now Concat
 
-									// Now move back up and assign cusor to end of line.
-									move_up();
+                                    // Move back down to original line, and cut out text moved
+                                    // To the Above line.
+                                    move_down();
+                                    Line.erase(0,id1+1); // +1 to remove the space.
+                                    //add_to_list(Line);
+                                    current_node->data = Line;
 
-									// Reset Line Data to Current Line
-									Line = current_node->data;									
-									Col = TCol;                   // Assing position
-									if (Row > 1) --Row;	
-									if (Num > 1) --Num;
-									box_redraw();				  // Redraw
+                                    // Now move back up and assign cusor to end of line.
+                                    move_up();
+
+                                    // Reset Line Data to Current Line
+                                    Line = current_node->data;
+                                    Col = TCol;                   // Assing position
+                                    if (Row > 1) --Row;
+                                    if (Num > 1) --Num;
+                                    box_redraw();				  // Redraw
                                 }
                             }
                         }
@@ -2168,9 +2168,9 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
                 end_cursor();
                 break;
 
-          //case '1' : // Delete
+                //case '1' : // Delete
             case '3' : // Delete
-				// Moved to Function
+                // Moved to Function
                 delete_key();
                 break;
             case '5' : // Shift PageUP
@@ -2236,7 +2236,7 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
         }
         // Check for Normal Letters, Numbers, Ascii Printable chars Etc..
         //else if (((int)c > 31 && (int)c < 126) || c == '~' || c == '`')
-		else if (((int)c > 31 && (int)c <= 255) || c == '~' || c == '`')
+        else if (((int)c > 31 && (int)c <= 255) || c == '~' || c == '`')
         {
             // Jump into Options Prompt...
             if (Col == 1 && c == '/')
@@ -2366,12 +2366,12 @@ void msg_fse::ansi_file(char *filename)
             {
                 temp += sTemp;
             }
-			else if (strcmp(MCI,"BS") == 0)
+            else if (strcmp(MCI,"BS") == 0)
             {
-				if (thisuser->bsdel_swap == TRUE)
-					temp += "Terminal Mode";
-				else
-					temp += "Telnet Mode";
+                if (thisuser->bsdel_swap == TRUE)
+                    temp += "Terminal Mode";
+                else
+                    temp += "Telnet Mode";
             }
             else
             {

@@ -159,9 +159,9 @@ public:
     // Kick off External door!
     void start_external(char *mString);
 
-	// Message Autosig.
-	void msg_autosig();
-		
+    // Message Autosig.
+    void msg_autosig();
+
     // Main System Loop
     void da_system(char *mString);
 
