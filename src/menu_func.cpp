@@ -136,7 +136,7 @@ void menu_func::chkparse(std::string &temp)
     st2 = temp.find('"', st1+1);
 
     if (st1 != std::string::npos &&
-        st2 != std::string::npos)
+            st2 != std::string::npos)
     {
         ++st1;
         temp1 = temp.substr(st1,st2);
@@ -476,7 +476,7 @@ int menu_func::cmdexist(std::string MenuName, int idx)
     return ret;
 }
 
- 
+
 /*
  * Right now this loops through the menu too many times! haha
  * Make it parse once for the max command rec found, save cpu! :)
@@ -667,19 +667,19 @@ void menu_func::menu_convert(std::string menuname)
 
 
 /**
- * Loads All Commands into Class. 
+ * Loads All Commands into Class.
  */
 void menu_func::insert_cmdr()
 {
     //menus _mnu;
     //CommandRec cmdr;
     //memset(&cmdr,0,sizeof(CommandRec));
-  //  int idx = 0;
-  //  while (menu_read(_curmenu))
-  //  {
-  //      ++idx;
-  //      if (noc == idx) break;
- //   }
+    //  int idx = 0;
+    //  while (menu_read(_curmenu))
+    //  {
+    //      ++idx;
+    //      if (noc == idx) break;
+//   }
 
     int  idx = 0;
     while (cmds_read(_curmenu,idx))
@@ -693,7 +693,7 @@ void menu_func::insert_cmdr()
 }
 
 /**
- * Reset or Set Inital Defaults before a menu is read. 
+ * Reset or Set Inital Defaults before a menu is read.
  */
 void menu_func::menu_reset()
 {
@@ -751,7 +751,7 @@ void menu_func::menu_reset()
 
 
 /**
- * Check if Menu Exists 
+ * Check if Menu Exists
  */
 int menu_func::menu_exists()
 {
@@ -781,7 +781,7 @@ int menu_func::menu_exists()
 
 
 /**
- * Function to Read in a Menu set in the class 
+ * Function to Read in a Menu set in the class
  */
 void menu_func::menu_readin()
 {
@@ -830,7 +830,7 @@ void menu_func::menu_readin()
         menur2 = 0;
     }
 
-       ////errlog2("readin() new menur2;");
+    ////errlog2("readin() new menur2;");
     menur2 = new MenuRec;
     if (!menur2)
     {
@@ -844,18 +844,18 @@ void menu_func::menu_readin()
     // noc = cnt_cmds(_curmenu);
     // Allocate global menu commands if any
     ////errlog2("readin() 4");
-   
-    if(!menu_read(_curmenu))
-		return;
 
-	if (menur2->MFlags.UseGlobal)
+    if(!menu_read(_curmenu))
+        return;
+
+    if (menur2->MFlags.UseGlobal)
     {
         nogc = cnt_cmds((char *)"global");
         if (nogc < 1) nogc = 0;
     }
-    else 
-		nogc = 0;
-	
+    else
+        nogc = 0;
+
     noc = cnt_cmds(_curmenu);
 
     // Allocate & Load Commands
@@ -881,7 +881,7 @@ void menu_func::menu_readin()
 
     ////errlog2("readin() 7.1 - %i, %i",noc,nogc);
 
-    insert_cmdr();		
+    insert_cmdr();
     if (nogc > 0)
     {
         idx = 0;
@@ -899,7 +899,7 @@ void menu_func::menu_readin()
 
 
 /**
- * Scrolling Text to Display in a seperate thread 
+ * Scrolling Text to Display in a seperate thread
  * When a menu command is activated.
  */
 void *ScrollingText(void *p1)
@@ -919,8 +919,8 @@ void *ScrollingText(void *p1)
         return NULL;
     }
 
-	usleep(11*11800);
-	
+    usleep(11*11800);
+
     //s.////errlog2("ScrollingText!! 2");
     unsigned
     short boxlen, loop, xpos = 0, ypos = 0, loop2;
@@ -960,12 +960,12 @@ void *ScrollingText(void *p1)
     // Loop Scrolling Text Here
     do
     {
-		if (PAUSE_SCROLING)
-		{
-			usleep(12*11800);
-			continue;
-		}
-		
+        if (PAUSE_SCROLING)
+        {
+            usleep(12*11800);
+            continue;
+        }
+
         // Now Write Scrolling Menu Command Text
         output.clear();
         sprintf(outBuff, "\x1b[%i;%iH",ypos,xpos);
@@ -995,7 +995,7 @@ void *ScrollingText(void *p1)
 
 
 /**
- * Oneliner/Rumors (WIP Started) 
+ * Oneliner/Rumors (WIP Started)
  * When a menu command is activated.
  */
 void *DelayedOneliners(void *p1)
@@ -1056,12 +1056,12 @@ void *DelayedOneliners(void *p1)
     do
     {
 
-		if (PAUSE_SCROLING)
-		{
-			usleep(12*11800);
-			continue;
-		}
-		
+        if (PAUSE_SCROLING)
+        {
+            usleep(12*11800);
+            continue;
+        }
+
         // Now Write Scrolling Menu Command Text
         output.clear();
         sprintf(outBuff, "\x1b[%i;%iH",ypos,xpos);
@@ -1091,7 +1091,7 @@ void *DelayedOneliners(void *p1)
 
 
 /**
- * Clear Menu When Done. 
+ * Clear Menu When Done.
  */
 void menu_func::menu_clear()
 {
@@ -1221,15 +1221,15 @@ void menu_func::display_menu(BOOL forcelevel)
 }
 
 /**
- * Used for Lightbars and Hotkey Menu's 
+ * Used for Lightbars and Hotkey Menu's
  * This is also used in Full Screen Interfaces
- * for Lightbars slections and Return 
+ * for Lightbars slections and Return
  * PassThough commands from Menu Lightbar Prompts.
  */
 void menu_func::menu_bars(char *inPut)
 {
     std::vector< list_bar > lbar;
-	std::string::size_type id1 = 0;
+    std::string::size_type id1 = 0;
 
     //putline("make it to menu bars!!");
     ////errlog2("menu_bars() 1");
@@ -1454,7 +1454,7 @@ void menu_func::menu_bars(char *inPut)
         }
 
 
-		_premenu = _curmenu;
+        _premenu = _curmenu;
     }
 
     ////errlog2("menu_bars() 13");
@@ -1636,12 +1636,12 @@ void menu_func::menu_bars(char *inPut)
         {
             cc = EscapeKey[1];
 
-			if (cc == '0')
-			{
-				// Tranlate to Terminal Escape with Preceding 0
-				cc = EscapeKey[2];
-			}
-				
+            if (cc == '0')
+            {
+                // Tranlate to Terminal Escape with Preceding 0
+                cc = EscapeKey[2];
+            }
+
             EscHit = true;
         }
         else
@@ -1742,7 +1742,7 @@ void menu_func::menu_bars(char *inPut)
                         }
                     }
 
-					else if ((cc == '5' && EscapeKey[2] == '~') || cc == 'V')
+                    else if ((cc == '5' && EscapeKey[2] == '~') || cc == 'V')
                     {
                         if (cmdr2[execnum3[ckey]].CKeys == "PAGEUP")
                         {
@@ -1754,7 +1754,7 @@ void menu_func::menu_bars(char *inPut)
                         }
                     }
 
-					else if ((cc == '6' && EscapeKey[2] == '~') || cc == 'U')
+                    else if ((cc == '6' && EscapeKey[2] == '~') || cc == 'U')
                     {
                         if (cmdr2[execnum3[ckey]].CKeys == "PAGEDN")
                         {
@@ -1767,65 +1767,65 @@ void menu_func::menu_bars(char *inPut)
                     }
 
 
-					// Now check for extended arrors from terminals with preceeding 0.
-					/*
-					else if (cc == '0')
-					{						
-						if (EscapeKey[2] == '\0' || EscapeKey[2] == ' ')
-		                {
-		                    if (cmdr2[execnum3[ckey]].CKeys == "ESC")
-		                    {
-		                        //elog("- ESC EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-		                        if (tScroll) p->Active = false;
-		                        ++executed;
-		                        menu_docmd(&cmdr2[execnum3[ckey]]);
-		                        strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
-		                    }
-		                }
-		                if (EscapeKey[2] == 'A')
-		                {
-		                    if (cmdr2[execnum3[ckey]].CKeys == "UP")
-		                    {
-		                        ////errlog2("- UP EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
-		                        if (tScroll) p->Active = false;
-		                        ++executed;
-		                        menu_docmd(&cmdr2[execnum3[ckey]]);
-		                        strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
-		                    }
-		                }
-		                else if (EscapeKey[2] == 'B')
-		                {
-		                    if (cmdr2[execnum3[ckey]].CKeys == "DOWN")
-		                    {
-		                        ////errlog2("- DOWN EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
-		                        if (tScroll) p->Active = false;
-		                        ++executed;
-		                        menu_docmd(&cmdr2[execnum3[ckey]]);
-		                        strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
-		                    }
-		                }
-		                else if (EscapeKey[2] == 'C')
-		                {
-		                    if (cmdr2[execnum3[ckey]].CKeys == "RIGHT")
-		                    {
-		                        //elog("- RIGHT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-		                        if (tScroll) p->Active = false;
-		                        ++executed;
-		                        menu_docmd(&cmdr2[execnum3[ckey]]);
-		                        strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
-		                    }
-		                }
-		                else if (EscapeKey[2] == 'D')
-		                {
-		                    if (cmdr2[execnum3[ckey]].CKeys == "LEFT")
-		                    {
-		                        //elog("- LEFT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
-		                        if (tScroll) p->Active = false;
-		                        ++executed;
-		                        menu_docmd(&cmdr2[execnum3[ckey]]);
-		                        strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
-		                    }
-		                }*/
+                    // Now check for extended arrors from terminals with preceeding 0.
+                    /*
+                    else if (cc == '0')
+                    {
+                    	if (EscapeKey[2] == '\0' || EscapeKey[2] == ' ')
+                        {
+                            if (cmdr2[execnum3[ckey]].CKeys == "ESC")
+                            {
+                                //elog("- ESC EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
+                                if (tScroll) p->Active = false;
+                                ++executed;
+                                menu_docmd(&cmdr2[execnum3[ckey]]);
+                                strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
+                            }
+                        }
+                        if (EscapeKey[2] == 'A')
+                        {
+                            if (cmdr2[execnum3[ckey]].CKeys == "UP")
+                            {
+                                ////errlog2("- UP EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
+                                if (tScroll) p->Active = false;
+                                ++executed;
+                                menu_docmd(&cmdr2[execnum3[ckey]]);
+                                strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
+                            }
+                        }
+                        else if (EscapeKey[2] == 'B')
+                        {
+                            if (cmdr2[execnum3[ckey]].CKeys == "DOWN")
+                            {
+                                ////errlog2("- DOWN EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
+                                if (tScroll) p->Active = false;
+                                ++executed;
+                                menu_docmd(&cmdr2[execnum3[ckey]]);
+                                strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
+                            }
+                        }
+                        else if (EscapeKey[2] == 'C')
+                        {
+                            if (cmdr2[execnum3[ckey]].CKeys == "RIGHT")
+                            {
+                                //elog("- RIGHT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
+                                if (tScroll) p->Active = false;
+                                ++executed;
+                                menu_docmd(&cmdr2[execnum3[ckey]]);
+                                strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
+                            }
+                        }
+                        else if (EscapeKey[2] == 'D')
+                        {
+                            if (cmdr2[execnum3[ckey]].CKeys == "LEFT")
+                            {
+                                //elog("- LEFT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
+                                if (tScroll) p->Active = false;
+                                ++executed;
+                                menu_docmd(&cmdr2[execnum3[ckey]]);
+                                strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
+                            }
+                        }*/
                 }
                 // Executed == 0, Then Key Pressed was not valid! :)
                 // Pass through the ESC then
@@ -1834,9 +1834,9 @@ void menu_func::menu_bars(char *inPut)
                 {
                     inPut[0] = cc;
 
-					// Translater to Terminal ESC Keys
-					if (cc == '0')
-						cc = EscapeKey[2];
+                    // Translater to Terminal ESC Keys
+                    if (cc == '0')
+                        cc = EscapeKey[2];
                 }
                 else
                 {
@@ -2156,7 +2156,7 @@ void menu_func::menu_bars(char *inPut)
 }
 
 /**
- * Main Entry Point for a Menu and Startup. 
+ * Main Entry Point for a Menu and Startup.
  */
 void menu_func::menu_proc(char *mString, uint32_t area)
 {
@@ -2177,7 +2177,7 @@ void menu_func::menu_proc(char *mString, uint32_t area)
 }
 
 /**
- * Command Execute - Login System (Matrix) 
+ * Command Execute - Login System (Matrix)
  */
 int menu_func::logon_system(unsigned char c)
 {
@@ -2214,10 +2214,10 @@ int menu_func::logon_system(unsigned char c)
         return 0;
         break;
 
-	 case 'E' :
-    	lgn.userinfo(urec,(char *)"userinfo");
-    	return 0;
-    	break;
+    case 'E' :
+        lgn.userinfo(urec,(char *)"userinfo");
+        return 0;
+        break;
 
     default  :
         break;
@@ -2226,7 +2226,7 @@ int menu_func::logon_system(unsigned char c)
 }
 
 /**
- * Command Execute - Start Message Editor (Edit Bases) 
+ * Command Execute - Start Message Editor (Edit Bases)
  */
 void menu_func::msgedit_system()
 {
@@ -2236,12 +2236,12 @@ void menu_func::msgedit_system()
 
 
 /**
- * Command Execute - file System Editor 
+ * Command Execute - file System Editor
  */
 void menu_func::fileedit_system()
 {
-  //  file_edit _fedit;
-  //  _fedit.fbeditmenu();
+    //  file_edit _fedit;
+    //  _fedit.fbeditmenu();
 }
 
 
@@ -2400,7 +2400,7 @@ int menu_func::emailread_system(unsigned char c, char *mString) {
 
 */
 
-// 
+//
 
 /**
  * Command Execute - For Reading / Scanning all and new messages.
@@ -2411,21 +2411,21 @@ int menu_func::msgscan_system(unsigned char c, char *mString)
     unsigned long Origarea = 0;
 
     Origarea = urec->lastmbarea;
-	
-	// Always set starting message to 0.
-	// Gets reset to last read on newscan.
-	urec->lastmsg = 0;
+
+    // Always set starting message to 0.
+    // Gets reset to last read on newscan.
+    urec->lastmsg = 0;
 
     _mread.start(urec); // Check!
     int ret = TRUE;
     int MiltiScan = FALSE;
     int NewScan = FALSE;
 
-	// TESTING OUTPUT
-	//pipe2ansi((char *)"|CR|15mstring: ");
-	//pipe2ansi((char *)mString);
-	//pipe2ansi((char *)"|CR|PA");
-	
+    // TESTING OUTPUT
+    //pipe2ansi((char *)"|CR|15mstring: ");
+    //pipe2ansi((char *)mString);
+    //pipe2ansi((char *)"|CR|PA");
+
 
     switch(c)
     {
@@ -2460,11 +2460,11 @@ int menu_func::msgscan_system(unsigned char c, char *mString)
     //if (MiltiScan == TRUE)
     //    urec->lastmbarea = Origarea;
 
-	urec->lastmbarea = Origarea;
-	CURRENT_MAREA = Origarea;
-	
-	// Always reset last message to 0.
-	urec->lastmsg = 0;
+    urec->lastmbarea = Origarea;
+    CURRENT_MAREA = Origarea;
+
+    // Always reset last message to 0.
+    urec->lastmsg = 0;
     return ret;
 }
 
@@ -2488,25 +2488,25 @@ void menu_func::msgpost_system(char *mString)
     msg_read _mread;
     _mread.start(urec);
 
-	unsigned long Origarea = 0;
+    unsigned long Origarea = 0;
     Origarea = urec->lastmbarea;
 
-	std::stringstream iconvert(mString);   // In
-	int i = 0;
-	// Convert String to Int
-	if (iconvert >> i)
-	{
-		urec->lastmbarea = i;
-		CURRENT_MAREA = i;
-	}
-	else
-	{
-    	CURRENT_MAREA = urec->lastmbarea;
-	}
-	
-	mb_list_rec mr;
-	memset(&mr,0,sizeof(mb_list_rec));
-	msgs _msgf;
+    std::stringstream iconvert(mString);   // In
+    int i = 0;
+    // Convert String to Int
+    if (iconvert >> i)
+    {
+        urec->lastmbarea = i;
+        CURRENT_MAREA = i;
+    }
+    else
+    {
+        CURRENT_MAREA = urec->lastmbarea;
+    }
+
+    mb_list_rec mr;
+    memset(&mr,0,sizeof(mb_list_rec));
+    msgs _msgf;
     _msgf.read_mbaselist(&mr, CURRENT_MAREA);
 
     if (mr.Pubpriv == PRIVATE)
@@ -2518,9 +2518,9 @@ void menu_func::msgpost_system(char *mString)
         _mread.SetupMsgPost(); // Freezing On Return with Abort.
     }
 
-	// Reset to Original Area if we forced changed by menu command.
-	CURRENT_MAREA = Origarea;
-	urec->lastmbarea = Origarea;
+    // Reset to Original Area if we forced changed by menu command.
+    CURRENT_MAREA = Origarea;
+    urec->lastmbarea = Origarea;
 }
 
 // Pack Message Areas (WIP)
@@ -2992,20 +2992,20 @@ void menu_func::da_system(char *mString)
     _da.data_loop();
 }
 
- 
+
 /**
- * Command Execute - Create User Auto Signature) 
+ * Command Execute - Create User Auto Signature)
  */
-void menu_func::msg_autosig() 
+void menu_func::msg_autosig()
 {
-	msg_read _mread;
-	_mread.start(urec);
-	_mread.SetupUserSig();
+    msg_read _mread;
+    _mread.start(urec);
+    _mread.SetupUserSig();
 }
 
 
 /**
- * Menu System - Run Menu Command 
+ * Menu System - Run Menu Command
  */
 void menu_func::menu_docmd(CommandRec *cmdr)
 {
@@ -3069,7 +3069,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
             fflush(stdout);
             open_keyboard();
 
-           // pipe2ansi((char *)"|CS");
+            // pipe2ansi((char *)"|CS");
             break;
 
         case 'L' : //Execute Program Download
@@ -3078,17 +3078,17 @@ void menu_func::menu_docmd(CommandRec *cmdr)
             // Flush when returning from doors
             fflush(stdout);
             open_keyboard();
-           // pipe2ansi((char *)"|CR");
-           // startpause();
+            // pipe2ansi((char *)"|CR");
+            // startpause();
             break;
 
         case 'P' : //Execute Python Script
 
 # ifdef HAVE_PYTHON
 
-			// Some terms needs terminal reset for proper display.
-			// Ansi terminals are ok!
-			pybbs_run((char *)cmdr->MString.c_str(), user);
+            // Some terms needs terminal reset for proper display.
+            // Ansi terminals are ok!
+            pybbs_run((char *)cmdr->MString.c_str(), user);
             // Flush when returning from scripts.
             fflush(stdout);
             open_keyboard();
@@ -3102,7 +3102,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
         }
         break;
 
-    // Data Area Menu Commands
+        // Data Area Menu Commands
     case 'U' :
         ////errlog2("menu_docmd!! 5");
         switch (c2)
@@ -3142,15 +3142,15 @@ void menu_func::menu_docmd(CommandRec *cmdr)
             // Display Logoff Ansi here!
             ansiPrintf((char *)"logoff");
             term_option(0); // Put Echo Back on!  Cywing
-            break;            
+            break;
 
         case 'P' : //Forgot Password
             logon_system(c2);
             break;
 
-		case 'E' : // User Editor
-		    logon_system(c2);
-		    break;
+        case 'E' : // User Editor
+            logon_system(c2);
+            break;
 
         default  : // None Found!
             break;
@@ -3178,7 +3178,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
             _loadnew = true;
             break;
 
-        case 'P' : // Public and Private Post New Message.				
+        case 'P' : // Public and Private Post New Message.
             msgpost_system((char *)cmdr->MString.c_str());
             break;
 
@@ -3198,64 +3198,64 @@ void menu_func::menu_docmd(CommandRec *cmdr)
             msgarea_change(2);
             break;
 
-		case 'S' : // Autosig
-			msg_autosig();
-			break;
+        case 'S' : // Autosig
+            msg_autosig();
+            break;
 
         default  : // None Found!
             break;
         }
         break;
 
-			/*
-    case 'F' :
-        ////errlog2("menu_docmd!! 8");
-        switch (c2)
-        {
-        case 'A' : // File Area List
-            filearea_list();
-            break;
+        /*
+            case 'F' :
+                ////errlog2("menu_docmd!! 8");
+                switch (c2)
+                {
+                case 'A' : // File Area List
+        filearea_list();
+        break;
 
-        case '+' : // Next File Area
-            filearea_change(1);
-            break;
+                case '+' : // Next File Area
+        filearea_change(1);
+        break;
 
-        case '-' : // Previous File Area
-            filearea_change(2);
-            break;
+                case '-' : // Previous File Area
+        filearea_change(2);
+        break;
 
-        case 'L' : // List Files
-//            fileidx_display(); // Testing only!
-            break;
-        }
-        break;*/
+                case 'L' : // List Files
+        //            fileidx_display(); // Testing only!
+        break;
+                }
+                break;*/
 
         // Email
-/*			
-    case 'E' :
-        ////errlog2("menu_docmd!! 9");
-        switch (c2)
-        {
-        case 'W' : // Write Email
-            msgemail_system();
-            _loadnew = true;
-            break;
-        case 'R' : // Email Reader
-            msgscan_system(c2,(char *)cmdr->MString.c_str());
-            _loadnew = true;
-            break;
+        /*
+            case 'E' :
+                ////errlog2("menu_docmd!! 9");
+                switch (c2)
+                {
+                case 'W' : // Write Email
+                    msgemail_system();
+                    _loadnew = true;
+                    break;
+                case 'R' : // Email Reader
+                    msgscan_system(c2,(char *)cmdr->MString.c_str());
+                    _loadnew = true;
+                    break;
 
-        case 'N' : // Email NewScan
-            msgscan_system(c2,(char *)cmdr->MString.c_str());
-            _loadnew = true;
-            break;
+                case 'N' : // Email NewScan
+                    msgscan_system(c2,(char *)cmdr->MString.c_str());
+                    _loadnew = true;
+                    break;
 
 
-        default:  // None Found!
-            break;
-        }
-        break;
-*/
+                default:  // None Found!
+                    break;
+                }
+                break;
+        */
         // Sysop Commands
     case '%' :
         ////errlog2("menu_docmd!! 10");
@@ -3299,7 +3299,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
 
             case 'E' : // Sysop Email Scan
                 msgscan_system('R',(char *)"sysop");
-                break;			
+                break;
 
             default  : // None Found!
                 break;
@@ -3416,7 +3416,7 @@ void menu_func::menu_mainloop(UserRec *user)
         ////errlog2("main_loop: menu_proc 4");
     }
 
-	// Done, Send Logoff Message.
-    lineolm_login(FALSE);	
+    // Done, Send Logoff Message.
+    lineolm_login(FALSE);
 }
 

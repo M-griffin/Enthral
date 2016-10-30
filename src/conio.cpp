@@ -461,7 +461,7 @@ char SESSION::onekey(char *chlist)
 
     bool done = false;
     char ch   = 0,
-         ch1  = 0;
+                ch1  = 0;
 
     while(!done)
     {
@@ -1021,100 +1021,100 @@ int SESSION::getkey(bool bWait)
                 {
                     switch (ch)
                     {
-                        case '[': // [[ Double Brackets F1 Keys.
-                            current_buffer += ch;
-                            continue;
+                    case '[': // [[ Double Brackets F1 Keys.
+                        current_buffer += ch;
+                        continue;
 
                         // Handle [0F END
-                        case 'O':
-                            // Skip and don't add to buffer
-                            // Translate OF to H for End Key
-                            continue;
+                    case 'O':
+                        // Skip and don't add to buffer
+                        // Translate OF to H for End Key
+                        continue;
 
-                        case 'A': // Up
-                            current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
-                        case 'B': // Dn
-                            current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
-                        case 'C': // Lt
-                            current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
-                        case 'D': // Rt
-                            current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
+                    case 'A': // Up
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
+                    case 'B': // Dn
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
+                    case 'C': // Lt
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
+                    case 'D': // Rt
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
 
-                        case 'F': // [OF
-                        case 'K': // End
-                            current_buffer += 'K'; // ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
-                        case 'H': // Home
-                               current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
-                        case 'V': // PageUP
-                            current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                        case 'U': // PageDn
-                            current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
+                    case 'F': // [OF
+                    case 'K': // End
+                        current_buffer += 'K'; // ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
+                    case 'H': // Home
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
+                    case 'V': // PageUP
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                    case 'U': // PageDn
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
 
-                        case '1': // Home
-                        case '2': // Insert
-                        case '3': // DEL
-                        case '4': // ESC
-                        case '5': // PG UP
-                        case '6': // PG DN
-                        case '7': // Function Keys.
-                        case '8': // Function Keys.
-                        case '9': // Function Keys.
-                            current_buffer += ch;
-                            continue;
+                    case '1': // Home
+                    case '2': // Insert
+                    case '3': // DEL
+                    case '4': // ESC
+                    case '5': // PG UP
+                    case '6': // PG DN
+                    case '7': // Function Keys.
+                    case '8': // Function Keys.
+                    case '9': // Function Keys.
+                        current_buffer += ch;
+                        continue;
 
                         // Usually End of Number Sequence.
-                        case '~': // Tail
-                            current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
+                    case '~': // Tail
+                        current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
 
-                        case '\0':
-                            //current_buffer += ch;
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
+                    case '\0':
+                        //current_buffer += ch;
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
 
-                        default :
-                            // Not ESC Sequence.
-                            // Done with loop.
-                            current_buffer += ' ';
-                            strcpy(EscapeKey, (char *)current_buffer.c_str());
-                            current_buffer.erase();
-                            return 27; // Return ESC to Mark Sequence / Key
-                            break;
+                    default :
+                        // Not ESC Sequence.
+                        // Done with loop.
+                        current_buffer += ' ';
+                        strcpy(EscapeKey, (char *)current_buffer.c_str());
+                        current_buffer.erase();
+                        return 27; // Return ESC to Mark Sequence / Key
+                        break;
                     }
                 }
             }
@@ -1590,8 +1590,8 @@ void SESSION::ParseLocalMCI(std::string &AnsiString, std::string mcicode, std::s
         id1 = AnsiString.find(mcicode,0);
         if (id1 != std::string::npos)
         {
-        //    szTmp[0] = AnsiString[id1+1];
-        //    szTmp[1] = AnsiString[id1+2];
+            //    szTmp[0] = AnsiString[id1+1];
+            //    szTmp[1] = AnsiString[id1+2];
 
             AnsiString.replace(id1,3,outbuff);
             id1 = AnsiString.find(mcicode,0);
@@ -1852,7 +1852,7 @@ void SESSION::pipe2ansi(char* szString, int buffer)
                 // File Area
                 else if (strcmp(szTmp,"FA") == 0)
                 {
- //                   ff.read_fbaselist(&fr,CURRENT_FAREA);
+//                   ff.read_fbaselist(&fr,CURRENT_FAREA);
                     strcat(szReplace,(char *)fr.fbdisplay);
                     AnsiString.replace(id1,3,szReplace);
                 }
@@ -2345,7 +2345,7 @@ std::string SESSION::pipe2string(std::string szString)
                 // File Area
                 else if (strcmp(szTmp,"FA") == 0)
                 {
- //                   ff.read_fbaselist(&fr,CURRENT_FAREA);
+//                   ff.read_fbaselist(&fr,CURRENT_FAREA);
                     strcat(szReplace,(char *)fr.fbdisplay);
                     AnsiString.replace(id1,3,szReplace);
                 }
@@ -2553,39 +2553,39 @@ std::string SESSION::pipe2string(std::string szString)
                         AnsiString.replace(id1,3,szReplace);
                         break;
                         // Display a file
-                    /*
-                    case 'F' :
-                        afilecon(AnsiString,buffer);
-                        id1 = 0;
-                        break;
-                        // Delay for 1 second
-                    */
-                    /*
-                    case 'E' :
-                        AnsiString.erase(id1,3);
-                        // If anymore string data after |DE, chop up
-                        // and display everything before current |DE then move on to next
-                        // After the pause.
-                        test = AnsiString.size();
-                        if (test > id1 && AnsiString.find("|",0) != std::string::npos)
-                        {
-                            fTmp = AnsiString.substr(0,id1);
-                            //write(0,fTmp.c_str(),fTmp.size());
-                            console_putsn((char*)fTmp.c_str(),fTmp.size());
-                            fTmp.erase();
-                            AnsiString.erase(0,id1);
+                        /*
+                        case 'F' :
+                            afilecon(AnsiString,buffer);
                             id1 = 0;
-                        }
-                        else
-                        {
-                            //write(0,AnsiString.c_str(),AnsiString.size());
-                            console_putsn((char*)AnsiString.c_str(),AnsiString.size());
-                            AnsiString.erase();
-                            id1 = 0;
-                        }
-                        sleep(1);
-                        break;
-                    */
+                            break;
+                            // Delay for 1 second
+                        */
+                        /*
+                        case 'E' :
+                            AnsiString.erase(id1,3);
+                            // If anymore string data after |DE, chop up
+                            // and display everything before current |DE then move on to next
+                            // After the pause.
+                            test = AnsiString.size();
+                            if (test > id1 && AnsiString.find("|",0) != std::string::npos)
+                            {
+                                fTmp = AnsiString.substr(0,id1);
+                                //write(0,fTmp.c_str(),fTmp.size());
+                                console_putsn((char*)fTmp.c_str(),fTmp.size());
+                                fTmp.erase();
+                                AnsiString.erase(0,id1);
+                                id1 = 0;
+                            }
+                            else
+                            {
+                                //write(0,AnsiString.c_str(),AnsiString.size());
+                                console_putsn((char*)AnsiString.c_str(),AnsiString.size());
+                                AnsiString.erase();
+                                id1 = 0;
+                            }
+                            sleep(1);
+                            break;
+                        */
                     default :
                         ++id1;
                         break;
@@ -2704,20 +2704,20 @@ BOOL SESSION::ansiPrintf(char *filename, int delay, int abort)
                 ts.tv_sec  = 0;
                 ts.tv_nsec = 20000000;
                 while (1)
-                 {
-                  // Sleep for the time specified in tv. If interrupted by a
-                  // signal, place the remaining time left to sleep back into tv.
-                      int rval = nanosleep (&ts, &ts);
-                      if (rval == 0)
-                           // Completed the entire sleep time; all done.
+                {
+                    // Sleep for the time specified in tv. If interrupted by a
+                    // signal, place the remaining time left to sleep back into tv.
+                    int rval = nanosleep (&ts, &ts);
+                    if (rval == 0)
+                        // Completed the entire sleep time; all done.
                         break;
-                      else if (errno == EINTR)
-                   // Interrupted by a signal. Try again.
+                    else if (errno == EINTR)
+                        // Interrupted by a signal. Try again.
                         continue;
-                      else
-                   // Some other error; bail out.
-                         break;
-                 }
+                    else
+                        // Some other error; bail out.
+                        break;
+                }
 
                 if (abort == TRUE)
                 {
@@ -3057,7 +3057,7 @@ int SESSION::getxy()
     static int e = 0;
     char ch = 0;
 
-    char xy[5] ={0};
+    char xy[5] = {0};
     int i      = 0;
     int ret    = 0;
 
@@ -3094,8 +3094,8 @@ LOOP:
     // If we have left over data, say from a copy / paste, roll through
     // and return each char seperately.
     if (e < (signed)strlen(buffer) &&
-        buffer[e] != '\0'  &&
-        e > 0)
+            buffer[e] != '\0'  &&
+            e > 0)
     {
         ++e;
         ch = (buffer[e-1]);

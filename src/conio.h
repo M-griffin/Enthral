@@ -44,7 +44,7 @@ public:
     SESSION();
     SESSION(UserRec *thisuser);
 
-	PASSING   *p;  // For passing Menu command to new thread
+    PASSING   *p;  // For passing Menu command to new thread
     pthread_t ahThread;
 
 private:
@@ -111,8 +111,8 @@ public:
     void ParseLocalMCI(std::string &AnsiString, std::string mcicode, std::string outbuff);
     void afilecon(std::string &AnsiString, int buffer);
 
-    void pipe2ansi(char* szString, int buffer=TRUE);	
-	std::string pipe2string(std::string szString);
+    void pipe2ansi(char* szString, int buffer=TRUE);
+    std::string pipe2string(std::string szString);
     void setTermSpeed(int speed);
 
     BOOL ansiPrintf(char *filename, int delay=FALSE, int abort=FALSE);

@@ -89,7 +89,7 @@ void data_area::chkparse(std::string &temp)
     st2 = temp.find('"', st1+1);
 
     if (st1 != std::string::npos &&
-        st2 != std::string::npos)
+            st2 != std::string::npos)
     {
         ++st1;
         temp1 = temp.substr(st1,st2);
@@ -1584,7 +1584,7 @@ void data_area::read_file_records()
         }
         // Test for Break;
         if (rec != 0 &&                //rec == datar2->NumOfRecs) break; // Limit of Records
-            rec == numFileRecs) break; // Read in All Records, Extras Get Truncated.
+                rec == numFileRecs) break; // Read in All Records, Extras Get Truncated.
         if(ins.eof()) break;
     }
     ins.close();

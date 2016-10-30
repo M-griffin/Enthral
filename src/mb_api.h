@@ -234,21 +234,21 @@ public:
     void MessageDeleted(MemMessage *mm);
     void MessageNotFound(MemMessage *mm);
 
-	// Main Read Message Per Area Function
-	int ReadMsgArea(unsigned long mbnum, int email = FALSE);
-	
+    // Main Read Message Per Area Function
+    int ReadMsgArea(unsigned long mbnum, int email = FALSE);
+
 //   time_t stampToTimeT(struct _stamp *st);
 //   struct _stamp *timeTToStamp(time_t tt);
-	
+
     void FidoFlags(char *fflags);
     void SetupMsgHdr();
 
-	char *strrepl(char *Str, size_t BufSiz, const char *OldStr, const char *NewStr);
+    char *strrepl(char *Str, size_t BufSiz, const char *OldStr, const char *NewStr);
     void stripCR(char *ostr);
     void stripCRONLY(char *ostr);
 
-	void parseMCI(std::string &msgtext);
-	void MsgSetupTxt();
+    void parseMCI(std::string &msgtext);
+    void MsgSetupTxt();
     void MsgSetupQuoteTxt();
     void MsgShowTxt2();
 

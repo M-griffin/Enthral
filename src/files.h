@@ -57,11 +57,11 @@ typedef struct files
     int  readlr(LastRead *lr, int idx, fb_list_rec *fb);
     int  writelr(LastRead *lr, int idx, fb_list_rec *fb);
 
-	/*
+    /*
     unsigned long
     JamAreaGetLast(long usernum, fb_list_rec *fb);
     void JamAreaSetLast(long usernum, long filenum, fb_list_rec *fb);
-*/
+    */
     /* Useless, Can't determine deleted messages!
     int  readidx(JamIndex *dx, int idx, mb_list_rec *mb);
     int  countidx(mb_list_rec *mb);

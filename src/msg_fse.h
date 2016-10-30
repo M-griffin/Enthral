@@ -126,12 +126,12 @@ public:
     int  options_prompt(unsigned char c = '\0');
     void insert_lines();
 
-	std::vector<std::string> inline split_string(const std::string &source, 
-                                                 const char *delimiter = " ", 
-                                                 bool keepEmpty = false);
+    std::vector<std::string> inline split_string(const std::string &source,
+            const char *delimiter = " ",
+            bool keepEmpty = false);
 
-	void delete_key();
-		
+    void delete_key();
+
     int  poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL = 0);
 
 private:

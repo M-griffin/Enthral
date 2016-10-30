@@ -207,7 +207,7 @@ void node::whoisonline()
     SESSION s;
     s.ansiPrintf((char *)"whois");
 
-	// Add config option for how many to display!
+    // Add config option for how many to display!
     for(int i = 1; i < 6; i++)
     {
         if (node_exists(i) == TRUE)

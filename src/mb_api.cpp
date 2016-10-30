@@ -269,7 +269,7 @@ void mbapi_jam::mm2MsgInfo(struct MemMessage *mm)
     MI.cur_msg      = mm->CurrMsg;   // Current Message Number. (1 Base)
 
     //setup Message Text.
-	buff.erase(); // Clear it first, not ghost test.
+    buff.erase(); // Clear it first, not ghost test.
     buff.assign(mm->TextChunks);
 
     /* -- Need to Impliment Replies :)
@@ -306,7 +306,7 @@ void mbapi_jam::MessageDeleted(MemMessage *mm)
 
     mm->Attr  = 0;
     mm->DateTime = 0;
-    
+
 //	MI.date_written = *timeTToStamp(mm->DateTime);
 
     // MI.date_written = *timeTToStamp(&mm->DateTime -= gettz(););
@@ -346,7 +346,7 @@ void mbapi_jam::MessageNotFound(MemMessage *mm)
 
     mm->Attr  = 0;
     mm->DateTime = 0;
-    
+
 //	MI.date_written = *timeTToStamp(mm->DateTime);
 
     // MI.date_written = *timeTToStamp(&mm->DateTime -= gettz(););
@@ -403,7 +403,7 @@ int mbapi_jam::ReadMsgArea(unsigned long mbnum, int email)
         if (res == JAM_NO_MESSAGE && thisuser->lastmsg < mm.HighWater)
         {
 //            errlog2((char *)"1. jamapi_readmsg JAM_NO_MESSAGE ");
-            
+
             //pipe2ansi((char *)"|CR|CR|08T|07his message no longer exists, skipping to next|08. . .|DE|DE");
 
             MessageDeleted(&mm); // Populated Generic Deleted Message.
@@ -461,18 +461,18 @@ void mbapi_jam::SetupMsgHdr()
     time_t tmt;
     struct tm *mtm;
     char faddr[81]   = {0},
-         timestr[81] = {0},
-         fflags[41]  = {0},
-         namestr[81] = {0},
-         tostr[81]   = {0};
+                       timestr[81] = {0},
+                                     fflags[41]  = {0},
+                                             namestr[81] = {0},
+                                                     tostr[81]   = {0};
 
 
     std::string sFrom;
     *fflags = '\0';
-    
+
 //    errlog2((char *)"SetupMsgHdr - FidoFlags");
     FidoFlags(fflags);
-    
+
     if(mr.Kind == NETMAIL || mr.Kind == ECHOMAIL || mr.Type == PRIVATE)
     {
         if(MI.dest.point > 0)
@@ -498,17 +498,17 @@ void mbapi_jam::SetupMsgHdr()
     mtm = localtime(&tmt);
     //Add Case Statement for Setting Time Format.
 
-//    errlog2((char *)"timestr - mr.Kind");   
+//    errlog2((char *)"timestr - mr.Kind");
     strftime(timestr,81,"%A %m/%d/%Y %I:%M %p",mtm);
 
     errlog2((char *)"DEBUG SetupMsgHdr() Timestr: %s ", timestr);
-    
+
 
 //    errlog2((char *)"timestr - mHead.curmsg");
     sprintf(mHead.curmsg,"%ld", (ulong)thisuser->lastmsg);
     sprintf(mHead.totmsg,"%ld", MI.high_msg);
 
-   
+
 //    errlog2((char *)"timestr - mHead.from");
     strcpy(mHead.from,  (char *)namestr);
     strcpy(mHead.to,    (char *)tostr);
@@ -520,11 +520,11 @@ void mbapi_jam::SetupMsgHdr()
     // Echomail is left Blank so set it up - Probably change to Sent!! fix lateron.
 //    errlog2((char *)"timestr - fflags");
 
-    if (strlen(fflags) <= 1) 
+    if (strlen(fflags) <= 1)
         strcpy(mHead.flags, "Echomail");
     else
         strcpy(mHead.flags, fflags);
-    
+
     strcpy(mHead.time,  timestr);
     strcpy(mHead.area,  MI.AreaName);
 
@@ -577,27 +577,27 @@ void mbapi_jam::stripCRONLY(char *ostr)
  */
 void mbapi_jam::parseMCI(std::string &msgtext)
 {
-	
-	std::string::size_type id1;
-	std::string::size_type id2;
-	std::string temp;
 
-	id2 = 0;
-	while (1)
-	{
-		id1 = msgtext.find("|",id2);
-		if (id1 == std::string::npos)
-			break;
-		else
-		{
-			// Only Allow Colors, otherwise erase pipe.
-			temp = msgtext.substr(id1+1,2);
-			if (isdigit(temp[0]) && isdigit(temp[1]))
-				id2 = id1+1;
-			else
-				msgtext.erase(id1,1);
-		}
-	}
+    std::string::size_type id1;
+    std::string::size_type id2;
+    std::string temp;
+
+    id2 = 0;
+    while (1)
+    {
+        id1 = msgtext.find("|",id2);
+        if (id1 == std::string::npos)
+            break;
+        else
+        {
+            // Only Allow Colors, otherwise erase pipe.
+            temp = msgtext.substr(id1+1,2);
+            if (isdigit(temp[0]) && isdigit(temp[1]))
+                id2 = id1+1;
+            else
+                msgtext.erase(id1,1);
+        }
+    }
 }
 
 /**
@@ -619,26 +619,26 @@ void mbapi_jam::MsgSetupTxt()
     std::string Line;
     std::string sTrunc;
     std::string MsgText = buff;
-    
+
     char output[1024] = {0};
-	
-	
+
+
 //	errlog2((char *)"MsgSetupTxt() - parseMCI" );
-    
-	// Parse Out MCI Codes from Message Text, Only Allow Color Pipe Codes.
-	parseMCI(MsgText);
-	
-	//errlog2((char *)MsgText.c_str());
-	int MAX_LEN  = TERM_WIDTH;	  // Max length to write messages lines to
+
+    // Parse Out MCI Codes from Message Text, Only Allow Color Pipe Codes.
+    parseMCI(MsgText);
+
+    //errlog2((char *)MsgText.c_str());
+    int MAX_LEN  = TERM_WIDTH;	  // Max length to write messages lines to
 
 //	errlog2((char *)"SetupMsgHdr()" );
-	
+
     // Setup the Message Header
     SetupMsgHdr();
 
     // Loop through and Covert all New Line Foramting.
     // At the end everything should only have \r for a newline.
-    
+
     while (1)
     {
         id1 = MsgText.find("\x1b", 0);
@@ -648,11 +648,11 @@ void mbapi_jam::MsgSetupTxt()
             // Change Escape to ^ character.
             MsgText[id1] = '^';
         }
-        else 
+        else
             break;
 //            errlog2((char *)"MsgSetupTxt() - loop - ESC" );
     }
-       
+
     // Possiable Soft Breaks.
     while (1)
     {
@@ -660,15 +660,15 @@ void mbapi_jam::MsgSetupTxt()
         if (id1 != std::string::npos)
         {
             //MsgText.erase(id1,1);
-			MsgText[id1] = '\r';
+            MsgText[id1] = '\r';
         }
-        else 
+        else
             break;
 //        errlog2((char *)"MsgSetupTxt() - loop - x8D" );
     }
 
 //    errlog2((char *)"MsgSetupTxt() - loop" );
-   
+
 
     // Convert \r\n to \r
     while (1)
@@ -680,7 +680,7 @@ void mbapi_jam::MsgSetupTxt()
             // Change Escape to ^ character.
             MsgText.erase(id1+1,1);
         }
-        else 
+        else
             break;
 //        errlog2((char *)"MsgSetupTxt() - loop - CRLF" );
     }
@@ -694,7 +694,7 @@ void mbapi_jam::MsgSetupTxt()
         {
             MsgText[id1] = '\r';
         }
-        else 
+        else
             break;
 //        errlog2((char *)"MsgSetupTxt() - loop - CR" );
     }
@@ -705,16 +705,16 @@ void mbapi_jam::MsgSetupTxt()
     while(MsgText.size() > 0)
     {
 //        errlog2((char *)"MsgSetupTxt() - loop - (MsgText.size() > 0)" );
-                      
-        
+
+
         // Each Line ends with '\r.
         // Although some Echomail doesn't use this standard.
-        
+
         Line.erase();
-        id1 = MsgText.find("\r", 0);      
+        id1 = MsgText.find("\r", 0);
 
 //		errlog2((char *)"MsgSetupTxt() - loop - id1: %i ", id1 );
-        
+
         // Check for Blank Lines
         if (id1 == 0)
         {
@@ -724,8 +724,8 @@ void mbapi_jam::MsgSetupTxt()
             continue;
         }
 
-		        
-        if (id1 == std::string::npos) 
+
+        if (id1 == std::string::npos)
         {
 //            errlog2((char*)"**** break!!!");
             break;
@@ -735,18 +735,18 @@ void mbapi_jam::MsgSetupTxt()
 
             len = MAX_LEN;
             index1 = 0;
-            
+
             // In This section, we need to count PIPE Codes in the length of the line
             // So that when we wrap a line, at include the pipe codes which ware parsed out
             // When they get printed to the screen.
-            
+
             index1 = MsgText.find("|",index1);
-            
+
             // Only get for portion of screen we are working with
-            while (index1 != std::string::npos && index1 <= MAX_LEN) 
+            while (index1 != std::string::npos && index1 <= MAX_LEN)
             {
                 index1 = MsgText.find("|",index1);
-                
+
                 //elog ("pipe fixing....");
                 if (index1 != std::string::npos && (signed)id1 > len)
                 {
@@ -773,50 +773,50 @@ void mbapi_jam::MsgSetupTxt()
                     break;
                 }
                 ++index1;
-            }                        
-            
-         
+            }
+
+
             // Do the nextline is great then message width
             //if ((signed)id1 > len) id1 = len; // Some Writers don't use newlines.
 
-			// If currnet line longer then usually, find space in reverse from line max!
+            // If currnet line longer then usually, find space in reverse from line max!
 
 //			errlog2((char *)"MsgSetupTxt() - loop - len: %i ", len );
-			
+
             if ((signed)id1 > len)
             {
-//				errlog2((char *)"**** id1 > len");			
-				
+//				errlog2((char *)"**** id1 > len");
+
                 id1 = MsgText.rfind(" ",len-1);
                 if (id1 == std::string::npos)
-				{
-					// Means continious line,cut it.
-//					errlog2((char *)"**** MsgText.rfind(" ",len-1   NPOS!!, len = %i", len);					      
+                {
+                    // Means continious line,cut it.
+//					errlog2((char *)"**** MsgText.rfind(" ",len-1   NPOS!!, len = %i", len);
                     id1 = len-1;
-				}
+                }
                 //++id1; // Skip Space for next line.
 
-			    Line = MsgText.substr(0,id1);
+                Line = MsgText.substr(0,id1);
                 MsgText.erase(0, id1+1);
             }
-			else
-			{            
-				//sprintf(output,"[*] id1 %i, len %i",id1, len);
-				//errlog2((char *)output);
-				
-				// Chop up string into message line / row.
-				Line = MsgText.substr(0,id1);
-				MsgText.erase(0, id1+1);
-			}
-			
-            //if (len < (signed)Line.size() )
-           // {
-            //    Line = Line.substr(0,len-1);
-           // }
+            else
+            {
+                //sprintf(output,"[*] id1 %i, len %i",id1, len);
+                //errlog2((char *)output);
 
-			
-           // sprintf(output,"[*] id1 %i, len %i, line: %s",id1, len, (char *)Line.c_str());
-                          
+                // Chop up string into message line / row.
+                Line = MsgText.substr(0,id1);
+                MsgText.erase(0, id1+1);
+            }
+
+            //if (len < (signed)Line.size() )
+            // {
+            //    Line = Line.substr(0,len-1);
+            // }
+
+
+            // sprintf(output,"[*] id1 %i, len %i, line: %s",id1, len, (char *)Line.c_str());
+
 
             // Clean each broken up line for proper display
             // Remove any special line chars before entering link list.
@@ -825,11 +825,11 @@ void mbapi_jam::MsgSetupTxt()
                 lineId1 = Line.find("\r", 0);
                 if (lineId1 != std::string::npos)
                     Line.erase(lineId1,1);
-                else 
-					break;
+                else
+                    break;
             }
 
-			
+
             // Cutoff any blank Lines in the beginning of a message.
             if (BegininngText)
             {
@@ -849,29 +849,29 @@ void mbapi_jam::MsgSetupTxt()
             {
                 //errlog2((char *)" *** strip Seen-by!");
 
-				// Need Toggles for these!
+                // Need Toggles for these!
                 sTrunc = Line;
                 lineId1 = sTrunc.find("SEEN-BY: ",0);
                 lineId2 = sTrunc.find("PATH: ",0);
                 lineId3 = sTrunc.find("Via ",0);
 
                 if (lineId1 == std::string::npos &&
-                    lineId2 == std::string::npos &&
-                    lineId3 == std::string::npos)
+                        lineId2 == std::string::npos &&
+                        lineId3 == std::string::npos)
                 {
                     //mLink.current_node->data = Line;
                     mLink.add_to_list(Line);
                     ++i;
                 }
             }
-            
-            
-            
+
+
+
         }
     }
 
 
-    
+
     // Clear Empty line from Bottom and move up.
     mLink.current_node = mLink.last;
     if  (mLink.current_node == 0) return;

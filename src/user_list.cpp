@@ -426,7 +426,7 @@ void usr_list::SetupEmailList(UserRec *user)
 }
 
 /*
- * UserList FullScreen - Change ANSI Template 
+ * UserList FullScreen - Change ANSI Template
  */
 int usr_list::change_theme(int idx)
 {
@@ -454,7 +454,7 @@ int usr_list::change_theme(int idx)
 
 
 /*
- * UserList FullScreen - Generate List of Users into a Vector 
+ * UserList FullScreen - Generate List of Users into a Vector
  */
 vector< UserRec > usr_list::read_users()
 {
@@ -480,7 +480,7 @@ vector< UserRec > usr_list::read_users()
 
 
 /*
- * UserList FullScreen - Builder UserList LightBar Tempaltes 
+ * UserList FullScreen - Builder UserList LightBar Tempaltes
  */
 vector< list_bar > usr_list::build_userlist(UserRec *usr, std::string &temp)   //, Query &qry) {
 {
@@ -513,7 +513,7 @@ vector< list_bar > usr_list::build_userlist(UserRec *usr, std::string &temp)   /
 //    long  cnt = 0;
     long  i   = 0;
     // long  usernum = 0;
-   // long  lr  = 0;
+    // long  lr  = 0;
 
     char  MCI[3]= {0};
     char  temp2[100]= {0};
@@ -601,8 +601,8 @@ vector< list_bar > usr_list::build_userlist(UserRec *usr, std::string &temp)   /
     ulong num_users = 0;
     ulong max_users = ulist.size();
 
-   // users   _usr; // Class
-   // UserRec urec;
+    // users   _usr; // Class
+    // UserRec urec;
 
     //usernum = _usr.idx_count();
     //s . errlog((char *)"build_arealist basenum   %lu", basenum);
@@ -844,7 +844,7 @@ vector< list_bar > usr_list::build_userlist(UserRec *usr, std::string &temp)   /
 
 
 /*
- * UserList FullScreen - Startup UserList / If Sysop, Can Select and Edit Users 
+ * UserList FullScreen - Startup UserList / If Sysop, Can Select and Edit Users
  */
 BOOL usr_list::StartUserEditor(ulong usernum)
 {
@@ -861,7 +861,7 @@ BOOL usr_list::StartUserEditor(ulong usernum)
 
 
 /*
- * UserList FullScreen - Start Interface. 
+ * UserList FullScreen - Start Interface.
  */
 int usr_list::StartList(int email)
 {
@@ -906,7 +906,7 @@ int usr_list::StartList(int email)
     bSize = tBot - tTop;
     ++bSize;
 
- //   int Page;
+//   int Page;
 //    int Tot;
 //    int TotPages;
 
@@ -1094,10 +1094,10 @@ JMPINPUT:
                     {
                         --CurrentPage;
 
-						// Reset Bar to first Listing on each Page.
-						// CurrentPage = CURRENT_MAREA / boxsize;
-						CURRENT_ULIST = CurrentPage * boxsize;
-						
+                        // Reset Bar to first Listing on each Page.
+                        // CurrentPage = CURRENT_MAREA / boxsize;
+                        CURRENT_ULIST = CurrentPage * boxsize;
+
                         mLink.box_start_vector(CurrentPage,CURRENT_ULIST);
                     }
                     else
@@ -1110,10 +1110,10 @@ JMPINPUT:
                     {
                         ++CurrentPage;
 
-						// Reset Bar to first Listing on each Page.
-						// CurrentPage = CURRENT_MAREA / boxsize;
-						CURRENT_ULIST = CurrentPage * boxsize;
-						
+                        // Reset Bar to first Listing on each Page.
+                        // CurrentPage = CURRENT_MAREA / boxsize;
+                        CURRENT_ULIST = CurrentPage * boxsize;
+
                         mLink.box_start_vector(CurrentPage,CURRENT_ULIST);
                     }
                     else
@@ -1349,8 +1349,8 @@ JMPINPUT:
                         if (CurrentPage != 0)
                         {
                             --CurrentPage;
-							// Reset Bar to first Listing on each Page.							
-							CURRENT_ULIST = CurrentPage * boxsize;
+                            // Reset Bar to first Listing on each Page.
+                            CURRENT_ULIST = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_ULIST);
                         }
                         else
@@ -1358,11 +1358,11 @@ JMPINPUT:
                         break;
 
                     case 'B':
-                       if (CurrentPage+1 != mLink.TotPages)
+                        if (CurrentPage+1 != mLink.TotPages)
                         {
                             ++CurrentPage;
-							// Reset Bar to first Listing on each Page.							
-							CURRENT_ULIST = CurrentPage * boxsize;
+                            // Reset Bar to first Listing on each Page.
+                            CURRENT_ULIST = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_ULIST);
                         }
                         else

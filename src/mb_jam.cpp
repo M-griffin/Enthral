@@ -389,7 +389,7 @@ void Copy4D(struct Node4D *node1,struct Node4D *node2)
 BOOL Parse4DTemplate(uint8_t *buf, struct Node4D *node,struct Node4D *tpl)
 {
     uint32_t c   = 0;
-	uint32_t val = 0;
+    uint32_t val = 0;
     BOOL GotZone,GotNet,GotNode,GotVal;
 
     GotZone=FALSE;
@@ -757,7 +757,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     struct jam_Area *ja;
     s_JamSubPacket*	SubPacket_PS;
     s_JamMsgHeader	Header_S;
-    uint8_t buf[100]={0},newflags[100]={0},flag[10]={0};
+    uint8_t buf[100]= {0},newflags[100]= {0},flag[10]= {0};
     uint32_t c,f,jbcpos,linebegin,linelen;
     uint8_t *msgtext;
     uint32_t msgsize, msgpos;
@@ -1158,7 +1158,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
     struct jam_Area *ja;
     s_JamSubPacket*	SubPacket_PS;
     s_JamMsgHeader	Header_S;
-    uint8_t buf[100]={0},newflags[100]={0},flag[10]={0};
+    uint8_t buf[100]= {0},newflags[100]= {0},flag[10]= {0};
     uint32_t c,f,jbcpos,linebegin,linelen;
     uint8_t *msgtext;
     uint32_t msgsize,msgpos;
@@ -1739,8 +1739,8 @@ uint32_t jamapi_countmsgs(mb_list_rec *area, UserRec *thisuser)
         while (1)
         {
             // Private Area, we need to loop and pick out each message
-			// to This user, ja->Active; will get all active for all users
-			// And so the only way is to loop this area.
+            // to This user, ja->Active; will get all active for all users
+            // And so the only way is to loop this area.
             res = JAM_FindUser( ja->Base_PS,
                                 crc,
                                 idx,
@@ -1778,12 +1778,12 @@ uint32_t jamapi_countmsgs(mb_list_rec *area, UserRec *thisuser)
     else
     {
         // Not Email, return HighWater for Total.
-		//		_s.errlog((char *)"4. countmsgs !email ja->Highwater");
+        //		_s.errlog((char *)"4. countmsgs !email ja->Highwater");
         //cnt = ja->HighWater;
 
-		// Activbe Messages?!?!?  otherwise need to keep track and
-		// Rework how add and subtract on new and deleted!!?!?
-		cnt = ja->Active;
+        // Activbe Messages?!?!?  otherwise need to keep track and
+        // Rework how add and subtract on new and deleted!!?!?
+        cnt = ja->Active;
     }
 
     // Close down area.
@@ -1892,7 +1892,7 @@ vector < unsigned long > jamapi_build_public(mb_list_rec *area, UserRec *thisuse
 {
     vector < unsigned long > elist;
 
-	MemMessage mm;
+    MemMessage mm;
 
     int      res=0;
     ulong    idx=0; // Messages Are 1 Based, not Zero. Added idx +1.
@@ -1907,13 +1907,13 @@ vector < unsigned long > jamapi_build_public(mb_list_rec *area, UserRec *thisuse
 
 //	msgs _msgf;
 
-/* Not needed anymore, more universal now!
-    int areakind;
-    if (area->Pubpriv == PRIVATE)
-        areakind = TRUE;
-    else
-        areakind = FALSE;
-*/
+    /* Not needed anymore, more universal now!
+        int areakind;
+        if (area->Pubpriv == PRIVATE)
+            areakind = TRUE;
+        else
+            areakind = FALSE;
+    */
 
 
     // Open the area
@@ -1937,8 +1937,8 @@ vector < unsigned long > jamapi_build_public(mb_list_rec *area, UserRec *thisuse
             {
 //                _s.errlog2((char *)"4.4 jamapi_build_public JAM_ReadMsgHeader() JAM_NO_MESSAGE! idx %lu, ret %lu, res %i ",idx,ret,res);
                 // Skip over and don't add to elist.
-				++idx;
-				continue;
+                ++idx;
+                continue;
             }
             else
             {
@@ -1958,46 +1958,46 @@ vector < unsigned long > jamapi_build_public(mb_list_rec *area, UserRec *thisuse
             {
                 ++idx;     // Incriment message count
 //                _s.errlog2((char *)"4.6 jamapi_build_public MSG_DELETED idx %lu, ret %lu, res %i ",idx,ret,res);
-				continue;
+                continue;
             }
             else
             {
-				/* Extra insurance testing, was not needed!!!
-				 * Headers Should have deleted flag, I did see one message where
-				 * the To field was empty and was caught by readmsg!  Keep eye out if
-				 * we need to re-enable this code block,
-				 *
-				// Make Sure message is not deleted and read status.
-				res = jamapi_readmsg(area, idx, &mm, areakind, thisuser);
-				if (res)
-				{
+                /* Extra insurance testing, was not needed!!!
+                 * Headers Should have deleted flag, I did see one message where
+                 * the To field was empty and was caught by readmsg!  Keep eye out if
+                 * we need to re-enable this code block,
+                 *
+                // Make Sure message is not deleted and read status.
+                res = jamapi_readmsg(area, idx, &mm, areakind, thisuser);
+                if (res)
+                {
 
-				    // Check return value,  if messaege = NO_MESSAGE, then deleted, skip to next!
-				    // And there are more messages in this area.
-				    if (res == JAM_NO_MESSAGE && idx <= mm.HighWater)
-				    {
-						_s.errlog2((char *)" *** jamapi_readmsg == JAM_NO_MESSAGE && num_titles < mm.HighWater");
-						idx++;
-						continue; // Skip and goto next message
+                    // Check return value,  if messaege = NO_MESSAGE, then deleted, skip to next!
+                    // And there are more messages in this area.
+                    if (res == JAM_NO_MESSAGE && idx <= mm.HighWater)
+                    {
+                		_s.errlog2((char *)" *** jamapi_readmsg == JAM_NO_MESSAGE && num_titles < mm.HighWater");
+                		idx++;
+                		continue; // Skip and goto next message
 
-				        //MessageDeleted(&mm); // Populated Generic Deleted Message.
-				    }
-				    else
-				    {
+                        //MessageDeleted(&mm); // Populated Generic Deleted Message.
+                    }
+                    else
+                    {
 
-						_s.errlog2((char *)" *** !jamapi_readmsg() ");
-						idx++;
-						continue;  // Skip and goto next message
+                		_s.errlog2((char *)" *** !jamapi_readmsg() ");
+                		idx++;
+                		continue;  // Skip and goto next message
 
-				        //MessageNotFound(&mm); // Populated Generic Deleted Message.
-				    }
-				}
-			*/
+                        //MessageNotFound(&mm); // Populated Generic Deleted Message.
+                    }
+                }
+                			*/
 
-				elist.push_back(idx+1);
+                elist.push_back(idx+1);
 //                _s.errlog2((char *)"4.7 jamapi_build_public JAM_ReadMsgHeader() idx %lu, ret %lu, res %i,  ",idx,ret,res,cnt);
-				++idx;
-				continue;
+                ++idx;
+                continue;
             }
         }
     }
@@ -2021,7 +2021,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     struct jam_Area *ja;
     uint8_t *msgtext;
     uint8_t buf[200]   = {0},
-            domain[20] = {0};
+                         domain[20] = {0};
     int res,c;
     s_JamSubPacket* SubPacket_PS;
     s_JamMsgHeader  Header_S;
@@ -2029,7 +2029,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     struct Node4D n4d;
     BOOL hasaddr;
     uint8_t flagsbuf[200]    = {0},
-            filesubject[200] = {0};
+                               filesubject[200] = {0};
 //    ushort oldattr;
 
     res = 0;
@@ -2235,63 +2235,63 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
             mystrncpy(mm->Subject,buf,72);
             break;
 
-/*  Make this a sysop toggle.
-	WE are only reading a message.			  
-				  
-				  
-        case JAMSFLD_MSGID:
-            jam_makekludge(mm,(uint8_t *)"\x01" "MSGID: ",Field_PS->Buffer,Field_PS->DatLen);
-            break;
+            /*  Make this a sysop toggle.
+            	WE are only reading a message.
 
-        case JAMSFLD_REPLYID:
-            jam_makekludge(mm,(uint8_t *)"\x01" "REPLY: ",Field_PS->Buffer,Field_PS->DatLen);
-            break;
 
-        case JAMSFLD_PID:
-            jam_makekludge(mm,(uint8_t *)"\x01" "PID: ",Field_PS->Buffer,Field_PS->DatLen);
-            break;
-				
-        case JAMSFLD_ENCLFILE:
-            if(filesubject[0]) {}//_s.errlog((char *)"4. MB_JAM() Warning: Multiple ENCLOSEDFILE not supported.");
-            else mystrncpy(filesubject,Field_PS->Buffer,Field_PS->DatLen+1);
-            break;
+                    case JAMSFLD_MSGID:
+                        jam_makekludge(mm,(uint8_t *)"\x01" "MSGID: ",Field_PS->Buffer,Field_PS->DatLen);
+                        break;
 
-        case JAMSFLD_ENCLFREQ:
-//			_s.errlog((char *)"4. MB_JAM() Warning: ENCLOSEDFREQ not supported.");
+                    case JAMSFLD_REPLYID:
+                        jam_makekludge(mm,(uint8_t *)"\x01" "REPLY: ",Field_PS->Buffer,Field_PS->DatLen);
+                        break;
 
-            break;
+                    case JAMSFLD_PID:
+                        jam_makekludge(mm,(uint8_t *)"\x01" "PID: ",Field_PS->Buffer,Field_PS->DatLen);
+                        break;
 
-        case JAMSFLD_ENCLFWALIAS:
-//			_s.errlog((char *)"4. MB_JAM() Warning: ENCLOSEDFILEWALIAS not supported.");
-            break;
+                    case JAMSFLD_ENCLFILE:
+                        if(filesubject[0]) {}//_s.errlog((char *)"4. MB_JAM() Warning: Multiple ENCLOSEDFILE not supported.");
+                        else mystrncpy(filesubject,Field_PS->Buffer,Field_PS->DatLen+1);
+                        break;
 
-        case JAMSFLD_ENCLFILEWC:
-//			_s.errlog((char *)"4. MB_JAM() Warning: ENCLOSEDFILEWCARD with wildcards not supported.");
-            break;
+                    case JAMSFLD_ENCLFREQ:
+            //			_s.errlog((char *)"4. MB_JAM() Warning: ENCLOSEDFREQ not supported.");
 
-        case JAMSFLD_ENCLINDFILE:
-//			_s.errlog((char *)"4. MB_JAM() Warning:  ENCLOSEDINDIRECTFILE not supported.");
+                        break;
 
-            break;
+                    case JAMSFLD_ENCLFWALIAS:
+            //			_s.errlog((char *)"4. MB_JAM() Warning: ENCLOSEDFILEWALIAS not supported.");
+                        break;
 
-        case JAMSFLD_FTSKLUDGE:
-            jam_makekludge(mm,(uint8_t *)"\x01",Field_PS->Buffer,Field_PS->DatLen);
-            break;
+                    case JAMSFLD_ENCLFILEWC:
+            //			_s.errlog((char *)"4. MB_JAM() Warning: ENCLOSEDFILEWCARD with wildcards not supported.");
+                        break;
 
-        case JAMSFLD_SEENBY2D:
-            jam_makekludge(mm,(uint8_t *)"SEEN-BY: ",Field_PS->Buffer,Field_PS->DatLen);
-            break;
+                    case JAMSFLD_ENCLINDFILE:
+            //			_s.errlog((char *)"4. MB_JAM() Warning:  ENCLOSEDINDIRECTFILE not supported.");
 
-        case JAMSFLD_PATH2D:
-            jam_makekludge(mm,(uint8_t *)"\01" "PATH: ",Field_PS->Buffer,Field_PS->DatLen);
-            break;
+                        break;
 
-        case JAMSFLD_FLAGS:
-            strcpy((char *)flagsbuf,(const char *)"\x01" "FLAGS: ");
-            mystrncpy(&flagsbuf[8],Field_PS->Buffer,Field_PS->DatLen+1);
-            // Don't add until attributes from header has been added
-            break;
-*/
+                    case JAMSFLD_FTSKLUDGE:
+                        jam_makekludge(mm,(uint8_t *)"\x01",Field_PS->Buffer,Field_PS->DatLen);
+                        break;
+
+                    case JAMSFLD_SEENBY2D:
+                        jam_makekludge(mm,(uint8_t *)"SEEN-BY: ",Field_PS->Buffer,Field_PS->DatLen);
+                        break;
+
+                    case JAMSFLD_PATH2D:
+                        jam_makekludge(mm,(uint8_t *)"\01" "PATH: ",Field_PS->Buffer,Field_PS->DatLen);
+                        break;
+
+                    case JAMSFLD_FLAGS:
+                        strcpy((char *)flagsbuf,(const char *)"\x01" "FLAGS: ");
+                        mystrncpy(&flagsbuf[8],Field_PS->Buffer,Field_PS->DatLen+1);
+                        // Don't add until attributes from header has been added
+                        break;
+            */
         }
     }
 
@@ -2383,7 +2383,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
 
     // Message text
 
-	// make sure it's clear before reading new.
+    // make sure it's clear before reading new.
 
     if(msgtext)
     {
@@ -2542,10 +2542,10 @@ BOOL PackJamArea(mb_list_rec *area)
     uint32_t //today,
 //             active  = 0,
 //             basenum = 0,
-             total   = 0,
-             del     = 0,
-             num     = 0;
-     //      day;
+    total   = 0,
+              del     = 0,
+                        num     = 0;
+    //      day;
 
     s_JamBase *Base_PS,*NewBase_PS;
     s_JamBaseHeader BaseHeader_S;
@@ -2607,8 +2607,8 @@ BOOL PackJamArea(mb_list_rec *area)
         return(TRUE);
     }
 
- //   basenum = BaseHeader_S.BaseMsgNum;
- //   active  = BaseHeader_S.ActiveMsgs;
+//   basenum = BaseHeader_S.BaseMsgNum;
+//   active  = BaseHeader_S.ActiveMsgs;
 
     if(total == 0)
     {

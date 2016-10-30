@@ -291,7 +291,7 @@ void logon::Email(UserRec *u)
         getline(rBuffer,len);
         if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
         {
-    //      tmp = rBuffer;
+            //      tmp = rBuffer;
             //i = strlen(rBuffer);
             // Remove checking for invalid format!
             //if (tmp.find("@",0) != std::string::npos && (rBuffer[i-4] == '.' || rBuffer[i-3] == '.')) {
@@ -699,8 +699,8 @@ void logon::save_user(UserRec *u)
     EVP_MD_CTX mdctx;
     const EVP_MD *md;
 //    char mess1[] = "Test Message\n";
- //   char mess2[] = "Hello World\n";
-    unsigned char md_value[EVP_MAX_MD_SIZE]={0};
+//   char mess2[] = "Hello World\n";
+    unsigned char md_value[EVP_MAX_MD_SIZE]= {0};
     unsigned int  md_len = 0;
 
     OpenSSL_add_all_digests();
@@ -1252,69 +1252,69 @@ void logon::userinfo(UserRec *u, char *mString)
             sprintf(text,"|15|17%c",ch);
             pipe2ansi(text);
             //if (isdigit(ch))
-           // {
-                switch (ch)
+            // {
+            switch (ch)
+            {
+
+            case 'A':
+                Handle(u);
+                break;
+
+            case 'B':
+                Name(u);
+                break;
+
+            case '1':
+                Password(u);
+                VerifyPassword(u);
+                break;
+
+            case '2':
+                Sex(u);
+                break;
+
+            case '3':
+                BDay(u);
+                break;
+
+            case '4':
+                Email(u);
+                break;
+
+            case '5':
+                EmailPriv(u);
+                break;
+
+            case '6':
+                Note(u);
+                break;
+
+            case '7':
+                ChallengeQuestion(u);
+                break;
+
+            case '8':
+                ChallengeAnswer(u);
+                break;
+
+            case '9': // toggle ansimations
+                if (isANSIMATION == TRUE)
                 {
-
-        case 'A':
-           Handle(u);
-           break;
-
-        case 'B':
-           Name(u);
-           break;
-
-                case '1':
-                    Password(u);
-                    VerifyPassword(u);
-                    break;
-
-                case '2':
-                    Sex(u);
-                    break;
-
-                case '3':
-                    BDay(u);
-                    break;
-
-                case '4':
-                    Email(u);
-                    break;
-
-                case '5':
-                    EmailPriv(u);
-                    break;
-
-                case '6':
-                    Note(u);
-                    break;
-
-                case '7':
-                    ChallengeQuestion(u);
-                    break;
-
-                case '8':
-                    ChallengeAnswer(u);
-                    break;
-
-                case '9': // toggle ansimations
-                    if (isANSIMATION == TRUE)
-                    {
-                        isANSIMATION = FALSE;
-                    }
-                    else
-                    {
-                        isANSIMATION = TRUE;
-                    }
-                    break;
-
-                case '0': // set autosig.
-                    _mf.msg_autosig();
-                    break;
-
-                default :
-                    break;
+                    isANSIMATION = FALSE;
                 }
+                else
+                {
+                    isANSIMATION = TRUE;
+                }
+                break;
+
+            case '0': // set autosig.
+                _mf.msg_autosig();
+                break;
+
+            default :
+                break;
+            }
             //}
             break;
 

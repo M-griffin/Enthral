@@ -140,23 +140,23 @@ void language::lang_get(char *lang, int idx)
 }
 
 /**
- * Parses Line in Language File 
+ * Parses Line in Language File
  */
 void language::lang_check(std::string lang)
 {
 
     std::string temp2;
     // Disgards any Config lines starting with the # or ; Character
-    
-	char Num[255] = {0};
+
+    char Num[255] = {0};
     int LangNum = 0;
     int cnt     = 0;
 
-	if (lang[0] == '#' || lang[0] == ';') 
-		return;
+    if (lang[0] == '#' || lang[0] == ';')
+        return;
 
-	if (lang.size() < 1)
-		return;
+    if (lang.size() < 1)
+        return;
 
     // Parse first 3 Digits for Language string Number
     for (int i = 0; i < 4; i++)
@@ -168,22 +168,22 @@ void language::lang_check(std::string lang)
         }
     }
 
-	std::stringstream iconvert(Num);   // In
+    std::stringstream iconvert(Num);   // In
 
-	// Convert String to Int
-	if (iconvert >> LangNum)
-	{
-		if (LangNum > 0)
-			--LangNum;
-	}
-	else
-	{
-		// Error Unable to Convert
-		return;
-	}
+    // Convert String to Int
+    if (iconvert >> LangNum)
+    {
+        if (LangNum > 0)
+            --LangNum;
+    }
+    else
+    {
+        // Error Unable to Convert
+        return;
+    }
 
-	LangRec l1;
-	memset(&l1,0,sizeof(LangRec));
+    LangRec l1;
+    memset(&l1,0,sizeof(LangRec));
     if (lang.size() > 4)
     {
         temp2 = lang.substr( 4);
@@ -193,7 +193,7 @@ void language::lang_check(std::string lang)
 }
 
 /**
- * Copile Language.txt to Langauge.dat 
+ * Copile Language.txt to Langauge.dat
  */
 void language::lang_compile()
 {

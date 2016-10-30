@@ -28,10 +28,10 @@
 typedef struct msgs
 {
 
-	/*
+    /*
     int  read_emaillist(EmailIdx *em, int recno);
     int  save_emaillist(EmailIdx *em, int recno);
-	*/
+    */
 
     int  mbaselist_lockSet(int onoff);
 
@@ -50,14 +50,14 @@ typedef struct msgs
     int  writelr(LastRead *lr, int idx, mb_list_rec *mb);
 
     unsigned
-	long JamAreaGetLast(long usernum, mb_list_rec *mb);
+    long JamAreaGetLast(long usernum, mb_list_rec *mb);
     void JamAreaSetLast(long usernum, long msgnum, mb_list_rec *mb);
 
     unsigned
     long CountMsgs(unsigned long mbnum, UserRec *usr),
-         CountNewMsgs(unsigned long mbnum, UserRec *usr),
-         CountCurrentNewMsgs(UserRec *usr),
-         CountAllNewMsgs(UserRec *usr);
+    CountNewMsgs(unsigned long mbnum, UserRec *usr),
+    CountCurrentNewMsgs(UserRec *usr),
+    CountAllNewMsgs(UserRec *usr);
 
     void resetlastread(UserRec *usr);
 

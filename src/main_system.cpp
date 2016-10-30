@@ -70,18 +70,18 @@ void main_system::start(UserRec *user)
     // Startup Friend Classes
     language    _lang;
     //users       _usr;
-	UserRec     tmp;
+    UserRec     tmp;
 
-	
-	// Setup Default CP437 Encoding.  Add Detection from TelnetD here also!
-	write(1, "\x1b" , 1); // Back to ISO Char Set
-	write(1, "%@" , 2);   
 
-	write(1, "\x1b" , 1); // Enable CP437
-	write(1, "(U" , 2);
-	
-	UTF8Output = FALSE;
-	
+    // Setup Default CP437 Encoding.  Add Detection from TelnetD here also!
+    write(1, "\x1b" , 1); // Back to ISO Char Set
+    write(1, "%@" , 2);
+
+    write(1, "\x1b" , 1); // Enable CP437
+    write(1, "(U" , 2);
+
+    UTF8Output = FALSE;
+
     // Start Control Sequence Resetting... Will be ignored by Non Ansi Systems.
     pipe2ansi((char *)"|CS");
 
@@ -102,155 +102,156 @@ void main_system::start(UserRec *user)
     int lastchar     = 0;
 
 
-	/// FIXME If no script exists, reset signals so that bbs will catch!!
-	
-	// Need to Add variable / Config item for pre-startup script.
-	// Make Startup 1 py. Then Startup 2 py after detection.
+    /// FIXME If no script exists, reset signals so that bbs will catch!!
+
+    // Need to Add variable / Config item for pre-startup script.
+    // Make Startup 1 py. Then Startup 2 py after detection.
 //	if (strlen(STARTUP_SCRIPT) > 0)
 //		pybbs_run(STARTUP_SCRIPT, &tmp);
-	
 
-	// Set Char Set in Console default CP437.	
-	ansiPrintf((char *)"encode");
-	ansiPrintf((char *)"en_bar1");
 
-	// Start encoding loop.
-	int encode_input = 0;
-	int encode_done = FALSE;
-	
+    // Set Char Set in Console default CP437.
+    ansiPrintf((char *)"encode");
+    ansiPrintf((char *)"en_bar1");
 
-	int rightLeft = TRUE;
-	while(encode_done == FALSE)
-	{
-		encode_input = getkey(true);
+    // Start encoding loop.
+    int encode_input = 0;
+    int encode_done = FALSE;
 
-		switch (toupper(encode_input))
-		{
 
-			case 'C':
-				std::setlocale(LC_ALL, "en_US.utf8");
-				write(1, "\x1b" , 1); // Back to ISO Char Set
-				write(1, "%@" , 2);   
-				cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-				
-				write(1, "\x1b" , 1); // Enable CP437
-				write(1, "(U" , 2);
-				cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-				UTF8Output = FALSE;
-				rightLeft = TRUE;
-				ansiPrintf((char *)"encode");
-				break;
+    int rightLeft = TRUE;
+    while(encode_done == FALSE)
+    {
+        encode_input = getkey(true);
 
-			case 'U':						
-				write(1, "\x1b" , 1); // UTF-8
-				write(1, "%G" , 2);   
-				cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-				UTF8Output = TRUE;
-				rightLeft = FALSE;
-				ansiPrintf((char *)"encode");
-				break;
+        switch (toupper(encode_input))
+        {
 
-			case 10: // ENTER Done.
-				encode_done = TRUE;
-				if (rightLeft)
-				{
-					write(1, "\x1b" , 1); // Back to ISO Char Set
-					write(1, "%@" , 2);
-					cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-					
-					write(1, "\x1b" , 1); // Enable CP437
-					write(1, "(U" , 2);
-					cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-					UTF8Output = FALSE;
-				}
-				else
-				{
-					write(1, "\x1b" , 1); // UTF-8
-					write(1, "%G" , 2);
-					cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-					UTF8Output = TRUE;
-					rightLeft = FALSE;
-					UTF8Output = TRUE;
-				}
-				break;
+        case 'C':
+            std::setlocale(LC_ALL, "en_US.utf8");
+            write(1, "\x1b" , 1); // Back to ISO Char Set
+            write(1, "%@" , 2);
+            cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-			case 27: // Get Arrow Key
-				if (EscapeKey[0] == '[')
-				{
-					if (EscapeKey[1] == 'D' && rightLeft == FALSE)
-					{
-						write(1, "\x1b" , 1); // Back to ISO Char Set
-						write(1, "%@" , 2);
-						cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-		
-						write(1, "\x1b" , 1); // Enable CP437
-						write(1, "(U" , 2);
-						cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-					
-						UTF8Output = FALSE;
-						ansiPrintf((char *)"encode");					
-						rightLeft = TRUE;
-						break;
-					
-					}
-					if (EscapeKey[1] == 'C' && rightLeft == TRUE)
-					{
-						std::setlocale(LC_ALL, "en_US.utf8");
-						write(1, "\x1b" , 1); // UTF-8
-						write(1, "%G" , 2);
-						cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
-					
-						UTF8Output = TRUE;
-						ansiPrintf((char *)"encode");					
-						rightLeft = FALSE;
-						break;
-					}
-				}
+            write(1, "\x1b" , 1); // Enable CP437
+            write(1, "(U" , 2);
+            cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+            UTF8Output = FALSE;
+            rightLeft = TRUE;
+            ansiPrintf((char *)"encode");
+            break;
 
-				continue;
+        case 'U':
+            write(1, "\x1b" , 1); // UTF-8
+            write(1, "%G" , 2);
+            cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+            UTF8Output = TRUE;
+            rightLeft = FALSE;
+            ansiPrintf((char *)"encode");
+            break;
 
-			default:  continue;
-		}
+        case 10: // ENTER Done.
+            encode_done = TRUE;
+            if (rightLeft)
+            {
+                write(1, "\x1b" , 1); // Back to ISO Char Set
+                write(1, "%@" , 2);
+                cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-		// Set back to CP437 For Light Bar Selections, 
-		// This displays in both CP437 and UTF-8, However
-		// If utf8 is not support, then this would be a mess
-		// So we want to set this part so the user can see it.
+                write(1, "\x1b" , 1); // Enable CP437
+                write(1, "(U" , 2);
+                cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+                UTF8Output = FALSE;
+            }
+            else
+            {
+                write(1, "\x1b" , 1); // UTF-8
+                write(1, "%G" , 2);
+                cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+                UTF8Output = TRUE;
+                rightLeft = FALSE;
+                UTF8Output = TRUE;
+            }
+            break;
 
-		if (!encode_done)
-		{
-			write(1, "\x1b" , 1); // Back to ISO Char Set
-			write(1, "%@" , 2);
-			cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+        case 27: // Get Arrow Key
+            if (EscapeKey[0] == '[')
+            {
+                if (EscapeKey[1] == 'D' && rightLeft == FALSE)
+                {
+                    write(1, "\x1b" , 1); // Back to ISO Char Set
+                    write(1, "%@" , 2);
+                    cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-			write(1, "\x1b" , 1); // Enable CP437
-			write(1, "(U" , 2);
-			cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+                    write(1, "\x1b" , 1); // Enable CP437
+                    write(1, "(U" , 2);
+                    cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-	 
-			if (rightLeft)
-			{
-				UTF8Output = FALSE;
-				ansiPrintf((char *)"en_bar1");
-			}
-			else
-			{
-				UTF8Output = FALSE;
-				ansiPrintf((char *)"en_bar2");
-			}
-		}
-	}
+                    UTF8Output = FALSE;
+                    ansiPrintf((char *)"encode");
+                    rightLeft = TRUE;
+                    break;
 
-	pipe2ansi((char *)"|CS");
+                }
+                if (EscapeKey[1] == 'C' && rightLeft == TRUE)
+                {
+                    std::setlocale(LC_ALL, "en_US.utf8");
+                    write(1, "\x1b" , 1); // UTF-8
+                    write(1, "%G" , 2);
+                    cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-	if (strlen(STARTUP_SCRIPT2) > 0)
-		pybbs_run(STARTUP_SCRIPT2, &tmp);
+                    UTF8Output = TRUE;
+                    ansiPrintf((char *)"encode");
+                    rightLeft = FALSE;
+                    break;
+                }
+            }
 
-	pipe2ansi((char *)"|CS");
-	
-	fflush(stdout);
+            continue;
+
+        default:
+            continue;
+        }
+
+        // Set back to CP437 For Light Bar Selections,
+        // This displays in both CP437 and UTF-8, However
+        // If utf8 is not support, then this would be a mess
+        // So we want to set this part so the user can see it.
+
+        if (!encode_done)
+        {
+            write(1, "\x1b" , 1); // Back to ISO Char Set
+            write(1, "%@" , 2);
+            cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+
+            write(1, "\x1b" , 1); // Enable CP437
+            write(1, "(U" , 2);
+            cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
+
+
+            if (rightLeft)
+            {
+                UTF8Output = FALSE;
+                ansiPrintf((char *)"en_bar1");
+            }
+            else
+            {
+                UTF8Output = FALSE;
+                ansiPrintf((char *)"en_bar2");
+            }
+        }
+    }
+
+    pipe2ansi((char *)"|CS");
+
+    if (strlen(STARTUP_SCRIPT2) > 0)
+        pybbs_run(STARTUP_SCRIPT2, &tmp);
+
+    pipe2ansi((char *)"|CS");
+
+    fflush(stdout);
     open_keyboard();
-			
+
     // Thanks to Frank for this quickie! :)
     uname = popen("uname -sm", "r");
 
@@ -268,15 +269,15 @@ void main_system::start(UserRec *user)
     strcat(sCmd,(char *)"\r\n");
     putline(sCmd);
 
-	// Add a config setting to display or omit this from displaying
-	// Some people don't like to give system info!
-/*
-	sprintf(sCmd,"GCC: %s", __VERSION__);
-    cspacing(sCmd);
+    // Add a config setting to display or omit this from displaying
+    // Some people don't like to give system info!
+    /*
+    	sprintf(sCmd,"GCC: %s", __VERSION__);
+        cspacing(sCmd);
 
-    // have to put newline in after center spacing, or it throws it all off.
-    strcat(sCmd,(char *)"\r\n");
-    putline(sCmd);*/
+        // have to put newline in after center spacing, or it throws it all off.
+        strcat(sCmd,(char *)"\r\n");
+        putline(sCmd);*/
 
     sprintf(sCmd,"Copyright (c) Michael Griffin 2004-2015, All Rights Reserved");
     cspacing(sCmd);
@@ -406,16 +407,16 @@ void main_system::start(UserRec *user)
         putline((char *)"are Mtelnet for Windows, and SyncTerm for Linux, BSD, OSX. for Full Support.\r\n\r\n");
         startpause();
 
-		isANSI = TRUE;
+        isANSI = TRUE;
     }
 
     // If were doing unit Testing, load unit test menu, where we can jump directly to interfaces.
     // If menu exists, then we run it!
 
-	menu_func mnf;
+    menu_func mnf;
 
-	/*
-	mnf._premenu.clear();
+    /*
+    mnf._premenu.clear();
     mnf._gosub.clear();
     mnf._curmenu = "unittest";
     mnf._loadnew = true;
@@ -425,10 +426,10 @@ void main_system::start(UserRec *user)
 
     if ( mnf.menu_exists() )  // Testing purposes only, maybe passworded features lateron
     {
-//		errlog((char *)"Starting UnitTest Menu!");
+    //		errlog((char *)"Starting UnitTest Menu!");
         // Set default users to 0, sysop
         _usr.users_read(user,0);
-//		errlog((char *)"Forced Login to: %s",user->handle);
+    //		errlog((char *)"Forced Login to: %s",user->handle);
 
         // When user logs in, always reset last area and msg to 0.
         user->lastmbarea = 0;
@@ -445,8 +446,8 @@ void main_system::start(UserRec *user)
         return;
     }*/
 
-	/*
-//	errlog((char *)"Starting Matrix Menu");
+    /*
+    //	errlog((char *)"Starting Matrix Menu");
     _mnf._premenu.clear();
     _mnf._gosub.clear();
     _mnf._curmenu = "matrix";
@@ -456,17 +457,17 @@ void main_system::start(UserRec *user)
     ansiPrintf((char *)"welcome");
     _mnf.menu_mainloop(user);*/
 
-	// Load Menu System sepeartly for init pre-system script.
-	
+    // Load Menu System sepeartly for init pre-system script.
 
-	mnf._premenu.clear();
+
+    mnf._premenu.clear();
     mnf._gosub.clear();
     mnf._curmenu = "matrix";
     mnf._loadnew = true;
 
     // Display Welcome Screen
     ansiPrintf((char *)"welcome");
-    mnf.menu_mainloop(user);	
-	//delete pre_mnf;
+    mnf.menu_mainloop(user);
+    //delete pre_mnf;
 }
 

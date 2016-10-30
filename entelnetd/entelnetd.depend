@@ -1,0 +1,80 @@
+# depslib dependency file v1.0
+1396499180 source:/home/merc/enthral/source/src/ddtelnetd/entelnetd/entelnetd.cpp
+	"config.h"
+	<unistd.h>
+	<pty.h>
+	<termios.h>
+	<iostream>
+	<cstdio>
+	<cstdarg>
+	<cstdlib>
+	<cerrno>
+	<csignal>
+	<cstring>
+	<limits.h>
+	<vector>
+	<string>
+	<sstream>
+	<fstream>
+	<algorithm>
+	<boost/lexical_cast.hpp>
+	<boost/uuid/uuid.hpp>
+	<boost/uuid/uuid_generators.hpp>
+	<boost/uuid/uuid_io.hpp>
+	<syslog.h>
+	<arpa/telnet.h>
+	<arpa/inet.h>
+	<netinet/in.h>
+	<netdb.h>
+
+1396499367 source:/home/merc/enthral/source/src/ddtelnetd/entelnetd/config.cpp
+	"config.h"
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<cstring>
+	<cstdlib>
+
+1396499354 /home/merc/enthral/source/src/ddtelnetd/entelnetd/config.h
+	<string>
+	<limits.h>
+
+1396499367 source:/home/pi/Downloads/enthral/source/src/ddtelnetd/entelnetd/config.cpp
+	"config.h"
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<cstring>
+	<cstdlib>
+
+1396499354 /home/pi/Downloads/enthral/source/src/ddtelnetd/entelnetd/config.h
+	<string>
+	<limits.h>
+
+1477812853 source:/home/pi/Downloads/enthral/source/src/ddtelnetd/entelnetd/entelnetd.cpp
+	"config.h"
+	<unistd.h>
+	<pty.h>
+	<termios.h>
+	<iostream>
+	<cstdio>
+	<cstdarg>
+	<cstdlib>
+	<cerrno>
+	<csignal>
+	<cstring>
+	<limits.h>
+	<vector>
+	<string>
+	<sstream>
+	<fstream>
+	<algorithm>
+	<uuid/uuid.h>
+	<syslog.h>
+	<arpa/telnet.h>
+	<arpa/inet.h>
+	<netinet/in.h>
+	<netdb.h>
+
