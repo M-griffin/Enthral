@@ -50,7 +50,7 @@ void TelnetDaemon::loop_parent_process(int ptyfd)
     int selret;
     fd_set rdfdset;
 
-    char character_buffer[BUFSIZE] = {'\0'};
+    char character_buffer[BUFSIZE];
     unsigned char ch = 0;
 
     // Clear any previous buffered data.
@@ -128,8 +128,6 @@ void TelnetDaemon::loop_parent_process(int ptyfd)
                 // Incoming Buffer is filled and Telnet options are parsed out.
                 m_parsed_data += ch;
             }
-            // Clear the Session's Socket Buffer for next set of data.
-            memset(&character_buffer, 0, BUFSIZE);
 
 
             if(write(ptyfd, (char *)m_parsed_data.c_str(), m_parsed_data.size()) == -1)
@@ -173,7 +171,7 @@ void TelnetDaemon::loop_detection()
     // Socket Helpers
     int selret;
     fd_set rdfdset;
-    char character_buffer[BUFSIZE] = {'\0'};
+    char character_buffer[BUFSIZE];
     unsigned char ch = 0;
 
     double diff = 0.0;
@@ -197,6 +195,7 @@ void TelnetDaemon::loop_detection()
         if (FD_ISSET(m_inbound_fd, &rdfdset))
         {
             // Read incoming Socket
+            memset(&character_buffer, 0, BUFSIZE);
             selret = read(m_inbound_fd, character_buffer, BUFSIZE);
             if (selret <= 0)
             {
@@ -229,8 +228,6 @@ void TelnetDaemon::loop_detection()
                 // Incoming Buffer is filled and Telnet options are parsed out.
                 m_parsed_data += ch;
             }
-            // Clear the Session's Socket Buffer for next set of data.
-            memset(&character_buffer, 0, BUFSIZE);
         }
 
 
