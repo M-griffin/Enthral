@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lutil -lboost_system" />
@@ -27,6 +28,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=c++0x" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -39,8 +41,13 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="config.cpp" />
-		<Unit filename="config.h" />
+		<Unit filename="config.hpp" />
 		<Unit filename="entelnetd.cpp" />
+		<Unit filename="telnet.hpp" />
+		<Unit filename="telnet_daemon.cpp" />
+		<Unit filename="telnet_daemon.hpp" />
+		<Unit filename="telnet_decoder.cpp" />
+		<Unit filename="telnet_decoder.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
