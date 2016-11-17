@@ -19,7 +19,6 @@
 #include <vector>
 #include <sstream>
 #include <algorithm> // std::find If etc..
-
 #include <unistd.h>  // read/write
 
 

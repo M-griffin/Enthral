@@ -20,7 +20,13 @@
 #include <netinet/in.h>   // gethostbyaddr
 #include <netdb.h>        // gethostbyaddr
 
-
+/**
+ * @class TelnetDaemon
+ * @author Michael Griffin
+ * @date 17/11/2016
+ * @file telnet_deamon.hpp
+ * @brief Handles Telnet Connection and host communication
+ */
 class TelnetDaemon
     : public TelnetDecoder
 {
