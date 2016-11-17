@@ -88,7 +88,7 @@ int term_width = 80;
 int pid        = 0;      // Holds child process.
 int unknowhost = FALSE;
 
-std::string term_type    = "Unknown";
+std::string term_type    = "";
 std::string term_passing = "/tmp/enthral/"; // Config can overide this!
 
 int TTYPE_FINALIZE = FALSE;
@@ -547,8 +547,11 @@ int enTelnet::remove_iacs(unsigned char *in, int len, unsigned char* out, int* o
                         if (TTYPE_FINALIZE == FALSE)
                         {
 
-for(std::string ct : client_term)
+                            for(std::string ct : client_term)
                             {
+
+                                errlog((char *)"Received Term Codes (1): %s ",(char *)ct.c_str());
+
                                 // run first looking for ANSI Capabably,
                                 if (ct == "ANSI"     ||
                                     ct == "ANSI-BBS" ||
@@ -573,6 +576,9 @@ for(std::string ct : client_term)
                                 termindex = 0;
                                 for(std::string ct : client_term)
                                 {
+
+                                    errlog((char *)"Received Term Codes (2): %s ",(char *)ct.c_str());
+
                                     // If no Ansi erminal, Then look for
                                     // Possiable UTF8 Terminal
                                     if (ct == "VT100"          ||
@@ -873,6 +879,7 @@ int main(int argc, char **argv)
     }
 
     // Check for Blocked IP Addresses, if found then exit!
+    _ent.errlog((char *)"---------------------------------------------");
     _ent.errlog((char *)"Connection Hostname From: %s", (char *)hostname_string.c_str());
     if (toupper(USE_HOSTS_DENY) == 'T')
         _ent.load_hosts_deny(hostaddr_string,hostname_string);
@@ -1040,8 +1047,9 @@ int main(int argc, char **argv)
     syslog(LOG_INFO, "Enthral in.telnetd Term Type: %s", term_type.c_str());
     _ent.errlog((char *)"Term Type: %s", term_type.c_str());
 
-    if (term_type == "Unknown" || term_type == "VT220")
+    if (term_type == "" || term_type == "VT220")
     {
+        _ent.errlog((char *)"No Term Detected, Disconnected.");
         closelog();
         exit(1);
     }
@@ -1100,7 +1108,6 @@ int main(int argc, char **argv)
         FD_SET(ptyfd, &rdfdset);
         FD_SET(INFD, &rdfdset);
 
-        syslog(LOG_INFO, "WAiting new data");
         selret = select(ptyfd + 1, &rdfdset, NULL, NULL, NULL);
 
         // Error / Lost Connection on
@@ -1165,6 +1172,7 @@ int main(int argc, char **argv)
 
             if (r <= 0)
             {
+                _ent.errlog((char *)"r <= 0!");
                 isConnected = false;
                 break;
             }
