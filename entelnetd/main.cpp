@@ -208,8 +208,6 @@ int main(int argc, char **argv)
         argv_init[5] = strdup(daemon.m_term_passing.c_str());
     }
 
-
-
     // Startup Syslogd.
     openlog("telnet_daemon", LOG_PID, LOG_SYSLOG);
 
@@ -247,7 +245,7 @@ int main(int argc, char **argv)
     daemon.errlog((char *)"Term Rows: %i", daemon.getTermRows());
 
 
-    if (daemon.getTermType() == "unknown" || daemon.getTermType() == "VT220" || daemon.getTermType() == "")
+    if (daemon.getTermType() == "undetected" || daemon.getTermType() == "VT220" || daemon.getTermType() == "")
     {
         daemon.errlog((char *)"No Term Detected, Disconnecting.");
         closelog();

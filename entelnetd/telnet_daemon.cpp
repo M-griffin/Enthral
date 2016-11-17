@@ -25,7 +25,7 @@ TelnetDaemon::TelnetDaemon()
     , m_term_passing("/tmp/enthral/")
     , m_hostaddr_string("")
     , m_hostname_string("")
-    , m_unknowhost("unknown")
+    , m_unknowhost("undetected")
     , m_parsed_data("")
     , m_outbound_fd(1)
     , m_inbound_fd(0)
@@ -38,10 +38,10 @@ TelnetDaemon::~TelnetDaemon()
     //std::cout << "~TelnetDaemon" << std::endl;
 }
 
-
 /**
  * Main Parent Loop handles passing data beeween the child process
  * and the connected client socket.
+ * Blocking so Select 0 or -1 is error
  */
 void TelnetDaemon::loop_parent_process(int ptyfd)
 {
@@ -64,14 +64,13 @@ void TelnetDaemon::loop_parent_process(int ptyfd)
 
         selret = select(ptyfd + 1, &rdfdset, NULL, NULL, NULL);
 
-        // Error / Lost Connection on
+        // Main Blocking Select Statement
         if (selret <= 0)
         {
             errlog((char *)"1 select %i!", selret);
             isConnected = false;
             break;
         }
-
 
         if (FD_ISSET(ptyfd, &rdfdset))
         {
@@ -129,7 +128,6 @@ void TelnetDaemon::loop_parent_process(int ptyfd)
                 m_parsed_data += ch;
             }
 
-
             if(write(ptyfd, (char *)m_parsed_data.c_str(), m_parsed_data.size()) == -1)
             {
                 errlog((char *)"1 write ptyfd break!");
@@ -142,14 +140,12 @@ void TelnetDaemon::loop_parent_process(int ptyfd)
 
     }
     while (isConnected);
-
-
 }
-
 
 /**
  * IAC Detection loop, pre-loading to determine the clients
  * Terminal Type, and Screen Size if passed.
+ * Non-Blocking with Timeout, so select can be 0.
  */
 void TelnetDaemon::loop_detection()
 {
@@ -158,7 +154,7 @@ void TelnetDaemon::loop_detection()
 
     time_t start = time(0);
 
-    // Blocking look ever second for (2) seconds to get terminal detection
+    // Blocking loop ever second for for get terminal detection
     struct timeval value;
     value.tv_sec = 0;
     value.tv_usec = 10000;
@@ -181,6 +177,7 @@ void TelnetDaemon::loop_detection()
         FD_ZERO(&rdfdset);
         FD_SET(m_inbound_fd, &rdfdset);
 
+        // Main BLocking with (1) Second Delay
         selret = select(m_inbound_fd + 1, &rdfdset, NULL, NULL, &value);
 
         // Error / Lost Connection on
@@ -190,7 +187,6 @@ void TelnetDaemon::loop_detection()
             isWaitingTerm = false;
             break;
         }
-
 
         if (FD_ISSET(m_inbound_fd, &rdfdset))
         {
@@ -203,7 +199,6 @@ void TelnetDaemon::loop_detection()
                 isWaitingTerm = false;
                 break;
             }
-
 
             for(unsigned char c : character_buffer)
             {
@@ -245,9 +240,7 @@ void TelnetDaemon::loop_detection()
 
     }
     while (isWaitingTerm);
-
 }
-
 
 /**
  * Reads Client Host Info from passed socket
@@ -294,7 +287,6 @@ void TelnetDaemon::get_host_info()
             m_hostname_string = "hostname.unknown";
             m_unknowhost = true;
         }
-
     }
 
     // Check for Blocked IP Addresses, if found then exit!
@@ -304,9 +296,7 @@ void TelnetDaemon::get_host_info()
     {
         load_hosts_deny(m_hostaddr_string, m_hostname_string);
     }
-
 }
-
 
 /**
  * Sends Initial Server IAC Sequences to Client.
@@ -336,7 +326,6 @@ void TelnetDaemon::send_startup_iac()
 
     sendIACSequences(DO, TELOPT_NAWS);
     addReply(TELOPT_NAWS);
-
 }
 
 /**
@@ -358,7 +347,6 @@ void TelnetDaemon::make_uuid(char *path)
     delete string;
     m_term_passing = std::move(tmp);
 }
-
 
 /**
  * Errlog is used for Easy testing and debugging.
@@ -399,7 +387,6 @@ void TelnetDaemon::errlog (char *fmt, ...)
     }
 }
 
-
 /**
  * Load hosts.deny block file for Offending IP and HostNames.
  * Can add stright IP, or HostName without Wildcard *,
@@ -420,7 +407,6 @@ void TelnetDaemon::load_hosts_deny(std::string ipaddress, std::string hostname)
 
             if (badhost.size() != 0)
             {
-
                 // First Check for Bad IP Address
                 if( badhost == ipaddress)
                 {
@@ -432,7 +418,6 @@ void TelnetDaemon::load_hosts_deny(std::string ipaddress, std::string hostname)
                         //std::cout << "Unable to write to socket" << std::endl;
                         errlog((char *)"Unable to write to socket");
                     }
-
 
                     closelog();
                     in.close();
@@ -461,7 +446,6 @@ void TelnetDaemon::load_hosts_deny(std::string ipaddress, std::string hostname)
                 }
             }
             if(in.eof()) break;
-
         }
         in.close();
     }
