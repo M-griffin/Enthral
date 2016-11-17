@@ -1,9 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Telnet Daemon Copyright (C) 2004-2016 by Michael Griffin              *
  *   mrmisticismo@hotmail.com                                              *
- *                                                                         *
- *   Purpose: Config INI I/O                                               *
- *                                                                         *
  *                                                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,13 +9,8 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id$
-// Source: $HeadURL$
-// $LastChangedDate$
-// $LastChangedRevision$
-// $LastChangedBy$
 
-# include "config.h"
+# include "config.hpp"
 
 # include <stdio.h>
 # include <string>
@@ -76,7 +68,7 @@ void createconfig()
     outStream2 << "# `----------------------------------------------------------------'" << endl;
     outStream2 << "#" << endl;
     outStream2 << "#" << endl;
-	outStream2 << "# Use File Log along with Syslog - creates entelnetd.log file in program folder (T/F)" << endl;
+    outStream2 << "# Use File Log along with Syslog - creates entelnetd.log file in program folder (T/F)" << endl;
     outStream2 << "Set USE_FILE_LOG \"T\" " << endl;
     outStream2 << "#" << endl;
     outStream2 << "# Use hosts.deny file to block unwanted IP and Hostname Connections. (T/F)" << endl;
@@ -125,10 +117,10 @@ void checkcfg(std::string cfgdata)
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
         USE_FILE_LOG = temp1[0];
-		return;
+        return;
     }
 
-	id1 = 0;
+    id1 = 0;
     id1 = temp.find("Set USE_HOSTS_DENY", 0);
     if (id1 != std::string::npos)
     {
@@ -142,7 +134,7 @@ void checkcfg(std::string cfgdata)
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
         USE_HOSTS_DENY = temp1[0];
-		return;
+        return;
     }
 
     id1 = 0;
@@ -159,10 +151,10 @@ void checkcfg(std::string cfgdata)
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
         BLOCK_NO_HOSTNAME = temp1[0];
-		return;
+        return;
     }
 
-	id1 = 0;
+    id1 = 0;
     id1 = temp.find("Set HOSTS_DENY_PATH", 0);
     if (id1 != std::string::npos)
     {
@@ -176,10 +168,11 @@ void checkcfg(std::string cfgdata)
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
         sprintf(HOSTS_DENY_PATH,"%s",(char *)temp1.c_str());
-		return;
+        return;
     }
 
-	id1 = 0;
+/*
+    id1 = 0;
     id1 = temp.find("Set ENTHRAL_TEMP_PATH", 0);
     if (id1 != std::string::npos)
     {
@@ -193,8 +186,8 @@ void checkcfg(std::string cfgdata)
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
         term_passing = temp1;
-		return;
-    }
+        return;
+    }*/
 
 }
 
@@ -211,7 +204,7 @@ void parseconfig()
     inStream.open( name.c_str() );
     if (!inStream.is_open())
     {
-        perror(" ini ***cannot parse config.ini, check if it exists and permissions!");
+        //perror(" ini ***cannot parse config.ini, check if it exists and permissions!");
         exit(1);
     }
 
