@@ -28,6 +28,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=c++0x" />
+					<Add option="-Wall" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
@@ -42,7 +43,7 @@
 		</Compiler>
 		<Unit filename="config.cpp" />
 		<Unit filename="config.hpp" />
-		<Unit filename="entelnetd.cpp" />
+		<Unit filename="main.cpp" />
 		<Unit filename="telnet.hpp" />
 		<Unit filename="telnet_daemon.cpp" />
 		<Unit filename="telnet_daemon.hpp" />
