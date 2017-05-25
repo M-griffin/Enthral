@@ -29,14 +29,27 @@ some of the things that are already offered:
 Fidonet: ENTHRAL echo 
 BBS: HTC telnet://htc.zapto.org
 ```
-Team Enthral 
 
+Team Enthral 
+============
 This is an Inital Import of EnthralBBS source.  Data files needs to be cleaned-up and imported.  Configuration systems needs to be rebuilt to support user installs on the latest version. Build instructions and requirements will follow.
 
-**Work on Alpha 2 has started with the inital code base imported into the Alpha2 branch.**
+**An Archive of the required data and menu files can be found here:** 
 
-![Alt text](https://dl.dropboxusercontent.com/u/92792939/bootup.png "Boot-up Menu")
+[Enthral Data Files](https://drive.google.com/file/d/0ByPPRlSSb7N-VkRzdE12RVhRQmM/view?usp=sharing)
 
-![Alt text](https://dl.dropboxusercontent.com/u/92792939/matrix.png "Matrix Menu")
 
-![Alt text](https://dl.dropboxusercontent.com/u/92792939/main.png "Main Menu")
+Development Status
+==================
+**Enthral BBS** has been sunset and is no longer in development,  Work has started on a new BBS here. [Oblivion/2 XRM](https://github.com/M-griffin/Oblivion2-XRM)
+
+
+
+Enthral BBS Screen Shots
+==================
+
+![Alt text](http://i.imgur.com/KPeGwRy.png "Boot-up Menu")
+
+![Alt text](http://i.imgur.com/dEaFh8v.png "Matrix Menu")
+
+![Alt text](http://i.imgur.com/0amWPZ0.png "Main Menu")
