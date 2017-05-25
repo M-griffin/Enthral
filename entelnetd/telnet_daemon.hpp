@@ -25,7 +25,7 @@
  * @author Michael Griffin
  * @date 17/11/2016
  * @file telnet_deamon.hpp
- * @brief Handles Telnet Connection and host communication
+ * @brief Handles Telnet Connection Host Info, and general
  */
 class TelnetDaemon
     : public TelnetDecoder
