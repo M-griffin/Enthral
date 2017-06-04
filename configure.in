@@ -43,7 +43,7 @@ dnl ** BOOST & BOOST PYTHON *********************************************
 dnl *********************************************************************
 
 dnl Then look for specific Boost libraries you need:
-BOOST_REQUIRE([1.34])
+dnl BOOST_REQUIRE([1.34])
 
 
 BOOST_ARRAY
