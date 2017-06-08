@@ -97,8 +97,7 @@ msg_fse::~msg_fse()
 void msg_fse::add_to_list(std::string add_data)
 {
     LineRec *add = new LineRec;
-    if (!add)
-    {
+    if (!add) {
 //        errlog((char *)"unable to allocate memory fse add_to_list()");
         exit (1);
     }
@@ -110,8 +109,7 @@ void msg_fse::add_to_list(std::string add_data)
     add->lineNum = 0;
 
     //errlog2((char *)"add_to_list fse Done 2");
-    if (current_node == 0)   // New Frist Add!
-    {
+    if (current_node == 0) { // New Frist Add!
         //errlog2((char *)"add_to_list fse Done 2.1");
         add->up_link = 0;
         add->dn_link = 0;
@@ -125,8 +123,7 @@ void msg_fse::add_to_list(std::string add_data)
     add->up_link = current_node;
 
     // In the Middle of a Line! hmmm
-    if (current_node->dn_link != 0)
-    {
+    if (current_node->dn_link != 0) {
         add->dn_link = current_node->dn_link;
         current_node->dn_link->up_link = add;
         current_node->dn_link = add;
@@ -134,8 +131,7 @@ void msg_fse::add_to_list(std::string add_data)
         last = add;
     }
     // Current is the Last one in Lie
-    else
-    {
+    else {
         add->dn_link = 0;
         current_node->dn_link = add;
         current_node = add;
@@ -173,11 +169,9 @@ void msg_fse::PutBuffer(char *mBuff)
 
     if (current_node == 0) return;
 
-    while(1)
-    {
+    while(1) {
         Line.erase();
-        while (1)   // Only delete Carriage Return on First Char of Line
-        {
+        while (1) { // Only delete Carriage Return on First Char of Line
             if (MsgText.find("\r", 0) == 0)
                 MsgText.erase(0,1);
             else break;
@@ -198,22 +192,17 @@ void msg_fse::PutBuffer(char *mBuff)
         // Make Sure only to Add New Lines when being used,
         // First Line is already Setup! So Skip it
         if (id1 == std::string::npos) break;
-        else
-        {
+        else {
             Line = MsgText.substr(0,id1);
             MsgText.erase(0,id1);
-            if (Line.size() > 0)
-            {
+            if (Line.size() > 0) {
                 strcpy(TmpStrip,(char *)Line.c_str());
                 stripCRONLY(TmpStrip);
                 /// Bug Fix!
                 // If first line already exists, use it before adding a new one!!
-                if (current_node != 0 && i == 0)
-                {
+                if (current_node != 0 && i == 0) {
                     current_node->data = TmpStrip;
-                }
-                else
-                {
+                } else {
                     add_to_list(TmpStrip);
                 }
                 ++i;
@@ -238,12 +227,9 @@ void msg_fse::save_all()
     // Remove any blank lines at the bottom of Text!  Clean it up.
     //current_node = last;
     Last_Line();
-    for (;;)
-    {
-        if (current_node->data == "" || current_node->data.size() < 1)
-        {
-            if(current_node == 0)
-            {
+    for (;;) {
+        if (current_node->data == "" || current_node->data.size() < 1) {
+            if(current_node == 0) {
                 break;
             }
             tmp = current_node;
@@ -252,8 +238,7 @@ void msg_fse::save_all()
             delete tmp;
             tmp = 0;
 
-        }
-        else
+        } else
             break;
     }
     current_node->dn_link = 0;
@@ -261,15 +246,13 @@ void msg_fse::save_all()
     Last_Line();
 
     // Now Copy Link List to Buffer For Saving
-    if(head == 0)
-    {
+    if(head == 0) {
         return;
     }
 
     // Make Sure Link List Stays at current if there is none!
     current_node = head; //->dn_link;
-    do
-    {
+    do {
         // Skip \r on Last Line!  Adds Extrata Line!
         //if (current_node != 0)
         current_node->data += '\r';  // Fix this, not all lines need \r
@@ -277,8 +260,7 @@ void msg_fse::save_all()
 
         if (current_node->dn_link == 0) break;
         current_node = current_node->dn_link;
-    }
-    while ( current_node != 0 );
+    } while ( current_node != 0 );
 
 }
 
@@ -289,13 +271,11 @@ void msg_fse::save_all()
 int msg_fse::move_up()
 {
 
-    if(current_node == 0)
-    {
+    if(current_node == 0) {
         return FALSE;
     }
     // Make Sure Link List Stays at current if there is none!
-    if (current_node->up_link == 0)
-    {
+    if (current_node->up_link == 0) {
         return FALSE;
     }
     current_node = current_node->up_link;
@@ -309,13 +289,11 @@ int msg_fse::move_up()
 int msg_fse::move_down()
 {
 
-    if(current_node == 0)
-    {
+    if(current_node == 0) {
         return FALSE;
     }
     // Make Sure Link List Stays at current if there is none!
-    if (current_node->dn_link == 0)
-    {
+    if (current_node->dn_link == 0) {
         return FALSE;
     }
     current_node = current_node->dn_link;
@@ -346,11 +324,9 @@ void msg_fse::MoveAllDown()
     // Fix line totals for proper row position.
     Tot = line_total();
     Num = Tot;
-    if (Tot <= (Bot-Top))
-    {
+    if (Tot <= (Bot-Top)) {
         Row = Num;
-    }
-    else
+    } else
         Row = Bot-Top;
 
     box_redraw();
@@ -363,17 +339,14 @@ void msg_fse::MoveAllDown()
 void msg_fse::move_last()
 {
     //is Empty?
-    if(head == 0)
-    {
+    if(head == 0) {
         return;
     }
 
     current_node = head;
-    while (1)   // Goto LAst!
-    {
+    while (1) { // Goto LAst!
         //errlog2(" $$$ box_scrolldn 2.1 LOOP X");
-        if (current_node->dn_link == 0)
-        {
+        if (current_node->dn_link == 0) {
             //errlog2(" $$$ box_scrolldn 2.2");
             break;
         }
@@ -384,11 +357,9 @@ void msg_fse::move_last()
     // Fix line totals for proper row position.
     Tot = line_total();
     Num = Tot;
-    if (Tot <= (Bot-Top))
-    {
+    if (Tot <= (Bot-Top)) {
         Row = Num;
-    }
-    else
+    } else
         Row = Bot-Top;
 }
 
@@ -402,14 +373,12 @@ int msg_fse::line_count()
     int count = 0;    // Don't include current
     LineRec *lineTmp;
 
-    if(current_node == 0)
-    {
+    if(current_node == 0) {
         return 0;
     }
     // Make Sure Link List Stays at current if there is none!
     lineTmp = current_node;
-    while ( lineTmp->dn_link != 0 )
-    {
+    while ( lineTmp->dn_link != 0 ) {
         lineTmp = lineTmp->dn_link;
         ++count;
     }
@@ -424,16 +393,14 @@ int msg_fse::line_total()
     int count = 1;  // Include Current Line
     LineRec *lineTmp;
 
-    if(head == 0)
-    {
+    if(head == 0) {
         return 0;
     }
 
     lineTmp = head;
 
     // Count how many Lines from Current to Bottom
-    while ( lineTmp->dn_link != 0 )
-    {
+    while ( lineTmp->dn_link != 0 ) {
         lineTmp = lineTmp->dn_link;
         ++count;
     }
@@ -454,13 +421,11 @@ void msg_fse::delete_line_up()
     LineRec *tmp;
     //int Total = line_total();
 
-    if(current_node == 0)
-    {
+    if(current_node == 0) {
         return;
     }
 
-    if ( current_node->up_link != 0)   // Make sure at least 1 Line above current
-    {
+    if ( current_node->up_link != 0) { // Make sure at least 1 Line above current
 
         //errlog2((char *)"delete_line_up 1");
         tmp = current_node;
@@ -468,13 +433,10 @@ void msg_fse::delete_line_up()
 
 
         //errlog2((char *)"delete_line_up 2");
-        if (current_node->dn_link != 0)
-        {
+        if (current_node->dn_link != 0) {
             current_node->up_link->dn_link = current_node->dn_link;
             current_node->dn_link->up_link = current_node->up_link;
-        }
-        else
-        {
+        } else {
             //errlog2((char *)"delete_line_up 3");
             current_node->up_link->dn_link = 0;
         }
@@ -525,15 +487,13 @@ void msg_fse::delete_line()
     int Total = line_total();
     Tot = Total;
 
-    if(current_node == 0)
-    {
+    if(current_node == 0) {
         return;
     }
 
     //errlog2((char *)" *** fse del y");
 
-    if (current_node->dn_link != 0)   //Any Lines Below to Remove?
-    {
+    if (current_node->dn_link != 0) { //Any Lines Below to Remove?
         ///Delete line below current if one exists
         //tmp = current_node->dn_link; // Line we want to delete!  Mopve down 1.
         //tmp->up_link = current_node;
@@ -542,23 +502,18 @@ void msg_fse::delete_line()
         ///Delete current line, and move line below up to current!
         tmp = current_node;
         //Reset one above to one below, as were are deleting this one!
-        if (current_node->up_link != 0)
-        {
+        if (current_node->up_link != 0) {
             current_node->up_link->dn_link = current_node->dn_link;
         }
         current_node = current_node->dn_link;
 
         // Check if Line above if not, set as HEad, and reset last.
-        if (tmp->up_link != 0)
-        {
+        if (tmp->up_link != 0) {
             current_node->up_link = tmp->up_link;
-        }
-        else
-        {
+        } else {
             current_node->up_link = 0;
             head = current_node;
-            if (current_node->dn_link == 0)
-            {
+            if (current_node->dn_link == 0) {
                 last = current_node;
             }
         }
@@ -571,11 +526,9 @@ void msg_fse::delete_line()
 
     }
     //Where at the current line, delete and if we ca move up!
-    else
-    {
+    else {
         /// We have a line Above the current one, delete current then move up!
-        if (current_node->up_link != 0)
-        {
+        if (current_node->up_link != 0) {
             //errlog2((char *)"move down del y");
 
             // Delete Line
@@ -593,8 +546,7 @@ void msg_fse::delete_line()
             --Tot;
         }
         /// Top Line / Last Line, just clear it of text.
-        else
-        {
+        else {
             //errlog2((char *)"clear up else!! del y");
             head = current_node;
             last = current_node;
@@ -614,14 +566,12 @@ void msg_fse::display_list(void)
     LineRec *print;
     long int i = 0;
 
-    if(head == 0)
-    {
+    if(head == 0) {
         return;
     }
 
     print = head;
-    while(print != 0)
-    {
+    while(print != 0) {
         print = print->dn_link;
         ++i;
     }
@@ -637,8 +587,7 @@ void msg_fse::dispose_list()
 {
     LineRec *tmp;
     current_node = head;
-    while(current_node != 0)
-    {
+    while(current_node != 0) {
         tmp = current_node;
         current_node = current_node->dn_link;
         delete tmp;
@@ -702,8 +651,7 @@ void msg_fse::box_clear()
     char capture[200]= {0};
 
     // Now clear the box First
-    for (int t = 0; t != boxsize; t++)
-    {
+    for (int t = 0; t != boxsize; t++) {
         sprintf(capture, "\x1b[%i;%iH\x1b[K", (Top)+t, 1);
         _editbox += capture;
     }
@@ -733,8 +681,7 @@ void msg_fse::box_redraw()
     pipe2ansi(sTEXT_COLOR);
 
     // Check here if We are Scrolling all the lines in the Box up by 1
-    if (Row == (Bot-Top+1))
-    {
+    if (Row == (Bot-Top+1)) {
         --Row; // Reset the Line Position
     }
 
@@ -744,23 +691,20 @@ void msg_fse::box_redraw()
 
     // Start at lines above current row to top of box
     int Cnt2 = Row;
-    while (Cnt2 > 1)
-    {
+    while (Cnt2 > 1) {
         if (!move_up()) break;
         --Cnt2;
     }
 
     //Now clear the box First
-    for (int t = 0; t != boxsize; t++)
-    {
+    for (int t = 0; t != boxsize; t++) {
         sprintf(capture, "\x1b[%i;%iH\x1b[K", (Top)+t, 1);
         _editbox += capture;
     }
 
     // Now Grab as many lines as will fit in the box
     int i = 0;
-    for (i = 0; i < boxsize; i++)
-    {
+    for (i = 0; i < boxsize; i++) {
         sprintf(capture, "\x1b[%i;%iH%s", Top+i, 1, current_node->data.c_str());
         _editbox += capture;
         if (!move_down()) break;
@@ -788,8 +732,7 @@ void msg_fse::word_wrap()
     int iLineSize = Line.size();
 
     // Cut out Last Word and move to next line if a Space is found in the line.
-    if (iPos != std::string::npos)
-    {
+    if (iPos != std::string::npos) {
         // First cut out the word from the current line Buffer
         TLine = Line.substr(iPos+1,iLineSize-1);
         Line.erase(iPos,iPos-iLineSize-1);
@@ -813,8 +756,7 @@ void msg_fse::word_wrap()
         box_redraw();
     }
     // No Space was found ,so just grab the last letter in the line!
-    else
-    {
+    else {
         TLine = Line.substr(iLineSize-1,1);
         Line.erase(iLineSize-1,1);
         current_node->data = Line;
@@ -865,31 +807,24 @@ int msg_fse::format_paragraph()
     iLineSize = Line.size();
 
     //Find the Lesser of, if it's the line, make sure it's less then last char!
-    if ((MAX_WIDTH-1) < (iLineSize-1))
-    {
+    if ((MAX_WIDTH-1) < (iLineSize-1)) {
         iRet = MAX_WIDTH-1;
-    }
-    else
-    {
+    } else {
         iRet = iLineSize-2;
     }
 
-    if (iLineSize >= MAX_WIDTH)
-    {
+    if (iLineSize >= MAX_WIDTH) {
         // Were going to find the last word, and cut that off of current and move to next!
         //iPos = Line.rfind(" ", iRet);
         iPos = Line.find_last_of(" ", iRet);
-        if (iPos != std::string::npos)
-        {
+        if (iPos != std::string::npos) {
             //         ++iPos; // Ignore Space, and cut just the word!
             sTmpLine = Line.substr(iPos,iPos-(iLineSize-1));
             Line.erase(iPos,iPos-(iLineSize-1));
             current_node->data.erase();
             current_node->data = Line;
             iRet = TRUE;
-        }
-        else
-        {
+        } else {
             // Grab the difference, past the Max Width.
             // Since there is no space, we are wrapping continious letters...
 //            iWidth = (MAX_WIDTH) - (iLineSize-1);
@@ -918,23 +853,20 @@ int msg_fse::format_paragraph()
         */
 
         // Append
-        if (current_node->dn_link != 0)
-        {
+        if (current_node->dn_link != 0) {
             //tmp_node = current_node;
             current_node = current_node->dn_link;
             // move_down();
 
 
             //remove only leading Spaces
-            while (1)
-            {
+            while (1) {
                 if (sTmpLine[0] == ' ')
                     sTmpLine.erase(0,1);
                 else break;
             }
             // Remove only Trailing Spaces.
-            while (1)
-            {
+            while (1) {
                 if (sTmpLine[(int)sTmpLine.size()-1] == ' ')
                     sTmpLine.erase((int)sTmpLine.size()-1,1);
                 else break;
@@ -952,29 +884,24 @@ int msg_fse::format_paragraph()
             and reformat the paragraph as needed. We Return TRUE to keep the loop going!
 
             */
-            if (current_node->data.size()-1 >= MAX_WIDTH)
-            {
+            if (current_node->data.size()-1 >= MAX_WIDTH) {
                 return TRUE;
-            }
-            else
+            } else
                 return FALSE;
         }
         // Create New
-        else
-        {
+        else {
             add_to_list("");
             current_node->data.erase();
             //while ((id1=sTmpLine.find(" ",0)) != -1) sTmpLine.erase(id1,1);
             //remove only leading Spaces
-            while (1)
-            {
+            while (1) {
                 if (sTmpLine[0] == ' ')
                     sTmpLine.erase(0,1);
                 else break;
             }
             // Remove only Trailing Spaces.
-            while (1)
-            {
+            while (1) {
                 if (sTmpLine[(int)sTmpLine.size()-1] == ' ')
                     sTmpLine.erase((int)sTmpLine.size()-1,1);
                 else break;
@@ -1025,19 +952,15 @@ void msg_fse::word_wrapex()
     */
 
     //Find the Lesser of, if it's the line, make sure it's less then last char!
-    if ((MAX_WIDTH-1) < (iLineSize-1))
-    {
+    if ((MAX_WIDTH-1) < (iLineSize-1)) {
         iRet = MAX_WIDTH-1;
-    }
-    else
-    {
+    } else {
         iRet = iLineSize-2;
     }
 
     // Were going to find the last word, and cut that off of current and move to next!
     iPos = Line.find_last_of(" ",iRet);
-    if (iPos != std::string::npos)
-    {
+    if (iPos != std::string::npos) {
         //iPos != (iLineSize-1) && iPos != std::string::npos) {
         //++iPos; // Ignore Space, and cut just the word!
         sTmpLine = Line.substr(iPos,iPos-(iLineSize-1));
@@ -1045,9 +968,7 @@ void msg_fse::word_wrapex()
         current_node->data.erase();
         current_node->data = Line;
         iRet = TRUE;
-    }
-    else
-    {
+    } else {
         // If the line is full with no spaces, then just grab last char!
         // Since there is no space, we are wrapping continious letters...
         sTmpLine = Line.substr(iLineSize-1,1);
@@ -1066,8 +987,7 @@ void msg_fse::word_wrapex()
     */
 
     // Append
-    if (current_node->dn_link != 0)
-    {
+    if (current_node->dn_link != 0) {
         tmp_node = current_node;
         current_node = current_node->dn_link;
 
@@ -1084,13 +1004,10 @@ void msg_fse::word_wrapex()
 
         */
 
-        if (current_node->data.size() >= MAX_WIDTH)
-        {
-            do
-            {
+        if (current_node->data.size() >= MAX_WIDTH) {
+            do {
                 iRet = format_paragraph();
-            }
-            while(iRet == TRUE);
+            } while(iRet == TRUE);
             //Line.erase();
             //Line = current_node->data;
             // goto JMP;
@@ -1102,8 +1019,7 @@ void msg_fse::word_wrapex()
 
     }
     // Create New
-    else
-    {
+    else {
         add_to_list("");
         current_node->data.erase();
 
@@ -1153,31 +1069,24 @@ void msg_fse::add_char(unsigned char c)
         bPush = FALSE;
 
     // First Eval if were pushing text from the middle of a line.
-    if (bPush == TRUE)
-    {
+    if (bPush == TRUE) {
         Line.insert(iColPos, sCharTemp);
         //pipe2ansi("|XY0102|12 insertt!     ");
     }
     // Else were Appending Normal Text to the End of the Line.
-    else
-    {
+    else {
         // If Cursor is past the allocated space, Buffer Line to Current Position!
-        if (iColPos > iLineSize)
-        {
+        if (iColPos > iLineSize) {
             iRepeat = (iColPos - iLineSize);
-            for(int i = 0; i < iRepeat; i++)
-            {
+            for(int i = 0; i < iRepeat; i++) {
                 Line += ' ';
             }
         }
         // Testing, keep an eye on this!  Fixed for now.
-        if (c == '%')
-        {
+        if (c == '%') {
             Line += "%";
             //pipe2ansi("|XY0101|12 percent!     ");
-        }
-        else
-        {
+        } else {
             //pipe2ansi("|XY0101|12 not percent! ");
             Line += sCharTemp;
         }
@@ -1201,14 +1110,10 @@ void msg_fse::add_char(unsigned char c)
     */
 
     // If we were pushing from the middle of the line,
-    if (bPush == TRUE)
-    {
-        if (iLineSize >= MAX_WIDTH)
-        {
+    if (bPush == TRUE) {
+        if (iLineSize >= MAX_WIDTH) {
             word_wrapex();
-        }
-        else
-        {
+        } else {
             //pipe2ansi("|XY0101|12 test       ! ");
             //sprintf(sLine,"\x1b[%i;%iH\x1b[K%s\x1b[%i;%iH", Row+Top-1, 1, Line.c_str(),Row+Top-1, Col);
             //putline(sLine);
@@ -1216,12 +1121,10 @@ void msg_fse::add_char(unsigned char c)
         }
     }
     // Else We've appended to the End of the Line
-    else
-    {
+    else {
         if (iLineSize >= MAX_WIDTH)
             word_wrap();
-        else   // Nothing modified, just return.
-        {
+        else { // Nothing modified, just return.
             return;
         }
     }
@@ -1277,8 +1180,7 @@ void msg_fse::dn_arrow()
     if (Tot == Num) return;
     current_node->data = Line;
 
-    if (Row != (Bot-Top))
-    {
+    if (Row != (Bot-Top)) {
         ++Row;
     }
     ++Num;
@@ -1298,13 +1200,10 @@ void msg_fse::dn_arrow()
 void msg_fse::rt_arrow()
 {
 
-    if (Col < MAX_WIDTH)   // Not at End of Line
-    {
+    if (Col < MAX_WIDTH) { // Not at End of Line
         ++Col;
         write(0,"\x1b[C",3);
-    }
-    else if (Col > MAX_WIDTH)
-    {
+    } else if (Col > MAX_WIDTH) {
         --Col;
     }
 }
@@ -1315,8 +1214,7 @@ void msg_fse::rt_arrow()
 void msg_fse::lt_arrow()
 {
 
-    if (Col != 1)   // Not at Begining of Line
-    {
+    if (Col != 1) { // Not at Begining of Line
         write(0,"\x1b[D",3);
         --Col;
     }
@@ -1351,17 +1249,14 @@ void msg_fse::end_cursor()
  */
 void msg_fse::Last_Line()
 {
-    if(head == 0)
-    {
+    if(head == 0) {
         return;
     }
 
     current_node = head;
-    while (1)   // Goto LAst!
-    {
+    while (1) { // Goto LAst!
         //errlog2(" $$$ box_scrolldn 2.1 LOOP X");
-        if (current_node->dn_link == 0)
-        {
+        if (current_node->dn_link == 0) {
             //errlog2(" $$$ box_scrolldn 2.2");
             break;
         }
@@ -1386,8 +1281,7 @@ void msg_fse::box_scrolldn()
     int boxsize = Bot - Top;   // Get boxsize
 
     //Now clear the box First
-    for (int t = 0; t < boxsize; t++)
-    {
+    for (int t = 0; t < boxsize; t++) {
         sprintf(capture, "\x1b[%i;%iH\x1b[K", (Top)+t, 1);
         _editbox += capture;
     }
@@ -1396,13 +1290,11 @@ void msg_fse::box_scrolldn()
     Last_Line();
 
     // Move up As Many lines that will fit in the box
-    for (int i = 1; i < boxsize; i++)
-    {
+    for (int i = 1; i < boxsize; i++) {
         if (!move_up()) break;
     }
     // Now Grab as many lines as will fit in the box
-    for (int i = 1; i < boxsize+1; i++)
-    {
+    for (int i = 1; i < boxsize+1; i++) {
         sprintf(capture, "\x1b[%i;%iH%s", Top+i-1, 1, current_node->data.c_str());
         _editbox += capture;
         if (!move_down()) break;
@@ -1423,13 +1315,11 @@ int msg_fse::parsere(char *qText)
     std::string::size_type id1;
 
     id1 = reguard.find("|RE",0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         reguard.replace(id1,3,mHLocal.to);
     }
     id1 = reguard.find("|CR",0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         reguard.replace(id1,3,"\r");
     }
 
@@ -1458,8 +1348,7 @@ int msg_fse::options_prompt(unsigned char c)
 //RESTART:
 
     // Check if Pass through FSE input ie.. /s sent. or Lightbar Menu
-    if (c == '\0')
-    {
+    if (c == '\0') {
         // Setup Lightbar Menu Prompts
         _mnuf._premenu.clear();
         _mnuf._premenu = _mnuf._curmenu;
@@ -1469,38 +1358,31 @@ int msg_fse::options_prompt(unsigned char c)
         _mnuf.menu_readin();
     }
 
-    while (1)
-    {
+    while (1) {
         // Check if Pass through. Then Setup!
-        if (c == '\0')
-        {
+        if (c == '\0') {
             _mnuf.menu_proc(mString);
             ch = mString[1];    //mString[0] should = !
-        }
-        else
-        {
+        } else {
             mString[0] = '!';
             ch = c;
         }
 
         // For Menu CmdKey Input
         if (mString[0] == '!')
-            switch (toupper(ch))
-            {
+            switch (toupper(ch)) {
 
             case 'S' : // Save Message
 
                 // If Empty, Return False. (Aborted!)
-                if (line_total() == 1 && Line.size() == 0 && current_node == head)
-                {
+                if (line_total() == 1 && Line.size() == 0 && current_node == head) {
                     dispose_list();
 //					errlog((char *)" *** Dispost list, abort message! %lu %lu", line_total(), Line.size());
                     return FALSE;
                 }
 
 //				errlog((char *)" *** Dispost list, save message! %lu %lu", line_total(), Line.size());
-                if (Line != "")
-                {
+                if (Line != "") {
                     current_node->data = Line;
                     //add_to_list("");
                 }
@@ -1533,8 +1415,7 @@ int msg_fse::options_prompt(unsigned char c)
                 getkey(true);
 
                 if (c == '\0') break;
-                else
-                {
+                else {
                     ansi_file(sANSI_FILE);
                     box_redraw();
                     //_mnuf.~menu_func();
@@ -1542,8 +1423,7 @@ int msg_fse::options_prompt(unsigned char c)
                 }
 
             case 'Q' : // Quote Message Text
-                if (!MSG_REPLY)    // Not in Reply Mode, just return!
-                {
+                if (!MSG_REPLY) {  // Not in Reply Mode, just return!
                     ansi_file(sANSI_FILE);
                     box_redraw();
                     //_mnuf.~menu_func();
@@ -1553,12 +1433,10 @@ int msg_fse::options_prompt(unsigned char c)
                 _msgq.StartQuoter(reader_list->head,qbuf);
 
                 // Get Quoted Text from QUOTE Class then throw it in the FSE
-                if (qbuf.size() > 0)
-                {
+                if (qbuf.size() > 0) {
                     // Starting Quote
                     _lang.lang_get(qText,29);
-                    if (strlen(qText) > 0)
-                    {
+                    if (strlen(qText) > 0) {
                         parsere(qText); // PArse for |RE MCI Coded, (Reguarding)
                         QuoteStr = qText;
                         QuoteStr += '\r';
@@ -1567,8 +1445,7 @@ int msg_fse::options_prompt(unsigned char c)
                     QuoteStr += qbuf;
                     // Ending Quote
                     _lang.lang_get(qText,30);
-                    if (strlen(qText) > 0)
-                    {
+                    if (strlen(qText) > 0) {
                         parsere(qText);
                         QuoteStr += qText;
                         QuoteStr += '\r';
@@ -1580,9 +1457,7 @@ int msg_fse::options_prompt(unsigned char c)
                     ansi_file(sANSI_FILE);
                     add_to_list("");
                     MoveAllDown();
-                }
-                else
-                {
+                } else {
                     ansi_file(sANSI_FILE);
                     box_redraw();
                 }
@@ -1600,12 +1475,9 @@ int msg_fse::options_prompt(unsigned char c)
                 ++idx;
                 id1 = change_theme(idx);
                 // Reset Colors and Ansi to new Theme
-                if (id1 == FALSE)   // Reset Theme Back
-                {
+                if (id1 == FALSE) { // Reset Theme Back
                     change_theme(thisuser->fsetheme);
-                }
-                else
-                {
+                } else {
                     thisuser->fsetheme = idx;
                 }
                 ansi_file(sANSI_FILE);
@@ -1616,25 +1488,18 @@ int msg_fse::options_prompt(unsigned char c)
             case '[': // Previous Theme
 
                 idx = thisuser->fsetheme;
-                if (idx != 0)
-                {
+                if (idx != 0) {
                     --idx;
                 }
-                if (idx == 0)
-                {
+                if (idx == 0) {
                     id1 = change_theme();
-                }
-                else
-                {
+                } else {
                     id1 = change_theme(idx);
                 }
 
-                if (id1 == FALSE)   // Reset Theme Back
-                {
+                if (id1 == FALSE) { // Reset Theme Back
                     change_theme(thisuser->fsetheme);
-                }
-                else
-                {
+                } else {
                     thisuser->fsetheme = idx;
                 }
                 ansi_file(sANSI_FILE);
@@ -1652,8 +1517,7 @@ int msg_fse::options_prompt(unsigned char c)
 void msg_fse::insert_lines()
 {
     LineRec *lineTmp;
-    if(reader_list->head == 0)
-    {
+    if(reader_list->head == 0) {
         return; // Empty
     }
 
@@ -1661,8 +1525,7 @@ void msg_fse::insert_lines()
     lineTmp = reader_list->head;
 
     int i = 0;
-    while ( lineTmp != 0 )
-    {
+    while ( lineTmp != 0 ) {
         add_to_list(lineTmp->data);
         if (lineTmp->dn_link == 0 || lineTmp->dn_link == reader_list->head) break;
         lineTmp = lineTmp->dn_link;
@@ -1686,17 +1549,14 @@ std::vector<std::string> inline msg_fse::split_string(const std::string &source,
     size_t prev = 0;
     size_t next = 0;
 
-    while ((next = source.find_first_of(delimiter, prev)) != std::string::npos)
-    {
-        if (keepEmpty || (next - prev != 0))
-        {
+    while ((next = source.find_first_of(delimiter, prev)) != std::string::npos) {
+        if (keepEmpty || (next - prev != 0)) {
             results.push_back(source.substr(prev, next - prev));
         }
         prev = next + 1;
     }
 
-    if (prev < source.size())
-    {
+    if (prev < source.size()) {
         results.push_back(source.substr(prev));
     }
 
@@ -1723,8 +1583,7 @@ void msg_fse::delete_key()
     iColPos   = Col-1;
 
     //if ((signed)Line.size() < (Col-1))
-    if (Col < (signed)Line.size()+1)
-    {
+    if (Col < (signed)Line.size()+1) {
         //putline("\r\ndel");
         Line.erase(Col-1,1);
         current_node->data = Line;
@@ -1734,8 +1593,7 @@ void msg_fse::delete_key()
     }
     //((signed)Line.size()+1 > Col)     // Were in Insert Mode
     // If were at the end of a line, pull text from line below up.
-    else
-    {
+    else {
         // First Make sure all characters on currnet are saved.
         current_node->data = Line;
 
@@ -1747,14 +1605,11 @@ void msg_fse::delete_key()
             bPush = FALSE;
 
         // First Eval if were pushing text from the middle of a line.
-        if (bPush == FALSE)
-        {
+        if (bPush == FALSE) {
             // If Cursor is past the allocated space, Buffer Line to Current Position!
-            if (iColPos > iLineSize)
-            {
+            if (iColPos > iLineSize) {
                 iRepeat = (iColPos - iLineSize);
-                for(int i = 0; i < iRepeat; i++)
-                {
+                for(int i = 0; i < iRepeat; i++) {
                     Line += ' ';
                 }
             }
@@ -1774,8 +1629,7 @@ void msg_fse::delete_key()
 
         // First check if line below is empty,
         // if it is, just delete it and return
-        if (sTmp.size() == 0)
-        {
+        if (sTmp.size() == 0) {
             //putline("\r\nempty");
             ++Row;
             delete_line_up();
@@ -1788,11 +1642,9 @@ void msg_fse::delete_key()
         // First Check if Currnet Line we are on TLine has room on it
         // If TLine has no room, then don't do anything with Line!
         //    errlog2((char *)"FSE Backspace 2.2");
-        if ((TLine.size()) <= MAX_WIDTH)
-        {
+        if ((TLine.size()) <= MAX_WIDTH) {
             // Now check if Full "Line" Can fit in TLine
-            if (TLine.size()+sTmp.size() <= MAX_WIDTH)
-            {
+            if (TLine.size()+sTmp.size() <= MAX_WIDTH) {
                 //          errlog2((char *)"FSE Backspace 2.3");
                 ++Num;
                 delete_line_up();
@@ -1804,9 +1656,7 @@ void msg_fse::delete_key()
                 Line = current_node->data;
                 Col = TCol;     // Restore original Col Position.
                 box_redraw();
-            }
-            else
-            {
+            } else {
 
                 // New Logic, come from the back string, so we catch leading spaces if any,
                 // Loop through each space untill we get enough words that will fit in
@@ -1814,14 +1664,12 @@ void msg_fse::delete_key()
                 id1 = sTmp.size()-1;
                 id1 = sTmp.rfind(" ",id1);
 
-                while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos)
-                {
+                while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos) {
                     //putline("loop");
                     id1 = sTmp.rfind(" ",id1-1);
                 }
 
-                if ((TLine.size()+id1+1) <= MAX_WIDTH && id1 != std::string::npos)
-                {
+                if ((TLine.size()+id1+1) <= MAX_WIDTH && id1 != std::string::npos) {
                     //errlog2((char *)"FSE Backspace 2.5");
                     move_up();
 
@@ -1871,10 +1719,6 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
 
     UserRec usr;
 
-#define ESC '\x1b'
-#define DELETE 0x7f
-#define BACKSPACE 0x08
-
     int clientBS  = BACKSPACE;
     int clientDEL = DELETE;
 
@@ -1893,8 +1737,7 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
     // Setup inital first line here!
 
     // Make sure we have a 1 line current in here.
-    if (head == 0)
-    {
+    if (head == 0) {
         add_to_list("");
         current_node = head;
     }
@@ -1916,20 +1759,16 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
     std::string QuoteStr;
 
     // If were Replying to a message, Start Message Quoter
-    if (reply == TRUE)
-    {
+    if (reply == TRUE) {
         // Send Message To msg_quote Class as Quote.
         MSG_REPLY = TRUE;
         reader_list = mL;       // Copy of Original Message in Link List.
         options_prompt('Q');    // Jump right into Quoter if a Message Reply.
         line_total();
         Line = current_node->data;
-    }
-    else
-    {
+    } else {
         MSG_REPLY = FALSE;
-        if (msg_edit == TRUE)
-        {
+        if (msg_edit == TRUE) {
             // Populates Original Message Into Editor.
             reader_list = mL;   // Copy of Original Message in Link List.
             insert_lines();     // Copy Original Read_list to mLink for FSE.
@@ -1946,17 +1785,13 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
         box_redraw();
     }
 
-    while (1)
-    {
+    while (1) {
 
         // Filp Backspace and DEL chars betwene Windows Telnet and *nix terminals
-        if (thisuser->bsdel_swap == TRUE)
-        {
+        if (thisuser->bsdel_swap == TRUE) {
             clientBS  = DELETE;
             clientDEL = BACKSPACE;
-        }
-        else
-        {
+        } else {
             clientBS  = BACKSPACE;
             clientDEL = DELETE;
         }
@@ -1979,16 +1814,12 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
 
 
         // Swap BackSpace and DEL
-        if (c == 0x18) // CTRL X
-        {
+        if (c == 0x18) { // CTRL X
             changemsg.erase();
-            if (thisuser->bsdel_swap == TRUE)
-            {
+            if (thisuser->bsdel_swap == TRUE) {
                 pipe2ansi((char *)"|CS|CR|15Toggled Backspace & Delete keys to |07[|12Telnet Client Mode|07]|15.|CR|CR|PA |CS");
                 thisuser->bsdel_swap = FALSE;
-            }
-            else
-            {
+            } else {
                 pipe2ansi((char *)"|CS|CR|15Toggled Backspace & Delete keys to |07[|12Terminal Mode|07]|15.|CR|CR|PA |CS");
                 thisuser->bsdel_swap = TRUE;
             }
@@ -2002,8 +1833,7 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
             box_redraw();
         }
         // Do Delete
-        else if (c == clientDEL )
-        {
+        else if (c == clientDEL ) {
             // Moved to Function
             delete_key();
         }
@@ -2012,24 +1842,19 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
         // BS = 0x08 - in VT100 Backspace can be 127 as well, but
         // to avoid confusion this has to be disabled unless we make a toggle.
         // Becaseu it's also used as DEL.
-        else if (c == clientBS)
-        {
+        else if (c == clientBS) {
             // || c == 0x0e00) {
-            if ((signed)Line.size() < (Col-1))
-            {
+            if ((signed)Line.size() < (Col-1)) {
 //                errlog2((char *)"FSE Backspace lt_arrow");
                 lt_arrow();
-            }
-            else if (Line == "")  // Empty, just move cursor up and end!
-            {
+            } else if (Line == "") { // Empty, just move cursor up and end!
                 //errlog2((char *)"FSE Backspace 0");
                 delete_line_up();
                 if (Row > 1) --Row;
                 box_redraw();
             }
             // Normal Destructive Backspace..  Normal from end of Line!
-            else if (Col != 1 )
-            {
+            else if (Col != 1 ) {
                 //errlog2((char *)"FSE Backspace 1");
                 Line.erase(Col-2, 1);
                 current_node->data = Line;
@@ -2037,18 +1862,14 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
                 --Col;
                 sprintf(sLine,"\x1b[%i;%iH\x1b[K%s\x1b[%i;%iH", Row+Top-1, 1,Line.c_str(), Row+Top-1, Col);
                 putline(sLine);
-            }
-            else
-            {
+            } else {
                 //errlog2((char *)"FSE Backspace 2");
                 tmp2 = Line;
                 // Were in Insert Mode, Made sure were not on the First Row!
-                if (Num != 1)   // if 1st Row, Do Nothing!!!
-                {
+                if (Num != 1) { // if 1st Row, Do Nothing!!!
                     // Check if in Inset Mode, if So move text to upper line
                     //errlog2((char *)"FSE Backspace 2.1");
-                    if ((signed)Line.size()+1 > Col)     // Were in Insert Mode
-                    {
+                    if ((signed)Line.size()+1 > Col) {   // Were in Insert Mode
                         // Get Data From Both lines to compare sizes
                         //      errlog2((char *)"FSE Backspace 2.1.1");
                         current_node->data = Line;
@@ -2063,11 +1884,9 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
                         // First Check if Upper TLine has room on it
                         // If TLine has no room, then don't do anything with Line!
                         //    errlog2((char *)"FSE Backspace 2.2");
-                        if ((TLine.size()) <= MAX_WIDTH)
-                        {
+                        if ((TLine.size()) <= MAX_WIDTH) {
                             // Now check if Full "Line" Can fit in TLine
-                            if (TLine.size()+Line.size() <= MAX_WIDTH)
-                            {
+                            if (TLine.size()+Line.size() <= MAX_WIDTH) {
                                 //          errlog2((char *)"FSE Backspace 2.3");
                                 delete_line_up();
                                 if (Row > 1) --Row;
@@ -2077,23 +1896,19 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
                                 current_node->data += " " + tmp2;
                                 Line = current_node->data;
                                 box_redraw();
-                            }
-                            else
-                            {
+                            } else {
                                 // New Logic, come from the back string, so we catch leading spaces if any,
                                 // Loop through each space untill we get enough words that will fit in
                                 // the line above us.
                                 id1 = tmp2.size()-1;
                                 id1 = tmp2.rfind(" ",id1);
 
-                                while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos)
-                                {
+                                while ( (TLine.size()+id1+1) > MAX_WIDTH && id1 != std::string::npos) {
                                     //putline("loop");
                                     id1 = tmp2.rfind(" ",id1-1);
                                 }
 
-                                if ((TLine.size()+id1+1) <= MAX_WIDTH && id1 != std::string::npos)
-                                {
+                                if ((TLine.size()+id1+1) <= MAX_WIDTH && id1 != std::string::npos) {
                                     //errlog2((char *)"FSE Backspace 2.5");
                                     move_up();
 
@@ -2123,9 +1938,7 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
                                 }
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         delete_line_up();
                         if (Row > 1) --Row;
                         //if (Num > 1) --Num;
@@ -2136,10 +1949,8 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
             }
         }
         // Escaped Keys.. Arrow Keys etc..
-        else if (c == ESC)
-        {
-            switch (EscapeKey[1])
-            {
+        else if (c == ESC) {
+            switch (EscapeKey[1]) {
 
             case 'A' : // Up Arrow
                 up_arrow();
@@ -2184,15 +1995,13 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
             case '\0' :
             case ' '  : // ESC
                 id1 = options_prompt();
-                if (id1 == 2)
-                {
+                if (id1 == 2) {
                     //putline("\nid1 == 2");
                     ansi_file(sANSI_FILE);
                     box_redraw();
                     break;
                 } // Continue
-                else
-                {
+                else {
                     return id1;  // Else Save or Abort!
                 }
 
@@ -2201,12 +2010,10 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
             }
         }
         // Handle ENTER \ New Line
-        else if (c == '\r' || c == '\n')
-        {
+        else if (c == '\r' || c == '\n') {
             // Note, add if cursor is in middle of line.. cut and move to next line!
             // 1st Check if char Position is in the Middle of the Line
-            if ((int)Line.size() > (Col-1))
-            {
+            if ((int)Line.size() > (Col-1)) {
                 TLine = Line.substr(Col-1, Line.size());
                 Line.erase(Col-1, (Col-1)-Line.size());
                 current_node->data = Line;
@@ -2220,9 +2027,7 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
                 ++Row;    // Goto Next Row
                 ++Num;    // Currrent Line is Next
                 box_redraw();
-            }
-            else
-            {
+            } else {
                 current_node->data = Line;   // Add Current Line to Current Node
                 add_to_list("");             // Create Next Line
                 Col  = 1;
@@ -2236,25 +2041,19 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
         }
         // Check for Normal Letters, Numbers, Ascii Printable chars Etc..
         //else if (((int)c > 31 && (int)c < 126) || c == '~' || c == '`')
-        else if (((int)c > 31 && (int)c <= 255) || c == '~' || c == '`')
-        {
+        else if (((int)c > 31 && (int)c <= 255) || c == '~' || c == '`') {
             // Jump into Options Prompt...
-            if (Col == 1 && c == '/')
-            {
+            if (Col == 1 && c == '/') {
                 id1 = options_prompt();
-                if (id1 == 2)
-                {
+                if (id1 == 2) {
                     ansi_file(sANSI_FILE);
                     box_redraw();
                     // break;
                 } // Continue
-                else
-                {
+                else {
                     return id1;  // Else Save or Abort!
                 }
-            }
-            else
-            {
+            } else {
                 add_char(c); // Add Char to line
                 sprintf(sLine,"\x1b[%i;%iH\x1b[K%s\x1b[%i;%iH", Row+Top-1, 1,(char *)Line.c_str(), Row+Top-1, Col);
                 putline(sLine);
@@ -2262,14 +2061,12 @@ int msg_fse::poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL)
             }
         }
         // Delete Current Line
-        else if (c == CTRLY)   // CTRL Y
-        {
+        else if (c == CTRLY) { // CTRL Y
             delete_line();
             box_redraw();
         }
         // Insert New  Line
-        else if (c == CTRLN)   // CTRL N
-        {
+        else if (c == CTRLN) { // CTRL N
             insert_line();
         }
 
@@ -2333,69 +2130,48 @@ void msg_fse::ansi_file(char *filename)
 
     sprintf(sTemp,"#%i. %s",thisuser->fsetheme+1,sTHEME_NAME);
     FILE *inStream;
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL) {
         return;
     }
 
-    do
-    {
+    do {
         memset(&MCI,0,sizeof(MCI));
         c = getc(inStream);
-        if (c == '%')
-        {
+        if (c == '%') {
             MCI[0] = getc(inStream);
             MCI[1] = getc(inStream);
-            if (strcmp(MCI,"TO") == 0)
-            {
+            if (strcmp(MCI,"TO") == 0) {
                 temp += mHLocal.to;
-            }
-            else if (strcmp(MCI,"FM") == 0)
-            {
+            } else if (strcmp(MCI,"FM") == 0) {
                 temp += mHLocal.from;
-            }
-            else if (strcmp(MCI,"MA") == 0)
-            {
+            } else if (strcmp(MCI,"MA") == 0) {
                 temp += mHLocal.area;
-            }
-            else if (strcmp(MCI,"SU") == 0)
-            {
+            } else if (strcmp(MCI,"SU") == 0) {
                 temp += mHLocal.subj;
-            }
-            else if (strcmp(MCI,"TH") == 0)
-            {
+            } else if (strcmp(MCI,"TH") == 0) {
                 temp += sTemp;
-            }
-            else if (strcmp(MCI,"BS") == 0)
-            {
+            } else if (strcmp(MCI,"BS") == 0) {
                 if (thisuser->bsdel_swap == TRUE)
                     temp += "Terminal Mode";
                 else
                     temp += "Telnet Mode";
-            }
-            else
-            {
+            } else {
                 temp += c;
                 temp += MCI;
             }
             temp += getc(inStream);
-        }
-        else if (c == '\n') {} //temp += '\r';
+        } else if (c == '\n') {} //temp += '\r';
         else temp += c;
-    }
-    while (c != EOF);
+    } while (c != EOF);
     fclose(inStream);
     temp += "\n"; // Extra Space to Fix Next Ansi Sequence
 
-    do
-    {
+    do {
         id1 = temp.find("\x1b[2J",0);
-        if (id1 != std::string::npos)
-        {
+        if (id1 != std::string::npos) {
             temp.replace(id1,4,"|CS");
         }
-    }
-    while(id1 != std::string::npos);
+    } while(id1 != std::string::npos);
 
     pipe2ansi((char *)temp.c_str());
 }
@@ -2412,8 +2188,7 @@ bool msg_fse::fse_exists()
 
     FILE *stream;
     stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         perror("Error unable to read fse.ini, check permissions!");
         return false;
     }
@@ -2432,8 +2207,7 @@ void msg_fse::fse_create()
 
     ofstream outStream2;
     outStream2.open( name.c_str(), ofstream::out | ofstream::trunc );
-    if (!outStream2.is_open())
-    {
+    if (!outStream2.is_open()) {
         printf( "\nError Creating: %s \n", name.c_str());
         return;
     }
@@ -2473,52 +2247,37 @@ void msg_fse::fse_check(std::string cfgdata)
     std::string::size_type id1 = 0;
     if (cfgdata[0] == '#') return;
     else if (cfgdata.find("set THEME_NAME ", 0)
-             != std::string::npos)
-    {
+             != std::string::npos) {
         fse_chkpar(cfgdata);
         strcpy(sTHEME_NAME,(char*)cfgdata.c_str());
-    }
-    else if (cfgdata.find("set ANSI_FILE ", 0)
-             != std::string::npos)
-    {
+    } else if (cfgdata.find("set ANSI_FILE ", 0)
+               != std::string::npos) {
         fse_chkpar(cfgdata);
         strcpy(sANSI_FILE,(char*)cfgdata.c_str());
-    }
-    else if (cfgdata.find("set TEXT_COLOR ", 0)
-             != std::string::npos)
-    {
+    } else if (cfgdata.find("set TEXT_COLOR ", 0)
+               != std::string::npos) {
         fse_chkpar(cfgdata);
         strcpy(sTEXT_COLOR,(char*)cfgdata.c_str());
-    }
-    else if (cfgdata.find("set MENU_PROMPT ", 0)
-             != std::string::npos)
-    {
+    } else if (cfgdata.find("set MENU_PROMPT ", 0)
+               != std::string::npos) {
         fse_chkpar(cfgdata);
         strcpy(sMENU_PROMPT,(char*)cfgdata.c_str());
-    }
-    else if (cfgdata.find("set TOP ", 0)
-             != std::string::npos)
-    {
+    } else if (cfgdata.find("set TOP ", 0)
+               != std::string::npos) {
         fse_chkpar(cfgdata);
         id1 = atoi(cfgdata.c_str());
         Top = id1;
-    }
-    else if (cfgdata.find("set BOT ", 0)
-             != std::string::npos)
-    {
+    } else if (cfgdata.find("set BOT ", 0)
+               != std::string::npos) {
         fse_chkpar(cfgdata);
         id1 = atoi(cfgdata.c_str());
         Bot = id1;
-    }
-    else if (cfgdata.find("set ROW ", 0)
-             != std::string::npos)
-    {
+    } else if (cfgdata.find("set ROW ", 0)
+               != std::string::npos) {
         fse_chkpar(cfgdata);
         strcpy(sRow,(char*)cfgdata.c_str());
-    }
-    else if (cfgdata.find("set COL ", 0)
-             != std::string::npos)
-    {
+    } else if (cfgdata.find("set COL ", 0)
+               != std::string::npos) {
         fse_chkpar(cfgdata);
         strcpy(sCol,(char*)cfgdata.c_str());
     }
@@ -2530,8 +2289,7 @@ void msg_fse::fse_check(std::string cfgdata)
 int msg_fse::fse_parse(int idx)
 {
 
-    if (!fse_exists())
-    {
+    if (!fse_exists()) {
         perror("Error unable to open fse.ini, check permissions!");
     }
     //fse_create();
@@ -2548,8 +2306,7 @@ int msg_fse::fse_parse(int idx)
     // Check if Theme Exists, if not return FALSE.
     FILE *stream;
     stream = fopen(name,"rb+");
-    if(stream == NULL)   // File is not Present
-    {
+    if(stream == NULL) { // File is not Present
         return FALSE;
     }
     fclose(stream);
@@ -2557,15 +2314,13 @@ int msg_fse::fse_parse(int idx)
 
     ifstream inStream;
     inStream.open( name );
-    if (!inStream.is_open())
-    {
+    if (!inStream.is_open()) {
         perror("Error unable to parse fse.ini, check permissions!");
         return FALSE;
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         std::getline(inStream,cfgdata);
         fse_check(cfgdata);
         if(inStream.eof()) break;
@@ -2573,5 +2328,3 @@ int msg_fse::fse_parse(int idx)
     inStream.close();
     return TRUE;
 }
-
-

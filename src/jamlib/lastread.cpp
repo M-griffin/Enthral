@@ -62,17 +62,14 @@ int JAM_ReadLastRead ( s_JamBase* Base_PS,
     if ( !Record_PS )
         return JAM_BAD_PARAM;
 
-    if ( fseek ( Base_PS->LrdFile_PS, 0, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->LrdFile_PS, 0, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
-    for ( Pos_I = 0; ; Pos_I++ )
-    {
+    for ( Pos_I = 0; ; Pos_I++ ) {
 
-        if ( 1 > freadjamlastread ( Base_PS->LrdFile_PS,&Record_S ) )
-        {
+        if ( 1 > freadjamlastread ( Base_PS->LrdFile_PS,&Record_S ) ) {
             if ( feof ( Base_PS->LrdFile_PS ) )
                 return JAM_NO_USER;
 
@@ -80,8 +77,7 @@ int JAM_ReadLastRead ( s_JamBase* Base_PS,
             return JAM_IO_ERROR;
         }
 
-        if ( Record_S.UserID == User_I )
-        {
+        if ( Record_S.UserID == User_I ) {
             Base_PS->LastUserPos_I  = Pos_I;
             Base_PS->LastUserId_I = User_I;
             *Record_PS = Record_S;
@@ -108,35 +104,29 @@ int JAM_WriteLastRead ( s_JamBase* Base_PS,
         return JAM_BAD_PARAM;
 
     /* if the last read is stored */
-    if ( User_I == Base_PS->LastUserId_I )
-    {
+    if ( User_I == Base_PS->LastUserId_I ) {
         Pos_I = Base_PS->LastUserPos_I * sizeof ( s_JamLastRead );
 
-        if ( fseek ( Base_PS->LrdFile_PS, Pos_I, SEEK_SET ) )
-        {
+        if ( fseek ( Base_PS->LrdFile_PS, Pos_I, SEEK_SET ) ) {
             Base_PS->Errno_I = errno;
             return JAM_IO_ERROR;
         }
 
         /* be safe, check it */
-        if ( 1 > freadjamlastread ( Base_PS->LrdFile_PS,&Record_S ) )
-        {
+        if ( 1 > freadjamlastread ( Base_PS->LrdFile_PS,&Record_S ) ) {
             Base_PS->Errno_I = errno;
             return JAM_IO_ERROR;
         }
 
         /* is it where we expected it to be? */
-        if ( User_I == Record_S.UserID )
-        {
+        if ( User_I == Record_S.UserID ) {
 
-            if ( fseek ( Base_PS->LrdFile_PS, Pos_I, SEEK_SET ) )
-            {
+            if ( fseek ( Base_PS->LrdFile_PS, Pos_I, SEEK_SET ) ) {
                 Base_PS->Errno_I = errno;
                 return JAM_IO_ERROR;
             }
 
-            if ( 1 > fwritejamlastread ( Base_PS->LrdFile_PS,Record_PS ) )
-            {
+            if ( 1 > fwritejamlastread ( Base_PS->LrdFile_PS,Record_PS ) ) {
                 Base_PS->Errno_I = errno;
                 return JAM_IO_ERROR;
             }
@@ -148,23 +138,18 @@ int JAM_WriteLastRead ( s_JamBase* Base_PS,
     }
 
     /* no last position, or position incorrect */
-    if ( fseek ( Base_PS->LrdFile_PS, 0, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->LrdFile_PS, 0, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
-    for ( Pos_I = 0; ; Pos_I++ )
-    {
+    for ( Pos_I = 0; ; Pos_I++ ) {
 
-        if ( 1 > freadjamlastread ( Base_PS->LrdFile_PS,&Record_S ) )
-        {
-            if ( feof ( Base_PS->LrdFile_PS ) )
-            {
+        if ( 1 > freadjamlastread ( Base_PS->LrdFile_PS,&Record_S ) ) {
+            if ( feof ( Base_PS->LrdFile_PS ) ) {
 
                 /* user not in file, append a new record  */
-                if ( fseek ( Base_PS->LrdFile_PS, 0, SEEK_END ) )
-                {
+                if ( fseek ( Base_PS->LrdFile_PS, 0, SEEK_END ) ) {
                     Base_PS->Errno_I = errno;
                     return JAM_IO_ERROR;
                 }
@@ -177,11 +162,9 @@ int JAM_WriteLastRead ( s_JamBase* Base_PS,
         }
 
         /* found the user? */
-        if ( Record_S.UserID == User_I )
-        {
+        if ( Record_S.UserID == User_I ) {
             if ( fseek ( Base_PS->LrdFile_PS, Pos_I * sizeof ( s_JamLastRead ),
-                         SEEK_SET ) )
-            {
+                         SEEK_SET ) ) {
                 Base_PS->Errno_I = errno;
                 return JAM_IO_ERROR;
             }
@@ -190,8 +173,7 @@ int JAM_WriteLastRead ( s_JamBase* Base_PS,
         }
     }
 
-    if ( 1 > fwritejamlastread ( Base_PS->LrdFile_PS,Record_PS ) )
-    {
+    if ( 1 > fwritejamlastread ( Base_PS->LrdFile_PS,Record_PS ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }

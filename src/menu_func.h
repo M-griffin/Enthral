@@ -141,7 +141,7 @@ public:
     int  msgscan_system(unsigned char c, char *mString=0);
 
     void msgemail_system();
-    void msgpost_system(char *mString='\0');
+    void msgpost_system(char *mString=(char *)"\0");
 
     // WIP Not finished@@@
     void msgpack_system(int all);

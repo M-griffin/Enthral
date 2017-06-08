@@ -77,8 +77,7 @@ s_JamSubPacket* JAM_NewSubPacket ( void )
     Sub_PS->Fields    = ( s_JamSubfield** ) calloc ( Sub_PS->NumAlloc,
                         sizeof ( s_JamSubfield* ) );
 
-    if ( !Sub_PS->Fields )
-    {
+    if ( !Sub_PS->Fields ) {
         free ( Sub_PS );
         return NULL;
     }
@@ -98,8 +97,7 @@ int JAM_DelSubPacket ( s_JamSubPacket* SubPack_PS )
     if ( !SubPack_PS )
         return JAM_BAD_PARAM;
 
-    for ( i=0; i < SubPack_PS->NumFields; i++ )
-    {
+    for ( i=0; i < SubPack_PS->NumFields; i++ ) {
         s_JamSubfield* Field_PS = SubPack_PS->Fields[i];
 
         if ( Field_PS->Buffer )
@@ -125,8 +123,7 @@ s_JamSubfield* JAM_GetSubfield ( s_JamSubPacket* SubPack_PS )
     static s_JamSubPacket* LastPack_PS = NULL;
     static uint32_t           NextIndex_I = 0;
 
-    if ( SubPack_PS )
-    {
+    if ( SubPack_PS ) {
         LastPack_PS = SubPack_PS;
         NextIndex_I = 0;
     }
@@ -162,8 +159,7 @@ int JAM_PutSubfield ( s_JamSubPacket* SubPack_PS, s_JamSubfield* Field_PS )
     uint8_t* NewBuf_PC;
 
     /* do we have to expand the array? */
-    if ( SubPack_PS->NumFields == SubPack_PS->NumAlloc )
-    {
+    if ( SubPack_PS->NumFields == SubPack_PS->NumAlloc ) {
         s_JamSubfield** Fields_PPS;
 
         SubPack_PS->NumAlloc *= 2;
@@ -188,19 +184,16 @@ int JAM_PutSubfield ( s_JamSubPacket* SubPack_PS, s_JamSubfield* Field_PS )
         return JAM_NO_MEMORY;
 
     /* allocate a new buffer */
-    if ( Field_PS->DatLen )
-    {
+    if ( Field_PS->DatLen ) {
         NewBuf_PC = ( uint8_t* ) malloc ( Field_PS->DatLen );
 
-        if ( !NewBuf_PC )
-        {
+        if ( !NewBuf_PC ) {
             free ( NewField_PS );
             return JAM_NO_MEMORY;
         }
 
         memcpy ( NewBuf_PC, Field_PS->Buffer, Field_PS->DatLen );
-    }
-    else
+    } else
         NewBuf_PC = NULL;
 
     /* copy field struct */

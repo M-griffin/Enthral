@@ -41,27 +41,21 @@ int msg_stats::hist_lockSet(int onoff, char *area)
     path   += area;
     path   += "_stats.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 //elog("Error history.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;
             }
@@ -84,11 +78,9 @@ int msg_stats::hist_write(MsgStats *stats, char *area)
     hist_lockSet(TRUE,area);
 
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             //elog("Error hist_write!");
             hist_lockSet(FALSE,area);
             return x;
@@ -114,11 +106,9 @@ int msg_stats::hist_read(MsgStats *stats, char *area)
 
     hist_lockSet(TRUE,area);
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             //elog("Error hist_read!");
             hist_lockSet(FALSE,area);
             return x;
@@ -133,5 +123,3 @@ int msg_stats::hist_read(MsgStats *stats, char *area)
     hist_lockSet(FALSE,area);
     return x;
 }
-
-

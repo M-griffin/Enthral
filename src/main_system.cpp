@@ -120,12 +120,10 @@ void main_system::start(UserRec *user)
 
 
     int rightLeft = TRUE;
-    while(encode_done == FALSE)
-    {
+    while(encode_done == FALSE) {
         encode_input = getkey(true);
 
-        switch (toupper(encode_input))
-        {
+        switch (toupper(encode_input)) {
 
         case 'C':
             std::setlocale(LC_ALL, "en_US.utf8");
@@ -152,8 +150,7 @@ void main_system::start(UserRec *user)
 
         case 10: // ENTER Done.
             encode_done = TRUE;
-            if (rightLeft)
-            {
+            if (rightLeft) {
                 write(1, "\x1b" , 1); // Back to ISO Char Set
                 write(1, "%@" , 2);
                 cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
@@ -162,9 +159,7 @@ void main_system::start(UserRec *user)
                 write(1, "(U" , 2);
                 cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
                 UTF8Output = FALSE;
-            }
-            else
-            {
+            } else {
                 write(1, "\x1b" , 1); // UTF-8
                 write(1, "%G" , 2);
                 cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
@@ -175,10 +170,8 @@ void main_system::start(UserRec *user)
             break;
 
         case 27: // Get Arrow Key
-            if (EscapeKey[0] == '[')
-            {
-                if (EscapeKey[1] == 'D' && rightLeft == FALSE)
-                {
+            if (EscapeKey[0] == '[') {
+                if (EscapeKey[1] == 'D' && rightLeft == FALSE) {
                     write(1, "\x1b" , 1); // Back to ISO Char Set
                     write(1, "%@" , 2);
                     cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
@@ -193,8 +186,7 @@ void main_system::start(UserRec *user)
                     break;
 
                 }
-                if (EscapeKey[1] == 'C' && rightLeft == TRUE)
-                {
+                if (EscapeKey[1] == 'C' && rightLeft == TRUE) {
                     std::setlocale(LC_ALL, "en_US.utf8");
                     write(1, "\x1b" , 1); // UTF-8
                     write(1, "%G" , 2);
@@ -218,8 +210,7 @@ void main_system::start(UserRec *user)
         // If utf8 is not support, then this would be a mess
         // So we want to set this part so the user can see it.
 
-        if (!encode_done)
-        {
+        if (!encode_done) {
             write(1, "\x1b" , 1); // Back to ISO Char Set
             write(1, "%@" , 2);
             cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
@@ -229,13 +220,10 @@ void main_system::start(UserRec *user)
             cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
 
-            if (rightLeft)
-            {
+            if (rightLeft) {
                 UTF8Output = FALSE;
                 ansiPrintf((char *)"en_bar1");
-            }
-            else
-            {
+            } else {
                 UTF8Output = FALSE;
                 ansiPrintf((char *)"en_bar2");
             }
@@ -304,8 +292,7 @@ void main_system::start(UserRec *user)
     ansiPrintf((char *)"ansi");
 
     // Detect if were compitable.
-    if (!getxy())
-    {
+    if (!getxy()) {
         _lang.lang_get(text,51);
         //cspacing(text);
         //sprintf(text,"%s\r\n\r\n",sCmd);
@@ -317,11 +304,9 @@ void main_system::start(UserRec *user)
         //sprintf(text2," .\b\b", text2);
         //strcat(text2," .\b\b");
         pipe2ansi(text2);
-        do
-        {
+        do {
             c = getkey(true);
-            switch(toupper(c))
-            {
+            switch(toupper(c)) {
             case 10:
                 //putkey('Y');
                 isANSI = FALSE;
@@ -343,12 +328,9 @@ void main_system::start(UserRec *user)
             default:
                 break;
             }
-        }
-        while(done == FALSE);
+        } while(done == FALSE);
 
-    }
-    else
-    {
+    } else {
         _lang.lang_get(text,2);
         //cspacing(text);
         sprintf(text,"%s",text);
@@ -359,11 +341,9 @@ void main_system::start(UserRec *user)
         pipe2ansi(text2);
 
         done = FALSE;
-        do
-        {
+        do {
             c = getkey(true);
-            switch(toupper(c))
-            {
+            switch(toupper(c)) {
             case 10:
                 //putkey('Y');
                 isANSI = TRUE;
@@ -385,8 +365,7 @@ void main_system::start(UserRec *user)
             default:
                 break;
             }
-        }
-        while (done == FALSE);
+        } while (done == FALSE);
     }
 
     if (isANSI)
@@ -399,8 +378,7 @@ void main_system::start(UserRec *user)
 
     sleep(2);
 
-    if (isANSI == FALSE)
-    {
+    if (isANSI == FALSE) {
         putline((char *)"\r\n\r\n|07|16Your terminal doesn't support an ESC Sequence query for the\r\n");
         putline((char *)"current (x/y) cursor position when the bbs asks. Due to this issue, some\r\n");
         putline((char *)"graphics or interfaces might appear incorrect. Telnet programs I reccomend\r\n");
@@ -470,4 +448,3 @@ void main_system::start(UserRec *user)
     mnf.menu_mainloop(user);
     //delete pre_mnf;
 }
-

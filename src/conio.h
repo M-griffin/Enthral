@@ -117,7 +117,7 @@ public:
 
     BOOL ansiPrintf(char *filename, int delay=FALSE, int abort=FALSE);
     void readinAnsi(std::string FileName, std::string &buff);
-    int  startpause(char *script='\0');
+    int  startpause(char *script=(char *)"\0");
 
     int getxy();
     int ansi_getx();

@@ -45,16 +45,14 @@ public:
 
     typedef dword UMSGID;
 
-    struct _netaddr
-    {
+    struct _netaddr {
         unsigned short zone;
         unsigned short net;
         unsigned short node;
         unsigned short point;
     };
 
-    typedef struct _xmsg
-    {
+    typedef struct _xmsg {
         /* Bitmasks for 'attr' */
 
 #define MSGPRIVATE 0x0001
@@ -119,8 +117,7 @@ public:
     }
     XMSG;
 
-    struct _msgh
-    {
+    struct _msgh {
         //    MSG *sq;
         dword id;
 
@@ -128,8 +125,7 @@ public:
         dword cur_pos;
     };
 
-    struct _msgapi
-    {
+    struct _msgapi {
         dword id;                   /* Must always equal MSGAPI_ID */
 
         word len;                   /* LENGTH OF THIS STRUCTURE! */
@@ -164,8 +160,7 @@ public:
     // Handle to Current User
     UserRec *thisuser;
 
-    typedef struct
-    {
+    typedef struct {
 
         unsigned char From[XMSG_FROM_SIZE];
         unsigned char To[XMSG_TO_SIZE];
@@ -188,8 +183,7 @@ public:
     XMSG            xmsg;
     mb_list_rec     mr;
 
-    typedef struct MsgHead
-    {
+    typedef struct MsgHead {
 
         char curmsg[10];
         char totmsg[10];
@@ -214,8 +208,7 @@ public:
 
 
     // Constructor - Initalize MSGAPI!
-    mbapi_jam()
-    {
+    mbapi_jam() {
 
         start_session(thisuser);
     }

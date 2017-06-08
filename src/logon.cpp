@@ -35,6 +35,11 @@
 # include <unistd.h> // gcc 4.7
 
 # include <string>
+
+
+#include <boost/preprocessor/stringize.hpp>
+#include <openssl/engine.h>
+
 # include <openssl/evp.h>
 
 # define ulong unsigned long
@@ -65,27 +70,22 @@ void logon::Handle(UserRec *u)
     char text2[1024]   = {0};
     int  len = sizeof(u->handle)-1;
 
-    while (1)
-    {
+    while (1) {
         memset(&text,0,sizeof(text));
         lang_get(text,8);
         inputfield(text,len);
         pipe2ansi(text);
         getline(rBuffer,len);
         if (strcmp(rBuffer,"")         != 0 &&
-                strcmp(rBuffer,"0")    != 0 &&
-                strcmp(rBuffer,"\n")   != 0 &&
-                atoi(rBuffer)          ==  0)
-        {
+            strcmp(rBuffer,"0")    != 0 &&
+            strcmp(rBuffer,"\n")   != 0 &&
+            atoi(rBuffer)          ==  0) {
 
             // Check if already exists
-            if(!idx_match(rBuffer))
-            {
+            if(!idx_match(rBuffer)) {
                 strcpy((char *)u->handle, rBuffer);
                 break;
-            }
-            else   // Incorrect Handle
-            {
+            } else { // Incorrect Handle
                 lang_get(text2,18);
                 pipe2ansi(text2);
             }
@@ -100,26 +100,22 @@ void logon::Handle(UserRec *u)
  */
 void logon::Name(UserRec *u)
 {
-
     char rBuffer[1024]= {0};
     char text[1024]= {0};
     lang_get(text,9);
     int len = sizeof(u->name)-1;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         // Ask for Users Real Name
         getline(rBuffer,len);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             strcpy((char *)u->name, rBuffer);
             break;
         }
         //pipe2ansi("|15|17");
         pipe2ansi(text);
     }
-
 }
 
 /**
@@ -127,7 +123,6 @@ void logon::Name(UserRec *u)
  */
 void logon::Password(UserRec *u)
 {
-
     char rBuffer[1024]= {0};
     char text[1024]= {0};
     // Ask for Users Password
@@ -135,18 +130,15 @@ void logon::Password(UserRec *u)
     int len = sizeof(u->password)-1;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         getline(rBuffer,len,NULL,TRUE);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             strcpy((char *)u->password, rBuffer);
             break;
         }
         //pipe2ansi("|15|17");
         pipe2ansi(text);
     }
-
 }
 
 /**
@@ -162,17 +154,12 @@ int logon::VerifyPassword(UserRec *u)
     int len = sizeof(u->password)-1;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         getline(rBuffer,len,NULL,TRUE);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
-            if (strcmp((char *)u->password, rBuffer) == 0 && strlen(rBuffer) > 5)
-            {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
+            if (strcmp((char *)u->password, rBuffer) == 0 && strlen(rBuffer) > 5) {
                 return TRUE;
-            }
-            else
-            {
+            } else {
                 // Wrong password, doesn't match!
                 memset(&text,0,sizeof(text));
                 lang_get(text,46);
@@ -190,7 +177,6 @@ int logon::VerifyPassword(UserRec *u)
  */
 void logon::Sex(UserRec *u)
 {
-
     char text[1024]= {0};
     unsigned char c;
     // Ask Sex M/F
@@ -198,11 +184,9 @@ void logon::Sex(UserRec *u)
     int len = 1;
     inputfield(text,len);
     pipe2ansi(text);
-    while (1)
-    {
+    while (1) {
         c = getkey(true);
-        if (toupper(c) == 'M' || toupper(c) == 'F')
-        {
+        if (toupper(c) == 'M' || toupper(c) == 'F') {
             sprintf(text,"|15|17%c",c);
             pipe2ansi(text);
             u->sex = c;
@@ -218,7 +202,6 @@ void logon::Sex(UserRec *u)
  */
 void logon::BDay(UserRec *u)
 {
-
     char rBuffer[1024] = {0};
     char text[1024]    = {0};
     char text2[1024]   = {0};
@@ -229,34 +212,26 @@ void logon::BDay(UserRec *u)
     int len = 10;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         getline(rBuffer,len+1);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             if (isdigit(rBuffer[0]) && isdigit(rBuffer[1]) &&
-                    isdigit(rBuffer[3]) && isdigit(rBuffer[4]) &&
-                    isdigit(rBuffer[6]) && isdigit(rBuffer[7]) &&
-                    isdigit(rBuffer[8]) && isdigit(rBuffer[9]) &&
-                    rBuffer[2] == '/'   && rBuffer[5] == '/')
-            {
+                isdigit(rBuffer[3]) && isdigit(rBuffer[4]) &&
+                isdigit(rBuffer[6]) && isdigit(rBuffer[7]) &&
+                isdigit(rBuffer[8]) && isdigit(rBuffer[9]) &&
+                rBuffer[2] == '/'   && rBuffer[5] == '/') {
 
-                if (VerifyBday(rBuffer))
-                {
+                if (VerifyBday(rBuffer)) {
                     secs = Date2Sec(rBuffer);
                     u->dtbday = secs;
                     break;
-                }
-                else
-                {
+                } else {
                     memset(&rBuffer,0,sizeof(rBuffer));
                     lang_get(text2,38);
                     pipe2ansi(text2);
                     pipe2ansi(text);
                 }
-            }
-            else
-            {
+            } else {
                 memset(&rBuffer,0,sizeof(rBuffer));
                 lang_get(text2,38);
                 pipe2ansi(text2);
@@ -286,11 +261,9 @@ void logon::Email(UserRec *u)
     lang_get(text,13);
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         getline(rBuffer,len);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             //      tmp = rBuffer;
             //i = strlen(rBuffer);
             // Remove checking for invalid format!
@@ -325,7 +298,6 @@ void logon::Email(UserRec *u)
  */
 void logon::EmailPriv(UserRec *u)
 {
-
     char text[1024] = {0};
     unsigned char c;
     // Ask to Keep Email Private
@@ -333,16 +305,12 @@ void logon::EmailPriv(UserRec *u)
     int len = 1;
     inputfield(text,len);
     pipe2ansi(text);
-    while (1)
-    {
+    while (1) {
         c = getkey(true);
-        if (toupper(c) == 'Y')
-        {
+        if (toupper(c) == 'Y') {
             u->emprivate = true;
             break;
-        }
-        else if (toupper(c) == 'N')
-        {
+        } else if (toupper(c) == 'N') {
             u->emprivate = false;
             break;
         }
@@ -358,7 +326,6 @@ void logon::EmailPriv(UserRec *u)
  */
 void logon::Note(UserRec *u)
 {
-
     char rBuffer[1024] = {0};
     char text[1024]    = {0};
     // Desired User Note
@@ -366,11 +333,9 @@ void logon::Note(UserRec *u)
     int len = sizeof(u->usernote)-1;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         getline(rBuffer,len);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             strcpy((char *)u->usernote, rBuffer);
             break;
         }
@@ -392,11 +357,9 @@ void logon::ChallengeQuestion(UserRec *u)
     int len = 39;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         getline(rBuffer,len);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             strcpy((char *)u->c_question, rBuffer);
             break;
         }
@@ -410,7 +373,6 @@ void logon::ChallengeQuestion(UserRec *u)
  */
 void logon::ChallengeAnswer(UserRec *u)
 {
-
     char rBuffer[1024] = {0};
     char text[1024]    = {0};
 
@@ -418,11 +380,9 @@ void logon::ChallengeAnswer(UserRec *u)
     int len = 39;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         getline(rBuffer,len,NULL,TRUE);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             strcpy((char *)u->c_answer, rBuffer);
             break;
         }
@@ -467,8 +427,7 @@ void logon::application()
     int len = 1;
     inputfield(text,len);
     pipe2ansi(text);
-    while (1)
-    {
+    while (1) {
         c = getkey(true);
         if (toupper(c) == 'Y') break;
         else if (toupper(c) == 'N') return;
@@ -483,8 +442,7 @@ void logon::application()
     Password(&u);  // Password
 
     int i = 0;
-    while (1)
-    {
+    while (1) {
         i = VerifyPassword(&u);
         if (i == TRUE) break;
         // Failed Verification, start over on password.
@@ -571,24 +529,20 @@ void logon::ParseVerify(char *filename, UserRec *u)
 
     // Buffer in Ansi
     FILE *inStream;
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL) {
 
         printf("\r\nParseVerify Fail!");
 //      errlog((char *)" * ParseVerify Fail!");
         return;
     }
-    do
-    {
+    do {
         c = getc(inStream);
         if  (c != EOF) buff += c;
-    }
-    while (c != EOF);
+    } while (c != EOF);
     fclose(inStream);
 
     std::string::size_type id1 = 0;
-    while (id1 != std::string::npos)
-    {
+    while (id1 != std::string::npos) {
         // parse justify spacing right / left passing in string before
         // replacing mci code. to Properly Space Output Ansi.
         id1 = buff.find("%", 0);
@@ -596,17 +550,14 @@ void logon::ParseVerify(char *filename, UserRec *u)
         memset(&MCI,0,sizeof(MCI));
         space = 0;
         // Check if MCI Code is Justified then Process this.
-        if (buff[id1+3] == '{')   // Left Justify
-        {
+        if (buff[id1+3] == '{') { // Left Justify
             //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
             MCI[1] = buff[id1+5]; // Get Second Digit
             space  = atoi(MCI);
             foundr = FALSE;
             foundl = TRUE;
-        }
-        else if (buff[id1+3] == '}')  // Right Justify
-        {
+        } else if (buff[id1+3] == '}') { // Right Justify
             //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
             MCI[1] = buff[id1+5]; // Get Second Digit
@@ -622,59 +573,37 @@ void logon::ParseVerify(char *filename, UserRec *u)
         memset(&sTemp,0,sizeof(sTemp));
         // Insert MCI Parsing here so we can reaplace full result with propering spacing.
 
-        if (strcmp(MCI,"UH") == 0)
-        {
+        if (strcmp(MCI,"UH") == 0) {
             sprintf(sTemp,"%s", u->handle);
-        }
-        else if (strcmp(MCI,"UN") == 0)
-        {
+        } else if (strcmp(MCI,"UN") == 0) {
             sprintf(sTemp,"%s", u->name);
-        }
-        else if (strcmp(MCI,"UP") == 0)
-        {
+        } else if (strcmp(MCI,"UP") == 0) {
             // Mask Password
             sprintf(masked,"%s", u->password);
             mask(masked);
             sprintf(sTemp,"%s", masked);
-        }
-        else if (strcmp(MCI,"US") == 0)
-        {
+        } else if (strcmp(MCI,"US") == 0) {
             if (u->sex == 'f' || u->sex == 'F') sprintf(sTemp,"female");
             else sprintf(sTemp,"male");
-        }
-        else if (strcmp(MCI,"BD") == 0)
-        {
+        } else if (strcmp(MCI,"BD") == 0) {
             sprintf(sTemp,"%s", Sec2Date(u->dtbday));
-        }
-        else if (strcmp(MCI,"NO") == 0)
-        {
+        } else if (strcmp(MCI,"NO") == 0) {
             sprintf(sTemp,"%s", u->usernote);
-        }
-        else if (strcmp(MCI,"CQ") == 0)
-        {
+        } else if (strcmp(MCI,"CQ") == 0) {
             sprintf(sTemp,"%s", u->c_question);
-        }
-        else if (strcmp(MCI,"CA") == 0)
-        {
+        } else if (strcmp(MCI,"CA") == 0) {
             sprintf(sTemp,"%s", u->c_answer);
-        }
-        else if (strcmp(MCI,"EM") == 0)
-        {
+        } else if (strcmp(MCI,"EM") == 0) {
             sprintf(sTemp,"%s",u->email);
-        }
-        else if (strcmp(MCI,"PR") == 0)
-        {
+        } else if (strcmp(MCI,"PR") == 0) {
             if (u->emprivate) sprintf(sTemp,"yes");
             else sprintf(sTemp,"no");
         }
 
         // MCI Translation .
-        if (foundl == TRUE)
-        {
+        if (foundl == TRUE) {
             lspacing(sTemp,space);
-        }
-        else if (foundr == TRUE)
-        {
+        } else if (foundr == TRUE) {
             rspacing(sTemp,space);
         }
 
@@ -688,6 +617,33 @@ void logon::ParseVerify(char *filename, UserRec *u)
 }
 
 /**
+ * Internal Methods for handling OpenSSL Versions
+ *
+ */
+
+/**
+ * @brief Handle New OpenSSL v1.01, and Conversions for Older.
+ * @return
+ */
+#pragma message("OPENSSL_VERSION_NUMBER=" BOOST_PP_STRINGIZE(OPENSSL_VERSION_NUMBER))
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
+EVP_MD_CTX *EVP_MD_CTX_new(void)
+{
+    return OPENSSL_zalloc(sizeof(EVP_MD_CTX));
+}
+
+void EVP_MD_CTX_free(EVP_MD_CTX *ctx)
+{
+    EVP_MD_CTX_cleanup(ctx);
+    OPENSSL_free(ctx);
+}
+
+#endif
+
+
+
+/**
  * New User - Save User
  */
 void logon::save_user(UserRec *u)
@@ -696,7 +652,10 @@ void logon::save_user(UserRec *u)
     BOOL EncryptOk = TRUE;
 
     // Setup Encryption for User Password.
-    EVP_MD_CTX mdctx;
+    EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
+
+
+
     const EVP_MD *md;
 //    char mess1[] = "Test Message\n";
 //   char mess2[] = "Hello World\n";
@@ -706,24 +665,23 @@ void logon::save_user(UserRec *u)
     OpenSSL_add_all_digests();
 
     md = EVP_get_digestbyname("SHA1");
-    if(!md)
-    {
+    if(!md) {
         EncryptOk = FALSE;
     }
 
-    if (EncryptOk)
-    {
-        EVP_MD_CTX_init(&mdctx);
-        EVP_DigestInit_ex(&mdctx, md, NULL);
-        EVP_DigestUpdate(&mdctx, (char *)u->handle, strlen((char *)u->handle));
-        EVP_DigestUpdate(&mdctx, (char *)u->password, strlen((char *)u->password));
-        EVP_DigestFinal_ex(&mdctx, md_value, &md_len);
-        EVP_MD_CTX_cleanup(&mdctx);
+    if (EncryptOk) {
+        EVP_MD_CTX_init(mdctx);
+        EVP_DigestInit_ex(mdctx, md, NULL);
+        EVP_DigestUpdate(mdctx, (char *)u->handle, strlen((char *)u->handle));
+        EVP_DigestUpdate(mdctx, (char *)u->password, strlen((char *)u->password));
+        EVP_DigestFinal_ex(mdctx, md_value, &md_len);
 
         // Testing
         //putline((char*)"\r\nDigest: ");
         //for(i = 0; i < md_len; i++) //printf("%02x",md_value[i]);
     }
+
+    EVP_MD_CTX_free(mdctx);
 
     //pipe2ansi((char *)"|CR- Testing Encryption |CR- Generating 60 test users for list testing.");
     //startpause();
@@ -783,8 +741,7 @@ void logon::verify_info(UserRec *u, char *mString)
     _mf._premenu = _mf._curmenu;
     _mf._curmenu = mString;
 
-    while(!done)
-    {
+    while(!done) {
         // Setup Screen Display Ansi Header
         pipe2ansi((char *)"|CS");
         ParseVerify((char *)"verify",u);
@@ -792,8 +749,7 @@ void logon::verify_info(UserRec *u, char *mString)
         _mf.menu_readin();
         _mf.menu_proc(zString);
         ch = zString[1];
-        switch (toupper(ch))
-        {
+        switch (toupper(ch)) {
         case 'Q': // Save & Exit
             save_user(u);
             return;
@@ -809,10 +765,8 @@ void logon::verify_info(UserRec *u, char *mString)
             // Draw out key inputted
             sprintf(text,"|15|17%c",ch);
             pipe2ansi(text);
-            if (isdigit(ch))
-            {
-                switch (ch)
-                {
+            if (isdigit(ch)) {
+                switch (ch) {
                 case '1':
                     Handle(u);
                     break;
@@ -895,45 +849,35 @@ int logon::logon_system(UserRec *urec)
     inputfield(text,len);
     pipe2ansi(text);
 
-    while (1)
-    {
+    while (1) {
 
         memset(rBuffer,0,sizeof(rBuffer));
         getline(rBuffer,len);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
 
             errlog2((char *)"User Login Attempt: %s", rBuffer);
 
             // Check if already exists
             usernum = atoi(rBuffer); // Check if User Number was entered.
-            if (usernum != 0)
-            {
-                if (idx_read(&idx,usernum-1))
-                {
+            if (usernum != 0) {
+                if (idx_read(&idx,usernum-1)) {
 //                    elog("User # found: %i, %s",usernum, idx.handle);
                     strcpy((char *)u.handle, (char *)idx.handle);
                     //pipe2ansi(text); // Redisplay prompt
                     //putline(u.handle);
                     break;
-                }
-                else
-                {
+                } else {
 //                    elog("User # NOT found: %i, %s",usernum, rBuffer);
                     lang_get(text,6);
                     pipe2ansi(text);
                     sleep(1);
                     return 0;
                 }
-            }
-            else if(idx_match(rBuffer))
-            {
+            } else if(idx_match(rBuffer)) {
                 strcpy((char *)u.handle,rBuffer);
 //                elog("User Name found: %i, %s",usernum, rBuffer);
                 break;
-            }
-            else
-            {
+            } else {
                 lang_get(text,6);
                 pipe2ansi(text);
                 sleep(1);
@@ -962,29 +906,25 @@ int logon::logon_system(UserRec *urec)
 
     // Node Number
     id1 = buff.find("%NN",0);
-    if (id1 != -1)
-    {
+    if (id1 != -1) {
         sprintf(text,"%i",NODE_NUM);
         buff.replace(id1,3,text);
     }
     // User Number
     id1 = buff.find("%UN",0);
-    if (id1 != -1)
-    {
+    if (id1 != -1) {
         sprintf(text,"%ld",(ulong)u.idx+1);
         buff.replace(id1,3,text);
     }
     // Last On
     id1 = buff.find("%LO",0);
-    if (id1 != -1)
-    {
+    if (id1 != -1) {
         sprintf(text,"%s",Sec2DateTM(urec->dtlaston,2));
         buff.replace(id1,3,text);
     }
     // Last On
     id1 = buff.find("%BD",0);
-    if (id1 != -1)
-    {
+    if (id1 != -1) {
         sprintf(text,"%s",Sec2Date(urec->dtbday));
         buff.replace(id1,3,text);
     }
@@ -1000,19 +940,14 @@ int logon::logon_system(UserRec *urec)
     len = sizeof(u.password)-1;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         memset(rBuffer,0,sizeof(rBuffer));
         getline(rBuffer,len,NULL,TRUE);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
-            if (check_password((char *)u.handle,rBuffer))
-            {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
+            if (check_password((char *)u.handle,rBuffer)) {
                 strcpy((char *)u.password,rBuffer);
                 break;
-            }
-            else   // Incorrect Login - password
-            {
+            } else { // Incorrect Login - password
 
                 errlog2((char *)"%s Incorrect Login - password.",(char *)urec->handle);
 
@@ -1062,14 +997,11 @@ int logon::logon_system(UserRec *urec)
 //    _node.node_global_announce_login();
 
     // HACK!! For BLock Sysop Message Areas!!
-    if (strcmp((char *)urec->handle, SYSOP_NAME) == 0)
-    {
+    if (strcmp((char *)urec->handle, SYSOP_NAME) == 0) {
         isSysop = TRUE;
         //mf.resetlastread(urec);
 //        errlog((char *)"%s is a Sysop!", (char *)urec->handle);
-    }
-    else
-    {
+    } else {
 
 //        errlog((char *)"%s is NOT a Sysop!", (char *)urec->handle);
     }
@@ -1104,35 +1036,25 @@ void logon::forgot_password()
     inputfield(text,len);
     pipe2ansi(text);
 
-    while (1)
-    {
+    while (1) {
         memset(rBuffer,0,sizeof(rBuffer));
         getline(rBuffer,len);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             // Check if already exists
             usernum = atoi(rBuffer); // Check if User Number was entered.
-            if (usernum != 0)
-            {
-                if (idx_read(&idx,usernum-1))
-                {
+            if (usernum != 0) {
+                if (idx_read(&idx,usernum-1)) {
 //                    elog("User # found: %i, %s",usernum, idx.handle);
                     strcpy((char *)u.handle, (char *)idx.handle);
                     //pipe2ansi(text); // Redisplay prompt
                     //putline(u.handle);
-                }
-                else
-                {
+                } else {
 //                    elog("User # NOT found: %i, %s",usernum, rBuffer);
                 }
-            }
-            else if(idx_match(rBuffer))
-            {
+            } else if(idx_match(rBuffer)) {
                 strcpy((char *)u.handle, rBuffer);
 //                elog("User Name found: %i, %s",usernum, rBuffer);
-            }
-            else
-            {
+            } else {
 //                elog("User Name NOT found: %i, %s",usernum, rBuffer);
             }
 
@@ -1160,20 +1082,16 @@ void logon::forgot_password()
     len = 60; //sizeof(u.c_answer)-1;
     inputfield(text,len);
     pipe2ansi(text);
-    while(1)
-    {
+    while(1) {
         memset(rBuffer,0,sizeof(rBuffer));
         getline(rBuffer,len,NULL,TRUE);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             check  = rBuffer;
             check2 = (char *)u.c_answer;
-            if (check == check2)
-            {
+            if (check == check2) {
 
                 // Sysop Protection!
-                if (strcmp((char *)u.handle, SYSOP_NAME) == 0)
-                {
+                if (strcmp((char *)u.handle, SYSOP_NAME) == 0) {
                     sprintf(text,"|CR|CR|15In-Correct! |07aborting . . .|CR|PA");
                     pipe2ansi(text);
                     return; //0;
@@ -1182,9 +1100,7 @@ void logon::forgot_password()
                 sprintf(text,"|CR|CR|15Correct! Your forgotten password is: |07%s|CR|PA",u.password);
                 pipe2ansi(text);
                 break;
-            }
-            else   // Incorrect Login - password
-            {
+            } else { // Incorrect Login - password
 
                 sprintf(text,"|CR|CR|15In-Correct! |07aborting . . .|CR|PA");
                 pipe2ansi(text);
@@ -1225,8 +1141,7 @@ void logon::userinfo(UserRec *u, char *mString)
 
     */
 
-    while(!done)
-    {
+    while(!done) {
         // Setup Screen Display Ansi Header
         pipe2ansi((char *)"|CS");
         ParseVerify(mString,u);
@@ -1234,8 +1149,7 @@ void logon::userinfo(UserRec *u, char *mString)
         _mf.menu_readin();
         _mf.menu_proc(zString);
         ch = zString[1];
-        switch (toupper(ch))
-        {
+        switch (toupper(ch)) {
         case 'Q': // Save & Exit
             users_write(u,u->idx);
             return;
@@ -1253,8 +1167,7 @@ void logon::userinfo(UserRec *u, char *mString)
             pipe2ansi(text);
             //if (isdigit(ch))
             // {
-            switch (ch)
-            {
+            switch (ch) {
 
             case 'A':
                 Handle(u);
@@ -1298,12 +1211,9 @@ void logon::userinfo(UserRec *u, char *mString)
                 break;
 
             case '9': // toggle ansimations
-                if (isANSIMATION == TRUE)
-                {
+                if (isANSIMATION == TRUE) {
                     isANSIMATION = FALSE;
-                }
-                else
-                {
+                } else {
                     isANSIMATION = TRUE;
                 }
                 break;
@@ -1326,5 +1236,3 @@ void logon::userinfo(UserRec *u, char *mString)
         }
     }
 }
-
-

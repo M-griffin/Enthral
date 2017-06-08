@@ -46,27 +46,21 @@ int data_area::data_lockSet(int onoff)
     path += _curarea;
     path += ".lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 //elog("Error history.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;
             }
@@ -89,16 +83,14 @@ void data_area::chkparse(std::string &temp)
     st2 = temp.find('"', st1+1);
 
     if (st1 != std::string::npos &&
-            st2 != std::string::npos)
-    {
+        st2 != std::string::npos) {
         ++st1;
         temp1 = temp.substr(st1,st2);
         ct = st2 - st1;
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
         temp = temp1;
-    }
-    else
+    } else
         temp = "";
 }
 
@@ -109,44 +101,34 @@ int data_area::da_parse(std::string cfgdata)
     // Disgards any Config lines with the # Character
     if (cfgdata[0] == '#') return FALSE;
     else if (cfgdata.find("AreaName ", 0) !=
-             std::string::npos)
-    {
+             std::string::npos) {
         chkparse(cfgdata);
         datar2->AreaName = cfgdata;
         return FALSE;
-    }
-    else if (cfgdata.find("FileName ", 0) !=
-             std::string::npos)
-    {
+    } else if (cfgdata.find("FileName ", 0) !=
+               std::string::npos) {
         chkparse(cfgdata);
         datar2->AreaFileName = cfgdata;
         return FALSE;
-    }
-    else if (cfgdata.find("AnsiFile ", 0) !=
-             std::string::npos)
-    {
+    } else if (cfgdata.find("AnsiFile ", 0) !=
+               std::string::npos) {
         chkparse(cfgdata);
         datar2->AnsiFile = cfgdata;
         return FALSE;
-    }
-    else if (cfgdata.find("AnsiMid ", 0) !=
-             std::string::npos)
-    {
+    } else if (cfgdata.find("AnsiMid ", 0) !=
+               std::string::npos) {
         chkparse(cfgdata);
         datar2->AnsiMid = cfgdata;
         return FALSE;
-    }
-    else if (cfgdata.find("NumOfRecs ", 0) !=
-             std::string::npos)
-    {
+    } else if (cfgdata.find("NumOfRecs ", 0) !=
+               std::string::npos) {
         chkparse(cfgdata);
         datar2->NumOfRecs = atoi((char *)cfgdata.c_str());
         return TRUE;
     }
     return FALSE;
     if (cfgdata.find("PageBreak ", 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         datar2->PageBreak = atoi((char *)cfgdata.c_str());
         return TRUE;
@@ -165,15 +147,13 @@ int data_area::da_read(char *FileName)
 
     ifstream iNS3;
     iNS3.open( path.c_str() );
-    if (!iNS3.is_open())
-    {
+    if (!iNS3.is_open()) {
         //elog("Couldn't Open DataArea: %s\n", path.c_str());
         return FALSE;
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         if(iNS3.eof()) break;
         std::getline(iNS3,cfgdata);
         if(iNS3.eof()) break;
@@ -193,8 +173,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"Desc[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Desc = cfgdata;
         return;
@@ -202,8 +181,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"Prompt[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Prompt = cfgdata;
         return;
@@ -211,8 +189,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"Size[%.03d]",idx);
     if (cfgdata.find(sText, 0)
-            != std::string::npos)
-    {
+        != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Size = atoi((char *)cfgdata.c_str());
         return;
@@ -220,8 +197,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"CKeys[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].CKeys = cfgdata;
         return;
@@ -229,8 +205,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"CmdType[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].CmdType = cfgdata;
         return;
@@ -238,8 +213,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"MString[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].MString = cfgdata;
         return;
@@ -247,8 +221,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"MciCode[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].MciCode = cfgdata;
         return;
@@ -256,8 +229,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"HiString[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].HiString = cfgdata;
         return;
@@ -265,8 +237,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"LoString[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].LoString = cfgdata;
         return;
@@ -274,8 +245,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"Xcoord[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Xcoord = atoi((char *)cfgdata.c_str());
         return;
@@ -283,8 +253,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"Ycoord[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Ycoord = atoi((char *)cfgdata.c_str());
         return;
@@ -292,8 +261,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"LBarCmd[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         (cfgdata == "TRUE") ?
         cmdr2[idx].LBarCmd = TRUE :
@@ -303,8 +271,7 @@ void data_area::rec_parse(std::string cfgdata, int idx)
 
     sprintf(sText,"MCICmd[%.03d]",idx);
     if (cfgdata.find(sText, 0) !=
-            std::string::npos)
-    {
+        std::string::npos) {
         chkparse(cfgdata);
         (cfgdata == "TRUE") ?
         cmdr2[idx].MCICmd = TRUE :
@@ -325,8 +292,7 @@ int data_area::rec_exist(char *FileName, int idx)
     // Open file for reading and parsing.
     ifstream iFS2;
     iFS2.open( path.c_str() );
-    if (!iFS2.is_open())
-    {
+    if (!iFS2.is_open()) {
         //elog("\nCouldn't Open Data Area Commands: %s\n", path.c_str());
         return ret;
     }
@@ -334,8 +300,7 @@ int data_area::rec_exist(char *FileName, int idx)
     // Loop Through and Find the The Command
     sprintf(sText,"[DataRec%.03d]",idx);
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         std::getline(iFS2,cfgdata);
         if (cfgdata.find(sText,0) != std::string::npos) ret = TRUE;
         if(iFS2.eof()) break;
@@ -351,8 +316,7 @@ int data_area::rec_cnt(char *MenuName)
 {
 
     int  cnt = 0;
-    while (rec_exist(MenuName,cnt))
-    {
+    while (rec_exist(MenuName,cnt)) {
         ++cnt;
     }
     return cnt;
@@ -378,15 +342,13 @@ int data_area::rec_read(char *FileName, int idx)
     // Else Read and Parse it
     ifstream iFS;
     iFS.open( path.c_str() );
-    if (!iFS.is_open())
-    {
+    if (!iFS.is_open()) {
         //elog("** Couldn't Open Data Area: %s\n", path.c_str());
         return FALSE;
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         std::getline(iFS,cfgdata);
         // If lines are commented out.
 
@@ -406,8 +368,7 @@ void data_area::insert_cmdr()
 {
 
     int idx = 0;
-    while (rec_read(_curarea,idx))
-    {
+    while (rec_read(_curarea,idx)) {
         ++idx;
         if (noc == idx) break;
     }
@@ -418,33 +379,26 @@ void data_area::insert_cmdr()
 
     inNoc = 0;
     // Run through and Setup Input Commands.
-    for (int i = 0; i != noc; i++)
-    {
+    for (int i = 0; i != noc; i++) {
         // Run through and Sort Input Commands.
-        if (cmdr2[i].CmdType == "IN")
-        {
+        if (cmdr2[i].CmdType == "IN") {
             inexecnum[inNoc] = i; // don't think this is needed.
             cmdr2[i].idx = inNoc+1; // == 1 and up... 0 = none.
             ++inNoc;
-        }
-        else
-        {
+        } else {
             cmdr2[i].idx = 0;
         }
 
-        if (cmdr2[i].MCICmd == TRUE)
-        {
+        if (cmdr2[i].MCICmd == TRUE) {
             //elog("Found MCI Command : %i..",inNoc);
             //elog("MCI Command String: %s..",(char *)cmdr2[i].MString.c_str());
         }
     }
     // Allocate Data Area Record Array for Saving Input.
     //elog("Allocating Memory for inArray: inNoc -> %i..",inNoc);
-    if (inNoc != 0)
-    {
+    if (inNoc != 0) {
         inArray = new std::string [inNoc+1];
-        if (!inArray)
-        {
+        if (!inArray) {
             //elog("Unable to Allocate Memory for inArray: inNoc -> %i, returning...",inNoc);
             return;
         }
@@ -466,8 +420,7 @@ int data_area::data_area_readin()
 
     FILE *fstr;
     fstr = fopen(path.c_str(),"rb+");
-    if(fstr == NULL)
-    {
+    if(fstr == NULL) {
         //errlog((char *)"Data Area not Found! : %s, returning...",(char *)_curarea);
         return FALSE;
     }
@@ -475,8 +428,7 @@ int data_area::data_area_readin()
 
     // Setup The Data Area
     datar2 = new DataArea;
-    if (!datar2)
-    {
+    if (!datar2) {
 //        errlog((char *)"Unable to Allocate Memory for Data Area: %s, returning...",(char *)_curarea);
         return FALSE;
     }
@@ -487,16 +439,14 @@ int data_area::data_area_readin()
     // Allocate Data Area Commands
     noc   = rec_cnt(_curarea);
     cmdr2 = new DataRec[noc+1];
-    if (!cmdr2)
-    {
+    if (!cmdr2) {
         //elog("Unable to Allocate Memory for Data Area Commands: %s, returning...",_curarea);
         return FALSE;
     }
 
     // Allocate Execution Order of Input Commands
     inexecnum = new short[noc+1];
-    if (!inexecnum)
-    {
+    if (!inexecnum) {
         //elog("Unable to Allocate Memory for Data Area: %s - inexecnum[], returning...",_curarea);
         return FALSE;
     }
@@ -545,58 +495,44 @@ void data_area::process_data_area()
 
 
     // If no Data Commands Return!
-    if (noc == 0)
-    {
+    if (noc == 0) {
         Data_Alive = FALSE;
         return;
     }
 
     // Allocate Execution Order of Lightbar Commands
     execnum = new int[noc+1];
-    if (!execnum)
-    {
+    if (!execnum) {
         //elog("Unable to Allocate Memory for Data Area: %s - execnum[], returning...",_curarea);
         return;
     }
 
     // Run throguh and Execute FIRSTCMD's then count lightbar commands.
-    for (int i = 0; i != noc; i++)
-    {
+    for (int i = 0; i != noc; i++) {
         // If we find a FIRSTCMD, Execute it right away!
-        if (cmdr2[i].CKeys == "FIRSTCMD")
-        {
+        if (cmdr2[i].CKeys == "FIRSTCMD") {
             darea_docmd(&cmdr2[i]);
             ++exe;
         }
         // Get/Count Ligthbar Commands
-        else if (cmdr2[i].LBarCmd == TRUE)
-        {
+        else if (cmdr2[i].LBarCmd == TRUE) {
             execnum[iNoc] = i;
             ++iNoc;
         }
         // Count Escape Keys in Menu System to override passthrough
-        if (cmdr2[i].CKeys == "ESC")
-        {
+        if (cmdr2[i].CKeys == "ESC") {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
-        }
-        else if (cmdr2[i].CKeys == "LEFT")
-        {
+        } else if (cmdr2[i].CKeys == "LEFT") {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
-        }
-        else if (cmdr2[i].CKeys == "RIGHT")
-        {
+        } else if (cmdr2[i].CKeys == "RIGHT") {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
-        }
-        else if (cmdr2[i].CKeys == "UP")
-        {
+        } else if (cmdr2[i].CKeys == "UP") {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
-        }
-        else if (cmdr2[i].CKeys == "DOWN")
-        {
+        } else if (cmdr2[i].CKeys == "DOWN") {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }
@@ -611,13 +547,10 @@ void data_area::process_data_area()
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }*/
-        else if (cmdr2[i].CKeys == "PAGEUP")
-        {
+        else if (cmdr2[i].CKeys == "PAGEUP") {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
-        }
-        else if (cmdr2[i].CKeys == "PAGEDN")
-        {
+        } else if (cmdr2[i].CKeys == "PAGEDN") {
             execnum3[cntEscCmds] = i;
             ++cntEscCmds;
         }
@@ -632,16 +565,14 @@ void data_area::process_data_area()
     // Read Menu Ansi to String that will hold lightbars, Push to screen sametime
     // Will speed up display and make ghosting not apear as much
     data_lockSet(TRUE); // Lock incase another node it trying to write it.
-    if (datar2->AnsiFile != "")
-    {
+    if (datar2->AnsiFile != "") {
         //readinAnsi(datar2->AnsiFile,output);
         ansiPrintf((char *)datar2->AnsiFile.c_str());
     }
     data_lockSet(FALSE);
 
     // Draw Lightbar's
-    if (iNoc > 0)
-    {
+    if (iNoc > 0) {
         // Setup Initial Lightbar as Selected
         xx = cmdr2[execnum[0]].Xcoord;
         yy = cmdr2[execnum[0]].Ycoord;
@@ -649,8 +580,7 @@ void data_area::process_data_area()
         output += outBuff;
 
         // Setup of Remaining Lightbars in Low highlight Form
-        for (int rep = 1; rep != iNoc; rep++)
-        {
+        for (int rep = 1; rep != iNoc; rep++) {
             xx = cmdr2[execnum[rep]].Xcoord;
             yy = cmdr2[execnum[rep]].Ycoord;
             sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx,(char *)cmdr2[execnum[rep]].LoString.c_str());
@@ -664,20 +594,16 @@ void data_area::process_data_area()
 
     // Handle Lightbar Movement, and HotKey Input Processing.
     std::string sMenu = _curarea;
-    while (Data_Alive)
-    {
+    while (Data_Alive) {
         memset(&EscapeKey,0,sizeof(EscapeKey));
         c = (char)getkey(true);
 
-        if (iNoc > 0)
-        {
+        if (iNoc > 0) {
             // Check here for Arrow Key / Escaped Input was Received
-            if ((int)c == 27)
-            {
+            if ((int)c == 27) {
                 cc = EscapeKey[1];
                 EscHit = true;
-            }
-            else EscHit = false;
+            } else EscHit = false;
         }
         output.erase();
 
@@ -693,23 +619,18 @@ void data_area::process_data_area()
         }*/
 
         executed = 0;
-        if (EscHit)   // Input Key is Escaped Meaning Arrow Keys
-        {
+        if (EscHit) { // Input Key is Escaped Meaning Arrow Keys
             // Skip Moving Lightbars with Up/Dn Keys if were in Message Prompt
             /*
             if (menur2.MFlags.EscPassing == FALSE) { // Arrow Keys
                 if (cc == 'A') cc = 'D';
                 else if (cc == 'B') cc = 'C';
             }*/
-            if (cntEscCmds > 0)   // ESC Commands in Menu might overide lightbars.
-            {
-                for (int ckey = 0; ckey != cntEscCmds; ckey++)
-                {
+            if (cntEscCmds > 0) { // ESC Commands in Menu might overide lightbars.
+                for (int ckey = 0; ckey != cntEscCmds; ckey++) {
 
-                    if (cc == '\0' || cc == ' ')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "ESC")
-                        {
+                    if (cc == '\0' || cc == ' ') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "ESC") {
                             //elog("- ESC EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
 
                             ++executed;
@@ -717,44 +638,32 @@ void data_area::process_data_area()
                             darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
-                    }
-                    else if (cc == 'A')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "UP")
-                        {
+                    } else if (cc == 'A') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "UP") {
                             //elog("- UP EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
 
                             ++executed;
                             darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
-                    }
-                    else if (cc == 'B')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "DOWN")
-                        {
+                    } else if (cc == 'B') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "DOWN") {
                             //elog("- DOWN EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
 
                             ++executed;
                             darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
-                    }
-                    else if (cc == 'C')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "RIGHT")
-                        {
+                    } else if (cc == 'C') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "RIGHT") {
                             //elog("- RIGHT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
 
                             ++executed;
                             darea_docmd(&cmdr2[execnum3[ckey]]);
                             //strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                         }
-                    }
-                    else if (cc == 'D')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "LEFT")
-                        {
+                    } else if (cc == 'D') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "LEFT") {
                             //elog("- LEFT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
 
                             ++executed;
@@ -771,13 +680,11 @@ void data_area::process_data_area()
 
 
 
-            if (iNoc > 0)   // Make Sure we have ligthbar Commands.
-            {
+            if (iNoc > 0) { // Make Sure we have ligthbar Commands.
                 if (cc == 'A') cc = 'D';
                 else if (cc == 'B') cc = 'C';
 
-                if (cc == 'D' )    // Up & Left
-                {
+                if (cc == 'D' ) {  // Up & Left
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
                     sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx,(char *)cmdr2[execnum[choice]].LoString.c_str());
@@ -792,9 +699,7 @@ void data_area::process_data_area()
                     output += outBuff;
                     // Send Lightbar output
                     pipe2ansi((char*)output.c_str());
-                }
-                else if (cc == 'C')   // Down & Right
-                {
+                } else if (cc == 'C') { // Down & Right
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
                     sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx,(char *)cmdr2[execnum[choice]].LoString.c_str());
@@ -809,9 +714,7 @@ void data_area::process_data_area()
                     output += outBuff;
                     // Send Lightbar output
                     pipe2ansi((char*)output.c_str());
-                }
-                else if (cc == 'H' || cc == '1')   //&& menur2.MFlags.EscPassing == TRUE) { // Home Key
-                {
+                } else if (cc == 'H' || cc == '1') { //&& menur2.MFlags.EscPassing == TRUE) { // Home Key
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
                     sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx,(char *)cmdr2[execnum[choice]].LoString.c_str());
@@ -823,9 +726,7 @@ void data_area::process_data_area()
                     output += outBuff;
                     // Send Lightbar output
                     pipe2ansi((char*)output.c_str());
-                }
-                else if (cc == '4' || cc == 'K' || cc == 'F')   //&& menur2.MFlags.EscPassing == TRUE) { // End Key
-                {
+                } else if (cc == '4' || cc == 'K' || cc == 'F') { //&& menur2.MFlags.EscPassing == TRUE) { // End Key
                     xx = cmdr2[execnum[choice]].Xcoord;
                     yy = cmdr2[execnum[choice]].Ycoord;
                     sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx,(char *)cmdr2[execnum[choice]].LoString.c_str());
@@ -837,18 +738,13 @@ void data_area::process_data_area()
                     output += outBuff;
                     // Send Lightbar output
                     pipe2ansi((char*)output.c_str());
-                }
-                else
-                {
+                } else {
                     // If we have Escape, check if menu command, otherwise pass it through!
                     // Lateron Add SAPCE and TAB
-                    if (cc == '\0' || cc == ' ')
-                    {
+                    if (cc == '\0' || cc == ' ') {
                         executed = 0;
-                        for (int ckey = 0; ckey != noc; ckey++)
-                        {
-                            if (cmdr2[ckey].CKeys == "ESC")
-                            {
+                        for (int ckey = 0; ckey != noc; ckey++) {
+                            if (cmdr2[ckey].CKeys == "ESC") {
                                 //if (tScroll) p->Active = false;
                                 ++executed;
                                 darea_docmd(&cmdr2[ckey]);
@@ -856,32 +752,25 @@ void data_area::process_data_area()
                             }
                         }
                         // Executed == 0, Then Key Pressed was not valid! :)
-                        if (executed > 0)
-                        {
+                        if (executed > 0) {
                             delete [] execnum;
                             execnum = 0;
                             return;
                         }
-                    }
-                    else   // Pass through the Key.
-                    {
+                    } else { // Pass through the Key.
                         //delete [] execnum;
                         //return;
                     }
                 }
             }
             // No Lightbars, Parse Normal HoyKey Input.
-            else
-            {
+            else {
                 // If we have Escape, check if menu command, otherwise pass it through!
                 // Lateron Add SAPCE and TAB
-                if (cc == '\0' || cc == ' ')
-                {
+                if (cc == '\0' || cc == ' ') {
                     executed = 0;
-                    for (int ckey = 0; ckey != noc; ckey++)
-                    {
-                        if (cmdr2[ckey].CKeys == "ESC")
-                        {
+                    for (int ckey = 0; ckey != noc; ckey++) {
+                        if (cmdr2[ckey].CKeys == "ESC") {
                             //if (tScroll) p->Active = false;
                             ++executed;
                             darea_docmd(&cmdr2[ckey]);
@@ -892,9 +781,7 @@ void data_area::process_data_area()
                     delete [] execnum;
                     execnum = 0;
                     return;
-                }
-                else   // Pass through the Key.
-                {
+                } else { // Pass through the Key.
                     // Not Parsed Valid
                     delete [] execnum;
                     execnum = 0;
@@ -903,18 +790,14 @@ void data_area::process_data_area()
             }
         }
         // Normal Key Input
-        else
-        {
+        else {
             // If Enter, Return Cmd # of Lightbar Executed
             // also catch any stacked keys and execute in order!
-            if ((int)c == 10)
-            {
+            if ((int)c == 10) {
                 executed = 0;
                 // Here Loop through and execute stacked Commands
-                for (int ckey = 0; ckey != noc; ckey++)
-                {
-                    if (cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys)
-                    {
+                for (int ckey = 0; ckey != noc; ckey++) {
+                    if (cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys) {
                         //if (tScroll) p->Active = false;
                         ++executed;
                         //elog(" * menu - darea_docmd - %s / CmdType",(char *)cmdr2[ckey].CmdType.c_str());
@@ -923,33 +806,26 @@ void data_area::process_data_area()
                         //strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys);
                     }
                 }
-                if (executed > 0)
-                {
+                if (executed > 0) {
                     delete [] execnum;    // Else Loop..
                     execnum = 0;
                     return;
                 }
             }
             //  Else go through and run stack commands on hot key pressed.
-            else
-            {
+            else {
                 executed = 0;      // Normal Key Inputed, if Match's
                 std::string t1;
-                for (int ckey = 0; ckey != noc; ckey++)   // Loop and Run Stacked Commands.
-                {
-                    if (c == 32)   // Else check if it's a spacebar
-                    {
-                        if (cmdr2[ckey].CKeys == "SPACE")
-                        {
+                for (int ckey = 0; ckey != noc; ckey++) { // Loop and Run Stacked Commands.
+                    if (c == 32) { // Else check if it's a spacebar
+                        if (cmdr2[ckey].CKeys == "SPACE") {
                             //if (tScroll) p->Active = false;
                             ++executed;
                             darea_docmd(&cmdr2[ckey]);
                             //strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys);
                         }
-                    }
-                    else // Check any remaining Keys Hot Key Input.
-                        if (cmdr2[ckey].CKeys[0] == toupper(c) && cmdr2[ckey].CKeys.size() < 2)
-                        {
+                    } else // Check any remaining Keys Hot Key Input.
+                        if (cmdr2[ckey].CKeys[0] == toupper(c) && cmdr2[ckey].CKeys.size() < 2) {
                             //if (tScroll) p->Active = false;
                             ++executed;
                             darea_docmd(&cmdr2[ckey]);
@@ -958,8 +834,7 @@ void data_area::process_data_area()
                     // Add Any More Spelized Menu Input Keys here.
                 }
                 // Executed == 0, Then Key Pressed was not valid!, and no stacked commands to loop :)
-                if (executed > 0)
-                {
+                if (executed > 0) {
                     delete [] execnum;    // Else Loop..
                     execnum = 0;
                     return;
@@ -989,11 +864,9 @@ void data_area::parsemci(DataRec *cmdr)
     if (c1 != '%') return;
     //elog("3. parsemci() IN; %c%c%c",c1,c2,c3);
 
-    switch (c2)
-    {
+    switch (c2) {
     case 'U' : // User MCI Codes
-        switch (c3)
-        {
+        switch (c3) {
 
         case '#' :
             inArray[cmdr->idx-1] = thisuser->idx;
@@ -1062,8 +935,7 @@ void data_area::parsemci(DataRec *cmdr)
         break;
 
     case 'M' : // User Message MCI Codes
-        switch (c3)
-        {
+        switch (c3) {
 
         case '#' :
             sprintf(sText,"%ld",(ulong)thisuser->lastmbarea);
@@ -1086,8 +958,7 @@ void data_area::parsemci(DataRec *cmdr)
         break;
 
     case 'H' : // System History MCI Codes
-        switch (c3)
-        {
+        switch (c3) {
 
         case 'C' :
             hist_read(&hist);
@@ -1186,8 +1057,7 @@ void data_area::parsemci(DataRec *cmdr)
         break;
 
     case 'D' : // Date Time
-        switch (c3)
-        {
+        switch (c3) {
         case '1' :
             inArray[cmdr->idx-1] = Sec2DateTM(GetCurrentDTSec(),1);
             break;
@@ -1227,8 +1097,7 @@ void data_area::parseinput(DataRec *cmdr)
     strcpy(text,cmdr->Prompt.c_str());
     int len = cmdr->Size;
     inputfield(text,len);
-    while (1)
-    {
+    while (1) {
         pipe2ansi(text);
         getline(rBuffer,len);
         if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) break;
@@ -1251,16 +1120,14 @@ data_area::count_file_records()
     data_lockSet(TRUE);
     ifstream ins2;
     ins2.open( path.c_str() );
-    if (!ins2.is_open())
-    {
+    if (!ins2.is_open()) {
         //elog("Counldn't Open Data Area File For Record Count: %s\n", path.c_str());
         return 0;
     }
 
     std::string data;
     unsigned long cnt = 0;
-    while (1)
-    {
+    while (1) {
         std::getline(ins2,data);
         if (data == "</record>") ++cnt;
         if(ins2.eof()) break;
@@ -1296,14 +1163,10 @@ void data_area::create_ansifile()
     // Read Top File, if can't open ansi, skip it.
     c = '\0';
     FILE *inStream;
-    if ((inStream = fopen(path2.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path2.c_str(), "r+")) ==  NULL) {
         //elog("Counldn't Open Ansi: %s", path2.c_str());
-    }
-    else
-    {
-        while (c != EOF)
-        {
+    } else {
+        while (c != EOF) {
             c = getc(inStream);
             if (c != EOF) top += c;
         }
@@ -1312,14 +1175,10 @@ void data_area::create_ansifile()
 
     // Read Mid File
     c = '\0';
-    if ((inStream = fopen(path3.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path3.c_str(), "r+")) ==  NULL) {
         //elog("Counldn't Open Ansi: %s", path3.c_str());
-    }
-    else
-    {
-        while (c != EOF)
-        {
+    } else {
+        while (c != EOF) {
             c = getc(inStream);
             if (c != EOF) mid += c;
         }
@@ -1328,14 +1187,10 @@ void data_area::create_ansifile()
 
     // Read Bot File
     c = '\0';
-    if ((inStream = fopen(path4.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path4.c_str(), "r+")) ==  NULL) {
         //elog("Counldn't Open Ansi: %s", path4.c_str());
-    }
-    else
-    {
-        while (c != EOF)
-        {
+    } else {
+        while (c != EOF) {
             c = getc(inStream);
             if (c != EOF) bot += c;
         }
@@ -1351,8 +1206,7 @@ void data_area::create_ansifile()
 
     // Make Sure if There are more records then the limit,
     // we skip the inital to only parse the proper amount.
-    if (datar2->NumOfRecs != 0 && datar2->NumOfRecs < numFileRecs)
-    {
+    if (datar2->NumOfRecs != 0 && datar2->NumOfRecs < numFileRecs) {
         // Reset Which record we start on, and mark for truncation lateron.
         i = numFileRecs - datar2->NumOfRecs;
         //elog("NumOfRecs: %i, numFileRecs: %i, i: %i",datar2->NumOfRecs,numFileRecs,i);
@@ -1361,8 +1215,7 @@ void data_area::create_ansifile()
 
     // Do so checking on Record Size of Current File, and Truncate if were over and resave it!
     int it = 0;
-    if (truncate == TRUE)
-    {
+    if (truncate == TRUE) {
         //elog("----Starting Truncate");
         //Re-Write Out File with proper # of records.
         inputArray = new std::string [(datar2->NumOfRecs*inNoc)+1];
@@ -1371,8 +1224,7 @@ void data_area::create_ansifile()
         it = inNoc;
         //elog("NumOfRecs: %i, numFileRecs: %i, it: %i",datar2->NumOfRecs,numFileRecs,it);
         // Grabbing all input line per record.
-        for (int in = 0; in != datar2->NumOfRecs*inNoc; in++)
-        {
+        for (int in = 0; in != datar2->NumOfRecs*inNoc; in++) {
             //elog("----inputArray[%i]: %s, fileArray[%i]: %s", in,(char *)inputArray[in].c_str(), it,(char *)fileArray[it].c_str());
             inputArray[in] = fileArray[it];
             ++it;
@@ -1397,32 +1249,26 @@ void data_area::create_ansifile()
     //elog("Looping Through Mid file for MCI Parsing now...");
     // Parse Each Record / Input, and Replace MCI Code in Mid with Input Data.
     input = 0;
-    for (i = 0; i != numFileRecs; i++)      // Parse Each Record
-    {
+    for (i = 0; i != numFileRecs; i++) {    // Parse Each Record
         buff = mid;
-        for (int i2 = 0; i2 != inNoc; i2++)     // Parse Each Input Per Rec.
-        {
+        for (int i2 = 0; i2 != inNoc; i2++) {   // Parse Each Input Per Rec.
             //elog("Mci: %s, %i,: FileArray %s, %i",(char *)cmdr2[inexecnum[i2]].MciCode.c_str(),i2,(char *)fileArray[input].c_str(),input);
             // Find First MCI Code and Parse / Replace it.
             id1 = buff.find(cmdr2[inexecnum[i2]].MciCode, 0);
             // Process MCI Code
-            if (id1 != std::string::npos)   // ie.. &ON
-            {
+            if (id1 != std::string::npos) { // ie.. &ON
                 // parse justify spacing right / left passing in string before
                 // replacing mci code. to Properly Space Output Ansi.
                 memset(&MCI,0,sizeof(MCI));
                 space = 0;
-                if (buff[id1+3] == '{')   // Left Justify
-                {
+                if (buff[id1+3] == '{') { // Left Justify
                     //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
                     MCI[0] = buff[id1+4]; // Get first Digit
                     MCI[1] = buff[id1+5]; // Get Second Digit
                     space  = atoi(MCI);
                     foundr = FALSE;
                     foundl = TRUE;
-                }
-                else if (buff[id1+3] == '}')  // Right Justify
-                {
+                } else if (buff[id1+3] == '}') { // Right Justify
                     //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
                     MCI[0] = buff[id1+4]; // Get first Digit
                     MCI[1] = buff[id1+5]; // Get Second Digit
@@ -1432,22 +1278,17 @@ void data_area::create_ansifile()
                     foundr = TRUE;
                 }
 
-                if (space != 0)
-                {
+                if (space != 0) {
                     //elog("Allocating temp for Replace (Size): %i",fileArray[input].size());
                     temp = new char [fileArray[input].size()+(space+1)];
-                    if (!temp)
-                    {
+                    if (!temp) {
                         //elog("Unable to Allocate Temp for MCI Parsing: %i",fileArray[input].size());
                     }
                     // MCI Translation .
                     sprintf(temp,"%s",(char *)fileArray[input].c_str());
-                    if (foundl == TRUE)
-                    {
+                    if (foundl == TRUE) {
                         lspacing(temp,space);
-                    }
-                    else if (foundr == TRUE)
-                    {
+                    } else if (foundr == TRUE) {
                         rspacing(temp,space);
                     }
                 }
@@ -1460,8 +1301,7 @@ void data_area::create_ansifile()
                 buff.replace(id1,cmdr2[inexecnum[i2]].MciCode.size(),fileArray[input]):
                 buff.replace(id1,cmdr2[inexecnum[i2]].MciCode.size()+3,temp);
 
-                if (space != 0)
-                {
+                if (space != 0) {
                     if (temp != 0) delete [] temp;
                     temp = 0;
                 }
@@ -1486,8 +1326,7 @@ void data_area::create_ansifile()
     // now write out ansi file.
     ofstream ostr2;
     ostr2.open( path.c_str(), ofstream::out | ofstream::trunc );
-    if (!ostr2.is_open())
-    {
+    if (!ostr2.is_open()) {
         //elog( "* Error Creating: %s", path.c_str());
         return;
     }
@@ -1515,8 +1354,7 @@ void data_area::read_file_records()
     int  getinput    = FALSE;
 
     numFileRecs = count_file_records();
-    if (numFileRecs == 0)
-    {
+    if (numFileRecs == 0) {
         //elog("OutFile has 0 Records: %s", path.c_str());
         return;
     }
@@ -1525,8 +1363,7 @@ void data_area::read_file_records()
 
     // Number of Input Files * Number or Records in the File.
     fileArray = new std::string[(numFileRecs*inNoc)+1];
-    if (!fileArray)
-    {
+    if (!fileArray) {
         //elog("Counldn't Allocate File Array %s", path.c_str());
         return;
     }
@@ -1534,8 +1371,7 @@ void data_area::read_file_records()
     data_lockSet(TRUE);
     ifstream ins;
     ins.open( path.c_str() );
-    if (!ins.is_open())
-    {
+    if (!ins.is_open()) {
         //elog("Counldn't Open Data Area File For Reading %s", path.c_str());
         return;
     }
@@ -1544,39 +1380,27 @@ void data_area::read_file_records()
 
     // Loop Though all Records in the File and Read in the Input Strings.
     int iMsg = FALSE;
-    for (;;)
-    {
+    for (;;) {
         std::getline(ins,data);
         if (data == "<record>") { } // Start of Record
         else if (data == "<input>") getinput = TRUE; // Start of Input
         else if (data == "<message>") iMsg = TRUE; // Start of Input
-        else if (data == "</message>")
-        {
+        else if (data == "</message>") {
             iMsg = FALSE; // Start of Input
             ++idx; // Goto Next Line now.
-        }
-        else if (data == "</input>")
-        {
+        } else if (data == "</input>") {
             getinput = FALSE;
             ++in;   // End If Input, Next #
-        }
-        else if (data == "</record>")
-        {
+        } else if (data == "</record>") {
             ++rec;   // End of Record, Next #
             in = 0;  // Reset Input Number;
-        }
-        else
-        {
+        } else {
             // Start Processing of Input Data Here.
-            if (getinput == TRUE)
-            {
+            if (getinput == TRUE) {
                 //Cat String
-                if (iMsg == TRUE)
-                {
+                if (iMsg == TRUE) {
                     fileArray[idx] += data;
-                }
-                else
-                {
+                } else {
                     fileArray[idx] = data;
                     ++idx;
                 }
@@ -1584,7 +1408,7 @@ void data_area::read_file_records()
         }
         // Test for Break;
         if (rec != 0 &&                //rec == datar2->NumOfRecs) break; // Limit of Records
-                rec == numFileRecs) break; // Read in All Records, Extras Get Truncated.
+            rec == numFileRecs) break; // Read in All Records, Extras Get Truncated.
         if(ins.eof()) break;
     }
     ins.close();
@@ -1607,18 +1431,15 @@ void data_area::truncate_da_buffer()
     data_lockSet(TRUE);
     ofstream ostr;
     ostr.open( path.c_str(), ofstream::out | ofstream::trunc );
-    if (!ostr.is_open())
-    {
+    if (!ostr.is_open()) {
         //elog( "* Error Creating: %s", path.c_str());
         return;
     }
 
     int input = 0;
-    for (int i = 0; i != datar2->NumOfRecs; i++)
-    {
+    for (int i = 0; i != datar2->NumOfRecs; i++) {
         ostr << "<record>"  << endl;
-        for (int i2 = 0; i2 != inNoc; i2++)
-        {
+        for (int i2 = 0; i2 != inNoc; i2++) {
             ostr << "<input>"  << endl;
             //elog("inputArray[%i]: %s",input, (char *)inputArray[input].c_str());
             ostr << inputArray[input] << endl;
@@ -1644,16 +1465,14 @@ void data_area::save_da_buffer()
     data_lockSet(TRUE);
     ofstream ostr;
     ostr.open( path.c_str(), ofstream::out | ofstream::app );
-    if (!ostr.is_open())
-    {
+    if (!ostr.is_open()) {
         //elog( "* Error Creating: %s", path.c_str());
         data_lockSet(FALSE);
         return;
     }
 
     ostr << "<record>"  << endl;
-    for (int i = 0; i != inNoc; i++)
-    {
+    for (int i = 0; i != inNoc; i++) {
         //elog("4. inArray Out[%i]: %s",i,inArray[i].c_str());
         ostr << "<input>"  << endl;
         ostr << inArray[i] << endl;
@@ -1674,19 +1493,15 @@ int data_area::confirm_da_save(DataRec *cmdr)
     strcpy(text,cmdr->Prompt.c_str());
     int len = 1;
     inputfield(text,len);
-    while (1)
-    {
+    while (1) {
         pipe2ansi(text);
         c = getkey(true);
-        if (toupper(c) == 'Y')
-        {
+        if (toupper(c) == 'Y') {
             memset(&text,0,sizeof(text));
             sprintf(text,"%c",c);
             pipe2ansi(text);
             return TRUE;
-        }
-        else if (toupper(c) == 'N')
-        {
+        } else if (toupper(c) == 'N') {
             memset(&text,0,sizeof(text));
             sprintf(text,"%c",c);
             pipe2ansi(text);
@@ -1707,11 +1522,9 @@ void data_area::darea_docmd(DataRec *cmdr)
     if (cmdr->CmdType.size() < 1) return;
 
     // _loadnew = false;
-    switch (c1)
-    {
+    switch (c1) {
     case 'I' : // Input Data Area Commands
-        switch (c2)
-        {
+        switch (c2) {
         case 'N' : // Receive and Insert Into Buffer.
             //elog("2. Receiving IN; %s",(char *)cmdr->CmdType.c_str());
 
@@ -1725,8 +1538,7 @@ void data_area::darea_docmd(DataRec *cmdr)
         break;
 
     case 'O' : // Output Data Area Command
-        switch (c2)
-        {
+        switch (c2) {
         case 'T' : // Write Buffer to File, display prompt and confirm save!
             //elog("2. Receiving OT; Write Buffer to File; %s",(char *)cmdr->CmdType.c_str());
             dataSaved = confirm_da_save(cmdr);
@@ -1751,8 +1563,7 @@ void data_area::darea_docmd(DataRec *cmdr)
         break;
 
     case 'D' : // Data Area Commands
-        switch (c2)
-        {
+        switch (c2) {
         case 'P' : // Process Area, Read in Data File and Parse AnsiFile
             // Only Process if a Record has been Saved, Save Processing!
             if (dataSaved == TRUE) read_file_records(); // {Default}
@@ -1770,8 +1581,7 @@ void data_area::darea_docmd(DataRec *cmdr)
 
         // Start of Normal Menu Commands.
     case '*' :
-        switch (c2)
-        {
+        switch (c2) {
         case 'G' : // Exit Data Area
             //elog("2. Receiving Data_Alive = FALSE; %s",(char *)cmdr->CmdType.c_str());
             Data_Alive = FALSE;
@@ -1783,8 +1593,7 @@ void data_area::darea_docmd(DataRec *cmdr)
 
 
     case '-' :
-        switch (c2)
-        {
+        switch (c2) {
             /*
                             case '^' : // Change Menu
                                 strcpy(_curmenu,mString);
@@ -1997,8 +1806,7 @@ void data_area::display_commands ()
 {
 
     int idx = 0;
-    while (idx != noc)
-    {
+    while (idx != noc) {
         //elog("Desc     %s", cmdr2[idx].Desc.c_str());       // # Description
         //elog("Prompt   %s", cmdr2[idx].Prompt.c_str());     // # Text Prompt To Display on Input Commands.
         //elog("Size     %i", cmdr2[idx].Size);       // # Max Number of Chars on Input on Prompt.
@@ -2023,10 +1831,8 @@ void data_area::data_loop()
     //elog("Starting DataArea, User: %s",thisuser->handle);
     Data_Alive = TRUE;
     data_area_readin();         // Allocate Memory and Read In Area and Commands
-    while (Data_Alive)          // Data Area is Active
-    {
+    while (Data_Alive) {        // Data Area is Active
         process_data_area();    // Process Each Command and User Input
     }
     data_area_clear();          // Free All Memory Allocation.
 }
-

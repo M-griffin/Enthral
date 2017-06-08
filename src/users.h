@@ -23,8 +23,7 @@
 
 # include "struct.h"
 
-typedef struct users
-{
+typedef struct users {
 
     // User File
     int  users_lockSet(int onoff);

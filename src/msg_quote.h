@@ -27,8 +27,7 @@
 # include <string>
 # include <ctime>
 
-typedef struct msgquote_ini
-{
+typedef struct msgquote_ini {
     int  iTop;
     int  iBot;
     char sPAGENUM[80];

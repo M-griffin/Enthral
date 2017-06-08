@@ -57,24 +57,20 @@ typedef enum {LOCAL, NETMAIL, ECHOMAIL, EMAIL, NEWS} MSGTYPE;
 typedef enum {PUBLIC, PRIVATE} POSTTYPE;
 
 
-struct jbList
-{
+struct jbList {
     struct jbNode *First;
     struct jbNode *Last;
 };
 
-struct jbNode
-{
+struct jbNode {
     struct jbNode *Next;
 };
 
-struct Node4D
-{
+struct Node4D {
     uint16_t Zone,Net,Node,Point;
 };
 
-struct MemMessage
-{
+struct MemMessage {
     uint32_t msgnum;
 
     struct Node4D OrigNode;
@@ -111,15 +107,13 @@ struct MemMessage
     //struct jbList Path;
 };
 
-struct openbase
-{
+struct openbase {
     uint32_t lastuse;
     s_JamBase* Base_PS;
     struct jam_Area *area;
 };
 
-struct jam_Area
-{
+struct jam_Area {
     struct jam_Area *Next;
     mb_list_rec *area; //   struct Area *area;
     s_JamBase *Base_PS;
@@ -153,4 +147,3 @@ uint32_t jamapi_readmsgid(mb_list_rec *area, uint32_t num, std::string &tmpMsgId
 uint32_t buildmsgid(uint32_t MsgID, mb_list_rec *area);
 
 #endif
-

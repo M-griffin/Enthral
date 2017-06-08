@@ -28,15 +28,13 @@
 #include <unistd.h>
 
 
-struct olm
-{
+struct olm {
     char olm_msg[200];
     int  olm_user;
     int  olm_number;
 };
 
-struct nodemessage
-{
+struct nodemessage {
     short  command;
     int     data1;
     int     data2;

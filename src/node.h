@@ -23,8 +23,7 @@
 
 # include "struct.h"
 
-typedef struct node
-{
+typedef struct node {
 
     int  node_lockSet(int onoff);
     int  node_remove(int nodenum);
@@ -47,4 +46,3 @@ typedef struct node
 } node;
 
 # endif
-

@@ -41,7 +41,7 @@ class main_system :
 {
 
 public:
-	
+
     //menu_func   _mnf;
     void start(UserRec *user);
 

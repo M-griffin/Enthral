@@ -39,27 +39,21 @@ int history::daily_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "daily.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 //elog("Error history.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;
             }
@@ -93,11 +87,9 @@ int history::daily_write(History *hist)
     daily_lockSet(TRUE);
 
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             //elog("Error hist_write!");
             daily_lockSet(FALSE);
             return x;
@@ -134,11 +126,9 @@ int history::daily_read(History *hist)
 
     daily_lockSet(TRUE);
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             //elog("Error hist_read!");
             daily_lockSet(FALSE);
             return x;
@@ -163,27 +153,21 @@ int history::hist_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "history.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 //elog("Error history.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;
             }
@@ -205,11 +189,9 @@ int history::hist_write(History *hist)
     hist_lockSet(TRUE);
 
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             //elog("Error hist_write!");
             hist_lockSet(FALSE);
             return x;
@@ -234,11 +216,9 @@ int history::hist_read(History *hist)
 
     hist_lockSet(TRUE);
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             //elog("Error hist_read!");
             hist_lockSet(FALSE);
             return x;
@@ -253,5 +233,3 @@ int history::hist_read(History *hist)
     hist_lockSet(FALSE);
     return x;
 }
-
-

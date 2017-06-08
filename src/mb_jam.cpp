@@ -57,13 +57,11 @@ static void InitCvt(void)
  */
 struct tm *DosDate_to_TmDate(union stamp_combo *dosdate, struct tm *tmdate)
 {
-    if (is_dst == -1)
-    {
+    if (is_dst == -1) {
         InitCvt();
     }
 
-    if (dosdate->ldate == 0)
-    {
+    if (dosdate->ldate == 0) {
         time_t t=0;
         struct tm *tm;
         tm = gmtime(&t);
@@ -89,8 +87,7 @@ struct tm *DosDate_to_TmDate(union stamp_combo *dosdate, struct tm *tmdate)
  */
 union stamp_combo *TmDate_to_DosDate(struct tm *tmdate, union stamp_combo *dosdate)
 {
-    if(tmdate && dosdate)
-    {
+    if(tmdate && dosdate) {
         dosdate->msg_st.date.da = tmdate->tm_mday;
         dosdate->msg_st.date.mo = tmdate->tm_mon + 1;
         dosdate->msg_st.date.yr = tmdate->tm_year - 80;
@@ -114,8 +111,7 @@ static void print02d(char **str, int i)
 /**
  * Message Base JAM - Months
  */
-char months_ab[][4] =
-{
+char months_ab[][4] = {
     "Jan",
     "Feb",
     "Mar",
@@ -135,12 +131,9 @@ char months_ab[][4] =
  */
 char *sc_time(union stamp_combo *sc, char *string)
 {
-    if (sc->msg_st.date.yr == 0)
-    {
+    if (sc->msg_st.date.yr == 0) {
         *string = '\0';
-    }
-    else
-    {
+    } else {
 #if 0
         sprintf(string, "%02d %s %02d  %02d:%02d:%02d", sc->msg_st.date.da,
                 months_ab[sc->msg_st.date.mo - 1], (sc->msg_st.date.yr + 80) % 100,
@@ -201,23 +194,19 @@ BOOL jbstrcpy(uint8_t *dest, uint8_t *src, uint32_t maxlen, uint32_t *jbc)
 
     while(src[jbcpos]==32 || src[jbcpos]==9) jbcpos++;
 
-    if(src[jbcpos]=='"')
-    {
+    if(src[jbcpos]=='"') {
         jbcpos++;
         stopchar1='"';
         stopchar2=0;
-    }
-    else
-    {
+    } else {
         stopchar1=' ';
         stopchar2=9;
     }
 
     while(src[jbcpos] != stopchar1 &&
-            src[jbcpos] != stopchar2 &&
-            src[jbcpos] != 10 &&
-            src[jbcpos] != 0)
-    {
+          src[jbcpos] != stopchar2 &&
+          src[jbcpos] != 10 &&
+          src[jbcpos] != 0) {
         if(src[jbcpos]=='\\' && src[jbcpos+1]!=0 && src[jbcpos+1]!=10)
             jbcpos++;
 
@@ -252,8 +241,7 @@ BOOL jbstrcpyrest(uint8_t *dest,uint8_t *src,uint32_t maxlen,uint32_t *jbc)
     while(src[jbcpos]==32 || src[jbcpos]==9)
         jbcpos++;
 
-    while(src[jbcpos]!=10 && src[jbcpos]!=0)
-    {
+    while(src[jbcpos]!=10 && src[jbcpos]!=0) {
         if(d<maxlen-1)
             dest[d++]=src[jbcpos];
 
@@ -287,8 +275,7 @@ void striptrail(uint8_t *str)
 void striplead(uint8_t *str)
 {
     int c = 0;
-    while(str[c]==' ')
-    {
+    while(str[c]==' ') {
         c++;
     }
     strcpy((char *)str,(char *)&str[c]);
@@ -324,8 +311,7 @@ void jam_addfield(s_JamSubPacket *SubPacket_PS,uint32_t fieldnum,uint8_t *fieldd
 /**
  * Message Base JAM - JAM Flag Struct
  */
-struct flag
-{
+struct flag {
     uint8_t *name;
     uint32_t jamflagbit;
     uint32_t fidoflagbit;
@@ -334,8 +320,7 @@ struct flag
 /**
  * Message Base JAM - JAM Flag Array
  */
-struct flag jam_flagarray[] =
-{
+struct flag jam_flagarray[] = {
     { (uint8_t *)"PVT", MSG_PRIVATE,     FLAG_PVT         },
     { (uint8_t *)"HLD", MSG_HOLD,        FLAG_HOLD        },
     { (uint8_t *)"CRA", MSG_CRASH,       FLAG_CRASH       },
@@ -364,8 +349,7 @@ struct flag jam_flagarray[] =
 uint32_t jam_findflag(uint8_t *name)
 {
     int c;
-    for(c=0; jam_flagarray[c].name; c++)
-    {
+    for(c=0; jam_flagarray[c].name; c++) {
         if ( strncasecmp( (char *)jam_flagarray[c].name, (char *)name, sizeof(jam_flagarray[c].name)  )==0)
             return(jam_flagarray[c].jamflagbit);
     }
@@ -400,48 +384,37 @@ BOOL Parse4DTemplate(uint8_t *buf, struct Node4D *node,struct Node4D *tpl)
 
     Copy4D(node,tpl);
 
-    for(c=0; c<strlen((char *)buf); c++)
-    {
-        if(buf[c]==':')
-        {
+    for(c=0; c<strlen((char *)buf); c++) {
+        if(buf[c]==':') {
             if(GotZone || GotNet || GotNode) return(FALSE);
             if(GotVal) node->Zone=val;
 
             GotZone=TRUE;
             GotVal=FALSE;
-        }
-        else if(buf[c]=='/')
-        {
+        } else if(buf[c]=='/') {
             if(GotNet || GotNode) return(FALSE);
             if(GotVal) node->Net=val;
 
             GotNet=TRUE;
             GotVal=FALSE;
-        }
-        else if(buf[c]=='.')
-        {
+        } else if(buf[c]=='.') {
             if(GotNode) return(FALSE);
             if(GotVal) node->Node=val;
 
             GotNode=TRUE;
             GotVal=FALSE;
-        }
-        else if(buf[c]>='0' && buf[c]<='9')
-        {
-            if(!GotVal)
-            {
+        } else if(buf[c]>='0' && buf[c]<='9') {
+            if(!GotVal) {
                 val=0;
                 GotVal=TRUE;
             }
 
             val*=10;
             val+=buf[c]-'0';
-        }
-        else return(FALSE);
+        } else return(FALSE);
     }
 
-    if(GotVal)
-    {
+    if(GotVal) {
         if(GotZone && !GotNet)  node->Net=val;
         else if(GotNode)        node->Point=val;
         else                    node->Node=val;
@@ -474,8 +447,7 @@ BOOL Parse5D(uint8_t *buf, struct Node4D *n4d, uint8_t *domain)
     for(c=0; c<strlen((char *)buf2); c++)
         if(buf2[c]=='@') break;
 
-    if(buf2[c]=='@')
-    {
+    if(buf2[c]=='@') {
         buf2[c]=0;
         mystrncpy(domain,&buf2[c+1],20);
     }
@@ -562,30 +534,25 @@ s_JamBase *jam_openbase(struct jam_Area *area)
 
 //   _s.errlog((char *)"OpenMB: JAM_OpenMB - jam_openbases.");
     jam_openbases = new openbase;
-    if (!jam_openbases)
-    {
+    if (!jam_openbases) {
 // 	 _s.errlog((char *)"OpenMB: JAM_OpenMB - !jam_openbases. - No Memory!");
         return NULL;
     }
 
 
 //   _s.errlog((char *)"OpenMB: JAM_OpenMB");
-    if(JAM_OpenMB((uint8_t *)path.c_str(),&jam_openbases->Base_PS))
-    {
+    if(JAM_OpenMB((uint8_t *)path.c_str(),&jam_openbases->Base_PS)) {
 //      _s.errlog((char *)"OpenMB: !JAM_OpenMB");
-        if(jam_openbases->Base_PS)
-        {
+        if(jam_openbases->Base_PS) {
 //		  _s.errlog((char *)"OpenMB: free(thisbase->Base_PS);");
             free(jam_openbases->Base_PS);
         }
 
         //printf("Creating JAM messagebase \"%s\"",(char *)path.c_str());
 //      _s.errlog((char *)"OpenMB: JAM_CreateMB: %s", (char *)path.c_str());
-        if(JAM_CreateMB((uint8_t *)path.c_str(),1,&jam_openbases->Base_PS))
-        {
+        if(JAM_CreateMB((uint8_t *)path.c_str(),1,&jam_openbases->Base_PS)) {
 //		 _s.errlog((char *)"OpenMB: !JAM_CreateMB");
-            if(jam_openbases->Base_PS)
-            {
+            if(jam_openbases->Base_PS) {
 //			_s.errlog((char *)"OpenMB: free(thisbase->Base_PS);");
                 free(jam_openbases->Base_PS);
             }
@@ -624,8 +591,7 @@ struct jam_Area *jam_getarea(mb_list_rec *area)
 
     // This is the first time we use this area
     ja = new jam_Area;
-    if(!ja) //(jam_Area *)osAllocCleared(sizeof(struct jam_Area))))
-    {
+    if(!ja) { //(jam_Area *)osAllocCleared(sizeof(struct jam_Area))))
 //		_s.errlog((char*)"6. jam_getarea(): !ja");
         //nomem=TRUE;
         return(FALSE);
@@ -636,8 +602,7 @@ struct jam_Area *jam_getarea(mb_list_rec *area)
     ja->area=area;
 
 //	_s.errlog((char*)"6. jam_getarea(): jam_openbase;");
-    if(!(ja->Base_PS=jam_openbase(ja)))
-    {
+    if(!(ja->Base_PS=jam_openbase(ja))) {
 //	   _s.errlog((char*)"6. jam_getarea(): !jam_openbase;");
         if (ja) delete ja;
         ja = 0;
@@ -645,8 +610,7 @@ struct jam_Area *jam_getarea(mb_list_rec *area)
     }
 
 //	_s.errlog((char*)"6. jam_getarea(): JAM_GetMBSize; Total # of Messages");
-    if(JAM_GetMBSize(ja->Base_PS,&num))
-    {
+    if(JAM_GetMBSize(ja->Base_PS,&num)) {
 //	   _s.errlog((char*)"6. jam_getarea(): !JAM_GetMBSize;");
         printf("Failed to get # of Message in JAM area \"%s\"",(char *)path.c_str());
         JAM_CloseMB(ja->Base_PS);
@@ -658,8 +622,7 @@ struct jam_Area *jam_getarea(mb_list_rec *area)
 
 
 //   _s.errlog((char*)"6. jam_getarea(): JAM_ReadMBHeader; NUM: %lu",num);
-    if(JAM_ReadMBHeader(ja->Base_PS,&Header_S))
-    {
+    if(JAM_ReadMBHeader(ja->Base_PS,&Header_S)) {
         // Area with 0 messages.. not a problem!!
 //	  _s.errlog((char*)"6. jam_getarea(): !JAM_ReadMBHeader;");
         JAM_CloseMB(ja->Base_PS);
@@ -706,8 +669,7 @@ BOOL jamapi_purgemsg(mb_list_rec *area, uint32_t msgnum)
 
 //    _s.errlog((char *)"jamapi_purgemsg() - jam_getarea()");
 
-    if(!(ja=jam_getarea(area)))
-    {
+    if(!(ja=jam_getarea(area))) {
 //	  _s.errlog((char *)"jamapi_purgemsg() - !jam_getarea()");
         return(FALSE);
     }
@@ -717,8 +679,7 @@ BOOL jamapi_purgemsg(mb_list_rec *area, uint32_t msgnum)
 //	_s.errlog((char *)"jamapi_purgemsg() - LockMB");
     std::string path = (char *)MESGPATH;
     path += (char *)area->mbfile;
-    if(JAM_LockMB(ja->Base_PS,10))
-    {
+    if(JAM_LockMB(ja->Base_PS,10)) {
 //      _s.errlog((char *)"Timeout when trying to lock JAM messagebase \"%s\"",(char *)path.c_str());
         JAM_UnlockMB(ja->Base_PS);
         JAM_CloseMB(ja->Base_PS);
@@ -731,8 +692,7 @@ BOOL jamapi_purgemsg(mb_list_rec *area, uint32_t msgnum)
 
 //	_s.errlog((char *)"Deleting message in area :  \"%s\" %lu",(char *)path.c_str(),msgnum);
     res = JAM_DeleteMessage( ja->Base_PS, msgnum );
-    if (res)
-    {
+    if (res) {
 //        _s.errlog((char *)"jamapi_purgemsg() - !JAM_DeleteMessage()");
     }
     JAM_UnlockMB (ja->Base_PS);
@@ -769,8 +729,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
 
 //   _s.errlog((char *)"4. MB_JAM() - jam_getarea()");
 
-    if(!(ja=jam_getarea(area)))
-    {
+    if(!(ja=jam_getarea(area))) {
 //	  _s.errlog((char *)"4. MB_JAM() - !jam_getarea()");
         return(FALSE);
     }
@@ -780,8 +739,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     ja->newmsg=TRUE;
     JAM_ClearMsgHeader(&Header_S);
 
-    if(!(SubPacket_PS = JAM_NewSubPacket()))
-    {
+    if(!(SubPacket_PS = JAM_NewSubPacket())) {
         //   nomem=TRUE;
 //	   _s.errlog((char *)"4. MB_JAM() - !JAM_NewSubPacket()");
         JAM_CloseMB(ja->Base_PS);
@@ -803,11 +761,9 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     msgsize = (uint32_t)mm->TextChunks.size();
 
     // Later on convert this to string for unicode support aginst char *;)
-    if(msgsize != 0)
-    {
+    if(msgsize != 0) {
         msgtext = new uint8_t [msgsize]; //  (uint8_t *)osAlloc(msgsize)))
-        if (!msgtext)
-        {
+        if (!msgtext) {
             printf("%s",(char *)"Out of memory: msgtext");
             JAM_DelSubPacket(SubPacket_PS);
             JAM_CloseMB(ja->Base_PS);
@@ -816,9 +772,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
             ja = 0;
             return(FALSE);
         }
-    }
-    else   // Can;t save message with no text!
-    {
+    } else { // Can;t save message with no text!
         JAM_DelSubPacket(SubPacket_PS);
         JAM_CloseMB(ja->Base_PS);
         free(ja->Base_PS);
@@ -859,17 +813,14 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
         jam_addfield(SubPacket_PS,JAMSFLD_SUBJECT,(uint8_t *)mm->Subject);
 
 //   _s.errlog((char *)"3. MB_JAM() - Setup Netmail");
-    if(area->Kind == NETMAIL)
-    {
+    if(area->Kind == NETMAIL) {
         // Addresses in netmail //
         Print4D(&mm->OrigNode,buf);
         jam_addfield(SubPacket_PS,JAMSFLD_OADDRESS,buf);
 
         Print4D(&mm->DestNode,buf);
         jam_addfield(SubPacket_PS,JAMSFLD_DADDRESS,buf);
-    }
-    else
-    {
+    } else {
         // Addresses in echomail //
         Print4D(&mm->OrigNode,buf);
         jam_addfield(SubPacket_PS,JAMSFLD_OADDRESS,buf);
@@ -881,14 +832,12 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
         if(mm->Attr & jam_flagarray[c].fidoflagbit)
             Header_S.Attribute |= jam_flagarray[c].jamflagbit;
 
-    if(mm->Attr & FLAG_FILEATTACH)
-    {
+    if(mm->Attr & FLAG_FILEATTACH) {
         Header_S.Attribute |= MSG_FILEATTACH;
 
         c=0;
 
-        while(mm->Subject[c]!=0)
-        {
+        while(mm->Subject[c]!=0) {
             f=0;
             while(mm->Subject[c]!=0 && mm->Subject[c]!=32 && mm->Subject[c]!=',' && f<80)
                 buf[f++]=mm->Subject[c++];
@@ -902,14 +851,12 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
         }
     }
 
-    if(mm->Attr & FLAG_FILEREQ)
-    {
+    if(mm->Attr & FLAG_FILEREQ) {
         Header_S.Attribute |= MSG_FILEREQUEST;
 
         c=0;
 
-        while(mm->Subject[c]!=0)
-        {
+        while(mm->Subject[c]!=0) {
             f=0;
             while(mm->Subject[c]!=0 && mm->Subject[c]!=32 && mm->Subject[c]!=',' && f<80)
                 buf[f++]=mm->Subject[c++];
@@ -933,12 +880,10 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
 
 
     //for(chunk=(struct TextChunk *)mm->TextChunks.First;chunk;chunk=chunk->Next)
-    for(c=0; c<mm->TextChunks.length();)
-    {
+    for(c=0; c<mm->TextChunks.length();) {
         linebegin=msgpos;
 
-        while(mm->TextChunks[c]!=13 && c<mm->TextChunks.length())
-        {
+        while(mm->TextChunks[c]!=13 && c<mm->TextChunks.length()) {
             if(mm->TextChunks[c]!=10)
                 msgtext[msgpos++]=mm->TextChunks[c];
 
@@ -950,8 +895,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
 
         linelen=msgpos-linebegin;
 
-        if(linelen!=0)
-        {
+        if(linelen!=0) {
             /*
                         if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""PID:",5)==0)
                         {
@@ -977,24 +921,19 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
             	msgpos=linebegin;
                         }
                         else */
-            if(linelen>=7 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FLAGS:",7)==0)
-            {
+            if(linelen>=7 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FLAGS:",7)==0) {
                 mystrncpy(buf,&msgtext[linebegin+7],AMIN(100,linelen-7));
                 stripleadtrail(buf);
 
                 jbcpos=0;
                 newflags[0]=0;
 
-                while(jbstrcpy(flag,buf,10,&jbcpos))
-                {
+                while(jbstrcpy(flag,buf,10,&jbcpos)) {
                     uint32_t flagbit;
 
-                    if((flagbit=jam_findflag(flag)))
-                    {
+                    if((flagbit=jam_findflag(flag))) {
                         Header_S.Attribute |= flagbit;
-                    }
-                    else
-                    {
+                    } else {
                         strcat((char *)newflags,(char *)flag);
                         strcat((char *)newflags,(char *)" ");
                     }
@@ -1006,24 +945,16 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
                     jam_addfield(SubPacket_PS,JAMSFLD_FLAGS,newflags);
 
                 msgpos=linebegin;
-            }
-            else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""INTL",5)==0)
-            {
+            } else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""INTL",5)==0) {
                 // Remove this kludge
                 msgpos=linebegin;
-            }
-            else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""TOPT",5)==0)
-            {
+            } else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""TOPT",5)==0) {
                 // Remove this kludge
                 msgpos=linebegin;
-            }
-            else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FMPT",5)==0)
-            {
+            } else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FMPT",5)==0) {
                 // Remove this kludge
                 msgpos=linebegin;
-            }
-            else if(msgtext[linebegin]==1)
-            {
+            } else if(msgtext[linebegin]==1) {
                 mystrncpy(buf,&msgtext[linebegin+1],AMIN(100,linelen-1));
                 stripleadtrail(buf);
                 jam_addfield(SubPacket_PS,JAMSFLD_FTSKLUDGE,buf);
@@ -1082,8 +1013,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     //Write message
 
     // Don't post empty messages. check before locking.
-    if(msgsize == 0)
-    {
+    if(msgsize == 0) {
 //        _s.errlog((char *)"3. MB_JAM() - msgsize == 0");
         JAM_CloseMB(ja->Base_PS);
         delete msgtext;
@@ -1097,8 +1027,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
 //   _s.errlog((char *)"3. MB_JAM() - LockMB");
     std::string path = (char *)MESGPATH;
     path += (char *)area->mbfile;
-    if(JAM_LockMB(ja->Base_PS,10))
-    {
+    if(JAM_LockMB(ja->Base_PS,10)) {
 //      _s.errlog((char *)"3. MB_JAM() - Timedout!");
         printf("Timeout when trying to lock JAM messagebase \"%s\"",(char *)path.c_str());
         JAM_UnlockMB(ja->Base_PS);
@@ -1120,8 +1049,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
 
     delete msgtext;
 
-    if(res)
-    {
+    if(res) {
 //      _s.errlog((char *)"3. MB_JAM() - Failed to Write Message.");
         printf("Failed to write message to JAM messagebase \"%s\"",(char *)path.c_str());
         JAM_CloseMB(ja->Base_PS);
@@ -1169,8 +1097,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
     // Get an area to write to
 
 //   _s.errlog((char *)"4. MB_JAM() - jam_getarea()");
-    if(!(ja=jam_getarea(area)))
-    {
+    if(!(ja=jam_getarea(area))) {
 //	  _s.errlog((char *)"4. MB_JAM() - !jam_getarea()");
         return(FALSE);
     }
@@ -1180,8 +1107,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
     ja->newmsg=TRUE;
     JAM_ClearMsgHeader(&Header_S);
 
-    if(!(SubPacket_PS = JAM_NewSubPacket()))
-    {
+    if(!(SubPacket_PS = JAM_NewSubPacket())) {
         //   nomem=TRUE;
 //	   _s.errlog((char *)"4. MB_JAM() - !JAM_NewSubPacket()");
         JAM_CloseMB(ja->Base_PS);
@@ -1203,11 +1129,9 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
     msgsize = (uint32_t)mm->TextChunks.size();
 
     // Later on convert this to string for unicode support aginst char *;)
-    if(msgsize != 0)
-    {
+    if(msgsize != 0) {
         msgtext = new uint8_t [msgsize]; //  (uint8_t *)osAlloc(msgsize)))
-        if (!msgtext)
-        {
+        if (!msgtext) {
             printf("%s",(char *)"Out of memory: msgtext");
             JAM_DelSubPacket(SubPacket_PS);
             JAM_CloseMB(ja->Base_PS);
@@ -1216,9 +1140,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
             ja = 0;
             return(FALSE);
         }
-    }
-    else   // Can;t save message with no text!
-    {
+    } else { // Can;t save message with no text!
         JAM_DelSubPacket(SubPacket_PS);
         JAM_CloseMB(ja->Base_PS);
         free(ja->Base_PS);
@@ -1259,17 +1181,14 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
         jam_addfield(SubPacket_PS,JAMSFLD_SUBJECT,(uint8_t *)mm->Subject);
 
 //   _s.errlog((char *)"3. MB_JAM() - Setup Netmail");
-    if(area->Kind == NETMAIL)
-    {
+    if(area->Kind == NETMAIL) {
         // Addresses in netmail //
         Print4D(&mm->OrigNode,buf);
         jam_addfield(SubPacket_PS,JAMSFLD_OADDRESS,buf);
 
         Print4D(&mm->DestNode,buf);
         jam_addfield(SubPacket_PS,JAMSFLD_DADDRESS,buf);
-    }
-    else
-    {
+    } else {
         // Addresses in echomail //
         Print4D(&mm->OrigNode,buf);
         jam_addfield(SubPacket_PS,JAMSFLD_OADDRESS,buf);
@@ -1281,14 +1200,12 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
         if(mm->Attr & jam_flagarray[c].fidoflagbit)
             Header_S.Attribute |= jam_flagarray[c].jamflagbit;
 
-    if(mm->Attr & FLAG_FILEATTACH)
-    {
+    if(mm->Attr & FLAG_FILEATTACH) {
         Header_S.Attribute |= MSG_FILEATTACH;
 
         c=0;
 
-        while(mm->Subject[c]!=0)
-        {
+        while(mm->Subject[c]!=0) {
             f=0;
             while(mm->Subject[c]!=0 && mm->Subject[c]!=32 && mm->Subject[c]!=',' && f<80)
                 buf[f++]=mm->Subject[c++];
@@ -1302,14 +1219,12 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
         }
     }
 
-    if(mm->Attr & FLAG_FILEREQ)
-    {
+    if(mm->Attr & FLAG_FILEREQ) {
         Header_S.Attribute |= MSG_FILEREQUEST;
 
         c=0;
 
-        while(mm->Subject[c]!=0)
-        {
+        while(mm->Subject[c]!=0) {
             f=0;
             while(mm->Subject[c]!=0 && mm->Subject[c]!=32 && mm->Subject[c]!=',' && f<80)
                 buf[f++]=mm->Subject[c++];
@@ -1333,12 +1248,10 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
 
 
     //for(chunk=(struct TextChunk *)mm->TextChunks.First;chunk;chunk=chunk->Next)
-    for(c=0; c<mm->TextChunks.length();)
-    {
+    for(c=0; c<mm->TextChunks.length();) {
         linebegin=msgpos;
 
-        while(mm->TextChunks[c]!=13 && c<mm->TextChunks.length())
-        {
+        while(mm->TextChunks[c]!=13 && c<mm->TextChunks.length()) {
             if(mm->TextChunks[c]!=10)
                 msgtext[msgpos++]=mm->TextChunks[c];
 
@@ -1350,8 +1263,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
 
         linelen=msgpos-linebegin;
 
-        if(linelen!=0)
-        {
+        if(linelen!=0) {
             /*
                         if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""PID:",5)==0)
                         {
@@ -1377,24 +1289,19 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
             	msgpos=linebegin;
                         }
                         else */
-            if(linelen>=7 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FLAGS:",7)==0)
-            {
+            if(linelen>=7 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FLAGS:",7)==0) {
                 mystrncpy(buf,&msgtext[linebegin+7],AMIN(100,linelen-7));
                 stripleadtrail(buf);
 
                 jbcpos=0;
                 newflags[0]=0;
 
-                while(jbstrcpy(flag,buf,10,&jbcpos))
-                {
+                while(jbstrcpy(flag,buf,10,&jbcpos)) {
                     uint32_t flagbit;
 
-                    if((flagbit=jam_findflag(flag)))
-                    {
+                    if((flagbit=jam_findflag(flag))) {
                         Header_S.Attribute |= flagbit;
-                    }
-                    else
-                    {
+                    } else {
                         strcat((char *)newflags,(char *)flag);
                         strcat((char *)newflags,(char *)" ");
                     }
@@ -1406,24 +1313,16 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
                     jam_addfield(SubPacket_PS,JAMSFLD_FLAGS,newflags);
 
                 msgpos=linebegin;
-            }
-            else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""INTL",5)==0)
-            {
+            } else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""INTL",5)==0) {
                 // Remove this kludge
                 msgpos=linebegin;
-            }
-            else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""TOPT",5)==0)
-            {
+            } else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""TOPT",5)==0) {
                 // Remove this kludge
                 msgpos=linebegin;
-            }
-            else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FMPT",5)==0)
-            {
+            } else if(linelen>=5 && strncmp((char *)&msgtext[linebegin],(char *)"\x01""FMPT",5)==0) {
                 // Remove this kludge
                 msgpos=linebegin;
-            }
-            else if(msgtext[linebegin]==1)
-            {
+            } else if(msgtext[linebegin]==1) {
                 mystrncpy(buf,&msgtext[linebegin+1],AMIN(100,linelen-1));
                 stripleadtrail(buf);
                 jam_addfield(SubPacket_PS,JAMSFLD_FTSKLUDGE,buf);
@@ -1482,8 +1381,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
     //Write message
 
     // Don't post empty messages. check before locking.
-    if(msgsize == 0)
-    {
+    if(msgsize == 0) {
 //        _s.errlog((char *)"3. MB_JAM() - msgsize == 0");
         JAM_CloseMB(ja->Base_PS);
         delete msgtext;
@@ -1497,8 +1395,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
 //   _s.errlog((char *)"3. MB_JAM() - LockMB");
     std::string path = (char *)MESGPATH;
     path += (char *)area->mbfile;
-    if(JAM_LockMB(ja->Base_PS,10))
-    {
+    if(JAM_LockMB(ja->Base_PS,10)) {
 //      _s.errlog((char *)"3. MB_JAM() - Timedout!");
         printf("Timeout when trying to lock JAM messagebase \"%s\"",(char *)path.c_str());
         JAM_UnlockMB(ja->Base_PS);
@@ -1520,8 +1417,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
 
     delete msgtext;
 
-    if(res)
-    {
+    if(res) {
 //      _s.errlog((char *)"3. MB_JAM() - Failed to Write Message.");
         printf("Failed to write message to JAM messagebase \"%s\"",(char *)path.c_str());
         JAM_CloseMB(ja->Base_PS);
@@ -1610,16 +1506,14 @@ void ProcessKludge(struct MemMessage *mm,uint8_t *kludge)
       mm->REPLY[d]=0;
        }
     */
-    if(mm->Area[0]==0)
-    {
+    if(mm->Area[0]==0) {
         if(strncmp((char *)kludge,(char *)"\x01" "FMPT",5)==0)
             mm->OrigNode.Point=atoi((char *)&kludge[6]);
 
         if(strncmp((char *)kludge,(char *)"\x01TOPT",5)==0)
             mm->DestNode.Point=atoi((char *)&kludge[6]);
 
-        if(strncmp((char *)kludge,(char *)"\x01INTL",5)==0)
-        {
+        if(strncmp((char *)kludge,(char *)"\x01INTL",5)==0) {
             if(kludge[5]==':')
                 c=7;
 
@@ -1631,8 +1525,7 @@ void ProcessKludge(struct MemMessage *mm,uint8_t *kludge)
 
             buf[d]=0;
 
-            if(Parse4D(buf,&node))
-            {
+            if(Parse4D(buf,&node)) {
                 mm->DestNode.Zone = node.Zone;
                 mm->DestNode.Net  = node.Net;
                 mm->DestNode.Node = node.Node;
@@ -1645,8 +1538,7 @@ void ProcessKludge(struct MemMessage *mm,uint8_t *kludge)
 
             buf[d]=0;
 
-            if(Parse4D(buf,&node))
-            {
+            if(Parse4D(buf,&node)) {
                 mm->OrigNode.Zone = node.Zone;
                 mm->OrigNode.Net  = node.Net;
                 mm->OrigNode.Node = node.Node;
@@ -1667,12 +1559,10 @@ void mmAddLine(struct MemMessage *mm,uint8_t *buf)
        else if(mm->Area[0] && strncmp((char *)buf,(char *)"\x01PATH:",6)==0)
           return mmAddPath(&buf[7],&mm->Path);
     */
-    if(mm->Area[0] && strncmp((char *)buf,(char *)" * Origin: ",11) == 0)
-    {
+    if(mm->Area[0] && strncmp((char *)buf,(char *)" * Origin: ",11) == 0) {
         struct Node4D n4d;
 
-        if(ExtractAddress(buf,&n4d))
-        {
+        if(ExtractAddress(buf,&n4d)) {
             if(n4d.Zone == 0) n4d.Zone=mm->OrigNode.Zone;
             Copy4D(&mm->OrigNode,&n4d);
         }
@@ -1723,21 +1613,18 @@ uint32_t jamapi_countmsgs(mb_list_rec *area, UserRec *thisuser)
     SESSION _s;
 
     // Open the area
-    if(!(ja=jam_getarea(area)))
-    {
+    if(!(ja=jam_getarea(area))) {
 // 	  _s.errlog((char *)"4. MB_JAM() - ! countmsgs jam_getarea()");
         return 0;
     }
 
     // Get Messages only to this specific user.
-    if (area->Pubpriv == PRIVATE)
-    {
+    if (area->Pubpriv == PRIVATE) {
 
         crc = JAM_Crc32((uint8_t*)thisuser->handle, strlen((char *)thisuser->handle));
 //		_s.errlog((char *)" **** 4. MB_JAM() - countmsgs JAM_FindUser: crc %lu : %s",crc,thisuser->handle);
 
-        while (1)
-        {
+        while (1) {
             // Private Area, we need to loop and pick out each message
             // to This user, ja->Active; will get all active for all users
             // And so the only way is to loop this area.
@@ -1745,38 +1632,30 @@ uint32_t jamapi_countmsgs(mb_list_rec *area, UserRec *thisuser)
                                 crc,
                                 idx,
                                 &ret);
-            if (res)
-            {
+            if (res) {
 
                 JAM_CloseMB(ja->Base_PS);
                 free(ja->Base_PS);
                 delete ja;
                 ja = 0;
 
-                if (res == JAM_NO_USER)
-                {
+                if (res == JAM_NO_USER) {
 //					_s.errlog((char *)"countmsgs return count %lu",cnt);
 //					_s.errlog((char *)"4. countmsgs JAM_FindUser() user CRC not found! ");
                     return(cnt); // Users has no Messages that exists
-                }
-                else
-                {
+                } else {
 //					_s.errlog((char *)"countmsgs return count %lu",cnt);
 //					_s.errlog((char *)"4. countmsgs JAM_FindUser() user ERROR not found! ");
                     return (cnt); // Error Reading, Return count ie.. End of File.
                 }
-            }
-            else
-            {
+            } else {
 
                 idx=ret+1; //found, move to next
                 ++cnt;     // Incriment message count
                 //cnt = ret;
             }
         }
-    }
-    else
-    {
+    } else {
         // Not Email, return HighWater for Total.
         //		_s.errlog((char *)"4. countmsgs !email ja->Highwater");
         //cnt = ja->HighWater;
@@ -1818,20 +1697,16 @@ vector < unsigned long > jamapi_build_private(mb_list_rec *area, UserRec *thisus
     SESSION _s;
 
     // Open the area
-    if(!(ja = jam_getarea(area)))
-    {
+    if(!(ja = jam_getarea(area))) {
 // 	  _s.errlog((char *)"4. jamapi_buildemail - !jam_getarea()");
         return elist;
     }
 
     // If Real Name Flag, ie Fido, Scan by maching Real Name insead of Handle.
-    if ((area->flags.mbrealname & 0x01) == 0)
-    {
+    if ((area->flags.mbrealname & 0x01) == 0) {
         crc = JAM_Crc32((uint8_t*)thisuser->handle, strlen((char *)thisuser->handle));
 //		_s.errlog((char *)" **** 4. jamapi_buildemail - JAM_FindUser: crc handle %lu : %s",crc,thisuser->handle);
-    }
-    else
-    {
+    } else {
         crc = JAM_Crc32((uint8_t*)thisuser->name, strlen((char *)thisuser->name));
 //		_s.errlog((char *)" **** 4. jamapi_buildemail - JAM_FindUser: crc name %lu : %s",crc,thisuser->name);
     }
@@ -1839,33 +1714,26 @@ vector < unsigned long > jamapi_build_private(mb_list_rec *area, UserRec *thisus
 
 //	_s.errlog2((char *)"4.3 jamapi_build_private JAM_FindUser() idx %lu, ret %lu, res %i, cnt: %i ",idx, ret , res, cnt);
 
-    while (1)
-    {
+    while (1) {
         //Email loop, only cont messages written by them!
         res = JAM_FindUser( ja->Base_PS,
                             crc,
                             idx,
                             &ret);
-        if (res)
-        {
+        if (res) {
             JAM_CloseMB(ja->Base_PS);
             free(ja->Base_PS);
             delete ja;
             ja = 0;
 
-            if (res == JAM_NO_USER)
-            {
+            if (res == JAM_NO_USER) {
 //			    _s.errlog((char *)"4. jamapi_buildemail JAM_FindUser() user CRC not found! idx %lu, ret %lu, res %i ",idx,ret,res);
                 return(elist); // Messages no longer exists for this user
-            }
-            else
-            {
+            } else {
 //				_s.errlog((char *)"4. jamapi_buildemail JAM_FindUser() user ERROR not found! ");
                 return (elist); // Error Reading, Return count
             }
-        }
-        else
-        {
+        } else {
 
             idx = ret+1; // found, move to next
             ++cnt;       // Incriment message count
@@ -1917,31 +1785,25 @@ vector < unsigned long > jamapi_build_public(mb_list_rec *area, UserRec *thisuse
 
 
     // Open the area
-    if(!(ja = jam_getarea(area)))
-    {
+    if(!(ja = jam_getarea(area))) {
 //        _s.errlog2((char *)"4.1 jamapi_build_public - !jam_getarea()");
         return elist;
     }
 
-    while (1)
-    {
+    while (1) {
 //		_s.errlog((char *)"4.2 jamapi_build_public JAM_ReadMsgHeader() idx %lu, ret %lu, res %i, cnt: %i ",idx,ret,res,cnt);
 
         res=JAM_ReadMsgHeader(ja->Base_PS, idx, &Header_S, &SubPacket_PS);
 //        _s.errlog2((char *)"4.3 jamapi_build_public JAM_ReadMsgHeader() idx %lu, ret %lu, res %i, cnt: %i ",idx, ret , res, cnt);
 
-        if (res)
-        {
+        if (res) {
 
-            if (res == JAM_NO_MESSAGE)
-            {
+            if (res == JAM_NO_MESSAGE) {
 //                _s.errlog2((char *)"4.4 jamapi_build_public JAM_ReadMsgHeader() JAM_NO_MESSAGE! idx %lu, ret %lu, res %i ",idx,ret,res);
                 // Skip over and don't add to elist.
                 ++idx;
                 continue;
-            }
-            else
-            {
+            } else {
                 JAM_CloseMB(ja->Base_PS);
                 free(ja->Base_PS);
                 delete ja;
@@ -1950,18 +1812,13 @@ vector < unsigned long > jamapi_build_public(mb_list_rec *area, UserRec *thisuse
 //                _s.errlog2((char *)"4.5 jamapi_build_public JAM_ReadMsgHeader() unable to read! - Done! ");
                 return (elist); // Error Reading, Return count
             }
-        }
-        else
-        {
+        } else {
             // Make sure it's not deleted.
-            if(Header_S.Attribute & MSG_DELETED)
-            {
+            if(Header_S.Attribute & MSG_DELETED) {
                 ++idx;     // Incriment message count
 //                _s.errlog2((char *)"4.6 jamapi_build_public MSG_DELETED idx %lu, ret %lu, res %i ",idx,ret,res);
                 continue;
-            }
-            else
-            {
+            } else {
                 /* Extra insurance testing, was not needed!!!
                  * Headers Should have deleted flag, I did see one message where
                  * the To field was empty and was caught by readmsg!  Keep eye out if
@@ -2045,8 +1902,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     mm->CurrMsg   = num;
 
     // Open the area
-    if(!(ja=jam_getarea(area)))
-    {
+    if(!(ja=jam_getarea(area))) {
 //	  _s.errlog((char *)"4. MB_JAM() - !jam_getarea()");
         return(TRUE);
     }
@@ -2068,19 +1924,15 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     std::string path = (char *)MESGPATH;
     path += (char *)area->mbfile;
 
-    if(res)
-    {
-        if(res == JAM_NO_MESSAGE)
-        {
+    if(res) {
+        if(res == JAM_NO_MESSAGE) {
             JAM_CloseMB(ja->Base_PS);
             free(ja->Base_PS);
             delete ja;
             ja = 0;
 //		  _s.errlog((char *)"4. JAM_ReadMsgHeader() message no longer exists #%lu in JAM messagebase \"%s\"",num,(char *)path.c_str());
             return(res); // Message no longer exists
-        }
-        else
-        {
+        } else {
             JAM_CloseMB(ja->Base_PS);
             free(ja->Base_PS);
             delete ja;
@@ -2092,8 +1944,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
 
     // Check if deleted
 
-    if(Header_S.Attribute & MSG_DELETED)
-    {
+    if(Header_S.Attribute & MSG_DELETED) {
         // Message deleted
         JAM_CloseMB(ja->Base_PS);
         JAM_DelSubPacket(SubPacket_PS);
@@ -2121,12 +1972,10 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     msgtext=NULL;
 
     // Message Text
-    if(Header_S.TxtLen)
-    {
+    if(Header_S.TxtLen) {
         //if(!(msgtext=(uint8_t *)osAlloc(Header_S.TxtLen+1))) // One extra byte for the terminating zero
         msgtext = new uint8_t[Header_S.TxtLen+1];
-        if (!msgtext)
-        {
+        if (!msgtext) {
 //		  _s.errlog((char *)"4. MB_JAM() Failed to allocate msgtext \"%lu in JAM messagebase \"%s\"",num,(char *)path.c_str());        // nomem=TRUE;
             JAM_DelSubPacket(SubPacket_PS);
             JAM_CloseMB(ja->Base_PS);
@@ -2140,8 +1989,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
         // Read Just Message Text
         res=JAM_ReadMsgText(ja->Base_PS,Header_S.TxtOffset,Header_S.TxtLen,msgtext);
 
-        if(res)
-        {
+        if(res) {
 //		 _s.errlog((char *)"4. MB_JAM() Failed to read message #%lu in JAM messagebase \"%s\"",num,(char *)path.c_str());
             JAM_DelSubPacket(SubPacket_PS);
             JAM_CloseMB(ja->Base_PS);
@@ -2181,15 +2029,12 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     filesubject[0]=0;
     hasaddr=FALSE;
 
-    for(Field_PS=JAM_GetSubfield(SubPacket_PS); Field_PS; Field_PS=JAM_GetSubfield(NULL))
-    {
-        switch(Field_PS->LoID)
-        {
+    for(Field_PS=JAM_GetSubfield(SubPacket_PS); Field_PS; Field_PS=JAM_GetSubfield(NULL)) {
+        switch(Field_PS->LoID) {
         case JAMSFLD_OADDRESS:
             mystrncpy(buf,Field_PS->Buffer,Field_PS->DatLen+1);
 
-            if(Parse5D(buf,&n4d,domain))
-            {
+            if(Parse5D(buf,&n4d,domain)) {
                 mm->OrigNode.Zone=n4d.Zone;
                 mm->OrigNode.Net=n4d.Net;
                 mm->OrigNode.Node=n4d.Node;
@@ -2201,17 +2046,13 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
         case JAMSFLD_DADDRESS:
             mystrncpy(buf,Field_PS->Buffer,Field_PS->DatLen+1);
 
-            if(hasaddr)
-            {
+            if(hasaddr) {
 
 //				_s.errlog((char *)"4. MB_JAM() Warning: Multiple DADDRESS not supported by CrashMail");
-            }
-            else
-            {
+            } else {
                 hasaddr=TRUE;
 
-                if(Parse5D(buf,&n4d,domain))
-                {
+                if(Parse5D(buf,&n4d,domain)) {
                     mm->DestNode.Zone=n4d.Zone;
                     mm->DestNode.Net=n4d.Net;
                     mm->DestNode.Node=n4d.Node;
@@ -2295,8 +2136,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
         }
     }
 
-    if(filesubject[0])
-    {
+    if(filesubject[0]) {
         mm->Attr|=FLAG_FILEATTACH;
         mystrncpy(mm->Subject,filesubject,72);
     }
@@ -2309,14 +2149,10 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     mm->Cost=Header_S.Cost;
 
     for(c=0; jam_flagarray[c].name; c++)
-        if(Header_S.Attribute & jam_flagarray[c].jamflagbit)
-        {
-            if(jam_flagarray[c].fidoflagbit)
-            {
+        if(Header_S.Attribute & jam_flagarray[c].jamflagbit) {
+            if(jam_flagarray[c].fidoflagbit) {
                 mm->Attr |= jam_flagarray[c].fidoflagbit;
-            }
-            else if(jam_flagarray[c].name[0] && strlen((const char *)flagsbuf)<90)
-            {
+            } else if(jam_flagarray[c].name[0] && strlen((const char *)flagsbuf)<90) {
                 if(flagsbuf[0]==0) strcpy((char *)flagsbuf,(char *)"\x01" "FLAGS: ");
                 else               strcat((char *)flagsbuf,(char *)" ");
 
@@ -2324,8 +2160,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
             }
         }
 
-    if(flagsbuf[0])
-    {
+    if(flagsbuf[0]) {
         strcat((char *)flagsbuf,(char *)"\x0d");
         mmAddLine(mm,buf);
     }
@@ -2385,20 +2220,17 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
 
     // make sure it's clear before reading new.
 
-    if(msgtext)
-    {
+    if(msgtext) {
         // Extract origin address
 
-        if(mm->Area[0])
-        {
+        if(mm->Area[0]) {
             uint32_t textpos,d;
             uint8_t originbuf[200];
             struct Node4D n4d;
 
             textpos=0;
 
-            while(msgtext[textpos])
-            {
+            while(msgtext[textpos]) {
                 d=textpos;
 
                 while(msgtext[d] != 13 && msgtext[d] != 0)
@@ -2407,8 +2239,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
                 if(msgtext[d] == 13)
                     d++;
 
-                if(d-textpos > 11 && strncmp((char *)&msgtext[textpos],(char *)" * Origin: ",11)==0)
-                {
+                if(d-textpos > 11 && strncmp((char *)&msgtext[textpos],(char *)" * Origin: ",11)==0) {
                     mystrncpy(originbuf,&msgtext[textpos],AMIN(d-textpos,200));
 
                     if(ExtractAddress(originbuf,&n4d))
@@ -2543,8 +2374,8 @@ BOOL PackJamArea(mb_list_rec *area)
 //             active  = 0,
 //             basenum = 0,
     total   = 0,
-              del     = 0,
-                        num     = 0;
+    del     = 0,
+    num     = 0;
     //      day;
 
     s_JamBase *Base_PS,*NewBase_PS;
@@ -2578,29 +2409,25 @@ BOOL PackJamArea(mb_list_rec *area)
     std::string path = (char *)MESGPATH;
     path += (char *)area->mbfile;
 
-    if(JAM_OpenMB((uint8_t *)path.c_str(),&Base_PS))
-    {
+    if(JAM_OpenMB((uint8_t *)path.c_str(),&Base_PS)) {
         printf(" Failed to open messagebase \"%s\"\n",(char *)path.c_str());
         return(TRUE);
     }
 
-    if(JAM_LockMB(Base_PS,10))
-    {
+    if(JAM_LockMB(Base_PS,10)) {
         printf(" Timeout when trying to lock messagebase \"%s\"\n",(char *)path.c_str());
         JAM_CloseMB(Base_PS);
         return(TRUE);
     }
 
-    if(JAM_ReadMBHeader(Base_PS,&BaseHeader_S))
-    {
+    if(JAM_ReadMBHeader(Base_PS,&BaseHeader_S)) {
         printf(" Failed to read header of messagebase \"%s\"\n",(char *)path.c_str());
         JAM_UnlockMB(Base_PS);
         JAM_CloseMB(Base_PS);
         return(TRUE);
     }
 
-    if(JAM_GetMBSize(Base_PS,&total))
-    {
+    if(JAM_GetMBSize(Base_PS,&total)) {
         printf(" Failed to get size of messagebase \"%s\"\n",(char *)path.c_str());
         JAM_UnlockMB(Base_PS);
         JAM_CloseMB(Base_PS);
@@ -2610,8 +2437,7 @@ BOOL PackJamArea(mb_list_rec *area)
 //   basenum = BaseHeader_S.BaseMsgNum;
 //   active  = BaseHeader_S.ActiveMsgs;
 
-    if(total == 0)
-    {
+    if(total == 0) {
         printf(" Area is empty\n");
         JAM_UnlockMB(Base_PS);
         JAM_CloseMB(Base_PS);
@@ -2728,16 +2554,14 @@ BOOL PackJamArea(mb_list_rec *area)
     strcpy((char *)buf,(char *)path.c_str());
     strcat((char *)buf,(char *)".entemp");
 
-    if(JAM_CreateMB(buf,1,&NewBase_PS))
-    {
+    if(JAM_CreateMB(buf,1,&NewBase_PS)) {
         printf(" Failed to create new messagebase \"%s\"\n",buf);
         JAM_UnlockMB(Base_PS);
         JAM_CloseMB(Base_PS);
         return(TRUE);
     }
 
-    if(JAM_LockMB(NewBase_PS,10))
-    {
+    if(JAM_LockMB(NewBase_PS,10)) {
         printf(" Timeout when trying to lock messagebase \"%s\"\n",buf);
         JAM_UnlockMB(Base_PS);
         JAM_CloseMB(Base_PS);
@@ -2755,26 +2579,18 @@ BOOL PackJamArea(mb_list_rec *area)
     BaseHeader_S.ActiveMsgs=0;
 
     // while(num < total && !ctrlc)
-    while(num < total)
-    {
+    while(num < total) {
         res=JAM_ReadMsgHeader(Base_PS,num,&Header_S,NULL);
 
-        if(res)
-        {
-            if(res == JAM_NO_MESSAGE)
-            {
-                if(firstwritten)
-                {
+        if(res) {
+            if(res == JAM_NO_MESSAGE) {
+                if(firstwritten) {
                     JAM_AddEmptyMessage(NewBase_PS);
-                }
-                else
-                {
+                } else {
                     BaseHeader_S.BaseMsgNum++;
                     del++;
                 }
-            }
-            else
-            {
+            } else {
                 // printf(" Failed to read message %ld, cannot pack messagebase\n", num+basenum);
                 JAM_UnlockMB(Base_PS);
                 JAM_CloseMB(Base_PS);
@@ -2783,31 +2599,21 @@ BOOL PackJamArea(mb_list_rec *area)
                 JAM_RemoveMB(NewBase_PS,buf);
                 return(TRUE);
             }
-        }
-        else
-        {
-            if(Header_S.Attribute & MSG_DELETED)
-            {
-                if(firstwritten)
-                {
+        } else {
+            if(Header_S.Attribute & MSG_DELETED) {
+                if(firstwritten) {
                     JAM_AddEmptyMessage(NewBase_PS);
-                }
-                else
-                {
+                } else {
                     BaseHeader_S.BaseMsgNum++;
                     del++;
                 }
-            }
-            else
-            {
-                if(!firstwritten)
-                {
+            } else {
+                if(!firstwritten) {
                     /* Set basenum */
 
                     res=JAM_WriteMBHeader(NewBase_PS,&BaseHeader_S);
 
-                    if(res)
-                    {
+                    if(res) {
                         printf(" Failed to write messagebase header, cannot pack messagebase\n");
                         JAM_UnlockMB(Base_PS);
                         JAM_CloseMB(Base_PS);
@@ -2824,8 +2630,7 @@ BOOL PackJamArea(mb_list_rec *area)
 
                 res=JAM_ReadMsgHeader(Base_PS,num,&Header_S,&SubPacket_PS);
 
-                if(res)
-                {
+                if(res) {
                     // printf(" Failed to read message %ld, cannot pack messagebase\n",num+basenum);
                     JAM_UnlockMB(Base_PS);
                     JAM_CloseMB(Base_PS);
@@ -2839,10 +2644,8 @@ BOOL PackJamArea(mb_list_rec *area)
 
                 msgtext=NULL;
 
-                if(Header_S.TxtLen)
-                {
-                    if(!(msgtext=new uint8_t[Header_S.TxtLen]))
-                    {
+                if(Header_S.TxtLen) {
+                    if(!(msgtext=new uint8_t[Header_S.TxtLen])) {
                         printf("Out of memory\n");
                         JAM_DelSubPacket(SubPacket_PS);
                         JAM_UnlockMB(Base_PS);
@@ -2855,8 +2658,7 @@ BOOL PackJamArea(mb_list_rec *area)
 
                     res=JAM_ReadMsgText(Base_PS,Header_S.TxtOffset,Header_S.TxtLen,msgtext);
 
-                    if(res)
-                    {
+                    if(res) {
                         //   printf(" Failed to read message %ld, cannot pack messagebase\n",num+basenum);
                         JAM_DelSubPacket(SubPacket_PS);
                         JAM_UnlockMB(Base_PS);
@@ -2877,8 +2679,7 @@ BOOL PackJamArea(mb_list_rec *area)
 
                 BaseHeader_S.ActiveMsgs++;
 
-                if(res)
-                {
+                if(res) {
                     // printf(" Failed to copy message %ld (disk full?!?Permissions?!?), cannot pack messagebase\n",num+basenum);
                     JAM_UnlockMB(Base_PS);
                     JAM_CloseMB(Base_PS);
@@ -2899,8 +2700,7 @@ BOOL PackJamArea(mb_list_rec *area)
 
     res=JAM_WriteMBHeader(NewBase_PS,&BaseHeader_S);
 
-    if(res)
-    {
+    if(res) {
         printf(" Failed to write messagebase header, cannot pack messagebase\n");
         JAM_UnlockMB(Base_PS);
         JAM_CloseMB(Base_PS);
@@ -2930,32 +2730,28 @@ BOOL PackJamArea(mb_list_rec *area)
     res1=osDelete(oldname);
     res2=osRename(tmpname,oldname);
 
-    if(res1 && res2)
-    {
+    if(res1 && res2) {
         sprintf((char *)oldname,"%s%s",(char *)path.c_str(),EXT_TXTFILE);
         sprintf((char *)tmpname,"%s.entemp%s",(char *)path.c_str(),EXT_TXTFILE);
         res1=osDelete(oldname);
         res2=osRename(tmpname,oldname);
     }
 
-    if(res1 && res2)
-    {
+    if(res1 && res2) {
         sprintf((char *)oldname,"%s%s",(char *)path.c_str(),EXT_IDXFILE);
         sprintf((char *)tmpname,"%s.entemp%s",(char *)path.c_str(),EXT_IDXFILE);
         res1=osDelete(oldname);
         res2=osRename(tmpname,oldname);
     }
 
-    if(res1 && res2)
-    {
+    if(res1 && res2) {
         sprintf((char *)oldname,"%s%s",(char *)path.c_str(),EXT_LRDFILE);
         sprintf((char *)tmpname,"%s.entemp%s",(char *)path.c_str(),EXT_LRDFILE);
         /* Keep lastread file */
         res2=osDelete(tmpname);
     }
 
-    if(!res1 || !res2)
-    {
+    if(!res1 || !res2) {
         printf(" Failed to update area. The area might be in use by another program.\n");
         return(FALSE);
     }
@@ -3001,8 +2797,7 @@ uint32_t jamapi_readmsgid(mb_list_rec *area, uint32_t num, std::string &tmpMsgId
         --num;
 
     // Open the area
-    if(!(ja=jam_getarea(area)))
-    {
+    if(!(ja=jam_getarea(area))) {
 //	  _s.errlog((char *)"4. readmsgid() - !jam_getarea()");
         return(0L);
     }
@@ -3012,19 +2807,15 @@ uint32_t jamapi_readmsgid(mb_list_rec *area, uint32_t num, std::string &tmpMsgId
     // Read message header
 //   res=JAM_ReadMsgHeader(ja->Base_PS, num - ja->BaseNum, &Header_S, &SubPacket_PS);
     res = JAM_ReadMsgHeader(ja->Base_PS, num, &Header_S, &SubPacket_PS);
-    if(res)
-    {
-        if(res == JAM_NO_MESSAGE)
-        {
+    if(res) {
+        if(res == JAM_NO_MESSAGE) {
             JAM_CloseMB(ja->Base_PS);
             free(ja->Base_PS);
             delete ja;
             ja = 0;
 //		  _s.errlog((char *)"4. readmsgid() message no longer exists #%lu ",num);
             return(0L); // Message no longer exists
-        }
-        else
-        {
+        } else {
             JAM_CloseMB(ja->Base_PS);
             free(ja->Base_PS);
             delete ja;
@@ -3041,8 +2832,7 @@ uint32_t jamapi_readmsgid(mb_list_rec *area, uint32_t num, std::string &tmpMsgId
 
 
     // Check if deleted
-    if(Header_S.Attribute & MSG_DELETED)
-    {
+    if(Header_S.Attribute & MSG_DELETED) {
 //	   _s.errlog((char *)"4. readmsgid() flagged deleted. #%lu ",num);
         // Message deleted
         /*
@@ -3056,10 +2846,8 @@ uint32_t jamapi_readmsgid(mb_list_rec *area, uint32_t num, std::string &tmpMsgId
 
     // Searching for a Flag,  skipp for now, and do only header.
 
-    for(Field_PS=JAM_GetSubfield(SubPacket_PS); Field_PS; Field_PS=JAM_GetSubfield(NULL))
-    {
-        switch(Field_PS->LoID)
-        {
+    for(Field_PS=JAM_GetSubfield(SubPacket_PS); Field_PS; Field_PS=JAM_GetSubfield(NULL)) {
+        switch(Field_PS->LoID) {
         case JAMSFLD_MSGID:
             //jam_makekludge(mm,(uint8_t *)"\x01" "MSGID: ",Field_PS->Buffer,Field_PS->DatLen);
             //sprintf(newid,"%s",Field_PS->Buffer);
@@ -3107,11 +2895,9 @@ uint32_t buildmsgid(uint32_t MsgID, mb_list_rec *area)
     unsigned long start=ja->BaseNum;
 
     num = 0;
-    while (1)
-    {
+    while (1) {
         res = jamapi_readmsgid(area, num, tmp);
-        if (res == MsgID)
-        {
+        if (res == MsgID) {
             JAM_CloseMB(ja->Base_PS);
             free(ja->Base_PS);
             delete ja;
@@ -3120,8 +2906,7 @@ uint32_t buildmsgid(uint32_t MsgID, mb_list_rec *area)
         }
 
         ++num;
-        if (num > start)
-        {
+        if (num > start) {
             JAM_CloseMB(ja->Base_PS);
             free(ja->Base_PS);
             delete ja;
@@ -4509,5 +4294,3 @@ int jam_linkmb(struct Area *area,uint32_t oldnum)
 }
 
 */
-
-

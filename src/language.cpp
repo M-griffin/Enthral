@@ -56,11 +56,9 @@ int language::lang_write(LangRec *lang, int idx)
     int x = 0;
 
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             perror("Error unable to write language.dat, check permissions!");
             return x;
         }
@@ -84,11 +82,9 @@ int language::lang_read(LangRec *lang, int idx)
     int x = 0;
 
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             perror("Error unable to read language.dat, check permissions!");
             return x;
         }
@@ -111,8 +107,7 @@ int language::lang_count()
     int i = 0;
     LangRec lang;
 
-    while(lang_read(&lang,i))
-    {
+    while(lang_read(&lang,i)) {
         ++i;
     }
     if(i < 1)	i = -1;
@@ -131,8 +126,7 @@ void language::lang_get(char *lang, int idx)
     LangRec l1;
     --idx;
 
-    if (idx > id1)
-    {
+    if (idx > id1) {
         return;
     }
     lang_read(&l1,idx);
@@ -159,10 +153,8 @@ void language::lang_check(std::string lang)
         return;
 
     // Parse first 3 Digits for Language string Number
-    for (int i = 0; i < 4; i++)
-    {
-        if (isdigit(lang[cnt]))
-        {
+    for (int i = 0; i < 4; i++) {
+        if (isdigit(lang[cnt])) {
             Num[cnt] = lang[cnt];
             ++cnt;
         }
@@ -171,21 +163,17 @@ void language::lang_check(std::string lang)
     std::stringstream iconvert(Num);   // In
 
     // Convert String to Int
-    if (iconvert >> LangNum)
-    {
+    if (iconvert >> LangNum) {
         if (LangNum > 0)
             --LangNum;
-    }
-    else
-    {
+    } else {
         // Error Unable to Convert
         return;
     }
 
     LangRec l1;
     memset(&l1,0,sizeof(LangRec));
-    if (lang.size() > 4)
-    {
+    if (lang.size() > 4) {
         temp2 = lang.substr( 4);
         strcpy((char *)l1.Lang, (char *)temp2.c_str());
         lang_write(&l1,LangNum);
@@ -203,16 +191,14 @@ void language::lang_compile()
 
     ifstream inStream;
     inStream.open( name.c_str() );
-    if (!inStream.is_open())
-    {
+    if (!inStream.is_open()) {
         perror("Error unable to open language.dat, check permissions!");
         return;
     }
     lang_remove();
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         getline(inStream,cfgdata);
         lang_check(cfgdata);
         if(inStream.eof()) break;
@@ -220,7 +206,3 @@ void language::lang_compile()
     inStream.close();
     return;
 }
-
-
-
-

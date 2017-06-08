@@ -755,4 +755,3 @@ char *file_area::StartList(char *OrgMsg)
 }
 
 */
-

@@ -44,27 +44,21 @@ int msg_newscan::new_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "mnewscan.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, loop untill it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)     // Lock File Missing
-        {
+        if(stream == NULL) {   // Lock File Missing
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 printf("Error mnewscan.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;	// Created Lock File
             }
@@ -88,12 +82,10 @@ int msg_newscan::new_read(NewScan *ns, int idx, char *mbase)
     FILE *stream;
 
     stream = fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         new_lockSet(FALSE);
         return (0);
-    }
-    else fclose(stream);
+    } else fclose(stream);
 
     stream = fopen(path, "rb");
     if(fseek(stream,(int)idx*sizeof(NewScan),SEEK_SET)==0)
@@ -117,11 +109,9 @@ int msg_newscan::new_write(NewScan *ns, int idx, char *mbase)
     int x = 0;
 
     stream=fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path, "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             write(0,path,sizeof(path));
             new_lockSet(FALSE);
             return 0;
@@ -143,8 +133,7 @@ int msg_newscan::new_count(char *mbase)
     int i = 0;
     NewScan ns;
 
-    while(new_read(&ns,i,mbase))
-    {
+    while(new_read(&ns,i,mbase)) {
         ++i;
     }
     if(i < 1)	i = -1;
@@ -163,11 +152,9 @@ int msg_newscan::read_mbase(mb_list_rec *mr, int rec)
     path += "forums.dat";
 
     FILE *fptr = fopen(path.c_str(),"rb+");
-    if(fptr == NULL)
-    {
+    if(fptr == NULL) {
         fptr = fopen(path.c_str(), "wb");
-        if(fptr == NULL)
-        {
+        if(fptr == NULL) {
             printf("Error forum_read!");
             return x;
         }
@@ -198,4 +185,3 @@ int msg_newscan::check_mbase(UserRec *thisuser)
     if (ns.set == TRUE) return TRUE;
     return FALSE;
 }
-

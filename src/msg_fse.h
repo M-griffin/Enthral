@@ -49,14 +49,14 @@ private:
 
     // Editor Variables
     int Row,       // Y - Row    [Lines]
-    Col,       // X - Colume [Char in Line]
-    Len,       // Line Length
+        Col,       // X - Colume [Char in Line]
+        Len,       // Line Length
 
-    Top,       // Top Margin
-    Bot,       // Bottom Margin
+        Top,       // Top Margin
+        Bot,       // Bottom Margin
 
-    Tot,       // Total # of Lines in Link List
-    Num;       // Current Line Number in Link List
+        Tot,       // Total # of Lines in Link List
+        Num;       // Current Line Number in Link List
 
     bool MSG_REPLY;
 

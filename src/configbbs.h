@@ -32,4 +32,3 @@ void checkcfg(std::string cfgdata);
 void parseconfig();
 
 # endif
-

@@ -88,8 +88,7 @@ int msgread_ini::msg_exists()
 
     FILE *stream;
     stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         perror("Error unable to read msgread.ini, check permissions!");
         return false;
     }
@@ -107,8 +106,7 @@ void msgread_ini::msg_create()
 
     ofstream outStream2;
     outStream2.open( name.c_str(), ofstream::out | ofstream::trunc );
-    if (!outStream2.is_open())
-    {
+    if (!outStream2.is_open()) {
         printf( "\nError Creating: %s \n", name.c_str());
         return;
     }
@@ -146,160 +144,109 @@ void msgread_ini::msg_check(std::string cfgdata)
     std::string temp = cfgdata;
     if (temp[0] == '#') return;
     else if (temp.find("set VIEW_TYPE ", 0) !=
-             std::string::npos)
-    {
+             std::string::npos) {
         msg_chkpar(temp);
         strcpy(sVIEW,(char *)temp.c_str());
-    }
-    else if (temp.find("set THEME_NAME ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set THEME_NAME ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sTHEME_NAME,(char *)temp.c_str());
-    }
-    else if (temp.find("set ANSI_FILE ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set ANSI_FILE ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sANSI_FILE,(char *)temp.c_str());
-    }
-    else if (temp.find("set ANSI_HELP ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set ANSI_HELP ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sANSI_HELP,(char *)temp.c_str());
-    }
-    else if (temp.find("set MENU_PROMPT ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MENU_PROMPT ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMENU_PROMPT,(char *)temp.c_str());
-    }
-    else if (temp.find("set MENU_PROMPT2 ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MENU_PROMPT2 ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMENU_PROMPT2,(char *)temp.c_str());
-    }
-    else if (temp.find("set TOP ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set TOP ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         id1 = atoi(temp.c_str());
         iTop = id1;
-    }
-    else if (temp.find("set BOT ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set BOT ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         id1 = atoi(temp.c_str());
         iBot = id1;
-    }
-    else if (temp.find("set PAGENUM ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set PAGENUM ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sPAGENUM,(char *)temp.c_str());
-    }
-    else if (temp.find("set PAGETOTAL ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set PAGETOTAL ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sPAGETOTAL,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREUP ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREUP ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREUP,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREUP_CHAR ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREUP_CHAR ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREUP_CHAR,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREDOWN ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREDOWN ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREDOWN,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREDOWN_CHAR ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREDOWN_CHAR ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREDOWN_CHAR,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_ON ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_ON ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREMSG_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_WORD_ON ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_WORD_ON ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREMSG_WORD_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set EOM_ON ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set EOM_ON ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sEOM_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set EOM_WORD_ON ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set EOM_WORD_ON ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sEOM_WORD_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set NXT_ON ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set NXT_ON ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sNXT_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set NXT_WORD_ON ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set NXT_WORD_ON ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sNXT_WORD_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_OFF ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_OFF ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREMSG_OFF,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_WORD_OFF ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_WORD_OFF ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sMOREMSG_WORD_OFF,(char *)temp.c_str());
-    }
-    else if (temp.find("set TEXT_COLOR ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set TEXT_COLOR ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sTEXT_COLOR,(char *)temp.c_str());
-    }
-    else if (temp.find("set QUOTE_COLOR ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set QUOTE_COLOR ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sQUOTE_COLOR,(char *)temp.c_str());
-    }
-    else if (temp.find("set SYS_COLOR ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set SYS_COLOR ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sSYS_COLOR,(char *)temp.c_str());
-    }
-    else if (temp.find("set ORIGIN_COLOR ", 0) !=
-             std::string::npos)
-    {
+    } else if (temp.find("set ORIGIN_COLOR ", 0) !=
+               std::string::npos) {
         msg_chkpar(temp);
         strcpy(sORIGIN_COLOR,(char *)temp.c_str());
     }
@@ -324,8 +271,7 @@ int msgread_ini::msg_parse(int idx)
     // Check if Theme Exists, if not return FALSE.
     FILE *stream;
     stream = fopen(name,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         // File is not Present
         return FALSE;
     }
@@ -333,16 +279,14 @@ int msgread_ini::msg_parse(int idx)
 
     ifstream inStream;
     inStream.open( name );
-    if (!inStream.is_open())
-    {
+    if (!inStream.is_open()) {
         //printf("Couldn't Open Config File: %s\n", name);
         perror("Error unable to parse msgread.ini, check permissions!");
         return FALSE;
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         std::getline(inStream,cfgdata,'\n');
         msg_check(cfgdata);
         if(inStream.eof()) break;
@@ -427,8 +371,7 @@ void msg_read::ansi_file(char *filename)
     MsgsLeft = TotMsgs - CurMsgs;
 
     int id1 = 0;
-    do
-    {
+    do {
         // parse justify spacing right / left passing in string before
         // replacing mci code. to Properly Space Output Ansi.
         id1 = buff.find("%", 0);
@@ -437,8 +380,7 @@ void msg_read::ansi_file(char *filename)
         memset(&MCI,0,sizeof(MCI));
         space = 0;
         // Check if MCI Code is Justified then Process this.
-        if (buff[id1+3] == '{')
-        {
+        if (buff[id1+3] == '{') {
             // Left Justify
             //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
@@ -446,9 +388,7 @@ void msg_read::ansi_file(char *filename)
             space  = atoi(MCI);
             foundr = FALSE;
             foundl = TRUE;
-        }
-        else if (buff[id1+3] == '}')
-        {
+        } else if (buff[id1+3] == '}') {
             // Right Justify
             //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
@@ -466,54 +406,32 @@ void msg_read::ansi_file(char *filename)
         // Insert MCI Parsing here so we can reaplace full result with propering spacing.
 
 
-        if (strcmp(MCI,"TI") == 0)
-        {
+        if (strcmp(MCI,"TI") == 0) {
             sprintf(sTemp,"%s", (char *)mHead.time);
-        }
-        else if (strcmp(MCI,"FM") == 0)
-        {
+        } else if (strcmp(MCI,"FM") == 0) {
             sprintf(sTemp,"%s", (char *)mHead.from);
-        }
-        else if (strcmp(MCI,"TO") == 0)
-        {
+        } else if (strcmp(MCI,"TO") == 0) {
             sprintf(sTemp,"%s", (char *)mHead.to);
-        }
-        else if (strcmp(MCI,"FL") == 0)
-        {
+        } else if (strcmp(MCI,"FL") == 0) {
             sprintf(sTemp,"%s", (char *)mHead.flags);
-        }
-        else if (strcmp(MCI,"MA") == 0)
-        {
+        } else if (strcmp(MCI,"MA") == 0) {
             sprintf(sTemp,"%s", (char *)mHead.area);
-        }
-        else if (strcmp(MCI,"SU") == 0)
-        {
+        } else if (strcmp(MCI,"SU") == 0) {
             sprintf(sTemp,"%s", (char *)mHead.subj);
-        }
-        else if (strcmp(MCI,"CM") == 0)
-        {
+        } else if (strcmp(MCI,"CM") == 0) {
             sprintf(sTemp,"%lu", CurMsgs);  // Currnet Message
-        }
-        else if (strcmp(MCI,"HM") == 0)
-        {
+        } else if (strcmp(MCI,"HM") == 0) {
             sprintf(sTemp,"%lu", TotMsgs);  // Total Messages
-        }
-        else if (strcmp(MCI,"ML") == 0)
-        {
+        } else if (strcmp(MCI,"ML") == 0) {
             sprintf(sTemp,"%lu", MsgsLeft); // Messages Left
-        }
-        else if (strcmp(MCI,"TH") == 0)
-        {
+        } else if (strcmp(MCI,"TH") == 0) {
             sprintf(sTemp,"#%i. %s",thisuser->readertheme+1,sTHEME_NAME);
         }
 
         // MCI Translation .
-        if (foundl == TRUE)
-        {
+        if (foundl == TRUE) {
             lspacing(sTemp,space);
-        }
-        else if (foundr == TRUE)
-        {
+        } else if (foundr == TRUE) {
             rspacing(sTemp,space);
         }
 
@@ -521,8 +439,7 @@ void msg_read::ansi_file(char *filename)
         (space != 0) ?
         buff.replace(id1,6,sTemp): // 2 sequences
         buff.replace(id1,3,sTemp); // 1 sequence
-    }
-    while (1);
+    } while (1);
     //elog("Finished Parsing MCI Codes...");
     pipe2ansi((char *)buff.c_str());
 }
@@ -533,8 +450,7 @@ void msg_read::ansi_file(char *filename)
 void msg_read::ReadInMsgOnly(ulong marea)
 {
     // Read Data from Jam Message Area
-    if(!ReadMsgArea(marea))
-    {
+    if(!ReadMsgArea(marea)) {
         return;
     }
     MsgSetupTxt(); // Title Scan
@@ -548,8 +464,7 @@ int msg_read::ReadMsg(ulong marea, int showit, int newmsg, int private_area)
     ulong lr = 0;
 
     // Make Sure index is not greater then last message.
-    if (current_msgidx >= msgidx_translation->size())
-    {
+    if (current_msgidx >= msgidx_translation->size()) {
         return FALSE;
     }
 
@@ -557,52 +472,38 @@ int msg_read::ReadMsg(ulong marea, int showit, int newmsg, int private_area)
     lr = GetLastRead(thisuser->idx);
 
     // Read Data from Jam Message Area
-    if(!ReadMsgArea(marea))
-    {
+    if(!ReadMsgArea(marea)) {
         return FALSE;
     }
 
 
     // If were Scanning Messages, or Showing Them
     // Populate Message Structure.
-    if (showit)
-    {
-        if (private_area == TRUE && strcmp((char *)thisuser->handle,(char *)MI.To) == 0)
-        {
+    if (showit) {
+        if (private_area == TRUE && strcmp((char *)thisuser->handle,(char *)MI.To) == 0) {
             MsgSetupTxt();  // Normal Message Reader
-        }
-        else if (private_area == TRUE && strcmp((char *)thisuser->handle,(char *)MI.To) != 0 && opscan == FALSE)
-        {
+        } else if (private_area == TRUE && strcmp((char *)thisuser->handle,(char *)MI.To) != 0 && opscan == FALSE) {
             // Blank, don't populate header or message!
-        }
-        else if (private_area == FALSE)
-        {
+        } else if (private_area == FALSE) {
             MsgSetupTxt();  // Normal Message Reader (No Email)
             ++Views;
-        }
-        else
-        {
+        } else {
             MsgSetupTxt();  // Normal Message Reader (No Email) / Or Sysop Email Read.
             if (opscan != TRUE) ++Views;
         }
-    }
-    else
-    {
+    } else {
         SetupMsgHdr(); // Title Scan
     }
 
 
     // Public NewScan - Working!
-    if(newmsg && showit)
-    {
+    if(newmsg && showit) {
 
         // First makesure last read pointer is not past the highest message.
         // This mean all messages per current area have been read.
-        if (lr < msgidx_translation->size())
-        {
+        if (lr < msgidx_translation->size()) {
             // If Currnet Mesage > Message where LastRead Index is at.
-            if (thisuser->lastmsg >= msgidx_translation->at(lr))
-            {
+            if (thisuser->lastmsg >= msgidx_translation->at(lr)) {
                 // Set last read to current index to Next Message, thats where we
                 // Start Reading from. if we quit and start over, or New Messages
                 // get Posted.
@@ -653,8 +554,7 @@ void msg_read::JumpToMessage()
     _lang.lang_get(choice,25);
     AnsiString = choice;
     id1 = AnsiString.find("|HM",0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         //      szTmp[0] = AnsiString[id1+1];
         //      szTmp[1] = AnsiString[id1+2];
 
@@ -672,13 +572,10 @@ void msg_read::JumpToMessage()
     --id1; // Move to 0 based array.
 
     // Move to new Message
-    if ( (signed)id1 >= 0 && id1 < msgidx_translation->size() )
-    {
+    if ( (signed)id1 >= 0 && id1 < msgidx_translation->size() ) {
         thisuser->lastmsg = msgidx_translation->at( id1 );
         current_msgidx = id1;
-    }
-    else
-    {
+    } else {
         pipe2ansi((char *)"|CR|CR|15Invalid: |07Message number.  Try again! |DE |DE");
     }
 
@@ -716,23 +613,16 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
     putkey(ch);
 
 
-    if (toupper(ch) == 'Y')
-    {
-        if (mr.Pubpriv == PRIVATE)
-        {
+    if (toupper(ch) == 'Y') {
+        if (mr.Pubpriv == PRIVATE) {
             // If Private let originating poster or receiver delete message.
             if ((strcmp((char *)thisuser->handle, mHead.from) == 0) ||
-                    (strcmp((char *)thisuser->handle, mHead.to) == 0) ||
-                    (isSysop == TRUE))
-            {
+                (strcmp((char *)thisuser->handle, mHead.to) == 0) ||
+                (isSysop == TRUE)) {
                 //continue;
-            }
-            else if (isSysop == TRUE)
-            {
+            } else if (isSysop == TRUE) {
                 //continue;
-            }
-            else
-            {
+            } else {
                 // Then user can't remove this message, add Security check
                 // later on for sysop / cosysop
                 memset(&text,0,sizeof(text));
@@ -742,8 +632,7 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
             }
         }
         // Add check if real name or handle used here!!
-        else if (strcmp((char *)thisuser->handle, mHead.from) != 0)
-        {
+        else if (strcmp((char *)thisuser->handle, mHead.from) != 0) {
             // Then user can't remove this message, add Security check
             // later on for sysop / cosysop
             memset(&text,0,sizeof(text));
@@ -751,8 +640,7 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
             pipe2ansi(text);
             return FALSE;
         }
-    }
-    else
+    } else
         return FALSE;
 
 
@@ -764,8 +652,7 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
 
     BOOL res;
     res = jamapi_purgemsg(&mr, msgnum);
-    if (res)
-    {
+    if (res) {
         //Failed
 //		errlog2((char *)"Failed to Purge Message");
         return FALSE;
@@ -781,15 +668,13 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
     // We're at / We just deleted.
     // Reverse Lookup.
 
-    for (int j = msgidx_translation->size()-1; j >= 0; j--)
-    {
+    for (int j = msgidx_translation->size()-1; j >= 0; j--) {
         if (msgidx_translation->at(j) == msgnum)
             currReadIdx = j;
     }
 
     // Should never get here.
-    if (currReadIdx == -1)
-    {
+    if (currReadIdx == -1) {
 //		errlog2((char *)"Error: Purge Message: currReadIdx == -1");
         return FALSE;
     }
@@ -799,8 +684,7 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
         --currReadIdx;
 
     // Only reset current person for private areas.
-    if (mr.Pubpriv == PRIVATE)
-    {
+    if (mr.Pubpriv == PRIVATE) {
 
         // In a private area, we have a indivdual index, we need to first get current
         // Index position of message deleted, then lower by one for current message.
@@ -816,20 +700,16 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
 
         // Last Read, > Deleted Message, decrement index to line back up
         // with removed message
-        if (lastReadIdx > currReadIdx+1)
-        {
+        if (lastReadIdx > currReadIdx+1) {
             // Don't allow Negative index's, Always start at 0
             if (lastReadIdx <= 0)
                 lastReadIdx = 1;
             SetLastRead(thisuser->idx, lastReadIdx-1);
         }
-    }
-    else
-    {
+    } else {
         // This is a Public Area, Global Message Number(s)
         // Here we loop all Users and fix their lastRead.
-        for (int iCnt = 0; iCnt != iTotal; iCnt++)
-        {
+        for (int iCnt = 0; iCnt != iTotal; iCnt++) {
             // Get Last Read Pointer for Updating.
             lastReadIdx = GetLastRead(iCnt);
 
@@ -839,8 +719,7 @@ int msg_read::DelCurMsg(ulong mbnum, ulong msgnum)
 
             // Last Read, > Deleted Message, decrement index to line back up
             // with removed message
-            if (lastReadIdx > currReadIdx+1)
-            {
+            if (lastReadIdx > currReadIdx+1) {
                 // Don't allow Negative index's, Always start at 0
                 if (lastReadIdx <= 0)
                     lastReadIdx = 1;
@@ -868,8 +747,7 @@ int msg_read::NextAreaScan()
     total = _msgf.msg_count(); // Counts total Message Areas
 
     // Moe to next area to continue scan
-    if((signed)thisuser->lastmbarea < (total-1))
-    {
+    if((signed)thisuser->lastmbarea < (total-1)) {
         ++thisuser->lastmbarea;
         CURRENT_MAREA = thisuser->lastmbarea;
         firstscan = TRUE;
@@ -890,10 +768,8 @@ int msg_read::verify_username(char *text, char *name)
 
     ulong usernum;
     usernum = atoi(name); // Check if User Number was entered.
-    if (usernum != 0)
-    {
-        if (idx_read(&index,usernum-1))
-        {
+    if (usernum != 0) {
+        if (idx_read(&index,usernum-1)) {
             //elog("User # found: %i, %s",usernum, index.handle);
             strcpy((char *)u.handle, (char *)index.handle);
 
@@ -901,21 +777,15 @@ int msg_read::verify_username(char *text, char *name)
             pipe2ansi(text);
             putline((char *)u.handle);  // Also Ask to verify this is correct.
             return TRUE;
-        }
-        else
-        {
+        } else {
             //elog("User # NOT found: %i, %s",usernum, name);
             return FALSE;
         }
-    }
-    else if(idx_match(name))
-    {
+    } else if(idx_match(name)) {
         strcpy((char *)u.handle, name);
         //elog("User Name found: %i, %s",usernum, name);
         return TRUE;
-    }
-    else
-    {
+    } else {
         //elog("User Name NOT found: %i, %s",usernum, name);
         return FALSE;
     }
@@ -932,15 +802,13 @@ int msg_read::read_usersig(std::string &sig)
     ifstream ins;
 
     ins.open( usersig );
-    if (!ins.is_open())
-    {
+    if (!ins.is_open()) {
 //        errlog((char *)"read_usersig(); None Exists.");
         return FALSE;
     }
 
     sig.erase();
-    for (;;)
-    {
+    for (;;) {
         std::getline(ins,data,'\r');
         if (ins.eof()) break;
         sig.append(data);
@@ -963,16 +831,14 @@ void msg_read::write_usersig(std::string &tmp)
     sprintf(usersig,"%s%ld.sig",USRSIG, (ulong)thisuser->idx);
 
     // Clear or Remove Sig and Return if Blank.
-    if (tmp.size() == 0)
-    {
+    if (tmp.size() == 0) {
         remove(usersig);
         return;
     }
 
     ofstream ostr;
     ostr.open( usersig, ofstream::out | ofstream::trunc );
-    if (!ostr.is_open())
-    {
+    if (!ostr.is_open()) {
         return;
     }
 
@@ -1000,8 +866,7 @@ int msg_read::SetupUserSig()
     char usersig[1024]= {0};
     sprintf(usersig,"%s%ld.sig", USRSIG, (ulong)thisuser->idx);
     FILE *stream=fopen(usersig,"rb+");
-    if(stream != NULL)
-    {
+    if(stream != NULL) {
         exists = TRUE;
         fclose(stream);
     }
@@ -1009,15 +874,12 @@ int msg_read::SetupUserSig()
     int ch = 0;
 
     // Prompt to Create/Edit, or Remove Existing.
-    if (exists)
-    {
+    if (exists) {
         pipe2ansi ((char*)"|CS|CR |06Hit |14|18 ENTER |06|16 to Create/Edit, or |14|18 K |06|16 to Remove Current AutoSig|08: |07");
         int done = FALSE;
-        while(!done)
-        {
+        while(!done) {
             ch = getkey(true);
-            switch(toupper(ch))
-            {
+            switch(toupper(ch)) {
             case 10 : // ENTER
                 done = TRUE;
                 break;
@@ -1046,27 +908,21 @@ int msg_read::SetupUserSig()
 
     strcpy(mHLocal.area,"Internal Editor");
 
-    if (exists == TRUE)
-    {
+    if (exists == TRUE) {
         // Send Original Message for Quoter to FSE.
-        if(read_usersig(tmp) == TRUE)
-        {
+        if(read_usersig(tmp) == TRUE) {
             mLinkll.PutBufferSig((char *)tmp.c_str());
-        }
-        else
+        } else
             return FALSE;
 
         save = _msge.poll_chr(FALSE, TRUE, &mHLocal, &mLinkll);
 
-    }
-    else
-    {
+    } else {
         save = _msge.poll_chr(FALSE, FALSE, &mHLocal);
     }
 
     // Aborted.
-    if (!save)
-    {
+    if (!save) {
         _lang.lang_get(text,35);
         pipe2ansi(text);
         return FALSE;
@@ -1106,20 +962,16 @@ void msg_read::get_address(XMSG *xm)
     getline(faddr,20);
     zone=strtok(faddr,":/.\n\r");
 
-    if(zone)
-    {
+    if(zone) {
         xm->dest.zone=atoi(zone);
         net=strtok(NULL,":/.\n\r");
-        if(net)
-        {
+        if(net) {
             xm->dest.net=atoi(net);
             node=strtok(NULL,":/.\n\r");
-            if(node)
-            {
+            if(node) {
                 xm->dest.node=atoi(node);
                 pt=strtok(NULL,":/.\n\r");
-                if(pt)
-                {
+                if(pt) {
                     xm->dest.point=atoi(pt);
                 }
             }
@@ -1166,12 +1018,9 @@ void msg_read::DoPostEmail(int Reply)
     xmsg.attr=0;
     xmsg.attr |= MSGLOCAL;
 
-    if (Reply)
-    {
+    if (Reply) {
         strcpy(to,mHead.from);
-    }
-    else
-    {
+    } else {
         // Get To from User Listing.
         usr_list _ulist;
         _ulist.SetupEmailList(thisuser);
@@ -1179,8 +1028,7 @@ void msg_read::DoPostEmail(int Reply)
 
         memset(&uidx,0,sizeof(UserIdx));
         if (idx != EOF) idx_read(&uidx,idx);
-        else
-        {
+        else {
             return; // Aborted!
         }
     }
@@ -1193,8 +1041,7 @@ void msg_read::DoPostEmail(int Reply)
     int len = 20;
     inputfield(text,len);
     pipe2ansi(text);
-    if (!Reply)
-    {
+    if (!Reply) {
         strcpy(to, (char *)uidx.handle);
     }
     pipe2ansi(to);
@@ -1207,31 +1054,24 @@ void msg_read::DoPostEmail(int Reply)
     pipe2ansi(text);
 
     // Mesasge Reply, Data Alreadt in mHead for Current Message.
-    if (Reply)
-    {
+    if (Reply) {
         strcpy(subj,mHead.subj);
         // Add Re: to First Replies Only!
         std::string sRe;
-        if (subj != 0)
-        {
-            if (subj[0] != 'R' && subj[1] != 'e' && subj[2] != ':')
-            {
+        if (subj != 0) {
+            if (subj[0] != 'R' && subj[1] != 'e' && subj[2] != ':') {
                 sRe = "Re: ";
                 sRe += subj;
                 strcpy(subj,(char *)sRe.c_str());
             }
             getline(subj,len,subj);
-        }
-        else getline(subj,len);
-    }
-    else
-    {
+        } else getline(subj,len);
+    } else {
         getline(subj,len);
     }
 
     // Blank Subject Return!
-    if (strcmp(subj,"") == 0)
-    {
+    if (strcmp(subj,"") == 0) {
         return;
     }
     buff.erase();
@@ -1242,8 +1082,7 @@ void msg_read::DoPostEmail(int Reply)
     else
         strcpy(from, (char *)thisuser->name);
 
-    if(mr.Kind == NETMAIL)
-    {
+    if(mr.Kind == NETMAIL) {
         get_address(&xmsg);
         xmsg.attr |= MSGPRIVATE;
         xmsg.attr |= MSGCRASH;
@@ -1267,18 +1106,14 @@ void msg_read::DoPostEmail(int Reply)
 
     // If were in reply, send current Message text to FSE for Quoting!
     msg_fse _msge(thisuser); // INIT
-    if (Reply)
-    {
+    if (Reply) {
         // Send Original Message for Quoter and FSE.
         save = _msge.poll_chr(Reply, FALSE, &mHLocal, &mLink);
-    }
-    else
-    {
+    } else {
         // Start Fresh
         save = _msge.poll_chr(Reply, FALSE, &mHLocal);
     }
-    if (!save)
-    {
+    if (!save) {
         _lang.lang_get(text,35);
         pipe2ansi(text);
         return;
@@ -1291,25 +1126,19 @@ void msg_read::DoPostEmail(int Reply)
     buff = _msge.buffer;
 
     // Now append user signature. if exists
-    if (read_usersig(tmp) == TRUE)
-    {
-        if (tmp.size() > 1)
-        {
+    if (read_usersig(tmp) == TRUE) {
+        if (tmp.size() > 1) {
             buff += "\r\r";  // Line Before Autosig.
             buff += tmp;
             buff += "\r";    // Line After Autosig.
         }
     }
 
-    if (mr.Kind != LOCAL && mr.Kind != EMAIL)
-    {
-        if (mr.aka.point != 0)
-        {
+    if (mr.Kind != LOCAL && mr.Kind != EMAIL) {
+        if (mr.aka.point != 0) {
             sprintf(faddr," (%d:%d/%d.%d)",
                     mr.aka.zone, mr.aka.net, mr.aka.node, mr.aka.point);
-        }
-        else
-        {
+        } else {
             sprintf(faddr," (%d:%d/%d) ",
                     mr.aka.zone, mr.aka.net, mr.aka.node);
         }
@@ -1376,10 +1205,8 @@ void msg_read::DoPost(int mbnum, int Reply)
     // Change this to mr.type == sysop post only, not same as sysop area.
     // Test if Sysop Base, then only sysop may post!
     if (strcmp((char *)mr.mbfile,"system") == 0 ||
-            strcmp((char *)mr.mbfile,"notice") == 0)
-    {
-        if (isSysop == FALSE)
-        {
+        strcmp((char *)mr.mbfile,"notice") == 0) {
+        if (isSysop == FALSE) {
             pipe2ansi((char *)"|CR Sorry, only Sysop's may post to this area!");
             sleep(1);
             return;
@@ -1402,8 +1229,7 @@ void msg_read::DoPost(int mbnum, int Reply)
     else
         strcpy(from, (char *)thisuser->name);
 
-    if(mr.Kind == NETMAIL)
-    {
+    if(mr.Kind == NETMAIL) {
         get_address(&xmsg);
         xmsg.attr |= MSGPRIVATE;
         xmsg.attr |= MSGCRASH;
@@ -1415,13 +1241,10 @@ void msg_read::DoPost(int mbnum, int Reply)
     inputfield(text,len);
     pipe2ansi(text);
 
-    if (Reply)
-    {
+    if (Reply) {
         strcpy(to,mHead.from);
         getline(to,len,to);
-    }
-    else
-    {
+    } else {
         strcpy(to,"all");
         getline(to,len,to);
     }
@@ -1433,25 +1256,19 @@ void msg_read::DoPost(int mbnum, int Reply)
     pipe2ansi(text);
 
     // Mesasge Reply, Data Alreadt in mHead for Current Message.
-    if (Reply)
-    {
+    if (Reply) {
         strcpy(subj,mHead.subj);
         // Add Re: to First Replies Only!
         std::string sRe;
-        if (subj != 0)
-        {
-            if (subj[0] != 'R' && subj[1] != 'e' && subj[2] != ':')
-            {
+        if (subj != 0) {
+            if (subj[0] != 'R' && subj[1] != 'e' && subj[2] != ':') {
                 sRe = "Re: ";
                 sRe += subj;
                 strcpy(subj,(char *)sRe.c_str());
             }
             getline(subj,len,subj);
-        }
-        else getline(subj,len);
-    }
-    else
-    {
+        } else getline(subj,len);
+    } else {
         getline(subj,len);
     }
 
@@ -1471,14 +1288,11 @@ void msg_read::DoPost(int mbnum, int Reply)
     //elog ("just in message editor");
     msg_fse _msge(thisuser); // INIT
 
-    if (Reply)
-    {
+    if (Reply) {
         // Send Original Message for Quoter to FSE.
         save = _msge.poll_chr(Reply, FALSE, &mHLocal, &mLink);
 //		errlog((char *)"** DoPost: After %i", save);
-    }
-    else
-    {
+    } else {
         // New Fresh message
         save = _msge.poll_chr(Reply, FALSE, &mHLocal);
 //		errlog((char *)"** DoPost: After %i", save);
@@ -1486,8 +1300,7 @@ void msg_read::DoPost(int mbnum, int Reply)
 
 //    errlog((char *)"** DoPost: After save");
 //	errlog2((char *)"!save || == \"\" ");
-    if (!save || _msge.buffer.size() == 0)
-    {
+    if (!save || _msge.buffer.size() == 0) {
 //		errlog((char *)"!save || == \"\" (TRUE)");
         _lang.lang_get(text,35);
         pipe2ansi(text);
@@ -1505,15 +1318,13 @@ void msg_read::DoPost(int mbnum, int Reply)
     buff = _msge.buffer;
 
     // Process Sig if exists.
-    if (read_usersig(tmp) == TRUE)
-    {
-        if (tmp.size() > 1)
-        {
+    if (read_usersig(tmp) == TRUE) {
+        if (tmp.size() > 1) {
             buff += "\r\r";  // Line Before Autosig.
             buff += tmp;
 
             if (mr.Kind != LOCAL && mr.Kind != EMAIL)
-                { }
+            { }
             else
                 buff += "\r";  // Line After Autosig.
 
@@ -1535,15 +1346,11 @@ void msg_read::DoPost(int mbnum, int Reply)
 
 
     //Add System Tag && Origin Line
-    if (mr.Kind != LOCAL && mr.Kind != EMAIL)
-    {
-        if (mr.aka.point != 0)
-        {
+    if (mr.Kind != LOCAL && mr.Kind != EMAIL) {
+        if (mr.aka.point != 0) {
             sprintf(faddr," (%d:%d/%d.%d)",
                     mr.aka.zone, mr.aka.net, mr.aka.node, mr.aka.point);
-        }
-        else
-        {
+        } else {
             sprintf(faddr," (%d:%d/%d) ",
                     mr.aka.zone, mr.aka.net, mr.aka.node);
         }
@@ -1583,11 +1390,9 @@ void msg_read::DoPost(int mbnum, int Reply)
     else hist_update(HIST_POSTS,thisuser);
 
     // Local Posts or Echomail
-    if (mr.Kind != LOCAL && mr.Kind != EMAIL)
-    {
+    if (mr.Kind != LOCAL && mr.Kind != EMAIL) {
         hist_update(HIST_POSTS,thisuser);
-    }
-    else
+    } else
         hist_update(HIST_LOCAL,thisuser);
 }
 
@@ -1618,8 +1423,7 @@ void msg_read::DoEdit(int mbnum)
     unsigned char ch;
 
     //OpenMsgArea(mbnum);
-    if(!ReadMsgArea(mbnum))
-    {
+    if(!ReadMsgArea(mbnum)) {
         return;
     }
 //    CloseMsgArea();
@@ -1637,8 +1441,7 @@ void msg_read::DoEdit(int mbnum)
     xmsg.attr=0;
     xmsg.attr |= MSGLOCAL;
 
-    if(mr.Kind == NETMAIL)
-    {
+    if(mr.Kind == NETMAIL) {
         //get_address(&xmsg);  Disable for Now
         xmsg.attr |= MSGPRIVATE;
         xmsg.attr |= MSGCRASH;
@@ -1654,15 +1457,11 @@ void msg_read::DoEdit(int mbnum)
     strcpy((char*)xmsg.subj, mHead.subj);
 
     // Setup System Tag && Origin Line
-    if (mr.Kind != LOCAL)
-    {
-        if (mr.aka.point != 0)
-        {
+    if (mr.Kind != LOCAL) {
+        if (mr.aka.point != 0) {
             sprintf(faddr," (%d:%d/%d.%d)",
                     mr.aka.zone, mr.aka.net, mr.aka.node, mr.aka.point);
-        }
-        else
-        {
+        } else {
             sprintf(faddr," (%d:%d/%d) ",
                     mr.aka.zone, mr.aka.net, mr.aka.node);
         }
@@ -1681,14 +1480,11 @@ void msg_read::DoEdit(int mbnum)
 
     // NEWMSG
 //    save = _msge.poll_chr(FALSE, TRUE, &mHead, &mLink);
-    if (!save)
-    {
+    if (!save) {
         _lang.lang_get(text,35);
         pipe2ansi(text);
         return;
-    }
-    else
-    {
+    } else {
         // Ask Here to save Edited Changes!
         _lang.lang_get(text,33);
         int len = 3;
@@ -1697,8 +1493,7 @@ void msg_read::DoEdit(int mbnum)
         ch = getkey(true);
         putkey(ch);
 
-        if (toupper(ch) != 'Y')
-        {
+        if (toupper(ch) != 'Y') {
             return;
         }
     }
@@ -1747,11 +1542,9 @@ void msg_read::EditMessage()
     ch = getkey(true);
     putkey(ch);
 
-    if (toupper(ch) == 'Y')
-    {
+    if (toupper(ch) == 'Y') {
         if (strcmp((char *)thisuser->handle,mHead.from) > 0 &&
-                strcmp((char *)thisuser->name,mHead.from) > 0)
-        {
+            strcmp((char *)thisuser->name,mHead.from) > 0) {
             // User Didn't Write Original Message...
             // Then user can't edit this message, add Security check
             // later on for sysop / cosysop Access to users messages.
@@ -1760,8 +1553,7 @@ void msg_read::EditMessage()
             pipe2ansi(text);
             return;
         }
-    }
-    else
+    } else
         return;
 
     DoEdit(thisuser->lastmbarea);
@@ -1808,8 +1600,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
         //pipe2ansi((char *)"|CR|15force area |CR|PA");
         //thisuser->lastmbarea = atoi(mString);
-        if (!multiscan)
-        {
+        if (!multiscan) {
             thisuser->lastmbarea = i;
             CURRENT_MAREA = thisuser->lastmbarea;
         }
@@ -1844,8 +1635,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
     int ch  = 0;
 
     // If this is the first loop on an all area scan, set to first area
-    if (multiscan && first_titlescan)
-    {
+    if (multiscan && first_titlescan) {
         thisuser->lastmbarea = 0;
         CURRENT_MAREA = 0;
     }
@@ -1859,8 +1649,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
         pipe2ansi((char *)"|CR|09Starting Global Message NewScan ...|CR |DE");
 
     // Message Pre-Scan Loop.
-    while(1)
-    {
+    while(1) {
         /* TESTING GLOBAL NEWSCAN
         convert << CURRENT_MAREA;
         tmp1 = convert.str();
@@ -1895,8 +1684,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
             private_area = FALSE;
 
         // If new get users last read for area
-        if (newmsg)
-        {
+        if (newmsg) {
             lastread = GetLastRead(thisuser->idx);
         }
 
@@ -1908,8 +1696,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
         // Don't re-read the area unless title scan is reset or message count changes.
         // Also so we don't reload each time we exit from msg read back to title scan
-        if (first_titlescan || prevmsgcount < (signed)msgcount)
-        {
+        if (first_titlescan || prevmsgcount < (signed)msgcount) {
 
             // Set the Prev Mesage Count.
             prevmsgcount = msgcount;
@@ -1963,17 +1750,14 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
             // If no Message in area then check if multiscan
             // to Skip to Next Area or exit.
-            if (msgcount == 0)
-            {
+            if (msgcount == 0) {
                 if (multiscan)
-                    { }
+                { }
                 else
                     pipe2ansi((char *)"|CR|CR|07Sorry: |15No messages found at this time.|CR|CR");
 
-                if (multiscan)
-                {
-                    if (NextAreaScan() == FALSE)
-                    {
+                if (multiscan) {
+                    if (NextAreaScan() == FALSE) {
 
                         AnsiString.erase();
                         AnsiString.append("|CS|CR|15NewScan Completed |07... |DE |CR|PA");
@@ -2004,19 +1788,16 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
             // If new message scan, check if any new messages, if none
             // Check if multiscan to skip to next area.
-            if (newmsg && newmsgcount == 0)
-            {
+            if (newmsg && newmsgcount == 0) {
                 if (multiscan)
-                    { }
+                { }
                 else
                     pipe2ansi((char *)"|CR|CR|07Sorry: |15No New messages found at this time.|CR|CR");
 
                 // Goto Next Area or Exit.
-                if (multiscan)
-                {
+                if (multiscan) {
 
-                    if (NextAreaScan() == FALSE)
-                    {
+                    if (NextAreaScan() == FALSE) {
                         AnsiString.erase();
                         AnsiString.append("|CR|CR|15NewScan Completed |07... |DE |CR|PA");
                         pipe2ansi ((char *)AnsiString.c_str());
@@ -2038,9 +1819,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                     if (elist.size() > 0) //&& prevmsgcount == -1)
                         vector < unsigned long >() . swap(elist); // Clear Vector.
                     continue;
-                }
-                else
-                {
+                } else {
                     if (elist.size() > 0) //&& prevmsgcount == -1)
                         vector < unsigned long >() . swap(elist); // Clear Vector.
                     pipe2ansi((char *)"|PA ");
@@ -2057,12 +1836,9 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
             // Loads Entire Area into Vector List for quick reading.
             // This might need to be redone lateron for currnet page.
-            if (private_area)
-            {
+            if (private_area) {
                 elist = jamapi_build_private(&mr, thisuser);
-            }
-            else
-            {
+            } else {
                 elist = jamapi_build_public(&mr, thisuser);
             }
 
@@ -2087,37 +1863,30 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
             // Setup Initial Starting Position in Title Scan
             // If NewScan start at Users LastRead Pointer.
             // Otherwise start at the first message in the array / list.
-            if (first_titlescan)
-            {
+            if (first_titlescan) {
                 first_titlescan = FALSE;
-                if (newmsg)
-                {
+                if (newmsg) {
                     // Check if LastRead is past the end, means no new messages.
-                    if (lastread < elist.size())
-                    {
+                    if (lastread < elist.size()) {
                         //errlog2((char *)" #### lastread: %lu, %lu ", lastread, elist.size());
 
                         current_msg       = elist[lastread];
                         thisuser->lastmsg = current_msg;
                         CURRENT_MSGTITLE  = lastread;
-                    }
-                    else
-                    {
+                    } else {
                         // Last Read is greater then message area bounds.
                         // No new messages left to read.
 
                         if (multiscan)
-                            { }
+                        { }
                         else
                             pipe2ansi((char *)"|CR|CR|07Sorry: |15No new messages found at this time.|CR|CR");
 
                         vector < unsigned long >() . swap(elist); // Clear Vector.
 
                         // Goto next area or exit.
-                        if (multiscan)
-                        {
-                            if (NextAreaScan() == FALSE)
-                            {
+                        if (multiscan) {
+                            if (NextAreaScan() == FALSE) {
                                 AnsiString.erase();
                                 AnsiString.append("|CR|CR|15NewScan Completed |07... |CR|PA");
                                 pipe2ansi ((char *)AnsiString.c_str());
@@ -2141,18 +1910,14 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                             if (elist.size() > 0) //&& prevmsgcount == -1)
                                 vector < unsigned long >() . swap(elist); // Clear Vector.
                             continue;
-                        }
-                        else
-                        {
+                        } else {
                             if (elist.size() > 0) //&& prevmsgcount == -1)
                                 vector < unsigned long >() . swap(elist); // Clear Vector.
                             pipe2ansi((char *)"|PA ");
                             return 0;
                         }
                     }
-                }
-                else
-                {
+                } else {
                     // Reading Normal Scan, Start at first Message
                     // Set Starting Message / Light to First Message.
                     current_msg = elist[0];
@@ -2177,27 +1942,22 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
 
         // Done Scanning Exit!
-        if (ret == EOF)
-        {
+        if (ret == EOF) {
             // Quit Hit, If in GLobal NewScan check for next area contiue or exit.
             // Goto Next Area or Exit.
-            if (multiscan)
-            {
+            if (multiscan) {
 
                 // Add to language file.
                 ansiPrintf ((char *)"mscan"); // Display Ansi Header First
                 pipe2ansi((char *)"|CR|09Global Message NewScan|CR|CR|15|M#|07. |03|MA |15- |09Scanning Exited.");
                 pipe2ansi((char *)"|CR|CR|15Use: |CR|15[|11ENTER|15] |07Continue to Next Area, or |15[|11Q|15] |07to Quit Global NewScan|08: |07");
-                while (1)
-                {
+                while (1) {
                     ch = getkey(true);
 
-                    if ((int)ch == 10) // ENTER
-                    {
+                    if ((int)ch == 10) { // ENTER
 
                         // If ENTER, Continue to Scan next area.
-                        if (NextAreaScan() == FALSE)
-                        {
+                        if (NextAreaScan() == FALSE) {
                             AnsiString.erase();
                             AnsiString.append("|CR|CR|15NewScan Completed |07... |DE |CR|PA");
                             pipe2ansi ((char *)AnsiString.c_str());
@@ -2220,8 +1980,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                         break;
                     }
                     // If Q, Then exit Scan and return to menu.
-                    else if (toupper(ch) == 'Q')
-                    {
+                    else if (toupper(ch) == 'Q') {
                         // Done with NewScan Exit.
                         AnsiString.erase();
                         AnsiString.append("|CR|CR|15Exiting Title Scan |07... |DE");
@@ -2234,8 +1993,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                 }
 
                 // if ENTER was hit in while loop, start over for next area scan
-                if ((int)ch == 10) // ENTER
-                {
+                if ((int)ch == 10) { // ENTER
                     ch = 0;
                     continue;
                 }
@@ -2251,13 +2009,11 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
             return 0;
         }
         // Continue to next area in newscan
-        else if(ret == -2 && multiscan)
-        {
+        else if(ret == -2 && multiscan) {
 
             pipe2ansi((char *)"|CR|CR|15Skipping to Next Area |07... |DE");
             // Received Jump to Next Area
-            if (NextAreaScan() == FALSE)
-            {
+            if (NextAreaScan() == FALSE) {
 
                 // No area's left in scan, so exit.
                 AnsiString.erase();
@@ -2286,28 +2042,23 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
         // Handle Passthrough options from Title Scan.
         // Negative numbers are exit and next area and passthrough codes.
-        if (ret != -3)
-        {
+        if (ret != -3) {
             // Translate Current Message for Functions
             thisuser->lastmsg = elist[CURRENT_MSGTITLE];
-            switch (ret)
-            {
+            switch (ret) {
                 // Global NewScan Only.
             case 'B': // Bypass -  Leave Message Unread, skip to next area
-                if (newmsg)
-                {
+                if (newmsg) {
                     current_msg = 0;
                     current_msg = elist.size()-1;
                     thisuser->lastmsg = elist.at( elist.size()-1 );
                     CURRENT_MSGTITLE = current_msg;
                     pipe2ansi((char *)"|CR|CR|07FYI: |15Remaining messages bypassed, left as |03unread|15.|CR|CR|PA");
                     // If global newscan skip to next area now.
-                    if (multiscan)
-                    {
+                    if (multiscan) {
                         pipe2ansi((char *)"|CR|CR|15Skipping to Next Area |07... |DE");
                         // Received Jump to Next Area
-                        if (NextAreaScan() == FALSE)
-                        {
+                        if (NextAreaScan() == FALSE) {
 
                             // No area's left in scan, so exit.
                             AnsiString.erase();
@@ -2351,12 +2102,10 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                 prevmsgcount = -1;
 
                 // If global newscan skip to next area now.
-                if (multiscan)
-                {
+                if (multiscan) {
                     pipe2ansi((char *)"|CR|CR|15Jumping to Next Area |07... |DE");
                     // Received Jump to Next Area
-                    if (NextAreaScan() == FALSE)
-                    {
+                    if (NextAreaScan() == FALSE) {
 
                         // No area's left in scan, so exit.
                         AnsiString.erase();
@@ -2393,8 +2142,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
                 // Build Index to Pass for Delete Function
                 msgidx_translation = new vector<ulong>;
-                for (int j = 0; j < (signed)elist.size(); j++)
-                {
+                for (int j = 0; j < (signed)elist.size(); j++) {
                     // Class Global, so Readers have access to this!!
                     // Set message ordering for reader to parse
                     // correct message number
@@ -2402,8 +2150,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                 }
 
 
-                if(DelCurMsg(thisuser->lastmbarea, thisuser->lastmsg))
-                {
+                if(DelCurMsg(thisuser->lastmbarea, thisuser->lastmsg)) {
                     pipe2ansi((char *)"|CR|CR|07FYI: |15Current Message has been deleted.|CR|CR|PA");
                     //first_titlescan = TRUE;
                     prevmsgcount = -1;
@@ -2431,8 +2178,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                 _lang.lang_get(outbuff,37);
                 AnsiString = outbuff;
                 id1 = AnsiString.find("|M#",0);
-                if (id1 != std::string::npos)
-                {
+                if (id1 != std::string::npos) {
                     // 0 Based, att once when showing current message.
                     sprintf(szReplace,"%d", CURRENT_MSGTITLE+1);
                     AnsiString.replace(id1,3,szReplace);
@@ -2444,12 +2190,9 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
                 // Translater current message
                 //DoPost(CURRENT_MAREA, FALSE);
 
-                if (mr.Pubpriv == PRIVATE)
-                {
+                if (mr.Pubpriv == PRIVATE) {
                     DoPostEmail(FALSE);
-                }
-                else
-                {
+                } else {
                     DoPost(CURRENT_MAREA, FALSE);
                 }
 
@@ -2467,12 +2210,9 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
             case 'R': // Reply to a Message
                 ReadInMsgOnly(CURRENT_MAREA);
 
-                if (mr.Pubpriv == PRIVATE)
-                {
+                if (mr.Pubpriv == PRIVATE) {
                     DoPostEmail(TRUE);
-                }
-                else
-                {
+                } else {
                     DoPost(CURRENT_MAREA, TRUE);
                 }
 
@@ -2513,8 +2253,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
         // Make Copy of elist into Private list
         // For Use in Class for Reader!
         msgidx_translation = new vector<ulong>;
-        for (int j = 0; j < (signed)elist.size(); j++)
-        {
+        for (int j = 0; j < (signed)elist.size(); j++) {
             // Class Global, so Readers have access to this!!
             // Set message ordering for reader to parse
             // correct message number
@@ -2530,12 +2269,10 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
         // in the NewScan.  Otherwise passthrough.
 
         // Continue to next area in newscan
-        if(read_return == -2 && multiscan)
-        {
+        if(read_return == -2 && multiscan) {
             pipe2ansi((char *)"|CS|CR|15Jumping to Next Area |07... |DE");
             // Received Jump to Next Area
-            if (NextAreaScan() == FALSE)
-            {
+            if (NextAreaScan() == FALSE) {
 
                 // No area's left in scan, so exit.
                 AnsiString.erase();
@@ -2563,8 +2300,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
         }
 
         // Deleted a message, fresh and drop back to Title Scan`
-        if(read_return == -3)
-        {
+        if(read_return == -3) {
             prevmsgcount = -1;
             delete msgidx_translation;
             if (elist.size() > 0) //&& prevmsgcount == -1)
@@ -2579,8 +2315,7 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
         	// And continue normal
         	delete msgidx_translation;
         }*/
-        else
-        {
+        else {
             // msgidx_translation is < elist.size() from pop_back().
 
             // Skip Incriments, and refresh loop, stay at current message
@@ -2604,13 +2339,10 @@ long msg_read::title_scan(int newmsg, int multiscan, char *mString)
 
 
         // Make sure Message isn't past the end of translation array
-        if (CURRENT_MSGTITLE+1 >= (signed)elist.size())
-        {
+        if (CURRENT_MSGTITLE+1 >= (signed)elist.size()) {
             CURRENT_MSGTITLE = elist.size()-2;
             current_msg = elist[elist.size()-2]; // Gets incrimented, set to last!
-        }
-        else
-        {
+        } else {
             current_msg = elist[CURRENT_MSGTITLE+1];
         }
 
@@ -2689,8 +2421,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
 
     //	errlog((char *)"SCAN/READ - 1st. Get # of messages in current area for Scan ");
-    if(!ReadMsgArea(thisuser->lastmbarea))
-    {
+    if(!ReadMsgArea(thisuser->lastmbarea)) {
         MI.high_msg   = 0;
         MI.high_water = 0;
         MI.active     = 0;
@@ -2702,8 +2433,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
     memset(&mHead,0, sizeof(MsgHead));
 
     // Check if were doing a New Scan, or user is selecting starting #
-    if (newmsg == TRUE)
-    {
+    if (newmsg == TRUE) {
         // Starting Current or Multi NewScan
         firstscan = TRUE;
         _lang.lang_get(text,23);
@@ -2711,8 +2441,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
         pipe2ansi((char*)AnsiString.c_str());
 
         // No Messages Found in this Area.
-        if (msgidx_translation->size() < 1)
-        {
+        if (msgidx_translation->size() < 1) {
             memset(&text,0,sizeof(text));
             _lang.lang_get(text,36);
             AnsiString = text;
@@ -2753,8 +2482,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
     }*/
 
     // Run through Main Reader Loop until exit from user
-    while (done == FALSE)
-    {
+    while (done == FALSE) {
 
         memset(&mHead,0, sizeof(MsgHead));
         same = TRUE;
@@ -2763,12 +2491,9 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
         memset(&text,0,sizeof(text));
         AnsiString.erase();
 
-        if (newmsg == TRUE)
-        {
+        if (newmsg == TRUE) {
             cont = ScanMessages(thisuser->lastmbarea);
-        }
-        else
-        {
+        } else {
             cont = ReadMessages(thisuser->lastmbarea);
         }
 
@@ -2776,9 +2501,8 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
         // Done in Current Area, Flip to Next Area in Scan or Exit.
         // NOTE Next ARea done in title scan!
         if (cont == FALSE ||
-                thisuser->lastmsg > MI.high_msg ||
-                current_msgidx >= msgidx_translation->size() )
-        {
+            thisuser->lastmsg > MI.high_msg ||
+            current_msgidx >= msgidx_translation->size() ) {
             // Display End of NewScan.
             _msgf.read_mbaselist(&mr, thisuser->lastmbarea);
             _lang.lang_get(text,36);
@@ -2799,8 +2523,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
         // Make sure Screen is Cleared before starting to read
         // Helps with Homecursor optimizations.
-        if (firstread == TRUE)
-        {
+        if (firstread == TRUE) {
             firstread = FALSE;
             pipe2ansi((char *)"|CS");
         }
@@ -2808,16 +2531,13 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
         //errlog2((char *)"SCAN/READ Mesasge 4 before init reader.");
 
         /// Here is the Full Screen Reader
-        if (sVIEW[0] != 'S')
-        {
+        if (sVIEW[0] != 'S') {
             // Start the entry, display of the Message inside the reader.
             ansi_file(sANSI_FILE);  // Display Reader Ansi
 
             //errlog2((char *)"box_start reader!");
             mLink.box_start(thisuser->lastmbarea);
-        }
-        else
-        {
+        } else {
             /// Here is the Old School Scrolling Reader.
             // figure out text range by subtracting size of message header.
             ansi_file(sANSI_FILE);
@@ -2838,8 +2558,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
         }
 
         // Now loop Though and Parse Extras then Start Menu Input System.
-        while(done == FALSE && same == TRUE)
-        {
+        while(done == FALSE && same == TRUE) {
             _output.erase();
             more = FALSE;
             showmore = FALSE;
@@ -2849,8 +2568,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
             mLink.Bot = tBot;
 
             /// full screen message reader
-            if (sVIEW[0] != 'S')
-            {
+            if (sVIEW[0] != 'S') {
                 // Pre-Clear to leave no shadow effect.
                 more = FALSE;
                 showmore = FALSE;
@@ -2862,8 +2580,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                 if (mLink.Page < mLink.TotPages) more = TRUE;
 
                 // If There is only one page, we don't need to dispaly the More...
-                if (mLink.Page == mLink.TotPages && mLink.Page != 1)
-                {
+                if (mLink.Page == mLink.TotPages && mLink.Page != 1) {
                     // Were on the Very Last Page of the Message
                     sprintf(outBuffer,"%s%s",sMOREMSG_OFF,sMOREMSG_WORD_OFF);
                     _output += outBuffer;
@@ -2873,36 +2590,28 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     _output += outBuffer;
                 }
                 // Normal Process Checking  if there is a page above or below for MORE!
-                else
-                {
+                else {
                     // Show Down Arrow More!
-                    if (more)
-                    {
+                    if (more) {
                         sprintf(outBuffer,"%s\x19",sMOREDOWN);
                         showmore = TRUE;
-                    }
-                    else
-                    {
+                    } else {
                         sprintf(outBuffer,"%s ",sMOREDOWN);
                     }
                     _output += outBuffer;
 
                     // Show up Arrow More
-                    if (mLink.Page > 1)
-                    {
+                    if (mLink.Page > 1) {
                         sprintf(outBuffer,"%s\x18",sMOREUP);
                         showmore = TRUE;
-                    }
-                    else
-                    {
+                    } else {
                         sprintf(outBuffer,"%s ",sMOREUP);
                     }
                     _output += outBuffer;
 
                     if (showmore)
                         sprintf(outBuffer,"%s%s",sMOREMSG_ON,sMOREMSG_WORD_ON);
-                    else
-                    {
+                    else {
                         // Next Message
                         // Were on the Only Page
                         sprintf(outBuffer,"%s%s",sMOREMSG_OFF,sMOREMSG_WORD_OFF);
@@ -2931,28 +2640,20 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
                 // Make Msgp2 Prompt Optional, Use if exists!
                 // Also Let user Toggle on / off
-                if (_mnuf.cmdexist(sMENU_PROMPT2,0))
-                {
-                    if (more)
-                    {
+                if (_mnuf.cmdexist(sMENU_PROMPT2,0)) {
+                    if (more) {
                         _mnuf._curmenu.clear();
                         _mnuf._curmenu = sMENU_PROMPT2;
-                    }
-                    else
-                    {
+                    } else {
                         _mnuf._curmenu.clear();
                         _mnuf._curmenu = sMENU_PROMPT;
                     }
-                }
-                else
-                {
+                } else {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = sMENU_PROMPT;
                 }
 
-            }
-            else
-            {
+            } else {
                 /// scrolling message menu system
                 //if (sVIEW[0] == 'S') {
                 _mnuf._premenu.clear(); // Reload Menu for Proper Lightbar PlaceMent!
@@ -2977,16 +2678,13 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
             ch = mString[1];
 
             // For Menu CmdKey Input
-            if (mString[0] == '!')
-            {
-                switch (toupper(ch))
-                {
+            if (mString[0] == '!') {
+                switch (toupper(ch)) {
                 case '+': // Next Message
 
 
                     // If next Message, less then total, switch to it.
-                    if (current_msgidx+1 < msgidx_translation->size())
-                    {
+                    if (current_msgidx+1 < msgidx_translation->size()) {
                         current_msgidx +=1;
                         CURRENT_MSGTITLE +=1;
                         thisuser->lastmsg = msgidx_translation->at(current_msgidx);
@@ -2996,9 +2694,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                         mLink.dispose();
                         same = FALSE;
                         break;
-                    }
-                    else
-                    {
+                    } else {
                         current_msgidx = msgidx_translation->size()-1;
                         thisuser->lastmsg = msgidx_translation->at(current_msgidx);
                         CURRENT_MSGTITLE = current_msgidx;
@@ -3007,8 +2703,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
                         // If were in a newscan, check if we want to continue scan
                         // or return to titlescan
-                        if (newmsg && gblNewScan)
-                        {
+                        if (newmsg && gblNewScan) {
 
                             // Moce to Language File
                             //pipe2ansi((char *)"|15Use: |CR|15[|11ENTER|15] |07Continue to Next Area, or |15[|11Q|15] |07to Quit back to the TitleScan |08: |07");
@@ -3017,12 +2712,10 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
                             // Done with NewScan, Mark Messages As Read
                             // Then either goto next are or back to title scan.
-                            while(1)
-                            {
+                            while(1) {
                                 ch = getkey(true);
 
-                                if (ch == 10)
-                                {
+                                if (ch == 10) {
                                     pipe2ansi((char *)" |CS ");
                                     IgnoreTheRest(thisuser->lastmbarea);
                                     mLink.Lines = 0;
@@ -3032,9 +2725,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                                     _mnuf.choice = 0;
                                     rtnval = -2;
                                     break;
-                                }
-                                else if (toupper(ch) == 'Q')
-                                {
+                                } else if (toupper(ch) == 'Q') {
                                     pipe2ansi((char *)" |CS ");
                                     IgnoreTheRest(thisuser->lastmbarea);
                                     mLink.Lines = 0;
@@ -3044,9 +2735,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                                     break;
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
 
                             pipe2ansi((char *)"|PA |CS ");
                             mLink.Lines = 0;
@@ -3063,15 +2752,12 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     mLink.Lines = 0;
 
                     // If next Message, less then total, switch to it.
-                    if (current_msgidx > 0)
-                    {
+                    if (current_msgidx > 0) {
                         current_msgidx -= 1;
                         CURRENT_MSGTITLE -= 1;
                         thisuser->lastmsg = msgidx_translation->at(current_msgidx);
 
-                    }
-                    else
-                    {
+                    } else {
                         current_msgidx =0;
                         CURRENT_MSGTITLE = 0;
                         thisuser->lastmsg = msgidx_translation->at(current_msgidx);
@@ -3090,8 +2776,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     mLink.dispose_list();
                     same = FALSE;
 
-                    if (newmsg)
-                    {
+                    if (newmsg) {
                         // Scan Completed
                         _msgf.read_mbaselist(&mr, thisuser->lastmbarea);
                         _lang.lang_get(text,36);
@@ -3111,12 +2796,9 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                 case 'P': // Post a New Message
                     //DoPost(thisuser->lastmbarea,FALSE);
 
-                    if (mr.Pubpriv == PRIVATE)
-                    {
+                    if (mr.Pubpriv == PRIVATE) {
                         DoPostEmail(FALSE);
-                    }
-                    else
-                    {
+                    } else {
                         DoPost(CURRENT_MAREA, FALSE);
                     }
 
@@ -3134,12 +2816,9 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     break;
 
                 case 'R': // Reply to a Message
-                    if (mr.Pubpriv == PRIVATE)
-                    {
+                    if (mr.Pubpriv == PRIVATE) {
                         DoPostEmail(TRUE);
-                    }
-                    else
-                    {
+                    } else {
                         DoPost(CURRENT_MAREA, TRUE);
                     }
                     mLink.Lines = 0;
@@ -3163,8 +2842,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     _lang.lang_get(text,37);
                     AnsiString = text;
                     id1 = AnsiString.find("|M#",0);
-                    if (id1 != -1)
-                    {
+                    if (id1 != -1) {
                         // 0 Based, att once when showing current message.
                         sprintf(szReplace,"%ld", current_msgidx+1);
                         AnsiString.replace(id1,3,szReplace);
@@ -3254,8 +2932,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     // Other then sysop, make sure only user who posts
                     // can kill a message.
 
-                    if (DelCurMsg(thisuser->lastmbarea, thisuser->lastmsg))
-                    {
+                    if (DelCurMsg(thisuser->lastmbarea, thisuser->lastmsg)) {
                         // Use this to go to previous message before deleted.
                         pipe2ansi((char *)"|CS|CR|07FYI: |15Current Message has been deleted.|CR|CR|PA");
                         mLink.Lines = 0;
@@ -3312,8 +2989,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     ++idx;
                     id1 = change_theme(idx);
                     // Reset Colors and Ansi to new Theme
-                    if (id1 == TRUE)
-                    {
+                    if (id1 == TRUE) {
                         mLink.initReader(sTEXT_COLOR, sQUOTE_COLOR, sSYS_COLOR, sORIGIN_COLOR);
                         mLink.Top = tTop;
                         mLink.Bot = tBot;
@@ -3321,9 +2997,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                         _mnuf._premenu.clear();
                         //_mnuf.menu_reset();
                         //_mnuf.menu_readin();       // Load up new prompts for new theme.
-                    }
-                    else
-                    {
+                    } else {
                         // Reset Theme Back
                         change_theme(thisuser->readertheme);
                         pipe2ansi((char *)"|CS|CR|07FYI: |15You've hit the highest theme available. |CR|CR|PA");
@@ -3340,12 +3014,9 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     mLink.dispose();
                     same = FALSE;
                     idx = thisuser->readertheme;
-                    if (idx != 0)
-                    {
+                    if (idx != 0) {
                         --idx;
-                    }
-                    else
-                    {
+                    } else {
                         pipe2ansi((char *)"|CS|CR|07FYI: |15You've hit the lowest theme available. |CR|CR|PA");
                         pipe2ansi((char *)"|CS");
                         _mnuf._premenu.clear();
@@ -3359,8 +3030,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     change_theme(thisuser->readertheme);
 
                     // Reset Colors and Ansi to new Theme
-                    if (id1 == TRUE)
-                    {
+                    if (id1 == TRUE) {
                         mLink.initReader(sTEXT_COLOR, sQUOTE_COLOR, sSYS_COLOR, sORIGIN_COLOR);
                         mLink.Top = tTop;
                         mLink.Bot = tBot;
@@ -3368,9 +3038,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                         //_mnuf.menu_reset();
                         _mnuf._premenu.clear();
                         //_mnuf.menu_readin();       // Load up new prompts for new theme.
-                    }
-                    else
-                    {
+                    } else {
                         change_theme(thisuser->readertheme);
                         pipe2ansi((char *)"|CS|CR|07FYI: |15You've hit the lowest theme available. |CR|CR|PA");
                         //_mnuf.menu_reset();
@@ -3395,13 +3063,11 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 
                 } // end of case
             }// end of Email If!
-            else
-            {
+            else {
                 // For Escaped Key Input is passed as Escped Key From Menu System
                 // If EscPassing is Turned on in the Menu.
                 ch = mString[0];
-                switch (toupper(ch))
-                {
+                switch (toupper(ch)) {
                 case 'A':
                     // Scroll Up 1 Line ( forced to paeg up / down for now)
                     // Don't care much for single scrolling, anoying online!
@@ -3424,6 +3090,3 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
     hist_update(HIST_VIEWS,thisuser,Views);
     return rtnval;
 }
-
-
-

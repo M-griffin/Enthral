@@ -32,8 +32,7 @@
 
 # include <string>
 
-typedef struct msgemail_ini
-{
+typedef struct msgemail_ini {
 
     int  iTop;
     int  iBot;

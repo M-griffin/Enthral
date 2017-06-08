@@ -43,27 +43,21 @@ int users::users_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "users.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 printf("Error users.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;
             }
@@ -82,27 +76,21 @@ int users::uidx_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "uidx.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, loop untill it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)   // Lock File Missing
-        {
+        if(stream == NULL) { // Lock File Missing
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 printf("Error uidx.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;    // Created Lock File
             }
@@ -123,11 +111,9 @@ int users::users_writet(UserRec *usr, int idx)
 
     int x = 0;
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             printf("Error users_write temp!");
             return x;
         }
@@ -150,11 +136,9 @@ int users::users_write(UserRec *usr, int idx)
     users_lockSet(TRUE);
     int x = 0;
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             printf("Error users_write!");
             users_lockSet(FALSE);
             return x;
@@ -179,11 +163,9 @@ int users::users_read(UserRec *usr, int idx)
     users_lockSet(TRUE);
     int x = 0;
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             printf("Error users_read!");
             users_lockSet(FALSE);
             return x;
@@ -210,11 +192,9 @@ int users::idx_writet(UserIdx *usr, int idx)
 
     int x = 0;
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             printf("Error uidx_write temp!");
             return x;
         }
@@ -237,11 +217,9 @@ int users::idx_write(UserIdx *usr, int idx)
     uidx_lockSet(TRUE);
     int x = 0;
     FILE *stream=fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             printf("Error uidx_write!");
             uidx_lockSet(FALSE);
             return x;
@@ -266,11 +244,9 @@ int users::idx_read(UserIdx *usr, int idx)
     uidx_lockSet(TRUE);
     int x = 0;
     FILE *stream=fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             printf("Error uidx_read!");
             uidx_lockSet(FALSE);
             return x;
@@ -294,8 +270,7 @@ int users::idx_count()
 
     UserIdx usr;
     int i = 0;
-    while(idx_read(&usr,i))
-    {
+    while(idx_read(&usr,i)) {
         ++i;
     }
     ++i;
@@ -317,18 +292,15 @@ int users::idx_find(char *name)
     temp1 = (name);
 
     //move temp1 to lower case for testing!
-    for (std::string::size_type i = 0; i < temp1.size(); ++i )
-    {
+    for (std::string::size_type i = 0; i < temp1.size(); ++i ) {
         temp1[i] = tolower( temp1[i] );
     }
 
-    while(idx_read(&usr,idx))
-    {
+    while(idx_read(&usr,idx)) {
         temp2 = (char *)(usr.handle);
         //  transform(temp1.begin(),temp1.end(), temp1.begin(), tolower);
         //  transform(temp2.begin(),temp2.end(), temp2.begin(), tolower);
-        for (std::string::size_type i = 0; i < temp2.size(); ++i )
-        {
+        for (std::string::size_type i = 0; i < temp2.size(); ++i ) {
             temp2[i] = tolower( temp2[i] );
         }
 

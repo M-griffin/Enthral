@@ -96,27 +96,21 @@ int msgs::mbaselist_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "msgforums.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 printf("Error msgforums.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;
             }
@@ -138,11 +132,9 @@ int msgs::read_mbaselist(mb_list_rec *mr, int rec)
 
     mbaselist_lockSet(TRUE);
     FILE *fptr = fopen(path.c_str(),"rb+");
-    if(fptr == NULL)
-    {
+    if(fptr == NULL) {
         fptr = fopen(path.c_str(), "wb");
-        if(fptr == NULL)
-        {
+        if(fptr == NULL) {
             perror("Error unable to read msgforums.dat, check permissions!");
             mbaselist_lockSet(FALSE);
             return x;
@@ -172,11 +164,9 @@ int msgs::save_mbasetemp(mb_list_rec *mr, int rec)
 
     mbaselist_lockSet(TRUE);
     fptr=fopen(path.c_str(),"rb+");
-    if(fptr==NULL)
-    {
+    if(fptr==NULL) {
         fptr=fopen(path.c_str(),"wb");
-        if(fptr==NULL)
-        {
+        if(fptr==NULL) {
             perror("Error unable to write msgforums.tmp, check permissions!");
             mbaselist_lockSet(FALSE);
             return x;
@@ -204,11 +194,9 @@ int msgs::save_mbaselist(mb_list_rec *mr, int rec)
     mbaselist_lockSet(TRUE);
     int x = 0;
     FILE *stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             perror("Error unable to write msgforums.dat, check permissions!");
             mbaselist_lockSet(FALSE);
             return x;
@@ -231,8 +219,7 @@ int msgs::msg_count()
     int i = 0;
     mb_list_rec mb;
 
-    while(read_mbaselist(&mb,i))
-    {
+    while(read_mbaselist(&mb,i)) {
         ++i;
     }
     ++i;
@@ -253,8 +240,7 @@ int msgs::msg_find(char *tfile)
     temp1 = (tfile);
 
     int idx = 0;
-    while(read_mbaselist(&mb,idx))
-    {
+    while(read_mbaselist(&mb,idx)) {
         temp2 = (char *)(mb.mbfile);
         if(temp1 == temp2) return(idx);
         idx++;
@@ -271,27 +257,21 @@ int msgs::jlr_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "ljr.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, loop untill it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)     // Lock File Missing
-        {
+        if(stream == NULL) {   // Lock File Missing
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 printf("Error jlr.lck!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;    // Created Lock File
             }
@@ -316,12 +296,10 @@ int msgs::readlr(LastRead *lr, int idx, mb_list_rec *mb)
     FILE *stream;
 
     stream = fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         jlr_lockSet(FALSE);
         return (0);
-    }
-    else fclose(stream);
+    } else fclose(stream);
 
     stream = fopen(path, "rb");
     if(fseek(stream,(int)idx*sizeof(LastRead),SEEK_SET)==0)
@@ -345,11 +323,9 @@ int msgs::writelr(LastRead *lr, int idx, mb_list_rec *mb)
     int x = 0;
 
     stream=fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream=fopen(path, "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             write(0,path,sizeof(path));
             jlr_lockSet(FALSE);
             sleep(3);
@@ -377,8 +353,7 @@ ulong msgs::JamAreaGetLast(long usernum, mb_list_rec *mb)
     LastRead lr;
     memset(&lr,0,sizeof(LastRead));
 
-    if (!readlr(&lr,usernum,mb))
-    {
+    if (!readlr(&lr,usernum,mb)) {
         return 0;
     }
 
@@ -386,8 +361,7 @@ ulong msgs::JamAreaGetLast(long usernum, mb_list_rec *mb)
     // We verify the CRC32 value of the MSGID to make sure.
     std::string tmp;
     unsigned long crcvalue = (ulong)jamapi_readmsgid(mb,lr.RepID,tmp);
-    if (lr.MsgID == crcvalue)
-    {
+    if (lr.MsgID == crcvalue) {
         return (lr.RepID);
     }
 
@@ -425,8 +399,7 @@ void msgs::JamAreaSetLast(long usernum, long msgnum, mb_list_rec *mb)
     lr.MsgID = (ulong)jamapi_readmsgid(mb, msgnum, tmp);
 
 
-    if (!writelr(&lr,usernum,mb))
-    {
+    if (!writelr(&lr,usernum,mb)) {
         //	_s.errlog((char *)"JamAreaSetLast: lr.RepID CRC32 (%lu) lr.MsgID CRC32 (%lu)",lr.RepID,lr.MsgID);
     }
 }
@@ -479,8 +452,7 @@ unsigned long msgs::CountNewMsgs(unsigned long mbnum, UserRec *usr)
 
     // Last Read is Index of eList[] Array 0 Based.
     // Incriment 1 so we can subtract from total messages, not Zero Based.
-    if (lastread < msgcnt)
-    {
+    if (lastread < msgcnt) {
         return (msgcnt - lastread);
     }
     return 0;
@@ -502,8 +474,7 @@ unsigned long msgs::CountAllNewMsgs(UserRec *usr)
     mb_list_rec   mb;
     memset(&mb,0,sizeof(mb_list_rec));
 
-    while(read_mbaselist(&mb, counter))
-    {
+    while(read_mbaselist(&mb, counter)) {
         msgcnt += CountNewMsgs(counter, usr);
         ++counter;
     }
@@ -522,10 +493,8 @@ void msgs::resetlastread(UserRec *usr)
     mb_list_rec mb;
     memset(&mb,0,sizeof(mb_list_rec));
 
-    while(read_mbaselist(&mb,i))
-    {
+    while(read_mbaselist(&mb,i)) {
         JamAreaSetLast(usr->idx, 0, &mb);
         ++i;
     }
 }
-

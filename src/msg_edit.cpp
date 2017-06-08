@@ -107,14 +107,11 @@ void msg_edit::kill_mbase(int mbnum)
     char ppath[1024]= {0};
     char ppath2[1024]= {0};
 
-    while(_mfunc.read_mbaselist(&mbin,i1))
-    {
-        if(i1 != mbnum)
-        {
+    while(_mfunc.read_mbaselist(&mbin,i1)) {
+        if(i1 != mbnum) {
             mbin.idx = count;
             count++;
-            if(!_mfunc.save_mbasetemp(&mbin, mbin.idx))
-            {
+            if(!_mfunc.save_mbasetemp(&mbin, mbin.idx)) {
                 perror("Error unable to save temp msgarea, check permissions!");
             }
         }
@@ -142,8 +139,7 @@ void msg_edit::delete_mbase()
     char sLine[200]= {0};
 
     total_mbases = _mfunc.msg_count();
-    if (total_mbases < 1)
-    {
+    if (total_mbases < 1) {
         return;
     }
     int len = 4;
@@ -153,8 +149,7 @@ void msg_edit::delete_mbase()
     getline(ttxt,sizeof(ttxt));
     if (strcmp(ttxt," ") == 0) return;
     num = atoi(ttxt);
-    if(num > 0 && num <= total_mbases)
-    {
+    if(num > 0 && num <= total_mbases) {
         kill_mbase(num-1);
     }
 }
@@ -174,26 +169,21 @@ void msg_edit::poke_mbase(int pokenum)
     //printf ("\n pokenum %i, total_mbases %i",   pokenum,total_mbases);
 
     //Append At End of File
-    if (pokenum > total_mbases)
-    {
+    if (pokenum > total_mbases) {
         init_mbase(&mbin);
         _mfunc.save_mbaselist(&mbin,pokenum);
         return;
 
     }
     // Insert Before a comamnd
-    else if(total_mbases < 1)
-    {
+    else if(total_mbases < 1) {
         _mfunc.read_mbaselist(&mbin,0);
         _mfunc.save_mbaselist(&mbin,1);
         init_mbase(&mbin);
         _mfunc.save_mbaselist(&mbin,0);
         return;
-    }
-    else
-    {
-        for(int i1 = total_mbases; i1 > pokenum; i1--)
-        {
+    } else {
+        for(int i1 = total_mbases; i1 > pokenum; i1--) {
             _mfunc.read_mbaselist(&mbin,i1-1);
             _mfunc.save_mbaselist(&mbin,i1);
         }
@@ -231,16 +221,12 @@ void msg_edit::insert_mbase()
     if (strcmp(ttxt," ") == 0) return;
     num = atoi(ttxt);
 
-    if (num > 0 && num <= count+1)
-    {
+    if (num > 0 && num <= count+1) {
 
-        if(total_mbases < 1)
-        {
+        if(total_mbases < 1) {
             init_mbase(&mbin);
             _mfunc.save_mbaselist(&mbin, 0);
-        }
-        else
-        {
+        } else {
             poke_mbase(num-1);
         }
     }
@@ -267,24 +253,19 @@ void msg_edit::swap_mbase(int iFrom, int iTo)
     total_mbases = _mfunc.msg_count();
 
     //Append At End of File
-    if (iTo >= total_mbases)
-    {
+    if (iTo >= total_mbases) {
         _mfunc.save_mbaselist(&mbfrom,iTo);
         return;
 
     }
     // Insert Before a comamnd
-    else if(total_mbases < 1)
-    {
+    else if(total_mbases < 1) {
         _mfunc.read_mbaselist(&mbin,0);
         _mfunc.save_mbaselist(&mbin,1);
         _mfunc.save_mbaselist(&mbfrom,0);
         return;
-    }
-    else
-    {
-        for(int i1 = total_mbases; i1 > iTo; i1--)
-        {
+    } else {
+        for(int i1 = total_mbases; i1 > iTo; i1--) {
             _mfunc.read_mbaselist(&mbin,i1-1);
             _mfunc.save_mbaselist(&mbin,i1);
         }
@@ -305,8 +286,7 @@ void msg_edit::move_mbase()
     int num = 0, num1 = 0, total_mbases = 0;
 
     total_mbases = _mfunc.msg_count();
-    if (total_mbases < 1)
-    {
+    if (total_mbases < 1) {
         return;
     }
 
@@ -318,8 +298,7 @@ void msg_edit::move_mbase()
     if (strcmp(ttxt," ") == 0) return;
     num = atoi(ttxt);
 
-    if(num > 0 && num <= total_mbases+1)
-    {
+    if(num > 0 && num <= total_mbases+1) {
 
         sprintf(sLine,"|CR |09Position Before? |07[|151|07-|15%d|07]|08: ", total_mbases+1);
         len = 4;
@@ -346,8 +325,7 @@ void msg_edit::modify_mbase()
     int total_mbases;
 
     total_mbases = _mfunc.msg_count();
-    if (total_mbases < 1)
-    {
+    if (total_mbases < 1) {
         return;
     }
 
@@ -360,8 +338,7 @@ void msg_edit::modify_mbase()
 
     num = atoi(ttxt);
 
-    if(num > 0 && num <= total_mbases)
-    {
+    if(num > 0 && num <= total_mbases) {
         mod_mbase(num);
     }
 }
@@ -429,8 +406,7 @@ void msg_edit::mod_mbase(int mbnum)
     unsigned char ch;
     char sLine[200];
     std::string output;
-    while(1)
-    {
+    while(1) {
         output.erase();
         faddr2char(faka,&mbl.aka);
         memset(&rBuffer,0,sizeof(rBuffer));
@@ -502,8 +478,7 @@ void msg_edit::mod_mbase(int mbnum)
 
         pipe2ansi((char *)output.c_str());
         ch = getkey(true);
-        switch(toupper(ch))
-        {
+        switch(toupper(ch)) {
 
         case 'A':
             pipe2ansi((char *)"|CR |09|16Description: \x1b[1;44m                              \x1b[30D");
@@ -528,8 +503,7 @@ void msg_edit::mod_mbase(int mbnum)
             ++mbl.Kind;
             if(mbl.Kind > 4)
                 mbl.Kind = 0;
-            switch(mbl.Kind)
-            {
+            switch(mbl.Kind) {
             case LOCAL    :
                 mbl.Pubpriv = PUBLIC;
                 break;
@@ -549,10 +523,8 @@ void msg_edit::mod_mbase(int mbnum)
             break;
 
         case 'E':
-            if(mbl.Pubpriv==PUBLIC)
-            {
-                switch(mbl.Kind)
-                {
+            if(mbl.Pubpriv==PUBLIC) {
+                switch(mbl.Kind) {
                 case LOCAL	  :
                     mbl.Pubpriv = PRIVATE;
                     break;
@@ -569,11 +541,8 @@ void msg_edit::mod_mbase(int mbnum)
                     mbl.Pubpriv = PUBLIC;
                     break;
                 }
-            }
-            else
-            {
-                switch(mbl.Kind)
-                {
+            } else {
+                switch(mbl.Kind) {
                 case LOCAL	  :
                     mbl.Pubpriv = PUBLIC;
                     break;
@@ -648,8 +617,7 @@ void msg_edit::mod_mbase(int mbnum)
             _mfunc.save_mbaselist(&mbl, mbnum-1);
 //            _mfunc.save_msgbase(&mbl);
 
-            if (mbnum != 1)
-            {
+            if (mbnum != 1) {
                 --mbnum;
                 memset(&mbl,0,sizeof(mb_list_rec));
                 _mfunc.read_mbaselist(&mbl, mbnum-1);
@@ -728,19 +696,16 @@ int msg_edit::list_message_bases(int page)
     std::string TF;
 
     int i = _mfunc.msg_count();
-    if (i > 0)
-    {
+    if (i > 0) {
         i = 0;
 
         sprintf(outbuff,"|15%3s. |09%-30s |03%-10s |11%7.7s |07%7.7s |08%7.7s |15%s|CR","#","Message Area","Filename","Echo","Format","Pub"," SysOp");
         pipe2ansi(outbuff);
         pipe2ansi((char *)"----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----|CR");
-        for(int i1=0; i1<14; i1++)
-        {
+        for(int i1=0; i1<14; i1++) {
 
             rno=(page*14);
-            if(_mfunc.read_mbaselist(&mbl,rno+i1))
-            {
+            if(_mfunc.read_mbaselist(&mbl,rno+i1)) {
                 //  while(_mfunc.read_mbaselist(&mbl,i+rno)) {
                 //++i1;
                 if ((mbl.flags.mbvisible & 0x01) == 0)
@@ -766,9 +731,7 @@ int msg_edit::list_message_bases(int page)
 
             }
         }
-    }
-    else
-    {
+    } else {
         pipe2ansi((char *)"|13 No Forums Found, Please Insert!|CR|CR |09By default, first area should be Email|08. |CR |09Second Area should be System Announcements|08. |CR");
         return FALSE;
     }
@@ -841,26 +804,19 @@ void msg_edit::mbeditmenu()
     return;*/
 
 
-    while(1)
-    {
+    while(1) {
 
         total_mbases = _mfunc.msg_count();
-        if (total_mbases > 14)
-        {
+        if (total_mbases > 14) {
             total_pages =  (total_mbases / 14);
             if (total_mbases % 14) ++total_pages;
-        }
-        else
-        {
+        } else {
             total_pages = 1;
         }
 
-        if (isSysop == TRUE)
-        {
+        if (isSysop == TRUE) {
             output += "|CS|11 Message Forum Editor                                      ";
-        }
-        else
-        {
+        } else {
             output += "|CS|11 Message Forum Editor |07[|04Normal User View, Toggle Back to Continue Editing|12!!|07] ";
         }
         output += "|CR|15--------------------------------------------------------------";
@@ -878,8 +834,7 @@ void msg_edit::mbeditmenu()
         pipe2ansi((char *)"|CR |15i|07.nsert, |15e|07.dit, |15m|07.ove, |15d|07.elete, |15[|07.prev page, |15]|07.next page |15q|07.uit : \x1b[1;44m \x1b[D");
 
         ch = getkey(true);
-        switch(toupper(ch))
-        {
+        switch(toupper(ch)) {
         case 'D':
             delete_mbase();
             break;
@@ -919,6 +874,3 @@ void msg_edit::mbeditmenu()
         }
     }
 }
-
-
-
