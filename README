@@ -1,15 +1,40 @@
+ /=/====================================================================================================
+Notes: 6/9/2017, This document is way outdated and doesn't apply anymore.
+A New document will be written up shortly, until then a few basic's... 
+
+The Gist is:  
+
+1. Compile jamlib in root/src/jamlib folder  
+make or make -f makefile.linux
+
+
+./autogen.sh    to build configure script
+./configure     to build make files
+make            to compile, depending on CPU use -j#   # being 1,2,3,4 for cpu's available to make it compile faster.
+
+once the system is compiled, you can compile small programs off src folder.
+stats
+telnetd
+
+./build.sh     to compile in each folder
+
+next is grab the data file archive linked on the page,  then copy the executables to root of the folder so it has access 
+to data, menu, ansi screens
+
+Enthral is pretty much a tinker development system, it's incomplete in a lot of areas and a rewrite has 
+begun and renamed to Oblivion/2 XRM with a new code base.  Feel free to play with and learn to your hearts content.
+Also check out the new stuff.. it's coming along.. 
+
+- Michael
+
+
 /=/====================================================================================================
-
-Enthral BBS - 18/10/2010 Build 429 Alpha.
-
+Enthral BBS - 18/10/2010 Build 429 Alpha.  (OUT DATED BELOW)!
 
 Notes:
 
 Menu Command Added MF for Force Message Scan, this will now return to previous area, 
  ie after a force scan on system announcement.
-
-
-
 
 /=/====================================================================================================
 There are two ways to install Enthral.  The manual way (which some people
