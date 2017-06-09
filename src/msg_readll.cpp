@@ -1013,7 +1013,7 @@ void msg_readll::box_start(unsigned long CURRENT)
 
     std::string _editbox = LoColor, lData;
     char capture[200]= {0};
-    char lineNum[5];
+    char lineNum[20];
     Page   = 1;
     //pgRows = 0;
 
@@ -1242,7 +1242,7 @@ void msg_readll::box_scrolldn()
 
     std::string _editbox = LoColor, lData;
     char capture[200]= {0};
-    char lineNum[5];
+    char lineNum[20];
 
     // Make sure we can go down another page..
     int boxsize = Bot - Top;   // Get boxsize
@@ -1348,7 +1348,7 @@ void msg_readll::box_pgdn()
 
     std::string _editbox = LoColor, lData;
     char capture[200]= {0};
-    char lineNum[5]= {0};
+    char lineNum[20]= {0};
 
     // Make sure we can go down another page..
     int boxsize = Bot - Top;   // Get boxsize
@@ -1454,7 +1454,7 @@ void msg_readll::box_pgup()
     // Faster display to throw in 1 string and send all out at 1 time
     std::string _editbox = LoColor,	lData;
     char capture[200]= {0};
-    char lineNum[5];
+    char lineNum[20];
 
     // Number of Rows if This was the Last Page Only.
     pgRows = 0;

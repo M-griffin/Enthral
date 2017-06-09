@@ -344,7 +344,7 @@ enthral_LDFLAGS = $(all_libraries)
 
 # sudo apt-get install libssl-dev || add -lssl 
 # new boost libs added.
-enthral_LDADD = -llibssl -lssl -lcrypto -lpthread -lboost_system -lboost_filesystem jamlib/jamlib.a $(PY_LIBS)
+enthral_LDADD = -lcrypto -lpthread -lboost_system -lboost_filesystem jamlib/jamlib.a $(PY_LIBS)
 noinst_HEADERS = configbbs.h conio.h console.h \
 	data_areas.h dtfunc.h file_area.h file_edit.h file_list.h files.h history.h \
 	language.h logon.h main_system.h menu_func.h msg_email.h msg_fse.h \

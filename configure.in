@@ -212,8 +212,8 @@ dnl AC_SUBST(PERL_CFLAGS)
 dnl AC_SUBST(PERL_LDFLAGS)
 
 
-CFLAGS+=" -U_FORTIFY_SOURCE -std=c++0x -Wall -fpermissive"
-CXXFLAGS+=" -U_FORTIFY_SOURCE -std=c++0x -Wall -fpermissive"
+CFLAGS+=" -U_FORTIFY_SOURCE -std=c++0x -Wall "
+CXXFLAGS+=" -U_FORTIFY_SOURCE -std=c++0x -Wall "
 
 
 AC_OUTPUT(Makefile src/Makefile)
