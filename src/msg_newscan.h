@@ -23,8 +23,7 @@
 
 # include "struct.h"
 
-typedef struct msg_newscan
-{
+typedef struct msg_newscan {
 
     int  new_lockSet(int onoff);
     int  new_read(NewScan *ns, int idx, char *mbase);
@@ -39,4 +38,3 @@ typedef struct msg_newscan
 } msg_newscan;
 
 # endif
-

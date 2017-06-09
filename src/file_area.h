@@ -30,8 +30,7 @@
 // pickup thisuser and session from msg_api
 # include <string>
 
-typedef struct filearea_ini
-{
+typedef struct filearea_ini {
 
     int  iTop;
     int  iBot;

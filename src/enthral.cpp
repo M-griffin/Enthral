@@ -143,8 +143,7 @@ void killazombie (int iSig)
     _node.node_remove_dropfiles(NODE_NUM);
     _node.node_remove(NODE_NUM);
 
-    if (strcmp((char *)user.handle,"") != 0 && UserLoggedIn == TRUE)
-    {
+    if (strcmp((char *)user.handle,"") != 0 && UserLoggedIn == TRUE) {
         user.dtlaston = GetCurrentDTSec();
         _usr.users_write(&user,user.idx);
     }
@@ -153,8 +152,7 @@ void killazombie (int iSig)
 
     _io.errlog2((char *)"killazombie System Shutdown (User Hung Up on the System!).");
 
-    switch(iSig)
-    {
+    switch(iSig) {
 
     case SIGHUP:
         _io.errlog2((char *)"killazombie SIGHUP).");
@@ -234,8 +232,7 @@ void sigwinch(int sig)
     struct winsize wsz;
 
     (void) signal(SIGWINCH, sigwinch);
-    if (ioctl(STDIN_FILENO, TIOCGWINSZ, &wsz)>=0 && wsz.ws_row>0 && wsz.ws_col>0)
-    {
+    if (ioctl(STDIN_FILENO, TIOCGWINSZ, &wsz)>=0 && wsz.ws_row>0 && wsz.ws_col>0) {
         TERM_HEIGHT=wsz.ws_row;
         TERM_WIDTH=wsz.ws_col;
     }
@@ -282,15 +279,12 @@ int main(int argc, char *argv[])
 
     memset(&BBSPATH,0,sizeof(BBSPATH));
     // Get FULL PATH TO EXE, and Chop off Filename for PATH
-    for (int i = 0; ; i++)
-    {
+    for (int i = 0; ; i++) {
         if (parg[i] == '\0') break;
         if (parg[i] == '/') num = i;
     }
-    if (num != 0)
-    {
-        for (int i = 0; i < num+1; i++)
-        {
+    if (num != 0) {
+        for (int i = 0; i < num+1; i++) {
             BBSPATH[i] = parg[i];
         }
     }
@@ -299,14 +293,12 @@ int main(int argc, char *argv[])
     char *pPath;
     pPath = std::getenv((char *)"ENTHRAL");
     //printf((char *)" *** Environment 1: pPath: %s\r\n",pPath);
-    if (pPath!=NULL)
-    {
+    if (pPath!=NULL) {
         memset(&BBSPATH,0L,sizeof(BBSPATH));
         strcpy(BBSPATH,pPath);
     }
 
-    if (argc >= 6)
-    {
+    if (argc >= 6) {
         // Passed from Telnetd
         sprintf(CLIENT_TERM,"%s",argv[5]);
     }
@@ -314,8 +306,7 @@ int main(int argc, char *argv[])
     // Set windows size from readin variables of environment.
     struct winsize ws;
 
-    if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws)>=0 && ws.ws_row>0 && ws.ws_col>0)
-    {
+    if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws)>=0 && ws.ws_row>0 && ws.ws_col>0) {
         TERM_HEIGHT = ws.ws_row;
         TERM_WIDTH  = ws.ws_col;
     }
@@ -354,23 +345,18 @@ int main(int argc, char *argv[])
 
     // Get Users incomming IP Address
     // Unless being kicked off locally.
-    if (argc >= 3)
-    {
+    if (argc >= 3) {
         sprintf(UsersIP,"%s",argv[1]);
         sprintf(UsersHOST,"%s",argv[2]);
-    }
-    else
-    {
+    } else {
         sprintf(UsersIP,"Localhost");
         sprintf(UsersHOST,"Localhost");
     }
 
     // Figure out Node Number
     node _node;
-    for (i = 1; ; i++)
-    {
-        if (_node.node_exists(i) == FALSE)
-        {
+    for (i = 1; ; i++) {
+        if (_node.node_exists(i) == FALSE) {
             NODE_NUM = i;
             break;
         }
@@ -380,8 +366,7 @@ int main(int argc, char *argv[])
 
     // Check if Node umber great then Max Node Number
     // Add this to config file.
-    if (NODE_NUM <= MAX_NODES)
-    {
+    if (NODE_NUM <= MAX_NODES) {
 
         //    _io.errlog((char *)" *** BBS Loaded! Root Path: %s",BBSPATH);
 
@@ -392,73 +377,63 @@ int main(int argc, char *argv[])
 
         // Create Data Directory
         sprintf(sCmd,"%s",DATAPATH);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             // Go through and create basic directory structure if doesn't exist.
             //        _io.errlog((char *)"Err: Unable to create data folder.");
         }
 
         // Create Node Directory
         sprintf(sCmd,"%s",MESGPATH);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create msgs folder.");
         }
 
         // Create Node Directory
         sprintf(sCmd,"%s",FILEPATH);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create files folder.");
         }
 
         // Create Node Directory
         sprintf(sCmd,"%s",NODEPATH);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create node folder.");
         }
 
         // Create Node Subdirectory NodeNum Directory!
         sprintf(NODEDIR,"node%i",NODE_NUM);
         sprintf(sCmd,"%s%s",NODEPATH,NODEDIR);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create NODE_NUM folder.");
         }
 
         // Create Lockfile directory.
         sprintf(sCmd,"%slock",BBSPATH);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create lock folder.");
         }
 
         // Create UserSig Directory
         sprintf(sCmd,"%susersig",BBSPATH);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create usersig folder.");
         }
 
         // Create UserSig Directory
         sprintf(sCmd,"%sscripts",BBSPATH);
-        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(sCmd, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create scripts folder.");
         }
 
         // Create TMP Directory!
-        if (mkdir(ENTHRALTMP, 0770) == -1 && errno != EEXIST)
-        {
+        if (mkdir(ENTHRALTMP, 0770) == -1 && errno != EEXIST) {
             //        _io.errlog((char *)"Err: Unable to create /tmp/enthral folder.");
         }
 
 
         // Compile Language File on Startup {Data dir has to be present first!}
         language *lang = new language;
-        if (!lang)
-        {
+        if (!lang) {
             //        _io.errlog((char *)"Err: Unable to Allocate Memory for Language.txt Compile.");
         }
 
@@ -496,9 +471,7 @@ int main(int argc, char *argv[])
         main_system ms;
         ms.start(&user); // Main Loop.
 
-    }
-    else
-    {
+    } else {
         // Go through and create basic directory structure if doesn't exist.
         _io.errlog2((char *)"User Logged in IP: %s / %s - Node: %i ",UsersIP, UsersHOST, NODE_NUM);
         _io.errlog2((char *)"Max Number of Nodes Reached, Please Try again sortly. ");
@@ -508,8 +481,7 @@ int main(int argc, char *argv[])
         Logoff Sequence
      -------------------------------------------------------------------------*/
 
-    if (strcmp((char *)user.handle,"") != 0 && UserLoggedIn == TRUE)
-    {
+    if (strcmp((char *)user.handle,"") != 0 && UserLoggedIn == TRUE) {
         user.dtlaston = GetCurrentDTSec();
         _usr.users_write(&user,user.idx); // Save Stats
     }
@@ -530,4 +502,3 @@ int main(int argc, char *argv[])
 //    _io.errlog((char *)"System Shutdown Cleanly.");
     exit( 0 );
 }
-

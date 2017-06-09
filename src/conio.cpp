@@ -540,7 +540,7 @@ void SESSION::inputfield(char *text, int &len)
     {
         if (USE_CHAR)
         {
-            repeat += "±";
+            repeat += "ï¿½";
         }
         else
         {
@@ -1244,8 +1244,8 @@ RESTART:
                 {
                     if (USE_CHAR)
                     {
-                        //write(0,"\x1b[D±\x1b[D",7);
-                        console_putsn((char *)"\x1b[D±\x1b[D",7);
+                        //write(0,"\x1b[Dï¿½\x1b[D",7);
+                        console_putsn((char *)"\x1b[Dï¿½\x1b[D",7);
                     }
                     else
                     {
@@ -1296,13 +1296,13 @@ RESTART:
             {
                 if (USE_CHAR)
                 {
-                    //write(0,"\x1b[D±\x1b[D",7);
-                    console_putsn((char *)"\x1b[D±\x1b[D",7);
+                    //write(0,"\x1b[Dï¿½\x1b[D",7);
+                    console_putsn((char *)"\x1b[Dï¿½\x1b[D",7);
                 }
                 else
                 {
                     //write(0,"\x1b[D \x1b[D",7);
-                    console_putsn((char *)"\x1b[D±\x1b[D",7);
+                    console_putsn((char *)"\x1b[Dï¿½\x1b[D",7);
                 }
             }
             i = 0;
@@ -1330,7 +1330,7 @@ RESTART:
                         i = Col;
                         for (;i != 0; i--) {
                             if (USE_CHAR) {
-                                write(0,"\x1b[D±\x1b[D",7);
+                                write(0,"\x1b[Dï¿½\x1b[D",7);
                             }
                             else {
                                 write(0,"\x1b[D \x1b[D",7);
@@ -1356,8 +1356,8 @@ RESTART:
             {
                 if (USE_CHAR)
                 {
-                    //write(0,"\x1b[D±\x1b[D",7);
-                    console_putsn((char *)"\x1b[D±\x1b[D",7);
+                    //write(0,"\x1b[Dï¿½\x1b[D",7);
+                    console_putsn((char *)"\x1b[Dï¿½\x1b[D",7);
                 }
                 else
                 {
@@ -2120,7 +2120,7 @@ std::string SESSION::pipe2string(std::string szString)
 {
     //errlog((char *)"pipe2ansi");
 
-    std::string::size_type  id1 = 0, test;    // Pipe Position
+    std::string::size_type  id1 = 0;
     char szTmp[3];         // Holds 1, 2nd digit of Pipe
 
     char szPos1[3];        // Hold XY Pos for Ansi Postion Codes
@@ -2358,7 +2358,7 @@ std::string SESSION::pipe2string(std::string szString)
                 // Pause
                 else if (strcmp(szTmp,"PA") == 0)
                 {
-                    test = AnsiString.size();
+                    //test = AnsiString.size();
                     fTmp = AnsiString.substr(0,id1);
                     //write(0,fTmp.c_str(),fTmp.size());
 
@@ -2899,7 +2899,7 @@ int SESSION::startpause(char *script)
 
     int ret;
     std::string path = INIPATH;
-    if (script == '\0')
+    if (strlen(script) == 0)
         path += "pause.ini";
     else
         path += script;

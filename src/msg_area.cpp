@@ -70,8 +70,7 @@ bool msgarea_ini::msga_exists()
 
     FILE *stream;
     stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         perror("Error unable to read msgarea.ini, check permissions!");
         return false;
     }
@@ -90,8 +89,7 @@ void msgarea_ini::msga_create()
 
     ofstream outStream2;
     outStream2.open( name.c_str(), ofstream::out | ofstream::trunc );
-    if (!outStream2.is_open())
-    {
+    if (!outStream2.is_open()) {
         printf( "\nError Creating: %s \n", name.c_str());
         return;
     }
@@ -131,105 +129,66 @@ void msgarea_ini::msga_check(std::string cfgdata)
     int id1 = 0;
     std::string temp = cfgdata;
     if (temp[0] == '#') return;
-    else if (temp.find("set TOP ", 0) != std::string::npos)
-    {
+    else if (temp.find("set TOP ", 0) != std::string::npos) {
         msga_chkpar(temp);
         id1 = atoi(temp.c_str());
         iTop = id1;
-    }
-    else if (temp.find("set BOT ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set BOT ", 0) != std::string::npos) {
         msga_chkpar(temp);
         id1 = atoi(temp.c_str());
         iBot = id1;
-    }
-    else if (temp.find("set THEME_NAME ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set THEME_NAME ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sTHEME_NAME,(char *)temp.c_str());
-    }
-    else if (temp.find("set ANSI_FILE ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set ANSI_FILE ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sANSI_FILE,(char *)temp.c_str());
-    }
-    else if (temp.find("set ANSI_HELP ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set ANSI_HELP ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sANSI_HELP,(char *)temp.c_str());
-    }
-    else if (temp.find("set MENU_PROMPT ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MENU_PROMPT ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMENU_PROMPT,(char *)temp.c_str());
-    }
-    else if (temp.find("set MENU_PROMPT2 ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MENU_PROMPT2 ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMENU_PROMPT2,(char *)temp.c_str());
-    }
-    else if (temp.find("set PAGENUM ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set PAGENUM ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sPAGENUM,(char *)temp.c_str());
-    }
-    else if (temp.find("set PAGETOTAL ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set PAGETOTAL ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sPAGETOTAL,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREUP ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREUP ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREUP,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREUP_CHAR ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREUP_CHAR ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREUP_CHAR,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREDOWN ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREDOWN ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREDOWN,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREDOWN_CHAR ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREDOWN_CHAR ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREDOWN_CHAR,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_ON ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_ON ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREMSG_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_WORD_ON ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_WORD_ON ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREMSG_WORD_ON,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_OFF ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_OFF ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREMSG_OFF,(char *)temp.c_str());
-    }
-    else if (temp.find("set MOREMSG_WORD_OFF ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MOREMSG_WORD_OFF ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMOREMSG_WORD_OFF,(char *)temp.c_str());
-    }
-    else if (temp.find("set INPUT_BOX ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set INPUT_BOX ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sINPUT_BOX,(char *)temp.c_str());
-    }
-    else if (temp.find("set TEXT_COLOR ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set TEXT_COLOR ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sTEXT_COLOR,(char *)temp.c_str());
-    }
-    else if (temp.find("set MAX_AREAS ", 0) != std::string::npos)
-    {
+    } else if (temp.find("set MAX_AREAS ", 0) != std::string::npos) {
         msga_chkpar(temp);
         strcpy(sMAX_AREAS,(char *)temp.c_str());
     }
@@ -241,8 +200,7 @@ void msgarea_ini::msga_check(std::string cfgdata)
 int msgarea_ini::msga_parse(int idx)
 {
 
-    if (!msga_exists())
-    {
+    if (!msga_exists()) {
         perror("Error unable to read msgarea.ini, check permissions!");
         return 0;
     }
@@ -260,26 +218,21 @@ int msgarea_ini::msga_parse(int idx)
     // Check if Theme Exists, if not return FALSE.
     FILE *stream;
     stream = fopen(name,"rb+");
-    if(stream == NULL)   // File is not Present
-    {
+    if(stream == NULL) { // File is not Present
         return FALSE;
-    }
-    else
-    {
+    } else {
         fclose(stream);
     }
 
     ifstream inStream;
     inStream.open( name );
-    if (!inStream.is_open())
-    {
+    if (!inStream.is_open()) {
         perror("Error unable to parse msgarea.ini, check permissions!");
         return FALSE;
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         getline(inStream,cfgdata);
         msga_check(cfgdata);
         if(inStream.eof()) break;
@@ -365,8 +318,7 @@ vector< mb_list_rec > msg_area::read_areas()
 //    s . errlog((char *)"read_areas");
 
     ulong idx = 0; //Start at 1, 0 is Email, skip email is public area listing
-    while(read_mbaselist(&mbl,idx))
-    {
+    while(read_mbaselist(&mbl,idx)) {
         mbl . idx = idx;
         result . push_back(mbl);
         ++idx;
@@ -473,12 +425,10 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
     // Prefetch ansi's
     path = ANSIPATH;
     path += "mareamid1.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL) {
         return result;
     }
-    while (c != EOF)
-    {
+    while (c != EOF) {
         c = getc(inStream);
         if (c != EOF) ans1 += c;
     }
@@ -486,12 +436,10 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
     c = '\0';
     path = ANSIPATH;
     path += "mareamid2.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL) {
         return result;
     }
-    while (c != EOF)
-    {
+    while (c != EOF) {
         c = getc(inStream);
         if (c != EOF) ans2 += c;
     }
@@ -499,12 +447,10 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
     c = '\0';
     path = ANSIPATH;
     path += "mareamid3.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL) {
         return result;
     }
-    while (c != EOF)
-    {
+    while (c != EOF) {
         c = getc(inStream);
         if (c != EOF) ans3 += c;
     }
@@ -512,12 +458,10 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
     c = '\0';
     path = ANSIPATH;
     path += "mareamid4.ans";
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL) {
         return result;
     }
-    while (c != EOF)
-    {
+    while (c != EOF) {
         c = getc(inStream);
         if (c != EOF) ans4 += c;
     }
@@ -543,8 +487,7 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
 //    s . errlog((char *)"build_arealist max_areas %lu", max_areas);
     usr->lastmsg = 0;
 
-    while(area_cnt < max_areas)
-    {
+    while(area_cnt < max_areas) {
 
         if (num_areas == max_areas) break;
         mbl = mareas[num_areas];
@@ -564,11 +507,9 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
         temp3.erase();
 
 
-        for (int icnt = 0; icnt < 4; icnt++)
-        {
+        for (int icnt = 0; icnt < 4; icnt++) {
 
-            switch (icnt)
-            {
+            switch (icnt) {
             case 0:
                 ans = ans2;
                 break; // Display HighLight None.  ON
@@ -588,26 +529,21 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
 
             i = 0;
             c = 0;
-            do
-            {
+            do {
                 memset(&MCI,0,sizeof(MCI));
                 c = ans[i];
                 if (c == '\0') break;
 
                 // Check for Spacing MCI Code
-                switch (c)
-                {
+                switch (c) {
                 case '{' : // Left Justify
                     MCI[0] = ans[++i];
                     MCI[1] = ans[++i];
                     space = atoi(MCI);
 
-                    if (space != 0)
-                    {
+                    if (space != 0) {
                         foundl = TRUE;
-                    }
-                    else
-                    {
+                    } else {
                         temp3 += c;
                         temp3 += MCI;
                     }
@@ -618,12 +554,9 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
                     MCI[1] = ans[++i];
                     space = atoi(MCI);
 
-                    if (space != 0)
-                    {
+                    if (space != 0) {
                         foundr = TRUE;
-                    }
-                    else
-                    {
+                    } else {
                         temp3 += c;
                         temp3 += MCI;
                     }
@@ -632,56 +565,40 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
                 case '|' : // Pipe Codes
                     MCI[0] = ans[++i];
                     MCI[1] = ans[++i];
-                    if (strcmp(MCI,"M#") == 0)
-                    {
+                    if (strcmp(MCI,"M#") == 0) {
                         sprintf(temp2,"%i",area_cnt+1);
-                        if (foundl)
-                        {
+                        if (foundl) {
                             s.lspacing(temp2,space);
                             foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
+                        } else if (foundr) {
                             s.rspacing(temp2,space);
                             foundr = FALSE;
                         }
                         temp3 += temp2;
-                    }
-                    else if (strcmp(MCI,"MA") == 0)
-                    {
+                    } else if (strcmp(MCI,"MA") == 0) {
                         sprintf(temp2,"%s", (char *)mbl . mbdisplay);
-                        if (foundl)
-                        {
+                        if (foundl) {
                             s.lspacing(temp2,space);
                             foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
+                        } else if (foundr) {
                             s.rspacing(temp2,space);
                             foundr = FALSE;
                         }
                         temp3 += temp2;
-                    }
-                    else if (strcmp(MCI,"MT") == 0)
-                    {
+                    } else if (strcmp(MCI,"MT") == 0) {
                         cnt = CountMsgs(mbl . idx,usr);
                         if (cnt == -1) cnt = 0;
                         //else ++cnt;
                         sprintf(temp2,"%ld",cnt);
-                        if (foundl)
-                        {
+                        if (foundl) {
                             s.lspacing(temp2,space);
                             foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
+                        } else if (foundr) {
                             s.rspacing(temp2,space);
                             foundr = FALSE;
                         }
                         temp3 += temp2;
-                    }
-                    else if (strcmp(MCI,"MN") == 0)
-                    {
+                    } else if (strcmp(MCI,"MN") == 0) {
 
                         // Count how many unread messages
                         cnt = CountNewMsgs(mbl . idx,usr);
@@ -707,30 +624,22 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
 
                         // sprintf(temp2,"%ld",cnt-lr);
                         sprintf(temp2,"%ld",cnt);
-                        if (foundl)
-                        {
+                        if (foundl) {
                             s.lspacing(temp2,space);
                             foundl = FALSE;
-                        }
-                        else if (foundr)
-                        {
+                        } else if (foundr) {
                             s.rspacing(temp2,space);
                             foundr = FALSE;
                         }
                         // New Messages Setup count
-                        if (cnt == 0)   // no new
-                        {
+                        if (cnt == 0) { // no new
                             mbar.isnew = FALSE;
-                        }
-                        else
-                        {
+                        } else {
                             mbar.isnew = TRUE;
                         }
 
                         temp3 += temp2;
-                    }
-                    else
-                    {
+                    } else {
                         temp3 += c;
                         temp3 += MCI;
                     }
@@ -746,12 +655,10 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
                 }
                 ++i;
 
-            }
-            while (c != '\0');
+            } while (c != '\0');
 
             temp3 += "\r";
-            switch (icnt)
-            {
+            switch (icnt) {
             case 0:
                 mbar . ansi_2 = temp3;
                 break; // Display HighLight None.  ON
@@ -828,8 +735,7 @@ void msg_area::ParseHeader(char *filename)
     read_mbaselist(&mr, thisuser->lastmbarea);
 
     int id1 = 0;
-    while (id1 != -1)
-    {
+    while (id1 != -1) {
         // parse justify spacing right / left passing in string before
         // replacing mci code. to Properly Space Output Ansi.
         id1 = buff.find("%", 0);
@@ -837,17 +743,14 @@ void msg_area::ParseHeader(char *filename)
         memset(&MCI,0,sizeof(MCI));
         space = 0;
         // Check if MCI Code is Justified then Process this.
-        if (buff[id1+3] == '{')   // Left Justify
-        {
+        if (buff[id1+3] == '{') { // Left Justify
             //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
             MCI[1] = buff[id1+5]; // Get Second Digit
             space  = atoi(MCI);
             foundr = FALSE;
             foundl = TRUE;
-        }
-        else if (buff[id1+3] == '}')  // Right Justify
-        {
+        } else if (buff[id1+3] == '}') { // Right Justify
             //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
             MCI[0] = buff[id1+4]; // Get first Digit
             MCI[1] = buff[id1+5]; // Get Second Digit
@@ -862,23 +765,17 @@ void msg_area::ParseHeader(char *filename)
 
         memset(&sTemp,0,sizeof(sTemp));
         // Insert MCI Parsing here so we can reaplace full result with propering spacing.
-        if (strcmp(MCI,"MA") == 0)
-        {
+        if (strcmp(MCI,"MA") == 0) {
             sprintf(sTemp,"%s", (char *)mr.mbdisplay);
-        }
-        else if (strcmp(MCI,"TH") == 0)
-        {
+        } else if (strcmp(MCI,"TH") == 0) {
             sprintf(sTemp,"%s", (char *)sTHEME_NAME);
         }
 
 
         // MCI Translation .
-        if (foundl == TRUE)
-        {
+        if (foundl == TRUE) {
             lspacing(sTemp,space);
-        }
-        else if (foundr == TRUE)
-        {
+        } else if (foundr == TRUE) {
             rspacing(sTemp,space);
         }
 
@@ -900,8 +797,7 @@ void msg_area::SetupList(UserRec *user)
 
     thisuser = user;
     // Check What Theme user has selected.
-    if (msga_parse(thisuser->readertheme) == FALSE)
-    {
+    if (msga_parse(thisuser->readertheme) == FALSE) {
         msga_parse();
     }
     tTop = iTop;
@@ -915,8 +811,7 @@ int msg_area::change_theme(int idx)
 {
 
     // Check What Theme user has selected.
-    if (msga_parse(idx) == FALSE)
-    {
+    if (msga_parse(idx) == FALSE) {
         // Theme Doesn't Exist.
         return FALSE;
     }
@@ -1006,8 +901,7 @@ char *msg_area::StartList()
 
     mLink.GetVector(result);
 
-    while (1)
-    {
+    while (1) {
         // Jump to Current Page
         boxsize =  mLink.Bot - mLink.Top;
         CurrentPage = CURRENT_MAREA / boxsize;
@@ -1017,19 +911,15 @@ char *msg_area::StartList()
 
 //        errlog((char *)"PutBuffer msg_area()");
         //  Make sure we have areas.
-        if (result.size() > 0)
-        {
+        if (result.size() > 0) {
             mLink.box_start_vector(CurrentPage,CURRENT_MAREA);            // Draw Message Inside of Box
-        }
-        else
-        {
+        } else {
             return NULL;
         }
 
 //        errlog((char *)"box_start done msg_area()");
         // Start Input Loop.
-        while(1)
-        {
+        while(1) {
             _output.erase();
             _output = "|16";
             more = false;
@@ -1038,25 +928,19 @@ char *msg_area::StartList()
             if (mLink.Page+1 != mLink.TotPages) more = true;
 
             // Show Down Arrow More!
-            if (more)
-            {
+            if (more) {
                 sprintf(outBuffer,"%s\x19",sMOREDOWN); 	// On
                 showmore = true;
-            }
-            else
-            {
+            } else {
                 sprintf(outBuffer,"%s ",sMOREDOWN);		// Off
             }
             _output += outBuffer;
 
             // Show up Arrow More
-            if (mLink.Page > 0)
-            {
+            if (mLink.Page > 0) {
                 sprintf(outBuffer,"%s\x18",sMOREUP);
                 showmore = true;
-            }
-            else
-            {
+            } else {
                 sprintf(outBuffer,"%s ",sMOREUP);
             }
             _output += outBuffer;
@@ -1084,21 +968,15 @@ char *msg_area::StartList()
 
             // Make Msgqp2 Prompt Optional, Use if exists!
             // Also Let user Toggle on / off
-            if (_mnuf.cmdexist(sMENU_PROMPT2,0) /*&& thisuser->msgp2*/ )
-            {
-                if (more || mLink.Page > 1)
-                {
+            if (_mnuf.cmdexist(sMENU_PROMPT2,0) /*&& thisuser->msgp2*/ ) {
+                if (more || mLink.Page > 1) {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = sMENU_PROMPT2;
-                }
-                else
-                {
+                } else {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = sMENU_PROMPT;
                 }
-            }
-            else
-            {
+            } else {
                 _mnuf._curmenu.clear();
                 _mnuf._curmenu = sMENU_PROMPT;
             }
@@ -1125,10 +1003,8 @@ JMPINPUT:
             ch = mString[1];
 
             // For Menu CmdKey Input
-            if (mString[0] == '!')
-            {
-                switch (toupper(ch))
-                {
+            if (mString[0] == '!') {
+                switch (toupper(ch)) {
                 case 'Q': // Quit
                     mLink.dispose_list();
                     //_mnuf.~menu_func();
@@ -1138,30 +1014,26 @@ JMPINPUT:
                     return NULL; //qBuf;
 
                 case 'U':  // UP
-                    if (CurrentPage != 0)
-                    {
+                    if (CurrentPage != 0) {
                         --CurrentPage;
 
                         // Reset Bar to first Listing on each Page.
                         // CurrentPage = CURRENT_MAREA / boxsize;
                         CURRENT_MAREA = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
-                    }
-                    else
+                    } else
                         goto JMPINPUT;
                     break;
 
                 case 'D': // DN
-                    if (CurrentPage+1 != mLink.TotPages)
-                    {
+                    if (CurrentPage+1 != mLink.TotPages) {
                         ++CurrentPage;
 
                         // Reset Bar to first Listing on each Page.
                         // CurrentPage = CURRENT_MAREA / boxsize;
                         CURRENT_MAREA = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
-                    }
-                    else
+                    } else
                         goto JMPINPUT;
                     break;
 
@@ -1181,19 +1053,15 @@ JMPINPUT:
                     //Calculate if we go down, ++Current Area, are we on next page or not.
                     // Becasue 0 Based, need to add +1
                     // Test if we moved to next page.
-                    if (CURRENT_MAREA+1 < (boxsize*(CurrentPage+1))+1)
-                    {
+                    if (CURRENT_MAREA+1 < (boxsize*(CurrentPage+1))+1) {
                         // Still on Same Page
-                        if (mLink.listing[CURRENT_MAREA-1].isnew)
-                        {
+                        if (mLink.listing[CURRENT_MAREA-1].isnew) {
 //								errlog((char *)"!!! isNEW = 'Y' 3");
 //								s . errlog((char *)"CURRENT_MAREA+1 %i < (boxsize*CurrentPage+1)+1, %i",CURRENT_MAREA+1,boxsize*(CurrentPage+1)+1);
                             // Lowlight Current, then Highlight Next.
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA-1].ansi_3.c_str());
 //								s . errlog((char *)rBuffer);
-                        }
-                        else
-                        {
+                        } else {
 //								errlog((char *)"!!! isNEW = 'N' 1");
 //								s . errlog((char *)"CURRENT_MAREA+1 %i < (boxsize*CurrentPage+1)+1, %i",CURRENT_MAREA+1,boxsize*(CurrentPage+1)+1);
                             // Lowlight Current, then Highlight Next.
@@ -1203,14 +1071,11 @@ JMPINPUT:
 
                         _output += rBuffer;
                         mLink.current_selection += 1;
-                        if (mLink.listing[CURRENT_MAREA].isnew)
-                        {
+                        if (mLink.listing[CURRENT_MAREA].isnew) {
 ///								errlog((char *)"!!! isNEW = 'Y' 4");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_4.c_str());
 //								s . errlog((char *)rBuffer);
-                        }
-                        else
-                        {
+                        } else {
 //								errlog((char *)"!!! isNEW = 'N' 2");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_2.c_str());
 //								s . errlog((char *)rBuffer);
@@ -1219,9 +1084,7 @@ JMPINPUT:
                         pipe2ansi((char *)_output.c_str());
                         _output.erase();
                         goto JMPINPUT; //Not moving down a page.
-                    }
-                    else
-                    {
+                    } else {
                         // Move to next Page!
 //		                    s . errlog((char *)"DN - CURRENT_MAREA !< Move next Page");
                         ++CurrentPage;
@@ -1249,19 +1112,15 @@ JMPINPUT:
                     //Calculate if we go down, --Current Area, are we on next page or not.
                     // Becasue 0 Based, need to add +1
                     // Test if we moved to next page.
-                    if (CURRENT_MAREA+1 > (boxsize*(CurrentPage)))
-                    {
+                    if (CURRENT_MAREA+1 > (boxsize*(CurrentPage))) {
                         // Still on Same Page
 //				            s . errlog((char *)"CURRENT_MAREA+1 %i > (boxsize*CurrentPage+1)+1, %i",CURRENT_MAREA+1, ((boxsize*CurrentPage)+1) );
                         // Lowlight Current, then Highlight Next.
-                        if (mLink.listing[CURRENT_MAREA+1].isnew)
-                        {
+                        if (mLink.listing[CURRENT_MAREA+1].isnew) {
 //								errlog((char *)"!!! isNEW = 'Y' 1");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA+1].ansi_3.c_str());
 //								s . errlog((char *)rBuffer);
-                        }
-                        else
-                        {
+                        } else {
 //								errlog((char *)"!!! isNEW = 'N' 3");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA+1].ansi_1.c_str());
 //								s . errlog((char *)rBuffer);
@@ -1270,14 +1129,11 @@ JMPINPUT:
                         _output = rBuffer;
                         mLink.current_selection -= 1;
 
-                        if (mLink.listing[CURRENT_MAREA].isnew)
-                        {
+                        if (mLink.listing[CURRENT_MAREA].isnew) {
 //								errlog((char *)"!!! isNEW = 'Y' 4");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_4.c_str());
 //								s . errlog((char *)rBuffer);
-                        }
-                        else
-                        {
+                        } else {
 //								errlog((char *)"!!! isNEW = 'N' 2");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_2.c_str());
 //								s . errlog((char *)rBuffer);
@@ -1290,9 +1146,7 @@ JMPINPUT:
 //				            s . errlog((char *)"boxsize: %i. TotPages: %i. Page: %i ", boxsize, mLink.TotPages,  mLink.Page);
                         goto JMPINPUT; //Not moving down a page.
                         break;
-                    }
-                    else
-                    {
+                    } else {
                         // Move to next Page!
 //				            s . errlog((char *)"2!!!! UP - CURRENT_MAREA !< Move prev Page");
 //							s . errlog((char *)"First CurrentPage: %i. PreviousPage: %i ", CurrentPage, PreviousPage);
@@ -1317,10 +1171,8 @@ JMPINPUT:
                     break;
                 } // End Switch
             } // of IF [!]
-            else
-            {
-                if (mString[0] == '#')
-                {
+            else {
+                if (mString[0] == '#') {
 //		            s . errlog((char *)"# - CURRENT_MAREA ");
                     // received Digit Input From Menu Prompt
                     memset(&rBuffer,0, sizeof(rBuffer));
@@ -1343,8 +1195,7 @@ JMPINPUT:
                     //goto JMPINPUT;
 
                     // Verify Area Input Range.
-                    if (id1 > mLink.listing.size() || id1 < 1)
-                    {
+                    if (id1 > mLink.listing.size() || id1 < 1) {
 //		                s . errlog((char *)"# - Incorrect Input");
                         // Redraw input box
                         memset(&text,0, sizeof(text));
@@ -1356,9 +1207,7 @@ JMPINPUT:
                         inputfield(text,len);
                         pipe2ansi(text);
                         goto JMPINPUT;
-                    }
-                    else
-                    {
+                    } else {
 //		                s . errlog((char *)"# - Jump to area id1 %i",id1);
                         //Justjump to area, then reset to page that area is in.
                         CURRENT_MAREA = id1-1;
@@ -1372,35 +1221,29 @@ JMPINPUT:
                         //           mLink.box_start_vector(CurrentPage);
                     }
                 } // End if [#]
-                else
-                {
+                else {
                     // Not #, Check for Escaped Key Input
 
                     ch = mString[0];
-                    switch (toupper(ch))
-                    {
+                    switch (toupper(ch)) {
                     case 'A':  // UP
-                        if (CurrentPage != 0)
-                        {
+                        if (CurrentPage != 0) {
                             --CurrentPage;
 
                             // Reset Bar to first Listing on each Page.
                             CURRENT_MAREA = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
-                        }
-                        else
+                        } else
                             goto JMPINPUT;
                         break;
 
                     case 'B': // DN
-                        if (CurrentPage+1 != mLink.TotPages)
-                        {
+                        if (CurrentPage+1 != mLink.TotPages) {
                             ++CurrentPage;
                             // Reset Bar to first Listing on each Page.
                             CURRENT_MAREA = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
-                        }
-                        else
+                        } else
                             goto JMPINPUT;
                         break;
 
@@ -1421,5 +1264,3 @@ JMPINPUT:
         } // While(1)
     } // While(1) with redraw ansi
 }
-
-

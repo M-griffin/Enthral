@@ -37,27 +37,21 @@ int node::node_lockSet(int onoff)
     std::string path = LOCKPATH;
     path += "node.lck";
 
-    if (!onoff)
-    {
+    if (!onoff) {
         remove((char *)path.c_str());
         return TRUE;
     }
 
     //While lock file missing, create, or loop until it disapears.
     FILE *stream;
-    while(1)
-    {
+    while(1) {
         stream = fopen(path.c_str(),"rb+");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
-            if(stream == NULL)
-            {
+            if(stream == NULL) {
                 perror("Error unable to read node.lck, check permissions!");
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 fclose(stream);
                 return TRUE;
             }
@@ -103,8 +97,7 @@ int node::node_exists(int nodenum)
 
     FILE *stream;
     stream = fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         return FALSE;
     }
     fclose(stream);
@@ -125,8 +118,7 @@ int node::node_socket_exists(int nodenum)
 
     FILE *stream;
     stream = fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         return FALSE;
     }
     fclose(stream);
@@ -146,11 +138,9 @@ int node::node_read(UserRec *user, int nodenum)
 
     int x   = 0;
     FILE *stream = fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path, "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             //printf("Error creating callers");
             node_lockSet(FALSE);
             return x;
@@ -176,11 +166,9 @@ int node::node_write(UserRec *user, int nodenum)
     node_lockSet(TRUE);
     int x   = 0;
     FILE *stream = fopen(path,"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         stream = fopen(path, "wb");
-        if(stream == NULL)
-        {
+        if(stream == NULL) {
             perror("Error unable to read node.dat, check permissions!");
             node_lockSet(FALSE);
             return x;
@@ -208,22 +196,16 @@ void node::whoisonline()
     s.ansiPrintf((char *)"whois");
 
     // Add config option for how many to display!
-    for(int i = 1; i < 6; i++)
-    {
-        if (node_exists(i) == TRUE)
-        {
+    for(int i = 1; i < 6; i++) {
+        if (node_exists(i) == TRUE) {
             // If Node Exists, Check for Socket, if Found get read user info.
             node_read(&user,i);
             snprintf(buffer, sizeof buffer, "      |13%02d    |15%-18s |07%-15s|CR", i, user.handle, user.usernote);
             s.pipe2ansi(buffer);
-        }
-        else
-        {
+        } else {
             // No one found, mark this node as Empty!
             snprintf(buffer, sizeof buffer, "      |13%02d    |11<|03empty|11>|CR", i);
             s.pipe2ansi(buffer);
         }
     }
 }
-
-

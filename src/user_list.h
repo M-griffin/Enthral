@@ -32,8 +32,7 @@
 
 //# define ulong unsigned long
 
-typedef struct usrlist_ini
-{
+typedef struct usrlist_ini {
     char sININAME[255];
 
     int  iTop;

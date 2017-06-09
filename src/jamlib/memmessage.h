@@ -11,23 +11,20 @@
 #define PKT_NUM2D        50
 #define PKT_NUMPATH      10
 
-struct TextChunk
-{
+struct TextChunk {
     struct TextChunk *Next;
     uint32_t Length;
     uint8_t Data[PKT_CHUNKLEN];
 };
 
-struct Nodes2D
-{
+struct Nodes2D {
     struct Nodes2D *Next;
     uint16_t Nodes;
     uint16_t Net[PKT_NUM2D];
     uint16_t Node[PKT_NUM2D];
 };
 
-struct Path
-{
+struct Path {
     struct Path *Next;
     uint16_t Paths;
     uint8_t Path[PKT_NUMPATH][100];

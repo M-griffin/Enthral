@@ -25,8 +25,7 @@
 
 # include <string>
 
-typedef struct files
-{
+typedef struct files {
 
     // Import Functions
     int  fileidx_lockSet(int onoff);
@@ -69,8 +68,8 @@ typedef struct files
 
     unsigned long
     CountFiles(unsigned long fbnum),
-    CountNewFiles(unsigned long fbnum, UserRec *usr),
-    CountAllNewFiles(UserRec *usr);
+               CountNewFiles(unsigned long fbnum, UserRec *usr),
+               CountAllNewFiles(UserRec *usr);
 
     void resetlastread(UserRec *usr);
 

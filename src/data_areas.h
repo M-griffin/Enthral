@@ -29,8 +29,7 @@
 
 using namespace std;
 
-typedef struct data_area : public SESSION
-{
+typedef struct data_area : public SESSION {
 
 public:
     UserRec      *thisuser;
@@ -49,8 +48,7 @@ public:
 
     char _curarea[20];           // Current Area Name
 
-    data_area(UserRec *usr)
-    {
+    data_area(UserRec *usr) {
         dataSaved = FALSE;
         thisuser = usr;
         // Pass to CONIO for Pipe2Ansi MCI Codes.

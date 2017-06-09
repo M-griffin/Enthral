@@ -54,14 +54,12 @@ public:
     std::string menuinput;
     CommandRec cmdr;
 
-    pyMenuSystem()
-    {
+    pyMenuSystem() {
         menu_setuser(pyUser);
     }
 
     // Setup Defaults for Running a Menu
-    void set(std::string menu)
-    {
+    void set(std::string menu) {
         _premenu.clear();
         _gosub.clear();
         _curmenu = menu;
@@ -69,27 +67,23 @@ public:
     }
 
     // Read in a Menu File w/ Commands
-    void readin()
-    {
+    void readin() {
         menu_readin();
     }
 
     // Run a specific Menu CommandRec
     // Must first populate the cmdr record
-    void docmd()
-    {
+    void docmd() {
         menu_docmd (&cmdr);
     }
 
     // Clear Command for next run
-    void clearcmd()
-    {
+    void clearcmd() {
         memset(&cmdr,0,sizeof(CommandRec));
     }
 
     // Run a menu, Mstring is populated with CommandKey
-    void startmenu(char *mString, uint32_t area)
-    {
+    void startmenu(char *mString, uint32_t area) {
         menu_proc(mString, area);
     }
 };
@@ -150,12 +144,10 @@ std::string pyGetKey()
     int ch = 0;
 
     ch = s.getkey(true);
-    if (ch == 27)
-    {
+    if (ch == 27) {
         KeyCombination.erase();
         KeyCombination.append(s.EscapeKey);
-    }
-    else
+    } else
         KeyCombination.erase();
 
     return boost::lexical_cast<std::string>(ch);
@@ -309,8 +301,7 @@ void pybbs_run( std::string script, UserRec *usr )
 
     sigprocmask(SIG_BLOCK, &signal_set, NULL);
 
-    try
-    {
+    try {
 
         //function should be called before Py_Initialize() to inform
         //the interpreter about paths to Python run-time libraries.
@@ -342,13 +333,10 @@ void pybbs_run( std::string script, UserRec *usr )
         // Testing
         //path += "MyModule.py";
 
-        if (boost::filesystem::exists(path.c_str())) // does actually exist?
-        {
+        if (boost::filesystem::exists(path.c_str())) { // does actually exist?
             //if (boost::filesystem::is_regular_file(path.c_str()))        // is p a regular file?
             //	std::cout << path.c_str() << " size is " << boost::filesystem::file_size(path.c_str()) << endl;
-        }
-        else
-        {
+        } else {
             std::cout << "\n *** ERROR: \n" << path.c_str() << " NOT FOUND!" << endl;
             return;
         }
@@ -370,9 +358,7 @@ void pybbs_run( std::string script, UserRec *usr )
 
         _io.errlog2((char *)"Exiting Boost_Python");
 
-    }
-    catch(error_already_set const &)
-    {
+    } catch(error_already_set const &) {
         PyErr_Print();
         /*
         boost::python::object sys(
@@ -399,4 +385,3 @@ void pybbs_run( std::string script, UserRec *usr )
     // Py_Finalize();
     return;
 }
-

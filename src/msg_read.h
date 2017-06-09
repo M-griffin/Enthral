@@ -34,8 +34,7 @@
 /******************************************************************************
  * Message Reader INI Class
  ******************************************************************************/
-typedef struct msgread_ini
-{
+typedef struct msgread_ini {
 
     int iTop;
     int iBot;
@@ -96,15 +95,15 @@ class msg_read : private
 private:
 
     int  tTop,
-    tBot,
-    firstscan,    // Firstscan of current area
-    gblNewScan;   // Global NewScan
+         tBot,
+         firstscan,    // Firstscan of current area
+         gblNewScan;   // Global NewScan
 
     ulong Views;
 
     ulong MsgsLeft,
-    CurMsgs,
-    TotMsgs;
+          CurMsgs,
+          TotMsgs;
 
     std::vector<ulong> *msgidx_translation;
     ulong current_msgidx;
@@ -155,7 +154,7 @@ public:
     void EditMessage();
 
     // Title Scan
-    long title_scan(int newmsg, int multiscan = FALSE, char *mString='\0');
+    long title_scan(int newmsg, int multiscan = FALSE, char *mString=(char *)"\0");
 
     // Message Reader
     int  StartReader(int newmsg, ulong msgidx);

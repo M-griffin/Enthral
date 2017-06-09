@@ -19,7 +19,7 @@
 // $LastChangedBy: merc $
 
 # include "struct.h"
-# include "config.h"
+//# include "config.h"
 
 # include <stdio.h>
 # include <string>
@@ -43,8 +43,7 @@ bool configdataexists()
 
     FILE *stream;
     stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         perror(" ini ***cannot open config.ini, check if it exists and permissions!");
         return false;
     }
@@ -64,8 +63,7 @@ void createconfig()
 
     ofstream outStream2;
     outStream2.open( name.c_str(), ofstream::out | ofstream::trunc );
-    if (!outStream2.is_open())
-    {
+    if (!outStream2.is_open()) {
         perror(" ini ***cannot create config.ini, check permissions!");
         exit(1);
         return;
@@ -120,8 +118,7 @@ void checkcfg(std::string cfgdata)
     // Sets if LOGGING is on / off
     id1 = 0;
     id1 = temp.find("Set SYSOP_NAME", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
 
         st1 = temp.find('"', 0);
@@ -137,8 +134,7 @@ void checkcfg(std::string cfgdata)
 
     id1 = 0;
     id1 = temp.find("Set SYSTEM_NAME", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
 
         st1 = temp.find('"', 0);
@@ -154,8 +150,7 @@ void checkcfg(std::string cfgdata)
 
     id1 = 0;
     id1 = temp.find("Set TEMP_PATH", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
 
         st1 = temp.find('"', 0);
@@ -171,8 +166,7 @@ void checkcfg(std::string cfgdata)
 
     id1 = 0;
     id1 = temp.find("Set MAX_NODES", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
 
         st1 = temp.find('"', 0);
@@ -191,8 +185,7 @@ void checkcfg(std::string cfgdata)
 
     id1 = 0;
     id1 = temp.find("Set STARTUP_SCRIPT ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
 
         st1 = temp.find('"', 0);
@@ -209,8 +202,7 @@ void checkcfg(std::string cfgdata)
 
     id1 = 0;
     id1 = temp.find("Set STARTUP_SCRIPT2 ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
 
         st1 = temp.find('"', 0);
@@ -239,15 +231,13 @@ void parseconfig()
 
     ifstream inStream;
     inStream.open( name.c_str() );
-    if (!inStream.is_open())
-    {
+    if (!inStream.is_open()) {
         perror(" ini ***cannot parse config.ini, check if it exists and permissions!");
         exit(1);
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         getline(inStream,cfgdata);
         checkcfg(cfgdata);
         if(inStream.eof()) break;
@@ -255,4 +245,3 @@ void parseconfig()
     inStream.close();
     return;
 }
-

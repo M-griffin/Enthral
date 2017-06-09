@@ -99,8 +99,7 @@ char *getLastCallDays(std::time_t lastcall)
     std::string s;
     std::stringstream ss;
 
-    if ( theTime != (std::time_t)(-1) && callTime != (std::time_t)(-1) )
-    {
+    if ( theTime != (std::time_t)(-1) && callTime != (std::time_t)(-1) ) {
         double difference = std::difftime(theTime, callTime); /// (60 * 60 * 24);
 
         int days = (int)difference / 86400;
@@ -111,16 +110,14 @@ char *getLastCallDays(std::time_t lastcall)
         // Use Space for Padding each Time
         bool space = false;
 
-        if (days > 0)
-        {
+        if (days > 0) {
             space = true;
             if (days > 1)
                 ss << days  << ") Days";
             else
                 ss << days  << ") Day";
         }
-        if (hours > 0)
-        {
+        if (hours > 0) {
             if (space)
                 ss << ", ";
             space = true;
@@ -129,8 +126,7 @@ char *getLastCallDays(std::time_t lastcall)
             else
                 ss << hours << ") Hour";
         }
-        if (mins > 0)
-        {
+        if (mins > 0) {
             if (space)
                 ss << ", ";
             space = true;
@@ -139,8 +135,7 @@ char *getLastCallDays(std::time_t lastcall)
             else
                 ss << mins  << ") Minute";
         }
-        if (secs > 0 )
-        {
+        if (secs > 0 ) {
             if (space)
                 ss << ", ";
             if (secs > 1)
@@ -342,15 +337,13 @@ time_t Date2Sec(char *strdate)    // "04/04/1977"
 
     id1 = dtCompare.find("/",0);
     // Insert Preceeding 0 to update to 01/ from 1/
-    if (id1 < 2)
-    {
+    if (id1 < 2) {
         dtCompare.insert(0,"0");
     }
 
     id1 = dtCompare.find("/",3);
     // Insert Preceeding 0 to update to 01/01 from 01/1
-    if (id1 < 5)
-    {
+    if (id1 < 5) {
         dtCompare.insert(3,"0");
     }
 
@@ -413,8 +406,7 @@ char *Sec2DateTM(std::time_t time, int format)
     */
 
     // Setup Formatting For Every DAT & Seperate Time Format (WIP)
-    switch (format)
-    {
+    switch (format) {
     case 1:  // Default Message Date / Time Format
         strftime(buff, 256, "%A %B %d, %Y %I:%M:%S%p", tm_ptr);
         break;

@@ -136,16 +136,14 @@ void menu_func::chkparse(std::string &temp)
     st2 = temp.find('"', st1+1);
 
     if (st1 != std::string::npos &&
-            st2 != std::string::npos)
-    {
+        st2 != std::string::npos) {
         ++st1;
         temp1 = temp.substr(st1,st2);
         ct = st2 - st1;
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
         temp = temp1;
-    }
-    else
+    } else
         temp.erase();
 }
 
@@ -160,64 +158,56 @@ int menu_func::mnuparse(std::string cfgdata)
     if (cfgdata[0] == '#') return FALSE;
 
     id1 = cfgdata.find("MenuName ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         menur2->MenuName = cfgdata;
         return FALSE;
     }
 
     id1 = cfgdata.find("Directive ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         menur2->Directive = cfgdata;
         return FALSE;
     }
 
     id1 = cfgdata.find("MenuPrompt ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         menur2->MenuPrompt = cfgdata;
         return FALSE;
     }
 
     id1 = cfgdata.find("Acs ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         menur2->Acs = cfgdata;
         return FALSE;
     }
 
     id1 = cfgdata.find("Password ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         menur2->Password = cfgdata;
         return FALSE;
     }
 
     id1 = cfgdata.find("ForceInput ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         menur2->ForceInput = atoi((char *)cfgdata.c_str());
         return FALSE;
     }
 
     id1 = cfgdata.find("ForceHelpLevel ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         menur2->ForceHelpLevel = atoi((char *)cfgdata.c_str());
         return FALSE;
     }
 
     id1 = cfgdata.find("Lightbar ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         if (cfgdata == "TRUE") menur2->Lightbar = TRUE;
         else menur2->Lightbar = FALSE;
@@ -225,8 +215,7 @@ int menu_func::mnuparse(std::string cfgdata)
     }
 
     id1 = cfgdata.find("DigitPassing ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         if (cfgdata == "TRUE") menur2->MFlags.DigitPassing = TRUE;
         else menur2->MFlags.DigitPassing = FALSE;
@@ -234,8 +223,7 @@ int menu_func::mnuparse(std::string cfgdata)
     }
 
     id1 = cfgdata.find("EscPassing ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         if (cfgdata == "TRUE") menur2->MFlags.EscPassing = TRUE;
         else menur2->MFlags.EscPassing = FALSE;
@@ -243,8 +231,7 @@ int menu_func::mnuparse(std::string cfgdata)
     }
     // End of Screen, now get X/Y and put lightbars there, instead of hard coded xY
     id1 = cfgdata.find("EOSPrompt ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         if (cfgdata == "TRUE") menur2->MFlags.EOSPrompt = TRUE;
         else menur2->MFlags.EOSPrompt = FALSE;
@@ -267,8 +254,7 @@ int menu_func::menu_read(std::string MenuName)
     // Else Read and Parse it
     ifstream iFS;
     iFS.open( path.c_str() );
-    if (!iFS.is_open())
-    {
+    if (!iFS.is_open()) {
 //        errlog((char *)"Couldn't Open Menu Area: %s",(char *)path.c_str());
         return FALSE;
     }
@@ -277,8 +263,7 @@ int menu_func::menu_read(std::string MenuName)
 
     // New Menu Command, Not all Menus have it, Default to FALSE!
     menur2->MFlags.EOSPrompt = FALSE;
-    for (;;)
-    {
+    for (;;) {
         if(iFS.eof()) break;
         std::getline(iFS,cfgdata,'\n');
         if(iFS.eof()) break;
@@ -303,8 +288,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"LDesc[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].LDesc = cfgdata;
         return;
@@ -312,8 +296,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"SDesc[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].SDesc = cfgdata;
         return;
@@ -321,8 +304,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"CKeys[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].CKeys = cfgdata;
         return;
@@ -330,8 +312,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"Acs[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Acs = cfgdata;
         return;
@@ -339,8 +320,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"CmdKeys[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].CmdKeys = cfgdata;
         return;
@@ -348,8 +328,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"MString[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].MString = cfgdata;
         return;
@@ -357,8 +336,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"HiString[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].HiString = cfgdata;
         return;
@@ -376,8 +354,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"LoString[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].LoString = cfgdata;
         return;
@@ -385,8 +362,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"Xcoord[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Xcoord = atoi((char *)cfgdata.c_str());
         return;
@@ -394,8 +370,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"Ycoord[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].Ycoord = atoi((char *)cfgdata.c_str());
         return;
@@ -403,8 +378,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"LBarCmd[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         if (cfgdata == "TRUE")
             cmdr2[idx].LBarCmd = TRUE;
@@ -415,8 +389,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"SText[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         if (cfgdata == "TRUE")
             cmdr2[idx].SText = TRUE;
@@ -427,8 +400,7 @@ void menu_func::cmdparse(std::string cfgdata, int idx)
 
     sprintf(sText,"STLen[%.03d]",idx);
     id1 = cfgdata.find(sText, 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         chkparse(cfgdata);
         cmdr2[idx].STLen = atoi((char *)cfgdata.c_str());
         return;
@@ -450,8 +422,7 @@ int menu_func::cmdexist(std::string MenuName, int idx)
     // Open file for reading and parsing.
     ifstream iFS2;
     iFS2.open( path.c_str() );
-    if (!iFS2.is_open())
-    {
+    if (!iFS2.is_open()) {
         //errlog((char *)"Couldn't Open Menu Command [cmdexist()]: %s\n", path.c_str());
         return ret;
     }
@@ -459,8 +430,7 @@ int menu_func::cmdexist(std::string MenuName, int idx)
     // Loop Through and Find the The Command
     sprintf(sText,"[CommandRec%.03d]",idx);
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         std::getline(iFS2,cfgdata,'\n');
         if (cfgdata.find(sText,0) != std::string::npos)
             ret = TRUE;
@@ -485,8 +455,7 @@ int menu_func::cmdexist(std::string MenuName, int idx)
 int menu_func::cnt_cmds(std::string MenuName)
 {
     int  cnt = 0;
-    while (cmdexist(MenuName,cnt))
-    {
+    while (cmdexist(MenuName,cnt)) {
         ++cnt;
     }
     return cnt;
@@ -516,15 +485,13 @@ int menu_func::cmds_read(std::string MenuName, int idx)
     // Else Read and Parse it
     ifstream iFS;
     iFS.open( path.c_str() );
-    if (!iFS.is_open())
-    {
+    if (!iFS.is_open()) {
         //errlog((char *)"Couldn't Open Menu Commands: %s\n", path.c_str());
         return FALSE;
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         std::getline(iFS,cfgdata,'\n');
         cmdparse(cfgdata,idx);
         //cfgdata += "\r\n";   (5 Times per menu., need to rewrite.!!)
@@ -682,8 +649,7 @@ void menu_func::insert_cmdr()
 //   }
 
     int  idx = 0;
-    while (cmds_read(_curmenu,idx))
-    {
+    while (cmds_read(_curmenu,idx)) {
         //cmdr2[noc] = *cmdr;
         //memset(&cmdr,0,sizeof(CommandRec));
         ++idx;
@@ -765,14 +731,11 @@ int menu_func::menu_exists()
 
     FILE *fstr;
     fstr = fopen(path.c_str(),"rb+");
-    if(fstr == NULL)
-    {
+    if(fstr == NULL) {
 //        errlog((char *)"Menu not Found! : %s ",(char *)_curmenu.c_str());
         sleep(1);
         return FALSE;
-    }
-    else
-    {
+    } else {
         fclose(fstr);
     }
     return TRUE;
@@ -794,8 +757,7 @@ void menu_func::menu_readin()
 
     // If we have the same menu, abort and return, no reason to re-load same!
     ////errlog2("readin() 1 %s,%s",(char *)_premenu.c_str(),(char *)_curmenu.c_str());
-    if (_premenu == _curmenu || _curmenu == "")
-    {
+    if (_premenu == _curmenu || _curmenu == "") {
         _loadnew = false;
         return ;
     }
@@ -804,15 +766,12 @@ void menu_func::menu_readin()
     /// Check if Menu Exists first!
     FILE *fstr;
     fstr = fopen(path.c_str(),"rb+");
-    if(fstr == NULL)
-    {
+    if(fstr == NULL) {
 //        errlog((char *)"Menu not Found! : %s ",(char *)_curmenu.c_str());
         sleep(1);
         _loadnew = false;
         return;
-    }
-    else
-    {
+    } else {
         fclose(fstr);
     }
 
@@ -823,8 +782,7 @@ void menu_func::menu_readin()
     //memset(&menur2,0,sizeof(MenuRec));
     // Setup The Data Area
 
-    if (menur2 != 0)
-    {
+    if (menur2 != 0) {
         ////errlog2("readin() delete menur2;");
         delete menur2;
         menur2 = 0;
@@ -832,8 +790,7 @@ void menu_func::menu_readin()
 
     ////errlog2("readin() new menur2;");
     menur2 = new MenuRec;
-    if (!menur2)
-    {
+    if (!menur2) {
 //            errlog((char *)"Unable to Allocate Memory for Menu: %s, returning...",(char *)_curmenu.c_str());
         return;
     }
@@ -848,12 +805,10 @@ void menu_func::menu_readin()
     if(!menu_read(_curmenu))
         return;
 
-    if (menur2->MFlags.UseGlobal)
-    {
+    if (menur2->MFlags.UseGlobal) {
         nogc = cnt_cmds((char *)"global");
         if (nogc < 1) nogc = 0;
-    }
-    else
+    } else
         nogc = 0;
 
     noc = cnt_cmds(_curmenu);
@@ -862,8 +817,7 @@ void menu_func::menu_readin()
     //memset(&cmdr2,0,sizeof(CommandRec[MAX_MENU_COMMANDS]));
     ////errlog2("readin() 5, %i, %i",noc,nogc);
 
-    if (cmdr2 != 0)
-    {
+    if (cmdr2 != 0) {
         ////errlog2("readin() delete [] cmdr2;");
         delete [] cmdr2;
         cmdr2 = 0;
@@ -871,8 +825,7 @@ void menu_func::menu_readin()
 
     ////errlog2("readin() new [] cmdr2;");
     cmdr2 = new CommandRec[noc+nogc+1];
-    if (!cmdr2)
-    {
+    if (!cmdr2) {
 //            errlog((char *)"Unable to Allocate Memory for cmdr2: %s, returning...",(char *)_curmenu.c_str());
         return;
     }
@@ -882,11 +835,9 @@ void menu_func::menu_readin()
     ////errlog2("readin() 7.1 - %i, %i",noc,nogc);
 
     insert_cmdr();
-    if (nogc > 0)
-    {
+    if (nogc > 0) {
         idx = 0;
-        while(cmds_read((char *)"global",idx))
-        {
+        while(cmds_read((char *)"global",idx)) {
             ++noc;
             ++idx;
         }
@@ -911,8 +862,7 @@ void *ScrollingText(void *p1)
     //s.////errlog2("ScrollingText!! 1");
 
     // Only run scrolling text if were in ANSI Mode.
-    if (isANSI == FALSE || p->Active == false)
-    {
+    if (isANSI == FALSE || p->Active == false) {
         p->Active = false;
         delete p;
         p = 0;
@@ -938,8 +888,7 @@ void *ScrollingText(void *p1)
 
     //s.////errlog2("ScrollingText!! 3");
     boxlen = p->cmdr2->STLen;
-    if ( boxlen-1 > (int)p->cmdr2->MString.size() )
-    {
+    if ( boxlen-1 > (int)p->cmdr2->MString.size() ) {
         for (int i = 0; i != boxlen; i++) quotestr += " ";
     }
 
@@ -958,10 +907,8 @@ void *ScrollingText(void *p1)
 
     // s.////errlog2("ScrollingText!! 5");
     // Loop Scrolling Text Here
-    do
-    {
-        if (PAUSE_SCROLING)
-        {
+    do {
+        if (PAUSE_SCROLING) {
             usleep(12*11800);
             continue;
         }
@@ -984,8 +931,7 @@ void *ScrollingText(void *p1)
         s.pipe2ansi((char*)output.c_str());
         // Give small delay to Slow Text Scrolling Down
         usleep(10*11800);
-    }
-    while (p->Active);
+    } while (p->Active);
     //s.////errlog2("ScrollingText!! 6");
     delete p;
     p = 0;
@@ -1008,8 +954,7 @@ void *DelayedOneliners(void *p1)
     //s.////errlog2("ScrollingText!! 1");
 
     // Only run scrolling text if were in ANSI Mode.
-    if (isANSI == FALSE || p->Active == false)
-    {
+    if (isANSI == FALSE || p->Active == false) {
         p->Active = false;
         delete p;
         p = 0;
@@ -1033,8 +978,7 @@ void *DelayedOneliners(void *p1)
 
     //s.////errlog2("ScrollingText!! 3");
     boxlen = p->cmdr2->STLen;
-    if ( boxlen-1 > (int)p->cmdr2->MString.size() )
-    {
+    if ( boxlen-1 > (int)p->cmdr2->MString.size() ) {
         for (int i = 0; i != boxlen; i++) quotestr += " ";
     }
 
@@ -1053,11 +997,9 @@ void *DelayedOneliners(void *p1)
 
     // s.////errlog2("ScrollingText!! 5");
     // Loop Scrolling Text Here
-    do
-    {
+    do {
 
-        if (PAUSE_SCROLING)
-        {
+        if (PAUSE_SCROLING) {
             usleep(12*11800);
             continue;
         }
@@ -1080,8 +1022,7 @@ void *DelayedOneliners(void *p1)
         s.pipe2ansi((char*)output.c_str());
         // Give small delay to Slow Text Scrolling Down
         usleep(10*11800);
-    }
-    while (p->Active);
+    } while (p->Active);
     //s.////errlog2("ScrollingText!! 6");
     delete p;
     p = 0;
@@ -1117,8 +1058,7 @@ void menu_func::display_menu(BOOL forcelevel)
     char text [1024]= {0};
     char text2[1024]= {0};
 
-    if (forcelevel==FALSE)
-    {
+    if (forcelevel==FALSE) {
         if (menur2->ForceHelpLevel == 0) return;
     }
 
@@ -1141,41 +1081,28 @@ void menu_func::display_menu(BOOL forcelevel)
 
     strcpy(text, (char *)" %s%24s %s(%s%s%s)     " );
 
-    for (long i = 0; i != noc; i++)
-    {
+    for (long i = 0; i != noc; i++) {
         // Ignore Execute on First Load Commands
-        if (cmdr2[i].CKeys == "FIRSTCMD")
-        {
+        if (cmdr2[i].CKeys == "FIRSTCMD") {
             ignore = TRUE;
-        }
-        else // Ignore Lightbar Commands
-            if (cmdr2[i].LBarCmd)
-            {
+        } else // Ignore Lightbar Commands
+            if (cmdr2[i].LBarCmd) {
                 ignore = TRUE;
-            }
-            else // Ignore Scrolling Text
-                if (cmdr2[i].SText)
-                {
+            } else // Ignore Scrolling Text
+                if (cmdr2[i].SText) {
                     ignore = TRUE;
-                }
-                else // Ignore Blank Keys
-                    if (cmdr2[i].CKeys == "")
-                    {
+                } else // Ignore Blank Keys
+                    if (cmdr2[i].CKeys == "") {
                         ignore = TRUE;
-                    }
-                    else // Ignore Stacked. Only Display First.
-                        if (cmdr2[i].LDesc == "")
-                        {
+                    } else // Ignore Stacked. Only Display First.
+                        if (cmdr2[i].LDesc == "") {
                             ignore = TRUE;
                         }
 
         // Check Ignore Status to Write out.
-        if (ignore)
-        {
+        if (ignore) {
             ignore = FALSE;
-        }
-        else
-        {
+        } else {
             // Start Displaying Menu Text
             // Menu Commands spacing
             sprintf(text2, text ,
@@ -1190,20 +1117,15 @@ void menu_func::display_menu(BOOL forcelevel)
             ++cnt;
 
             // 3 Rows, Menus
-            if (menur2->ForceHelpLevel == 1)
-            {
-                if (cnt == 2)
-                {
+            if (menur2->ForceHelpLevel == 1) {
+                if (cnt == 2) {
                     // Goto Next Line, Reset.
                     cnt = 0;
                     output += "\r\n";
                 }
-            }
-            else
-            {
+            } else {
                 // 1 Row, Matrix
-                if (menur2->ForceHelpLevel == 2)
-                {
+                if (menur2->ForceHelpLevel == 2) {
                     // Goto Next Line, Reset.
                     cnt = 0;
                     output += "\r\n";
@@ -1212,8 +1134,7 @@ void menu_func::display_menu(BOOL forcelevel)
         }
     }
 
-    if (output.size() > 2)
-    {
+    if (output.size() > 2) {
         output += "|CR|CR";
         pipe2ansi((char *)output.c_str());
     }
@@ -1241,8 +1162,7 @@ void menu_func::menu_bars(char *inPut)
     // Will speed up display and make ghosting not apear as much
     ////errlog2("menu_bars() 2");
     BOOL menufile = FALSE;
-    if (menur2->Directive != "")
-    {
+    if (menur2->Directive != "") {
         //readinAnsi(menur2.Directive,output);
         menufile = ansiPrintf((char *)menur2->Directive.c_str());
     }
@@ -1250,8 +1170,7 @@ void menu_func::menu_bars(char *inPut)
     ////errlog2("menu_bars() 3");
     // Count Cmds with lightbar or scrolling flag only and ESC Keys
     int Xc = 0;
-    if (menur2->MFlags.EOSPrompt == TRUE)
-    {
+    if (menur2->MFlags.EOSPrompt == TRUE) {
         ////errlog2("menu_bars() 3.1");
         getxy();
         Xc = ansi_getx();
@@ -1263,8 +1182,7 @@ void menu_func::menu_bars(char *inPut)
     //printf("\ncur: %s, pre: %s",_curmenu,_premenu);
     // Not the Same Menu Loaded, ok to Load New One!
     ////errlog2("menu_bars() 5.1");
-    if (_premenu != _curmenu)
-    {
+    if (_premenu != _curmenu) {
         //menu_clear();
 
         //if (!menur2)
@@ -1275,19 +1193,16 @@ void menu_func::menu_bars(char *inPut)
 
 
         ////errlog2("menu_bars() 5.2 execnum");
-        if (execnum != 0)
-        {
+        if (execnum != 0) {
             ////errlog2("menu_bars() delete execnum;");
             delete [] execnum;
             execnum = 0;
         }
 
 
-        if (execnum == 0)
-        {
+        if (execnum == 0) {
             execnum = new short[noc+1];  // Set to # of comamnd for now, preload.
-            if (!execnum)
-            {
+            if (!execnum) {
 //                errlog((char *)"Unable to Allocate Memory for process_menu_area: %s - execnum[], returning...",(char *)_curmenu.c_str());
                 return;
             }
@@ -1297,18 +1212,15 @@ void menu_func::menu_bars(char *inPut)
 
         // Check for Text Scrolling Commands
         ////errlog2("menu_bars() 5.3 execnum2");
-        if (execnum2 != 0)
-        {
+        if (execnum2 != 0) {
             ////errlog2("menu_bars() delete execnum2;");
             delete [] execnum2;
             execnum2 = 0;
         }
 
-        if (execnum2 == 0)
-        {
+        if (execnum2 == 0) {
             execnum2 = new short[noc+1]; // Set to # of comamnd for now, preload.
-            if (!execnum2)
-            {
+            if (!execnum2) {
 //                errlog((char *)"Unable to Allocate Memory for process_menu_area: %s - execnum2[], returning...",(char *)_curmenu.c_str());
                 return;
             }
@@ -1317,18 +1229,15 @@ void menu_func::menu_bars(char *inPut)
 
         // Check for Text Scrolling Commands
         ////errlog2("menu_bars() 5.3 execnum3");
-        if (execnum3 != 0)
-        {
+        if (execnum3 != 0) {
             ////errlog2("menu_bars() delete execnum3;");
             delete [] execnum3;
             execnum3 = 0;
         }
 
-        if (execnum3 == 0)
-        {
+        if (execnum3 == 0) {
             execnum3 = new short[noc+1]; // Set to # of comamnd for now, preload.
-            if (!execnum3)
-            {
+            if (!execnum3) {
 //                errlog((char *)"Unable to Allocate Memory for process_menu_area: %s - execnum3[], returning...",(char *)_curmenu.c_str());
                 return;
             }
@@ -1340,22 +1249,19 @@ void menu_func::menu_bars(char *inPut)
         exe  = 0;
         cntEscCmds = 0;
 
-        for (int i = 0; i != noc; i++)
-        {
+        for (int i = 0; i != noc; i++) {
             ////errlog2("menu_bars() 6");
             // If were overwridding placement of Row on which we display Lightbars
             // This is Mesage prompts and variables lenghts.
             // Place All Lightbars Accross on Same Horzontal Line!
-            if (menur2->MFlags.EOSPrompt == TRUE)
-            {
+            if (menur2->MFlags.EOSPrompt == TRUE) {
                 ////errlog2("menu_bars() 6.1 - EOS");
                 cmdr2[i].Ycoord = Xc;
                 /// This needs to be fixed, defaulting to TRUE!!!
             }
 
             // If we find a FIRSTCMD, Execute it right away!
-            if (cmdr2[i].CKeys == "FIRSTCMD")
-            {
+            if (cmdr2[i].CKeys == "FIRSTCMD") {
                 ////errlog2("menu_bars() 6.2 - FIRSTCMD");
                 menu_docmd(&cmdr2[i]);
                 // Count /Commands, if we execute all FIRSTCMDS then return when completed.
@@ -1363,15 +1269,13 @@ void menu_func::menu_bars(char *inPut)
             }
 
             // Get Ligthbar Commands
-            if (cmdr2[i].LBarCmd && isANSI == TRUE)
-            {
+            if (cmdr2[i].LBarCmd && isANSI == TRUE) {
                 ////errlog2("menu_bars() 6.3 - Lightbar");
                 execnum[iNoc] = i;
                 ++iNoc;
             }
 
-            if (cmdr2[i].SText)
-            {
+            if (cmdr2[i].SText) {
                 ////errlog2("menu_bars() 6.4 - Scrolling");
                 execnum2[sNoc] = i;
                 ++sNoc;
@@ -1379,36 +1283,26 @@ void menu_func::menu_bars(char *inPut)
 
             //while running throguh each command, put into a vector formatted.
             // No ansi menu file, generate menu commands.
-            if (!menufile && iNoc == 0)
-            {
+            if (!menufile && iNoc == 0) {
                 //errlog((char *)"menu_bars() 6.4 - Setting Menu Command Layout");
                 // Insert code here for generating generic menu with commands.
             }
 
             ////errlog2("menu_bars() 10");
             // Count Escape Keys in Menu System to override passthrough
-            if (cmdr2[i].CKeys == "ESC")
-            {
+            if (cmdr2[i].CKeys == "ESC") {
                 execnum3[cntEscCmds] = i;
                 ++cntEscCmds;
-            }
-            else if (cmdr2[i].CKeys == "LEFT")
-            {
+            } else if (cmdr2[i].CKeys == "LEFT") {
                 execnum3[cntEscCmds] = i;
                 ++cntEscCmds;
-            }
-            else if (cmdr2[i].CKeys == "RIGHT")
-            {
+            } else if (cmdr2[i].CKeys == "RIGHT") {
                 execnum3[cntEscCmds] = i;
                 ++cntEscCmds;
-            }
-            else if (cmdr2[i].CKeys == "UP")
-            {
+            } else if (cmdr2[i].CKeys == "UP") {
                 execnum3[cntEscCmds] = i;
                 ++cntEscCmds;
-            }
-            else if (cmdr2[i].CKeys == "DOWN")
-            {
+            } else if (cmdr2[i].CKeys == "DOWN") {
                 execnum3[cntEscCmds] = i;
                 ++cntEscCmds;
             }
@@ -1426,13 +1320,10 @@ void menu_func::menu_bars(char *inPut)
                 ++cntEscCmds;
             }*/
 
-            else if (cmdr2[i].CKeys == "PAGEUP")
-            {
+            else if (cmdr2[i].CKeys == "PAGEUP") {
                 execnum3[cntEscCmds] = i;
                 ++cntEscCmds;
-            }
-            else if (cmdr2[i].CKeys == "PAGEDN")
-            {
+            } else if (cmdr2[i].CKeys == "PAGEDN") {
                 execnum3[cntEscCmds] = i;
                 ++cntEscCmds;
             }
@@ -1440,15 +1331,13 @@ void menu_func::menu_bars(char *inPut)
 
         ////errlog2("menu_bars() 11");
         // Return if we executed all comamnds as FRISTCMD!
-        if (exe == noc)
-        {
+        if (exe == noc) {
             return;
         }
 
         ////errlog2("menu_bars() 11.1");
         // Make sure there is more then 1 to Randomize
-        if (sNoc > 0)
-        {
+        if (sNoc > 0) {
             srand(time(NULL));
             sRand = rand()%sNoc;
         }
@@ -1459,8 +1348,7 @@ void menu_func::menu_bars(char *inPut)
 
     ////errlog2("menu_bars() 13");
     // Start Text Scrolling Thread here...
-    if (sNoc > 0 && execnum2[0] != '\0' && (int)execnum2[0] != 19 && isANSI == TRUE)
-    {
+    if (sNoc > 0 && execnum2[0] != '\0' && (int)execnum2[0] != 19 && isANSI == TRUE) {
         ////errlog2("menu_bars() 14");
         //tScroll = true;
         tScroll = true;
@@ -1477,16 +1365,13 @@ void menu_func::menu_bars(char *inPut)
     ////errlog2("menu_bars() 16");
     //Throw out a menu prompt if there is one available. - Add MCI Parsing too!
     // Use Same X Row,  these got reversed somehow!!! grrrr
-    if (iNoc == 0)
-    {
+    if (iNoc == 0) {
         ////errlog2("menu_bars() 16- MENU PROMPT 1");
 
 // MENU PROMPT NOT NEEDED HERE, IS BELOW WITH MENU DISPLAY
 //        sprintf(outBuff,"%s",(char *)menur2->MenuPrompt.c_str());
 //        output += outBuff;
-    }
-    else
-    {
+    } else {
         ////errlog2("menu_bars() 16- MENU PROMPT 2");
         //Throw out a menu prompt if there is one available. - Add MCI Parsing too!
         // Use Same X Row,  these got reversed somehow!!! grrrr
@@ -1534,18 +1419,14 @@ void menu_func::menu_bars(char *inPut)
 //	errlog((char *)"#### choice2: %lu = CURRENT_AREA: %lu;",choice, CURRENT_AREA);
 
     std::string sMenu = _curmenu;
-    while (1)
-    {
+    while (1) {
         ////errlog2("menu_bars() 18");
         // Lightbar menu then draw
-        if (iNoc > 0)
-        {
+        if (iNoc > 0) {
             ////errlog2("menu_bars() 19 - Lightbar Processing here!!");
             // Setup of Remaining Lightbars in Low highlight Form
-            for (int rep = 0; rep != iNoc; rep++)
-            {
-                if (rep != choice)
-                {
+            for (int rep = 0; rep != iNoc; rep++) {
+                if (rep != choice) {
                     ////errlog2("menu_bars() 19.1");
                     xx = cmdr2[execnum[rep]].Xcoord;
                     yy = cmdr2[execnum[rep]].Ycoord;
@@ -1553,9 +1434,7 @@ void menu_func::menu_bars(char *inPut)
                     sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx,(char *)cmdr2[execnum[rep]].LoString.c_str());
                     ////errlog2("menu_bars() 19.3");
                     output += outBuff;
-                }
-                else
-                {
+                } else {
                     ////errlog2("menu_bars() 19.4");
                     xx = cmdr2[execnum[rep]].Xcoord;
                     yy = cmdr2[execnum[rep]].Ycoord;
@@ -1575,8 +1454,7 @@ void menu_func::menu_bars(char *inPut)
             pipe2ansi((char*)output.c_str());
         }
         // Not Lightbars, print out menu ansi.
-        else
-        {
+        else {
             ////errlog2("menu_bars() 19 - NO Lightbar Processing");
             pipe2ansi((char*)output.c_str());
 
@@ -1596,31 +1474,26 @@ void menu_func::menu_bars(char *inPut)
         output = menur2->MenuPrompt;
 
         // If lightbar prompt, reset to begining of line.
-        if (iNoc > 0)
-        {
+        if (iNoc > 0) {
             xx = 1;
             sprintf(outBuff,"\x1b[%i;%iH%s",yy,xx,(char *)menur2->MenuPrompt.c_str());
             output = outBuff;
         }
 
-        if (output.size() > 1)
-        {
+        if (output.size() > 1) {
             sprintf(outBuff,"%ld",MsgsLeft);
             id1 = output.find("%ML",0);
-            if (id1 != std::string::npos)
-            {
+            if (id1 != std::string::npos) {
                 output.replace(id1,3,outBuff);
             }
             sprintf(outBuff,"%ld",CurMsgs);
             id1 = output.find("%CM",0);
-            if (id1 != std::string::npos)
-            {
+            if (id1 != std::string::npos) {
                 output.replace(id1,3,outBuff);
             }
             sprintf(outBuff,"%ld",TotMsgs);
             id1 = output.find("%HM",0);
-            if (id1 != std::string::npos)
-            {
+            if (id1 != std::string::npos) {
                 output.replace(id1,3,outBuff);
             }
             pipe2ansi((char *)output.c_str());
@@ -1632,20 +1505,16 @@ void menu_func::menu_bars(char *inPut)
 
         ////errlog2("menu_bars() 21 - GOT KEY NOW PROCESS!");
         // Check here for Arrow Key / Escaped Input was Received
-        if ((int)c == 27)
-        {
+        if ((int)c == 27) {
             cc = EscapeKey[1];
 
-            if (cc == '0')
-            {
+            if (cc == '0') {
                 // Tranlate to Terminal Escape with Preceding 0
                 cc = EscapeKey[2];
             }
 
             EscHit = true;
-        }
-        else
-        {
+        } else {
             EscHit = false;
             /*
             // Only display alpha Numeric
@@ -1659,10 +1528,8 @@ void menu_func::menu_bars(char *inPut)
 
         // If were in prompt and receive Int/Digit,
         // pass through Digits back to Message Quoter && Title Scan Etc...
-        if (isdigit(c))
-        {
-            if (menur2->MFlags.DigitPassing == TRUE)
-            {
+        if (isdigit(c)) {
+            if (menur2->MFlags.DigitPassing == TRUE) {
                 inPut[0] = '#';
                 inPut[1] = c;
                 //menu_clear();
@@ -1672,68 +1539,51 @@ void menu_func::menu_bars(char *inPut)
 
         ////errlog2("menu_bars() 23 .0 ");
         executed  = 0;
-        if (EscHit)
-        {
+        if (EscHit) {
             // Input Key is Escaped Meaning Arrow Keys
             ////errlog2("menu_bars() 23.1");
 
             //elog ("* ESC Hit: %c, cntEscCmds: %ld",cc,cntEscCmds);
 
             // Run through and check for any Menu commands that overive default passthrough!
-            if (cntEscCmds > 0)
-            {
+            if (cntEscCmds > 0) {
                 // ESC Commands in Menu might overide lightbars.
-                for (int ckey = 0; ckey != (signed)cntEscCmds; ckey++)
-                {
+                for (int ckey = 0; ckey != (signed)cntEscCmds; ckey++) {
 
-                    if (EscapeKey[1] == '\0' || EscapeKey[1] == ' ')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "ESC")
-                        {
+                    if (EscapeKey[1] == '\0' || EscapeKey[1] == ' ') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "ESC") {
                             //elog("- ESC EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[execnum3[ckey]]);
                             strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
                         }
-                    }
-                    else if (cc == 'A')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "UP")
-                        {
+                    } else if (cc == 'A') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "UP") {
                             ////errlog2("- UP EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[execnum3[ckey]]);
                             strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
                         }
-                    }
-                    else if (cc == 'B')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "DOWN")
-                        {
+                    } else if (cc == 'B') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "DOWN") {
                             ////errlog2("- DOWN EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[execnum3[ckey]]);
                             strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
                         }
-                    }
-                    else if (cc == 'C')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "RIGHT")
-                        {
+                    } else if (cc == 'C') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "RIGHT") {
                             //elog("- RIGHT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[execnum3[ckey]]);
                             strcpy(inPut,(const char*)cmdr2[execnum3[ckey]].CmdKeys.c_str());
                         }
-                    }
-                    else if (cc == 'D')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "LEFT")
-                        {
+                    } else if (cc == 'D') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "LEFT") {
                             //elog("- LEFT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                             if (tScroll) p->Active = false;
                             ++executed;
@@ -1742,10 +1592,8 @@ void menu_func::menu_bars(char *inPut)
                         }
                     }
 
-                    else if ((cc == '5' && EscapeKey[2] == '~') || cc == 'V')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "PAGEUP")
-                        {
+                    else if ((cc == '5' && EscapeKey[2] == '~') || cc == 'V') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "PAGEUP") {
                             //elog("- LEFT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                             if (tScroll) p->Active = false;
                             ++executed;
@@ -1754,10 +1602,8 @@ void menu_func::menu_bars(char *inPut)
                         }
                     }
 
-                    else if ((cc == '6' && EscapeKey[2] == '~') || cc == 'U')
-                    {
-                        if (cmdr2[execnum3[ckey]].CKeys == "PAGEDN")
-                        {
+                    else if ((cc == '6' && EscapeKey[2] == '~') || cc == 'U') {
+                        if (cmdr2[execnum3[ckey]].CKeys == "PAGEDN") {
                             //elog("- LEFT EXECUTED! %s",(const char*)cmdr2[execnum3[ckey]].CmdKeys);
                             if (tScroll) p->Active = false;
                             ++executed;
@@ -1830,16 +1676,13 @@ void menu_func::menu_bars(char *inPut)
                 // Executed == 0, Then Key Pressed was not valid! :)
                 // Pass through the ESC then
                 if (tScroll) p->Active = false;
-                if (executed == 0)
-                {
+                if (executed == 0) {
                     inPut[0] = cc;
 
                     // Translater to Terminal ESC Keys
                     if (cc == '0')
                         cc = EscapeKey[2];
-                }
-                else
-                {
+                } else {
                     ////errlog2("menu_bars() 23.2 return");
                     //menu_clear();
                     return;
@@ -1847,8 +1690,7 @@ void menu_func::menu_bars(char *inPut)
             }
 
             // If True, means we pass A and B up/dn through to system!
-            if (menur2->MFlags.EscPassing == FALSE)
-            {
+            if (menur2->MFlags.EscPassing == FALSE) {
                 // Arrow Keys
                 ////errlog2("menu_bars() 23.3 - ESC PASSING!!!");
                 if (cc == 'A') cc = 'D';
@@ -1856,11 +1698,9 @@ void menu_func::menu_bars(char *inPut)
             }
             //elog ("Start Lightbar Processing... CMD: %c, cntEscCmds: %ld", cc, cntEscCmds);
 
-            if (iNoc > 0)
-            {
+            if (iNoc > 0) {
                 ////errlog2("menu_bars() 23.4 - iNoc > 0");
-                if (cc == 'D' && executed == 0)
-                {
+                if (cc == 'D' && executed == 0) {
                     // Up & Left
                     ////errlog2("menu_bars() 23.4 - D");
                     //printf ("\n D!");
@@ -1879,9 +1719,7 @@ void menu_func::menu_bars(char *inPut)
                     output += outBuff;
                     // Send Lightbar output
                     pipe2ansi((char*)output.c_str());
-                }
-                else if (cc == 'C' && executed == 0)
-                {
+                } else if (cc == 'C' && executed == 0) {
                     // Down & Right
                     ////errlog2("menu_bars() 23.4 - C");
                     //printf ("\n C!");
@@ -1900,10 +1738,8 @@ void menu_func::menu_bars(char *inPut)
                     // Send Lightbar output
                     //errlog2((char*)output.c_str());
                     pipe2ansi((char*)output.c_str());
-                }
-                else if ((cc == 'H' || (cc == '1' && EscapeKey[2] == '~')) && executed == 0 &&
-                         menur2->MFlags.EscPassing == TRUE)
-                {
+                } else if ((cc == 'H' || (cc == '1' && EscapeKey[2] == '~')) && executed == 0 &&
+                           menur2->MFlags.EscPassing == TRUE) {
                     // Home Key
                     ////errlog2("menu_bars() 23.4 - H / 1");
                     xx = cmdr2[execnum[choice]].Xcoord;
@@ -1917,10 +1753,8 @@ void menu_func::menu_bars(char *inPut)
                     output += outBuff;
                     // Send Lightbar output
                     pipe2ansi((char*)output.c_str());
-                }
-                else if ((cc == 'K' || cc == 'F' || (cc == '4' && EscapeKey[2] == '~')) && executed == 0 &&
-                         menur2->MFlags.EscPassing == TRUE)
-                {
+                } else if ((cc == 'K' || cc == 'F' || (cc == '4' && EscapeKey[2] == '~')) && executed == 0 &&
+                           menur2->MFlags.EscPassing == TRUE) {
                     ////errlog2("menu_bars() 23.4 - 4 / K");
                     // || menur2.MFlags.EndHomeLightbar == TRUE) { // End Key
                     xx = cmdr2[execnum[choice]].Xcoord;
@@ -1934,9 +1768,7 @@ void menu_func::menu_bars(char *inPut)
                     output += outBuff;
                     // Send Lightbar output
                     pipe2ansi((char*)output.c_str());
-                }
-                else
-                {
+                } else {
                     ////errlog2("menu_bars() 23.5 - ELSE");
 
                     // printf ("\n ELSE!");
@@ -1969,25 +1801,19 @@ void menu_func::menu_bars(char *inPut)
                     //}
                 }
             } //</iNoc>
-            else
-            {
+            else {
                 // normal Key Input.
                 ////errlog2("menu_bars() 23.6 - ELSE");
-                if ((int)c == 10)
-                {
+                if ((int)c == 10) {
                     executed = 0;
                     // Here Loop through and execute stacked Commands
-                    for (int ckey = 0; ckey != noc; ckey++)
-                    {
-                        if ( cmdr2[ckey].CKeys == "ENTER" )
-                        {
+                    for (int ckey = 0; ckey != noc; ckey++) {
+                        if ( cmdr2[ckey].CKeys == "ENTER" ) {
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[ckey]);
                             strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys.c_str());
-                        }
-                        else if ( cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys )
-                        {
+                        } else if ( cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys ) {
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[ckey]);
@@ -1995,43 +1821,33 @@ void menu_func::menu_bars(char *inPut)
                         }
                     }
 
-                    if (executed > 0)
-                    {
+                    if (executed > 0) {
                         //menu_clear();
                         return;
-                    }
-                    else
-                    {
+                    } else {
                         // Redraw screen!
-                        if (menur2->Directive != "")
-                        {
+                        if (menur2->Directive != "") {
                             //readinAnsi(menur2.Directive,output);
                             ansiPrintf((char *)menur2->Directive.c_str());
                         }
                     }
                 }
                 //  Else go through and run stack commands on hot key pressed.
-                else
-                {
+                else {
                     executed = 0;     // Normal Key Inputed, if Match's
                     std::string t1;
-                    for (int ckey = 0; ckey != noc; ckey++)
-                    {
+                    for (int ckey = 0; ckey != noc; ckey++) {
                         // Loop and Run Stacked Commands.
-                        if (c == 32)
-                        {
+                        if (c == 32) {
                             // Else check if it's a spacebar
-                            if (cmdr2[ckey].CKeys == "SPACE")
-                            {
+                            if (cmdr2[ckey].CKeys == "SPACE") {
                                 if (tScroll) p->Active = false;
                                 ++executed;
                                 menu_docmd(&cmdr2[ckey]);
                                 strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys.c_str());
                             }
-                        }
-                        else // Check any remaining Keys Hot Key Input.
-                            if (cmdr2[ckey].CKeys[0] == toupper(c) && cmdr2[ckey].CKeys.size() < 2)
-                            {
+                        } else // Check any remaining Keys Hot Key Input.
+                            if (cmdr2[ckey].CKeys[0] == toupper(c) && cmdr2[ckey].CKeys.size() < 2) {
                                 if (tScroll) p->Active = false;
                                 ++executed;
                                 menu_docmd(&cmdr2[ckey]);
@@ -2040,8 +1856,7 @@ void menu_func::menu_bars(char *inPut)
                     }
                 }
                 // Executed == 0, Then Key Pressed was not valid!, and no stacked commands to loop :)
-                if (executed > 0)
-                {
+                if (executed > 0) {
                     //menu_clear();
                     return;
                 }
@@ -2049,94 +1864,72 @@ void menu_func::menu_bars(char *inPut)
         } // </EscHit>
 
         // Normal Key Input
-        else
-        {
+        else {
             // If Enter, Return Cmd # of Lightbar Executed
             // also catch any stacked keys and execute in order!
 
-            if ((int)c == 10 && iNoc > 0)
-            {
+            if ((int)c == 10 && iNoc > 0) {
                 // Only Executte [ENTER] on Lightbars!
                 executed = 0;
                 // Here Loop through and execute stacked Commands
-                for (int ckey = 0; ckey != noc; ckey++)
-                {
-                    if (cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys)
-                    {
+                for (int ckey = 0; ckey != noc; ckey++) {
+                    if (cmdr2[ckey].CKeys == cmdr2[execnum[choice]].CKeys) {
                         if (tScroll) p->Active = false;
                         ++executed;
                         menu_docmd(&cmdr2[ckey]);
                         strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys.c_str());
                     }
                 }
-                if (executed > 0)
-                {
+                if (executed > 0) {
                     //menu_clear();
                     ////errlog2("Excuted Return Passthrough or Normal Key!");
                     return;
-                }
-                else
-                {
+                } else {
                     // Redraw screen!
-                    if (menur2->Directive != "")
-                    {
+                    if (menur2->Directive != "") {
                         //readinAnsi(menur2.Directive,output);
                         ansiPrintf((char *)menur2->Directive.c_str());
                     }
                 }
-            }
-            else if ((int)c == 10 && iNoc == 0)
-            {
+            } else if ((int)c == 10 && iNoc == 0) {
                 // Check for ENTER CKEY!
                 executed = 0;
                 // Here Loop through and execute stacked Commands
-                for (int ckey = 0; ckey != noc; ckey++)
-                {
-                    if (cmdr2[ckey].CKeys == "ENTER")
-                    {
+                for (int ckey = 0; ckey != noc; ckey++) {
+                    if (cmdr2[ckey].CKeys == "ENTER") {
                         if (tScroll) p->Active = false;
                         ++executed;
                         menu_docmd(&cmdr2[ckey]);
                         strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys.c_str());
                     }
                 }
-                if (executed > 0)
-                {
+                if (executed > 0) {
                     //menu_clear();
                     return;
-                }
-                else
-                {
+                } else {
                     // Redraw screen!
-                    if (menur2->Directive != "")
-                    {
+                    if (menur2->Directive != "") {
                         //readinAnsi(menur2.Directive,output);
                         ansiPrintf((char *)menur2->Directive.c_str());
                     }
                 }
             }
             //  Else go through and run stack commands on hot key pressed.
-            else
-            {
+            else {
                 executed = 0;      // Normal Key Inputed, if Match's
                 std::string t1;
-                for (int ckey = 0; ckey != noc; ckey++)
-                {
+                for (int ckey = 0; ckey != noc; ckey++) {
                     // Loop and Run Stacked Commands.
-                    if (c == 32)
-                    {
+                    if (c == 32) {
                         // Else check if it's a spacebar
-                        if (cmdr2[ckey].CKeys == "SPACE")
-                        {
+                        if (cmdr2[ckey].CKeys == "SPACE") {
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[ckey]);
                             strcpy(inPut,(const char*)cmdr2[ckey].CmdKeys.c_str());
                         }
-                    }
-                    else // Check any remaining Keys Hot Key Input.
-                        if (cmdr2[ckey].CKeys[0] == toupper(c) && cmdr2[ckey].CKeys.size() < 2)
-                        {
+                    } else // Check any remaining Keys Hot Key Input.
+                        if (cmdr2[ckey].CKeys[0] == toupper(c) && cmdr2[ckey].CKeys.size() < 2) {
                             if (tScroll) p->Active = false;
                             ++executed;
                             menu_docmd(&cmdr2[ckey]);
@@ -2144,8 +1937,7 @@ void menu_func::menu_bars(char *inPut)
                         }
                 }
                 // Executed == 0, Then Key Pressed was not valid!, and no stacked commands to loop :)
-                if (executed > 0)
-                {
+                if (executed > 0) {
                     //menu_clear();
                     return;
                 }
@@ -2163,8 +1955,7 @@ void menu_func::menu_proc(char *mString, uint32_t area)
     CURRENT_AREA = area;
     strcpy(mString,"");
     ////errlog2("menu_proc1 noc(%i)",noc);
-    if (noc == 0)
-    {
+    if (noc == 0) {
         // Don't reallu need to exit the system here..  fix lateron.. :)
         ////errlog2("Err: menu_proc registering noc(%i) for ()",noc,(char *)_curmenu.c_str());
         //putline((char *)"Menu (%s) is Registering - 0 commands, please fix this!",(char *)_curmenu.c_str());
@@ -2183,20 +1974,16 @@ int menu_func::logon_system(unsigned char c)
 {
     logon lgn;
     static int logins;
-    switch (c)
-    {
+    switch (c) {
     case 'L' :
-        if (lgn.logon_system(urec))
-        {
+        if (lgn.logon_system(urec)) {
             // User Login Successful, Setup Login Defaults!
             _curmenu = (char *)urec->startmenu;
             CURRENT_MAREA    = 0;//urec->lastmbarea;
             CURRENT_FAREA    = 0;//1; // 0 Sysop Base!
             CURRENT_MSGTITLE = 0;//1; // 0 Sysop Base!
             return 1;
-        }
-        else
-        {
+        } else {
             // User Login Failed
             ++logins;
             if (logins >= 3) return 2;
@@ -2427,8 +2214,7 @@ int menu_func::msgscan_system(unsigned char c, char *mString)
     //pipe2ansi((char *)"|CR|PA");
 
 
-    switch(c)
-    {
+    switch(c) {
     case 'R': // Read Area
 //			 errlog((char *)"msgscan_system case 'R'");
         ////errlog2("emailread_system 6.1");
@@ -2494,13 +2280,10 @@ void menu_func::msgpost_system(char *mString)
     std::stringstream iconvert(mString);   // In
     int i = 0;
     // Convert String to Int
-    if (iconvert >> i)
-    {
+    if (iconvert >> i) {
         urec->lastmbarea = i;
         CURRENT_MAREA = i;
-    }
-    else
-    {
+    } else {
         CURRENT_MAREA = urec->lastmbarea;
     }
 
@@ -2509,12 +2292,9 @@ void menu_func::msgpost_system(char *mString)
     msgs _msgf;
     _msgf.read_mbaselist(&mr, CURRENT_MAREA);
 
-    if (mr.Pubpriv == PRIVATE)
-    {
+    if (mr.Pubpriv == PRIVATE) {
         _mread.DoPostEmail(FALSE);
-    }
-    else
-    {
+    } else {
         _mread.SetupMsgPost(); // Freezing On Return with Abort.
     }
 
@@ -2571,8 +2351,7 @@ void menu_func::msgarea_change(int change)
 
     if (total > 0)
         --total;
-    switch(change)
-    {
+    switch(change) {
     case 1:
         if((signed)urec->lastmbarea < total) ++urec->lastmbarea;
         break;
@@ -2671,24 +2450,19 @@ void menu_func::write_email()
     memset(&u,0,sizeof(UserRec));
 
     // Ask for Users Handle / Or User Number
-    while (1)
-    {
+    while (1) {
         strcpy(rBuffer,"");
         lang_get(text,42);
         inputfield(text,len);
         pipe2ansi(text);
 
         getline(rBuffer,len);
-        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0)
-        {
+        if (strcmp(rBuffer,"") != 0 && strcmp(rBuffer,"\n") != 0) {
             // Check if already exists
-            if(idx_match(rBuffer))
-            {
+            if(idx_match(rBuffer)) {
                 strcpy((char *)u.handle, rBuffer);
                 break;
-            }
-            else
-            {
+            } else {
                 // Incorrect Handle
                 strcpy(rBuffer,"");
                 lang_get(text,43);
@@ -2738,23 +2512,18 @@ void menu_func::start_external(char *mString)
     sprintf(file,"%sDORINFO%d.DEF",path.c_str(),NODE_NUM);
     if ((fp = fopen(file, "w")) == NULL)
         return;
-    else
-    {
+    else {
         ptr = strrchr((char *)user->handle, ' ');
-        if (ptr == NULL)
-        {
+        if (ptr == NULL) {
             strcpy(buffer1, (char *)user->handle);
             strcpy(buffer2, "NLN");
-        }
-        else
-        {
+        } else {
             memset(buffer1, 0, 26);
             strncpy(buffer1,(char *)user->handle,  (ptr - (char *)user->handle));
             strcpy(buffer2, (char *)user->handle + (ptr - (char *)user->handle) + 1);
         }
 
-        for (tmp = 0; tmp < 26; tmp++)
-        {
+        for (tmp = 0; tmp < 26; tmp++) {
             /* names have to be UPPERCASE */
             buffer1[tmp] = toupper(buffer1[tmp]);
             buffer2[tmp] = toupper(buffer2[tmp]);
@@ -2801,8 +2570,7 @@ void menu_func::start_external(char *mString)
 
     if ((fp = fopen(file, "w")) == NULL)
         return;
-    else
-    {
+    else {
         strftime(buffer1, 26, "%m/%d/%y", time_p);
 
         fprintf(fp, "COM1:\r\n");
@@ -2877,8 +2645,7 @@ void menu_func::start_external(char *mString)
 
     if ((fp = fopen(file, "w")) == NULL)
         return;
-    else
-    {
+    else {
         // Chain.txt
         //1                                 User number
         fprintf(fp, "%lu\r\n", (ulong)user->num);
@@ -2903,8 +2670,7 @@ void menu_func::start_external(char *mString)
         //25                                User width
         fprintf(fp, "%i\r\n",TERM_HEIGHT);
         //255                               User security level (0-255)
-        if (isSysop == TRUE)
-        {
+        if (isSysop == TRUE) {
             fprintf(fp, "%d\r\n", 255);
             //1                                 1 if Co-SysOp, 0 if not
             //1                                 1 if SysOp, 0 if not
@@ -2914,9 +2680,7 @@ void menu_func::start_external(char *mString)
             fprintf(fp, "%d\r\n", 1);
             fprintf(fp, "%d\r\n", 1);
             fprintf(fp, "%d\r\n", 1);
-        }
-        else
-        {
+        } else {
             fprintf(fp, "%d\r\n", 50);
             //1                                 1 if Co-SysOp, 0 if not
             //1                                 1 if SysOp, 0 if not
@@ -2969,8 +2733,7 @@ void menu_func::start_external(char *mString)
 
     // Test Setting the Terminal back to Original. before running door.
     tcflush( STDOUT_FILENO, TCIFLUSH);
-    if ( tcsetattr( STDOUT_FILENO, TCSADRAIN,&old_termios ) )
-    {
+    if ( tcsetattr( STDOUT_FILENO, TCSADRAIN,&old_termios ) ) {
         //return( 2 );
         pipe2ansi((char *)"	|CS Unable to set old_termios! |PA");
     }
@@ -3023,8 +2786,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
 
     // _loadnew = false;
     ////errlog2("menu_docmd!! 3");
-    switch (c1)
-    {
+    switch (c1) {
         // Message Reader Return right away
     case '!' :
 
@@ -3035,8 +2797,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
         // Data Area Menu Commands
     case 'D' :
         ////errlog2("menu_docmd!! 4");
-        switch (c2)
-        {
+        switch (c2) {
         case 'A' : // Execute This Data Area
             da_system((char *)cmdr->MString.c_str());
             _loadnew = true;
@@ -3047,8 +2808,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
             // Parse the mString for a Node Numbare and replace
             // %NN = Node Number
             parse = cmdr->MString;
-            while (1)
-            {
+            while (1) {
                 id1 = parse.find("%NN",0);
                 if (id1 == std::string::npos) break;
                 sprintf(sNode,"%i",NODE_NUM);
@@ -3056,8 +2816,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
             }
 
             // Now Parse Out Username/handle if passed.
-            while (1)
-            {
+            while (1) {
                 id1 = parse.find("%UN",0);
                 if (id1 == std::string::npos) break;
                 sprintf(sNode,"\"%s\"",user->handle);
@@ -3105,8 +2864,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
         // Data Area Menu Commands
     case 'U' :
         ////errlog2("menu_docmd!! 5");
-        switch (c2)
-        {
+        switch (c2) {
         case 'L' : //Execute Program Download
             start_external((char *)cmdr->MString.c_str());
             break;
@@ -3119,13 +2877,11 @@ void menu_func::menu_docmd(CommandRec *cmdr)
         // Matrix Menu Commands
     case '*' :
         ////errlog2("menu_docmd!! 6");
-        switch (c2)
-        {
+        switch (c2) {
         case 'L' : // Login
             ret = logon_system(c2);
             if (ret == 2) System_Alive = FALSE;
-            else if (ret == 1)
-            {
+            else if (ret == 1) {
                 _loadnew = true;
                 //_node.node_global_announce_login();
                 lineolm_login(TRUE);
@@ -3160,8 +2916,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
         // Message System Commands
     case 'M' :
         ////errlog2("menu_docmd!! 7");
-        switch (c2)
-        {
+        switch (c2) {
         case 'R' : // Message Reader
             msgscan_system(c2,(char *)cmdr->MString.c_str());
             _loadnew = true;
@@ -3260,10 +3015,8 @@ void menu_func::menu_docmd(CommandRec *cmdr)
     case '%' :
         ////errlog2("menu_docmd!! 10");
         // Only Sysop can have these commands execute!
-        if (isSysop == TRUE)
-        {
-            switch (c2)
-            {
+        if (isSysop == TRUE) {
+            switch (c2) {
             case 'I' : // File Import
 //                import_filedir();
                 break;
@@ -3309,8 +3062,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
 
     case '-' :
         ////errlog2("menu_docmd!! 11");
-        switch (c2)
-        {
+        switch (c2) {
 
         case '^' : // Change Menu
             //strcpy(_curmenu,mString);
@@ -3363,8 +3115,7 @@ void menu_func::menu_docmd(CommandRec *cmdr)
         // Node
     case 'N' : // Node
 
-        switch (c2)
-        {
+        switch (c2) {
         case 'W' : // Whois Online.
             //_node.whoisonline();
             node_message(TRUE);
@@ -3404,8 +3155,7 @@ void menu_func::menu_mainloop(UserRec *user)
     start_session(urec);   // Pass User Info to STDIO Conio Class
     char mString[255]= {0};
 
-    while (System_Alive)
-    {
+    while (System_Alive) {
         // System is Active
         ////errlog2("main_loop: readin() 1");
         menu_readin();
@@ -3419,4 +3169,3 @@ void menu_func::menu_mainloop(UserRec *user)
     // Done, Send Logoff Message.
     lineolm_login(FALSE);
 }
-

@@ -32,8 +32,7 @@
 
 //# define ulong unsigned long
 
-typedef struct msgtitle_ini
-{
+typedef struct msgtitle_ini {
 
     char sININAME[255];
 

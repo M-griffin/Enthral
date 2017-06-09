@@ -30,8 +30,7 @@
 # include "msgs.h"
 
 
-typedef struct msgarea_ini
-{
+typedef struct msgarea_ini {
 
     int  iTop;
     int  iBot;

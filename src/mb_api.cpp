@@ -81,12 +81,9 @@ int mbapi_jam::SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply
     MemMessage mm;
     mm.msgnum = msgnum;
 
-    if(mr.Kind == NETMAIL)
-    {
+    if(mr.Kind == NETMAIL) {
         mm.Area[0] = 0; //Netmail
-    }
-    else
-    {
+    } else {
         mm.Area[0] = 1; //Local/Echomail
     }
 
@@ -149,17 +146,14 @@ int mbapi_jam::SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply
 
     // 2. If Reply, grab MSGID of original message, place in reply.
     std::string tmpMsgId;
-    if (NewReply)
-    {
+    if (NewReply) {
         // if Reply, pass original MSGID under to get for reply for linking.
         MsgId = jamapi_readmsgid(&mr,msgnum,tmpMsgId);
         sprintf((char *)mm.REPLY,"%s",(char *)tmpMsgId.c_str());
         mm.REPLY_CRC = MsgId; // keep as CRC32, no need to convert back and forth.
 //		errlog((char *)"SaveMsg (Reply) - MSGID (%s), REPLY (%s)",mm.MSGID,mm.REPLY);
 //		errlog((char *)"SaveMsg (Reply) - MSGID_CRC (%lu), REPLY_CRC (%lu)",mm.MSGID_CRC,mm.REPLY_CRC);
-    }
-    else
-    {
+    } else {
         tmpMsgId.clear();
         sprintf((char *)mm.REPLY,"%s",(char *)tmpMsgId.c_str());
     }
@@ -385,8 +379,7 @@ int mbapi_jam::ReadMsgArea(unsigned long mbnum, int email)
     MemMessage mm;
 
     memset(&mr,0,sizeof(mb_list_rec));
-    if(!_msgf.read_mbaselist(&mr,mbnum))
-    {
+    if(!_msgf.read_mbaselist(&mr,mbnum)) {
 //		errlog((char *)"1. ReadMsgArea: !_msgf.read_mbaselist(&mr,mbnum) ");
         return (FALSE);
     }
@@ -395,13 +388,11 @@ int mbapi_jam::ReadMsgArea(unsigned long mbnum, int email)
 //	errlog((char *)" *** ReadMsgArea: jamapi_readmsg(&mr, thisuser->lastmsg %lu, &mm) ",thisuser->lastmsg);
     // Should this be here?  mmmm
     res = jamapi_readmsg(&mr, thisuser->lastmsg, &mm, email, thisuser);
-    if (res)
-    {
+    if (res) {
 
         // Check return value,  if messaege = NO_MESSAGE, then deleted, skip to next!
         // And there are more messages in this area.
-        if (res == JAM_NO_MESSAGE && thisuser->lastmsg < mm.HighWater)
-        {
+        if (res == JAM_NO_MESSAGE && thisuser->lastmsg < mm.HighWater) {
 //            errlog2((char *)"1. jamapi_readmsg JAM_NO_MESSAGE ");
 
             //pipe2ansi((char *)"|CR|CR|08T|07his message no longer exists, skipping to next|08. . .|DE|DE");
@@ -410,18 +401,14 @@ int mbapi_jam::ReadMsgArea(unsigned long mbnum, int email)
             mm2MsgInfo(&mm);
             return TRUE;
 
-        }
-        else if(res == JAM_NO_MESSAGE && thisuser->lastmsg == mm.HighWater)
-        {
+        } else if(res == JAM_NO_MESSAGE && thisuser->lastmsg == mm.HighWater) {
 
 //            errlog2((char *)"1. jamapi_readmsg JAM_NO_MESSAGE 2");
             MessageDeleted(&mm); // Populated Generic Deleted Message.
             mm2MsgInfo(&mm);
             return TRUE;
 
-        }
-        else
-        {
+        } else {
 //            errlog2((char *)"1. jamapi_readmsg JAM_NO_MESSAGE ELSE ");
 //			errlog((char *)" *** 2. ReadMsgArea: !jamapi_readmsg(&mr, thisuser->lastmsg %lu, &mm) ",thisuser->lastmsg);
             return FALSE;
@@ -473,21 +460,16 @@ void mbapi_jam::SetupMsgHdr()
 //    errlog2((char *)"SetupMsgHdr - FidoFlags");
     FidoFlags(fflags);
 
-    if(mr.Kind == NETMAIL || mr.Kind == ECHOMAIL || mr.Type == PRIVATE)
-    {
-        if(MI.dest.point > 0)
-        {
+    if(mr.Kind == NETMAIL || mr.Kind == ECHOMAIL || mr.Type == PRIVATE) {
+        if(MI.dest.point > 0) {
             sprintf(faddr,"%d:%d/%d.%d",
                     MI.dest.zone, MI.dest.net, MI.dest.node,MI.dest.point);
             sprintf(tostr,"%s@%s",MI.To,faddr);
-        }
-        else
-        {
+        } else {
             sprintf(faddr,"%d:%d/%d", MI.dest.zone, MI.dest.net, MI.dest.node);
             sprintf(tostr,"%s@%s",MI.To,faddr);
         }
-    }
-    else
+    } else
         sprintf(tostr,"%s",MI.To);
 
     sprintf(tostr,"%s",MI.To);
@@ -583,13 +565,11 @@ void mbapi_jam::parseMCI(std::string &msgtext)
     std::string temp;
 
     id2 = 0;
-    while (1)
-    {
+    while (1) {
         id1 = msgtext.find("|",id2);
         if (id1 == std::string::npos)
             break;
-        else
-        {
+        else {
             // Only Allow Colors, otherwise erase pipe.
             temp = msgtext.substr(id1+1,2);
             if (isdigit(temp[0]) && isdigit(temp[1]))
@@ -620,7 +600,7 @@ void mbapi_jam::MsgSetupTxt()
     std::string sTrunc;
     std::string MsgText = buff;
 
-    char output[1024] = {0};
+//    char output[1024] = {0};
 
 
 //	errlog2((char *)"MsgSetupTxt() - parseMCI" );
@@ -629,7 +609,7 @@ void mbapi_jam::MsgSetupTxt()
     parseMCI(MsgText);
 
     //errlog2((char *)MsgText.c_str());
-    int MAX_LEN  = TERM_WIDTH;	  // Max length to write messages lines to
+    std::string::size_type MAX_LEN  = TERM_WIDTH;	  // Max length to write messages lines to
 
 //	errlog2((char *)"SetupMsgHdr()" );
 
@@ -639,30 +619,24 @@ void mbapi_jam::MsgSetupTxt()
     // Loop through and Covert all New Line Foramting.
     // At the end everything should only have \r for a newline.
 
-    while (1)
-    {
+    while (1) {
         id1 = MsgText.find("\x1b", 0);
-        if (id1 != std::string::npos)
-        {
+        if (id1 != std::string::npos) {
             //MsgText.erase(id1,1);
             // Change Escape to ^ character.
             MsgText[id1] = '^';
-        }
-        else
+        } else
             break;
 //            errlog2((char *)"MsgSetupTxt() - loop - ESC" );
     }
 
     // Possiable Soft Breaks.
-    while (1)
-    {
+    while (1) {
         id1 = MsgText.find("\x8D", 0);
-        if (id1 != std::string::npos)
-        {
+        if (id1 != std::string::npos) {
             //MsgText.erase(id1,1);
             MsgText[id1] = '\r';
-        }
-        else
+        } else
             break;
 //        errlog2((char *)"MsgSetupTxt() - loop - x8D" );
     }
@@ -671,30 +645,24 @@ void mbapi_jam::MsgSetupTxt()
 
 
     // Convert \r\n to \r
-    while (1)
-    {
+    while (1) {
         id1 = MsgText.find("\r\n", 0);
-        if (id1 != std::string::npos)
-        {
+        if (id1 != std::string::npos) {
             //MsgText.erase(id1,1);
             // Change Escape to ^ character.
             MsgText.erase(id1+1,1);
-        }
-        else
+        } else
             break;
 //        errlog2((char *)"MsgSetupTxt() - loop - CRLF" );
     }
 
 
     // Convert \n to \r
-    while (1)
-    {
+    while (1) {
         id1 = MsgText.find("\n", 0);
-        if (id1 != std::string::npos)
-        {
+        if (id1 != std::string::npos) {
             MsgText[id1] = '\r';
-        }
-        else
+        } else
             break;
 //        errlog2((char *)"MsgSetupTxt() - loop - CR" );
     }
@@ -702,8 +670,7 @@ void mbapi_jam::MsgSetupTxt()
     //errlog2((char *)" *** MsgSetupHdr!");
 
     // Now Read in Message Text and Populate Link List.
-    while(MsgText.size() > 0)
-    {
+    while(MsgText.size() > 0) {
 //        errlog2((char *)"MsgSetupTxt() - loop - (MsgText.size() > 0)" );
 
 
@@ -716,8 +683,7 @@ void mbapi_jam::MsgSetupTxt()
 //		errlog2((char *)"MsgSetupTxt() - loop - id1: %i ", id1 );
 
         // Check for Blank Lines
-        if (id1 == 0)
-        {
+        if (id1 == 0) {
 //			errlog2((char*)"MsgText.find(CR, 0); -found CR !!!");
             MsgText.erase(0,1);
             mLink.add_to_list("");
@@ -725,13 +691,10 @@ void mbapi_jam::MsgSetupTxt()
         }
 
 
-        if (id1 == std::string::npos)
-        {
+        if (id1 == std::string::npos) {
 //            errlog2((char*)"**** break!!!");
             break;
-        }
-        else
-        {
+        } else {
 
             len = MAX_LEN;
             index1 = 0;
@@ -743,33 +706,24 @@ void mbapi_jam::MsgSetupTxt()
             index1 = MsgText.find("|",index1);
 
             // Only get for portion of screen we are working with
-            while (index1 != std::string::npos && index1 <= MAX_LEN)
-            {
+            while (index1 != std::string::npos && index1 <= MAX_LEN) {
                 index1 = MsgText.find("|",index1);
 
                 //elog ("pipe fixing....");
-                if (index1 != std::string::npos && (signed)id1 > len)
-                {
-                    if (index1+2 < MsgText.size())
-                    {
+                if (index1 != std::string::npos && (signed)id1 > len) {
+                    if (index1+2 < MsgText.size()) {
                         szTmp[0] = MsgText[index1+1];  // Get First # after Pipe
                         szTmp[1] = MsgText[index1+2];  // Get Second Number After Pipe
-                    }
-                    else break;
+                    } else break;
 
                     //  If Color Pipe, add to max len.
-                    if (isdigit(szTmp[0]) && isdigit(szTmp[1]))
-                    {
+                    if (isdigit(szTmp[0]) && isdigit(szTmp[1])) {
                         len      += 3;
                         index1   += 3;
-                    }
-                    else
-                    {
+                    } else {
                         break;
                     }
-                }
-                else
-                {
+                } else {
                     break;
                 }
                 ++index1;
@@ -783,13 +737,11 @@ void mbapi_jam::MsgSetupTxt()
 
 //			errlog2((char *)"MsgSetupTxt() - loop - len: %i ", len );
 
-            if ((signed)id1 > len)
-            {
+            if ((signed)id1 > len) {
 //				errlog2((char *)"**** id1 > len");
 
                 id1 = MsgText.rfind(" ",len-1);
-                if (id1 == std::string::npos)
-                {
+                if (id1 == std::string::npos) {
                     // Means continious line,cut it.
 //					errlog2((char *)"**** MsgText.rfind(" ",len-1   NPOS!!, len = %i", len);
                     id1 = len-1;
@@ -798,9 +750,7 @@ void mbapi_jam::MsgSetupTxt()
 
                 Line = MsgText.substr(0,id1);
                 MsgText.erase(0, id1+1);
-            }
-            else
-            {
+            } else {
                 //sprintf(output,"[*] id1 %i, len %i",id1, len);
                 //errlog2((char *)output);
 
@@ -820,8 +770,7 @@ void mbapi_jam::MsgSetupTxt()
 
             // Clean each broken up line for proper display
             // Remove any special line chars before entering link list.
-            while (1)
-            {
+            while (1) {
                 lineId1 = Line.find("\r", 0);
                 if (lineId1 != std::string::npos)
                     Line.erase(lineId1,1);
@@ -831,22 +780,17 @@ void mbapi_jam::MsgSetupTxt()
 
 
             // Cutoff any blank Lines in the beginning of a message.
-            if (BegininngText)
-            {
+            if (BegininngText) {
                 //errlog2((char *)" *** Begining!");
-                if (Line != " ")
-                {
-                    if (Line.size() > 0)
-                    {
+                if (Line != " ") {
+                    if (Line.size() > 0) {
                         //mLink.current_node->data = Line;
                         mLink.add_to_list(Line);
                         ++i;
                         BegininngText = FALSE;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 //errlog2((char *)" *** strip Seen-by!");
 
                 // Need Toggles for these!
@@ -856,9 +800,8 @@ void mbapi_jam::MsgSetupTxt()
                 lineId3 = sTrunc.find("Via ",0);
 
                 if (lineId1 == std::string::npos &&
-                        lineId2 == std::string::npos &&
-                        lineId3 == std::string::npos)
-                {
+                    lineId2 == std::string::npos &&
+                    lineId3 == std::string::npos) {
                     //mLink.current_node->data = Line;
                     mLink.add_to_list(Line);
                     ++i;
@@ -875,12 +818,9 @@ void mbapi_jam::MsgSetupTxt()
     // Clear Empty line from Bottom and move up.
     mLink.current_node = mLink.last;
     if  (mLink.current_node == 0) return;
-    for (;;)
-    {
-        if (mLink.current_node->data == " " || mLink.current_node->data.size() <= 1)
-        {
-            if(mLink.current_node == 0)
-            {
+    for (;;) {
+        if (mLink.current_node->data == " " || mLink.current_node->data.size() <= 1) {
+            if(mLink.current_node == 0) {
                 break;
             }
             tmp = mLink.current_node;      // And Not At top of list, don't delete lines below
@@ -892,8 +832,7 @@ void mbapi_jam::MsgSetupTxt()
             mLink.current_node->dn_link = 0;
 
             delete tmp;
-        }
-        else
+        } else
             break;
     }
 
@@ -922,8 +861,7 @@ void mbapi_jam::MsgSetupQuoteTxt()
 
     // Setup the Message Header
     SetupMsgHdr();
-    while(1)
-    {
+    while(1) {
         // Each Line ends with '\r' in jam api
         Line.erase();
         id1  = MsgText.find("\r", 1);
@@ -933,30 +871,26 @@ void mbapi_jam::MsgSetupQuoteTxt()
         // First Line is already Setup! So Skip it
         //if (id1 != -1) mLink.add_to_list("");
         if (id1 == -1) break;
-        else
-        {
+        else {
             Line = MsgText.substr(0,id1);
             MsgText.erase(0,id1);
 
             // Erase any Echomail comming in with longer
             // Lines then 79 Chars on Quoted Text, darn idiots! :)
             // Word Wrapping Quotes is ugly!
-            if (Line.size()-1 > 74)
-            {
+            if (Line.size()-1 > 74) {
                 Line.erase(74,74-(Line.size()-1));
             }
             // Clean each broken up line for proper display
             // Remove any carriage return chars before entering link list.
-            while (1)
-            {
+            while (1) {
                 id1 = Line.find("\r", 0);
                 if (id1 != -1)
                     Line.erase(id1,1);
                 else break;
             }
 
-            while (1)
-            {
+            while (1) {
                 id1 = Line.find("\n", 0);
                 if (id1 != -1)
                     Line.erase(id1,1);
@@ -964,21 +898,16 @@ void mbapi_jam::MsgSetupQuoteTxt()
             }
 
             // Cutoff any blank Lines in the beginning of a message.
-            if (BegininngText)
-            {
+            if (BegininngText) {
                 if (Line != " " || Line.size() < 1)
-                    if (Line.size() > 0)
-                    {
+                    if (Line.size() > 0) {
                         //mLink.current_node->data = Line;
                         mLink.add_to_list(Line);
                         ++i;
                         BegininngText = FALSE;
                     }
-            }
-            else
-            {
-                if (Line.size() > 0)
-                {
+            } else {
+                if (Line.size() > 0) {
                     //mLink.current_node->data = Line;
                     mLink.add_to_list(Line);
                     ++i;
@@ -1060,5 +989,3 @@ long mbapi_jam::GetLastRead(unsigned long usr)
 
     return lr;
 }
-
-

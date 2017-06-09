@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="enthral" Version="10.0.0" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src">
+    <File Name="../../src/configbbs.cpp"/>
+    <File Name="../../src/conio.cpp"/>
+    <File Name="../../src/console.cpp"/>
+    <File Name="../../src/data_areas.cpp"/>
+    <File Name="../../src/dtfunc.cpp"/>
+    <File Name="../../src/enthral.cpp"/>
+    <File Name="../../src/file_area.cpp"/>
+    <File Name="../../src/file_edit.cpp"/>
+    <File Name="../../src/file_list.cpp"/>
+    <File Name="../../src/files.cpp"/>
+    <File Name="../../src/history.cpp"/>
+    <File Name="../../src/language.cpp"/>
+    <File Name="../../src/logon.cpp"/>
+    <File Name="../../src/main_system.cpp"/>
+    <File Name="../../src/mb_api.cpp"/>
+    <File Name="../../src/mb_jam.cpp"/>
+    <File Name="../../src/menu_func.cpp"/>
+    <File Name="../../src/msg_area.cpp"/>
+    <File Name="../../src/msg_edit.cpp"/>
+    <File Name="../../src/msg_email.cpp"/>
+    <File Name="../../src/msg_fse.cpp"/>
+    <File Name="../../src/msg_newscan.cpp"/>
+    <File Name="../../src/msg_pack.cpp"/>
+    <File Name="../../src/msg_quote.cpp"/>
+    <File Name="../../src/msg_read.cpp"/>
+    <File Name="../../src/msg_readll.cpp"/>
+    <File Name="../../src/msg_stats.cpp"/>
+    <File Name="../../src/msg_title.cpp"/>
+    <File Name="../../src/msgs.cpp"/>
+    <File Name="../../src/node.cpp"/>
+    <File Name="../../src/pyenthral.cpp"/>
+    <File Name="../../src/user_list.cpp"/>
+    <File Name="../../src/users.cpp"/>
+    <File Name="../../src/configbbs.h"/>
+    <File Name="../../src/conio.h"/>
+    <File Name="../../src/console.h"/>
+    <File Name="../../src/data_areas.h"/>
+    <File Name="../../src/dtfunc.h"/>
+    <File Name="../../src/file_area.h"/>
+    <File Name="../../src/file_edit.h"/>
+    <File Name="../../src/file_import.h"/>
+    <File Name="../../src/file_list.h"/>
+    <File Name="../../src/files.h"/>
+    <File Name="../../src/history.h"/>
+    <File Name="../../src/language.h"/>
+    <File Name="../../src/logon.h"/>
+    <File Name="../../src/main_system.h"/>
+    <File Name="../../src/mb_api.h"/>
+    <File Name="../../src/mb_jam.h"/>
+    <File Name="../../src/menu_func.h"/>
+    <File Name="../../src/msg_area.h"/>
+    <File Name="../../src/msg_edit.h"/>
+    <File Name="../../src/msg_email.h"/>
+    <File Name="../../src/msg_fse.h"/>
+    <File Name="../../src/msg_newscan.h"/>
+    <File Name="../../src/msg_pack.h"/>
+    <File Name="../../src/msg_quote.h"/>
+    <File Name="../../src/msg_read.h"/>
+    <File Name="../../src/msg_readll.h"/>
+    <File Name="../../src/msg_stats.h"/>
+    <File Name="../../src/msg_title.h"/>
+    <File Name="../../src/msgs.h"/>
+    <File Name="../../src/node.h"/>
+    <File Name="../../src/pyenthral.h"/>
+    <File Name="../../src/stamp.h"/>
+    <File Name="../../src/struct.h"/>
+    <File Name="../../src/user_list.h"/>
+    <File Name="../../src/users.h"/>
+    <VirtualDirectory Name="jamlib">
+      <File Name="../../src/jamlib/crc32.cpp"/>
+      <File Name="../../src/jamlib/lastread.cpp"/>
+      <File Name="../../src/jamlib/mbase.cpp"/>
+      <File Name="../../src/jamlib/message.cpp"/>
+      <File Name="../../src/jamlib/structrw.cpp"/>
+      <File Name="../../src/jamlib/subpack.cpp"/>
+      <File Name="../../src/jamlib/jam.h"/>
+      <File Name="../../src/jamlib/memmessage.h"/>
+      <File Name="../../src/jamlib/structrw.h"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-pedantic;-Wall;-U_FORTIFY_SOURCE; -std=c++0x;-fpermissive -D__LINUX__" C_Options="-g;-O0;-pedantic;-Wall;-U_FORTIFY_SOURCE; -std=c++0x;-fpermissive -D__LINUX__" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <IncludePath Value="../"/>
+        <IncludePath Value="../src/jamlib"/>
+        <IncludePath Value="../../src/jamlib"/>
+        <IncludePath Value="../../../src/jamlib"/>
+        <IncludePath Value="/usr/include/python2.7"/>
+        <IncludePath Value="/home/blue/code/Enthral/src/jamlib"/>
+      </Compiler>
+      <Linker Options="" Required="yes">
+        <LibraryPath Value="."/>
+        <LibraryPath Value="../src/jamlib"/>
+        <LibraryPath Value="../../src/jamlib"/>
+        <LibraryPath Value="../../../src/jamlib"/>
+        <LibraryPath Value="/home/blue/code/Enthral/src/jamlib"/>
+        <LibraryPath Value="/usr/lib/python2.7"/>
+        <Library Value="ssl"/>
+        <Library Value="crypto"/>
+        <Library Value="pthread"/>
+        <Library Value="boost_system"/>
+        <Library Value="boost_filesystem"/>
+        <Library Value="boost_python"/>
+        <Library Value="util"/>
+        <Library Value="python2.7"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="yes">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>

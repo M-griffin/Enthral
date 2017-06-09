@@ -25,8 +25,7 @@
 
 # include <string>
 
-typedef struct msgs
-{
+typedef struct msgs {
 
     /*
     int  read_emaillist(EmailIdx *em, int recno);
@@ -55,9 +54,9 @@ typedef struct msgs
 
     unsigned
     long CountMsgs(unsigned long mbnum, UserRec *usr),
-    CountNewMsgs(unsigned long mbnum, UserRec *usr),
-    CountCurrentNewMsgs(UserRec *usr),
-    CountAllNewMsgs(UserRec *usr);
+         CountNewMsgs(unsigned long mbnum, UserRec *usr),
+         CountCurrentNewMsgs(UserRec *usr),
+         CountAllNewMsgs(UserRec *usr);
 
     void resetlastread(UserRec *usr);
 

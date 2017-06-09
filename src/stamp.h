@@ -41,18 +41,15 @@ typedef signed long slong;
 
 /* DOS-style datestamp */
 
-struct _stamp
-{
-    struct
-    {
+struct _stamp {
+    struct {
         bits da:5;
         bits mo:4;
         bits yr:7;
     }
     date;
 
-    struct
-    {
+    struct {
         bits ss:5;
         bits mm:6;
         bits hh:5;
@@ -60,16 +57,14 @@ struct _stamp
     time;
 };
 
-struct _dos_st
-{
+struct _dos_st {
     word date;
     word time;
 };
 
 /* Union so we can access stamp as "int" or by individual components */
 
-union stamp_combo
-{
+union stamp_combo {
     dword ldate;
     struct _stamp msg_st;
     struct _dos_st dos_st;

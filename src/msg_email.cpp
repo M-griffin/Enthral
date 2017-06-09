@@ -67,8 +67,7 @@ bool msgemail_ini::msga_exists()
 
     FILE *stream;
     stream = fopen(path.c_str(),"rb+");
-    if(stream == NULL)
-    {
+    if(stream == NULL) {
         perror("Error unable to read msgemail.ini, check permissions!");
         return false;
     }
@@ -87,8 +86,7 @@ void msgemail_ini::msga_create()
 
     ofstream outStream2;
     outStream2.open( name.c_str(), ofstream::out | ofstream::trunc );
-    if (!outStream2.is_open())
-    {
+    if (!outStream2.is_open()) {
         printf( "\nError Creating: %s \n", name.c_str());
         return;
     }
@@ -138,8 +136,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets if LOGGING is on / off
     id1 = -1;
     id1 = temp.find("set TOP ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -160,8 +157,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets Download Path
     id1 = -1;
     id1 = temp.find("set BOT ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -182,8 +178,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set PAGENUM ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -203,8 +198,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set PAGETOTAL ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -224,8 +218,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREUP ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -245,8 +238,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREUP_CHAR ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -266,8 +258,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREDOWN ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -287,8 +278,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREDOWN_CHAR ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -308,8 +298,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREMSG_ON ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -329,8 +318,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREMSG_WORD_ON ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -350,8 +338,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
 // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREMSG_OFF ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -371,8 +358,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MOREMSG_WORD_OFF ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -392,8 +378,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set INPUT_BOX ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -413,8 +398,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set TEXT_COLOR ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -434,8 +418,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
     // Sets XY PAGE Num
     id1 = -1;
     id1 = temp.find("set MAX_AREAS ", 0);
-    if (id1 != std::string::npos)
-    {
+    if (id1 != std::string::npos) {
         std::string temp1;
         std::string::size_type st1 = 0;
         std::string::size_type st2 = 0;
@@ -507,15 +490,13 @@ void msgemail_ini::msga_parse()
 
     ifstream inStream;
     inStream.open( name.c_str() );
-    if (!inStream.is_open())
-    {
+    if (!inStream.is_open()) {
         perror("Error unable to parse msgemail.ini, check permissions!");
         return;
     }
 
     std::string cfgdata;
-    for (;;)
-    {
+    for (;;) {
         getline(inStream,cfgdata);
         msga_check(cfgdata);
         if(inStream.eof()) break;
@@ -551,26 +532,22 @@ void msg_email::ParseHeader(char *filename)
     mb_list_rec mr;
 
     // Open and Read Ansi file
-    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL)
-    {
+    if ((inStream = fopen(path.c_str(), "r+")) ==  NULL) {
         return;
     }
 
     char MCI[3] = {0}; // Holds MCI Codes to Parse
     temp = "";   // Holds Ansi
-    do
-    {
+    do {
         memset(&MCI,0,sizeof(MCI));
         c = getc(inStream);
-        if (c == '%')
-        {
+        if (c == '%') {
             MCI[0] = getc(inStream);
             MCI[1] = getc(inStream);
 
             read_mbaselist(&mr, thisuser->lastmbarea);
 
-            if (strcmp(MCI,"MA") == 0)
-            {
+            if (strcmp(MCI,"MA") == 0) {
                 temp += (char *)mr.mbdisplay;
             }
 
@@ -587,14 +564,11 @@ void msg_email::ParseHeader(char *filename)
             */
             c = getc(inStream);
             if (c != EOF) temp += c;
-        }
-        else if (c == '\n') temp += '\r';
-        else
-        {
+        } else if (c == '\n') temp += '\r';
+        else {
             if (c != EOF) temp += c;
         }
-    }
-    while (c != EOF);
+    } while (c != EOF);
     fclose(inStream);
 
     temp += "\n"; // Extra Space to Fix Next Ansi Sequence
@@ -607,8 +581,7 @@ void msg_email::ParseHeader(char *filename)
 void msg_email::SetupList(UserRec *user)
 {
     // Do quick Message Quoter ini parsing
-    if (!msga_exists())
-    {
+    if (!msga_exists()) {
         perror("Error unable to open msgemail.ini, check if it exists and permissions!");
         //msga_create();
     }
@@ -622,7 +595,7 @@ void msg_email::SetupList(UserRec *user)
 
 
 /*
-   NOT USED ANYMORE! 
+   NOT USED ANYMORE!
    I beleive i combined the User List with Email List into One.
    Check this!! :)
 
@@ -689,8 +662,7 @@ char *msg_email::StartList()
     result = _usr_list.build_userlist(thisuser, tmp); //, qry);
 
     // Run through Main Reader Loop until exit from user - This Loop Probably not needed anymore.
-    while (1)
-    {
+    while (1) {
         ParseHeader((char *)"marea");	    // Display Reader Ansi
         //mLink.PutBuffer(OrgMsg, FALSE);	// Send the Original Message into list Buffer
         //mLink.box_start(CURRENT_MAREA);  	// Draw Message Inside of Box
@@ -699,15 +671,12 @@ char *msg_email::StartList()
         CurrentPage = CURRENT_ULIST / boxsize;
 
         //  Make sure we have areas.
-        if (result.size() > 0)
-        {
+        if (result.size() > 0) {
             // Update Here with new user list parsing code.
             // mLink.PutBuffer((char *)tmp.c_str(), FALSE);  // Send the Original Message into list Buffer
             errlog((char *)"ulbox_start usr_list");
             mLink.box_start_vector(CurrentPage,CURRENT_ULIST);  // Draw Message Inside of Box
-        }
-        else
-        {
+        } else {
             return 0L;
         }
 
@@ -715,8 +684,7 @@ char *msg_email::StartList()
         //UserList(tmp);
         mLink.Tot = result.size();
 
-        while(1)
-        {
+        while(1) {
             _output.erase();
             more = false;
             showmore = false;
@@ -725,25 +693,19 @@ char *msg_email::StartList()
             if (mLink.line_count() > 0) more = true;
             /*-------------------------------------------------------*/
             // Show Down Arrow More!
-            if (more)
-            {
+            if (more) {
                 sprintf(outBuffer,"%s\x19",sMOREDOWN); 	// On
                 showmore = true;
-            }
-            else
-            {
+            } else {
                 sprintf(outBuffer,"%s ",sMOREDOWN);		// Off
             }
             _output += outBuffer;
 
             // Show up Arrow More
-            if (mLink.Page > 1)
-            {
+            if (mLink.Page > 1) {
                 sprintf(outBuffer,"%s\x18",sMOREUP);
                 showmore = true;
-            }
-            else
-            {
+            } else {
                 sprintf(outBuffer,"%s ",sMOREUP);
             }
             _output += outBuffer;
@@ -774,21 +736,15 @@ char *msg_email::StartList()
             // Also Let user Toggle on / off
             _mnuf._premenu.clear();
             _mnuf._premenu = _mnuf._curmenu;
-            if ( _mnuf.cmdexist((char *)"msg_alist2",0) )
-            {
-                if (more || mLink.Page > 1)
-                {
+            if ( _mnuf.cmdexist((char *)"msg_alist2",0) ) {
+                if (more || mLink.Page > 1) {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = "msg_alist2";
-                }
-                else
-                {
+                } else {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = "msg_alist";
                 }
-            }
-            else
-            {
+            } else {
                 _mnuf._curmenu.clear();
                 _mnuf._curmenu = "msg_alist2";
             }
@@ -812,10 +768,8 @@ char *msg_email::StartList()
             ch = mString[1];
 
             // For Menu CmdKey Input
-            if (mString[0] == '!')
-            {
-                switch (toupper(ch))
-                {
+            if (mString[0] == '!') {
+                switch (toupper(ch)) {
                 case 'Q': // Quit Message Reading
                     mLink.dispose_list();
                     _mnuf.~menu_func();
@@ -838,9 +792,7 @@ char *msg_email::StartList()
                 default :
                     break;
                 } // end of case
-            }
-            else if (mString[0] == '#')
-            {
+            } else if (mString[0] == '#') {
                 // received Digit Input From Menu Prompt
                 memset(&rBuffer,0, sizeof(rBuffer));
                 memset(&text,0, sizeof(text));
@@ -855,8 +807,7 @@ char *msg_email::StartList()
                 // Catch any invalid input
                 id1 = atoi(rBuffer);
 
-                if (id1 > mLink.Tot || id1 == 0)
-                {
+                if (id1 > mLink.Tot || id1 == 0) {
                     // Redraw input box
                     memset(&text,0, sizeof(text));
                     strcpy(text,sINPUT_BOX);
@@ -864,9 +815,7 @@ char *msg_email::StartList()
                     inputfield(text,len);
                     pipe2ansi(text);
                     mLink.box_refresh(CURRENT_MAREA);
-                }
-                else
-                {
+                } else {
                     CURRENT_MAREA = id1-1;
                     thisuser->lastmbarea = CURRENT_MAREA;
 
@@ -895,13 +844,10 @@ char *msg_email::StartList()
                     mLink.dispose_list();
                     return NULL;
                 }
-            }
-            else
-            {
+            } else {
                 // For Escaped Key Input
                 ch = mString[0];
-                switch (toupper(ch))
-                {
+                switch (toupper(ch)) {
                 case 'A':
                     mLink.box_pgup();
                     break;
@@ -917,4 +863,3 @@ char *msg_email::StartList()
         }
     }
 }
-

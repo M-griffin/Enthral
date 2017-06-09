@@ -97,8 +97,7 @@
 /*
 **  Header file information block, stored first in all .JHR files
 */
-typedef struct
-{
+typedef struct {
     uint8_t  Signature[4];      /* <J><A><M> followed by <NUL> */
     uint32_t DateCreated;       /* Creation date */
     uint32_t ModCounter;        /* Last processed counter */
@@ -144,8 +143,7 @@ typedef struct
 /*
 **  Message header
 */
-typedef struct
-{
+typedef struct {
     uint8_t  Signature[4];              /* <J><A><M> followed by <NUL> */
     uint16_t Revision;                  /* CURRENTREVLEV */
     uint16_t ReservedWord;              /* Reserved */
@@ -196,16 +194,14 @@ typedef struct
 /*
 **  Message header Subfield
 */
-typedef struct
-{
+typedef struct {
     uint16_t LoID;       /* Field ID, 0 - 0xffff */
     uint16_t HiID;       /* Reserved for future use */
     uint32_t  DatLen;    /* Length of buffer that follows */
     uint8_t* Buffer;     /* DatLen bytes of data */
 } s_JamSubfield;
 
-typedef struct
-{
+typedef struct {
     uint16_t LoID;       /* Field ID, 0 - 0xffff */
     uint16_t HiID;       /* Reserved for future use */
     uint32_t  DatLen;    /* Length of buffer that follows */
@@ -214,8 +210,7 @@ typedef struct
 /*
 **  Message index record
 */
-typedef struct
-{
+typedef struct {
     uint32_t  UserCRC;    /* CRC-32 of destination username */
     uint32_t  HdrOffset;  /* Offset of header in .JHR file */
 } s_JamIndex;
@@ -223,8 +218,7 @@ typedef struct
 /*
 **  Lastread structure, one per user
 */
-typedef struct
-{
+typedef struct {
     uint32_t  UserCRC;     /* CRC-32 of user name (lowercase) */
     uint32_t  UserID;      /* Unique UserID */
     uint32_t  LastReadMsg; /* Last read message number */
@@ -234,8 +228,7 @@ typedef struct
 /*
 **  JAMLIB message base handle
 */
-typedef struct
-{
+typedef struct {
     FILE* HdrFile_PS;      /* File handle for .JHR file */
     FILE* TxtFile_PS;      /* File handle for .JDT file */
     FILE* IdxFile_PS;      /* File handle for .JDX file */
@@ -249,8 +242,7 @@ typedef struct
 /*
 **  JAMLIB subfield packet
 */
-typedef struct
-{
+typedef struct {
     s_JamSubfield** Fields;
     uint32_t    NumFields;
     uint32_t    NumAlloc;

@@ -24,8 +24,7 @@
 
 # include "struct.h"
 
-typedef struct file_import
-{
+typedef struct file_import {
 
 
 

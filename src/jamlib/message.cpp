@@ -82,42 +82,36 @@ int JAM_ReadMsgHeader ( s_JamBase*     Base_PS,
         return JAM_BAD_PARAM;
 
     /* find index record */
-    if ( fseek ( Base_PS->IdxFile_PS, MsgNo_I * sizeof ( s_JamIndex ), SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->IdxFile_PS, MsgNo_I * sizeof ( s_JamIndex ), SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* read index record */
-    if ( 1 > freadjamindex ( Base_PS->IdxFile_PS,&Index_S ) )
-    {
+    if ( 1 > freadjamindex ( Base_PS->IdxFile_PS,&Index_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* message is not there */
-    if ( Index_S.HdrOffset == 0xffffffff && Index_S.UserCRC == 0xffffffff )
-    {
+    if ( Index_S.HdrOffset == 0xffffffff && Index_S.UserCRC == 0xffffffff ) {
         return JAM_NO_MESSAGE;
     }
 
     /* find header */
-    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* read header */
-    if ( 1 > freadjammsgheader ( Base_PS->HdrFile_PS,Header_PS ) )
-    {
+    if ( 1 > freadjammsgheader ( Base_PS->HdrFile_PS,Header_PS ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* are Subfields requested? */
-    if ( SubfieldPack_PPS && Header_PS->SubfieldLen )
-    {
+    if ( SubfieldPack_PPS && Header_PS->SubfieldLen ) {
         s_JamSubPacket* SubPacket_PS;
         s_JamSubfield   Subfield_S;
 
@@ -132,8 +126,7 @@ int JAM_ReadMsgHeader ( s_JamBase*     Base_PS,
             return JAM_NO_MEMORY;
 
         /* read all subfields */
-        if ( 1 > fread ( Buf_PC, BufSize_I, 1, Base_PS->HdrFile_PS ) )
-        {
+        if ( 1 > fread ( Buf_PC, BufSize_I, 1, Base_PS->HdrFile_PS ) ) {
             Base_PS->Errno_I = errno;
             free ( Buf_PC );
             return JAM_IO_ERROR;
@@ -141,8 +134,7 @@ int JAM_ReadMsgHeader ( s_JamBase*     Base_PS,
 
         SubPacket_PS = JAM_NewSubPacket();
 
-        if ( !SubPacket_PS )
-        {
+        if ( !SubPacket_PS ) {
             free ( Buf_PC );
             return JAM_NO_MEMORY;
         }
@@ -151,16 +143,14 @@ int JAM_ReadMsgHeader ( s_JamBase*     Base_PS,
 
         /* cut out the subfields */
         for ( Ptr_PC = Buf_PC;
-                Ptr_PC < Roof_PC;
-                Ptr_PC += Subfield_S.DatLen + SIZE_JAMSAVESUBFIELD )
-        {
+              Ptr_PC < Roof_PC;
+              Ptr_PC += Subfield_S.DatLen + SIZE_JAMSAVESUBFIELD ) {
 
             int Status_I;
 
             getjamsubfield ( ( uint8_t * ) Ptr_PC, &Subfield_S );
 
-            if ( ( char * ) Subfield_S.Buffer + Subfield_S.DatLen > Roof_PC )
-            {
+            if ( ( char * ) Subfield_S.Buffer + Subfield_S.DatLen > Roof_PC ) {
                 JAM_DelSubPacket ( SubPacket_PS );
                 free ( Buf_PC );
                 return JAM_CORRUPT_MSG;
@@ -168,8 +158,7 @@ int JAM_ReadMsgHeader ( s_JamBase*     Base_PS,
 
             Status_I = JAM_PutSubfield ( SubPacket_PS, &Subfield_S );
 
-            if ( Status_I )
-            {
+            if ( Status_I ) {
                 JAM_DelSubPacket ( SubPacket_PS );
                 free ( Buf_PC );
                 return Status_I;
@@ -179,8 +168,7 @@ int JAM_ReadMsgHeader ( s_JamBase*     Base_PS,
         free ( Buf_PC );
 
         *SubfieldPack_PPS = SubPacket_PS;
-    }
-    else if ( SubfieldPack_PPS )
+    } else if ( SubfieldPack_PPS )
         /* fields requested but none found */
         /* return an empty packet */
         *SubfieldPack_PPS = JAM_NewSubPacket();
@@ -204,14 +192,12 @@ int JAM_ReadMsgText ( s_JamBase* Base_PS,
     if ( !Length_I )
         return 0;
 
-    if ( fseek ( Base_PS->TxtFile_PS, Offset_I, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->TxtFile_PS, Offset_I, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
-    if ( 1 > fread ( Buffer_PC, Length_I, 1, Base_PS->TxtFile_PS ) )
-    {
+    if ( 1 > fread ( Buffer_PC, Length_I, 1, Base_PS->TxtFile_PS ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -247,49 +233,42 @@ int JAM_ChangeMsgHeader ( s_JamBase* Base_PS,
 
     /* find index record */
     if ( fseek ( Base_PS->IdxFile_PS, MsgNo_I * sizeof ( s_JamIndex ),
-                 SEEK_SET ) )
-    {
+                 SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* read index record */
-    if ( 1 > freadjamindex ( Base_PS->IdxFile_PS,&Index_S ) )
-    {
+    if ( 1 > freadjamindex ( Base_PS->IdxFile_PS,&Index_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* find header */
-    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* read old message header */
-    if ( 1 > freadjammsgheader ( Base_PS->HdrFile_PS, &OldHeader_S ) )
-    {
+    if ( 1 > freadjammsgheader ( Base_PS->HdrFile_PS, &OldHeader_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* find header */
-    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* write header */
-    if ( 1 > fwritejammsgheader ( Base_PS->HdrFile_PS,Header_PS ) )
-    {
+    if ( 1 > fwritejammsgheader ( Base_PS->HdrFile_PS,Header_PS ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
-    if ( ( Header_PS->Attribute & MSG_DELETED ) && ! ( OldHeader_S.Attribute & MSG_DELETED ) )
-    {
+    if ( ( Header_PS->Attribute & MSG_DELETED ) && ! ( OldHeader_S.Attribute & MSG_DELETED ) ) {
         /* message is deleted now but wasn't before */
         BaseHeader_S.ActiveMsgs--;
     }
@@ -338,11 +317,9 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     Header_PS->TxtOffset = 0;
     Header_PS->TxtLen    = 0;
 
-    if ( Text_PC && TextLen_I!=0 )
-    {
+    if ( Text_PC && TextLen_I!=0 ) {
         /* go to end of text file */
-        if ( fseek ( Base_PS->TxtFile_PS, 0, SEEK_END ) )
-        {
+        if ( fseek ( Base_PS->TxtFile_PS, 0, SEEK_END ) ) {
             Base_PS->Errno_I = errno;
             return JAM_IO_ERROR;
         }
@@ -350,8 +327,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
         /* store text offset (for header) */
         Offset_I = ftell ( Base_PS->TxtFile_PS );
 
-        if ( Offset_I == -1 )
-        {
+        if ( Offset_I == -1 ) {
             Base_PS->Errno_I = errno;
             return JAM_IO_ERROR;
         }
@@ -360,8 +336,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
         Header_PS->TxtLen    = TextLen_I;
 
         /* write text */
-        if ( 1 > fwrite ( Text_PC, TextLen_I, 1, Base_PS->TxtFile_PS ) )
-        {
+        if ( 1 > fwrite ( Text_PC, TextLen_I, 1, Base_PS->TxtFile_PS ) ) {
             Base_PS->Errno_I = errno;
             return JAM_IO_ERROR;
         }
@@ -372,8 +347,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     */
 
     /* go to end of header file */
-    if ( fseek ( Base_PS->HdrFile_PS, 0, SEEK_END ) )
-    {
+    if ( fseek ( Base_PS->HdrFile_PS, 0, SEEK_END ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -381,20 +355,18 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     /* calculate the size of all Subfields */
     TotLen_I = 0;
 
-    if ( SubPack_PS )
-    {
+    if ( SubPack_PS ) {
         s_JamSubfield*    Subfield_PS;
 
         for ( Subfield_PS = JAM_GetSubfield ( SubPack_PS ); Subfield_PS;
-                Subfield_PS = JAM_GetSubfield ( NULL ) )
+              Subfield_PS = JAM_GetSubfield ( NULL ) )
             TotLen_I += sizeof ( s_JamSaveSubfield ) + Subfield_PS->DatLen;
     }
 
     Header_PS->SubfieldLen = TotLen_I;
 
     /* go to end of index file */
-    if ( fseek ( Base_PS->IdxFile_PS, 0, SEEK_END ) )
-    {
+    if ( fseek ( Base_PS->IdxFile_PS, 0, SEEK_END ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -402,8 +374,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     /* find out new message number (for message header) */
     Offset_I = ftell ( Base_PS->IdxFile_PS );
 
-    if ( Offset_I == -1 )
-    {
+    if ( Offset_I == -1 ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -415,8 +386,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     Header_PS->Revision = CURRENTREVLEV;
 
     /* go to end of header file */
-    if ( fseek ( Base_PS->HdrFile_PS, 0, SEEK_END ) )
-    {
+    if ( fseek ( Base_PS->HdrFile_PS, 0, SEEK_END ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -424,8 +394,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     /* find out new header offset (for index record) */
     Offset_I = ftell ( Base_PS->HdrFile_PS );
 
-    if ( Offset_I == -1 )
-    {
+    if ( Offset_I == -1 ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -433,15 +402,13 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     Index_S.HdrOffset = Offset_I;
 
     /* write new header */
-    if ( 1 > fwritejammsgheader ( Base_PS->HdrFile_PS,Header_PS ) )
-    {
+    if ( 1 > fwritejammsgheader ( Base_PS->HdrFile_PS,Header_PS ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* write Subfields */
-    if ( SubPack_PS )
-    {
+    if ( SubPack_PS ) {
         s_JamSubfield*    Subfield_PS;
         uint8_t User_AC[101];
 
@@ -449,30 +416,25 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
         User_AC[0] = 0;
 
         for ( Subfield_PS = JAM_GetSubfield ( SubPack_PS ); Subfield_PS;
-                Subfield_PS = JAM_GetSubfield ( NULL ) )
-        {
+              Subfield_PS = JAM_GetSubfield ( NULL ) ) {
 
             /* first, save Subfield header */
-            if ( 1 > fwritejamsavesubfield ( Base_PS->HdrFile_PS, ( s_JamSaveSubfield * ) Subfield_PS ) )
-            {
+            if ( 1 > fwritejamsavesubfield ( Base_PS->HdrFile_PS, ( s_JamSaveSubfield * ) Subfield_PS ) ) {
                 Base_PS->Errno_I = errno;
                 return JAM_IO_ERROR;
             }
 
             /* then, save Subfield data if any*/
-            if ( Subfield_PS->DatLen )
-            {
+            if ( Subfield_PS->DatLen ) {
                 if ( 1 > fwrite ( Subfield_PS->Buffer, Subfield_PS->DatLen,
-                                  1, Base_PS->HdrFile_PS ) )
-                {
+                                  1, Base_PS->HdrFile_PS ) ) {
                     Base_PS->Errno_I = errno;
                     return JAM_IO_ERROR;
                 }
             }
 
             /* store username for index file */
-            if ( Subfield_PS->LoID == JAMSFLD_RECVRNAME )
-            {
+            if ( Subfield_PS->LoID == JAMSFLD_RECVRNAME ) {
                 memcpy ( User_AC, Subfield_PS->Buffer, Subfield_PS->DatLen );
                 User_AC[ Subfield_PS->DatLen ] = 0;
             }
@@ -483,8 +445,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
             Index_S.UserCRC = JAM_Crc32 ( User_AC, strlen ( ( char * ) User_AC ) );
         else
             Index_S.UserCRC = JAM_NO_CRC;
-    }
-    else
+    } else
         /* update index record */
         Index_S.UserCRC = JAM_NO_CRC;
 
@@ -493,8 +454,7 @@ int JAM_AddMessage ( s_JamBase* Base_PS,
     */
 
     /* write index record */
-    if ( 1 > fwritejamindex ( Base_PS->IdxFile_PS,&Index_S ) )
-    {
+    if ( 1 > fwritejamindex ( Base_PS->IdxFile_PS,&Index_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -528,8 +488,7 @@ int JAM_AddEmptyMessage ( s_JamBase* Base_PS )
         return JAM_NOT_LOCKED;
 
     /* go to end of index file */
-    if ( fseek (  Base_PS->IdxFile_PS, 0, SEEK_END ) )
-    {
+    if ( fseek (  Base_PS->IdxFile_PS, 0, SEEK_END ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -542,8 +501,7 @@ int JAM_AddEmptyMessage ( s_JamBase* Base_PS )
     Index_S.UserCRC = 0xffffffff;
 
     /* write index record */
-    if ( 1 > fwritejamindex ( Base_PS->IdxFile_PS,&Index_S ) )
-    {
+    if ( 1 > fwritejamindex ( Base_PS->IdxFile_PS,&Index_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -578,35 +536,30 @@ int JAM_DeleteMessage ( s_JamBase* Base_PS,
         return Status_I;
 
     /* find index record */
-    if ( fseek ( Base_PS->IdxFile_PS, MsgNo_I * sizeof ( s_JamIndex ), SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->IdxFile_PS, MsgNo_I * sizeof ( s_JamIndex ), SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* read index record */
-    if ( 1 > freadjamindex ( Base_PS->IdxFile_PS, &Index_S ) )
-    {
+    if ( 1 > freadjamindex ( Base_PS->IdxFile_PS, &Index_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* message is not there */
-    if ( Index_S.HdrOffset == 0xffffffff && Index_S.UserCRC == 0xffffffff )
-    {
+    if ( Index_S.HdrOffset == 0xffffffff && Index_S.UserCRC == 0xffffffff ) {
         return JAM_NO_MESSAGE;
     }
 
     /* find header */
-    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* read header */
-    if ( 1 > freadjammsgheader ( Base_PS->HdrFile_PS, &Header_S ) )
-    {
+    if ( 1 > freadjammsgheader ( Base_PS->HdrFile_PS, &Header_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -615,22 +568,19 @@ int JAM_DeleteMessage ( s_JamBase* Base_PS,
     Header_S.Attribute |= MSG_DELETED;
 
     /* find header */
-    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->HdrFile_PS, Index_S.HdrOffset, SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* write header */
-    if ( 1 > fwritejammsgheader ( Base_PS->HdrFile_PS, &Header_S ) )
-    {
+    if ( 1 > fwritejammsgheader ( Base_PS->HdrFile_PS, &Header_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
 
     /* find index record */
-    if ( fseek ( Base_PS->IdxFile_PS, MsgNo_I * sizeof ( s_JamIndex ), SEEK_SET ) )
-    {
+    if ( fseek ( Base_PS->IdxFile_PS, MsgNo_I * sizeof ( s_JamIndex ), SEEK_SET ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
@@ -639,8 +589,7 @@ int JAM_DeleteMessage ( s_JamBase* Base_PS,
     Index_S.UserCRC = 0xffffffff;
 
     /* write index record */
-    if ( 1 > fwritejamindex ( Base_PS->IdxFile_PS,&Index_S ) )
-    {
+    if ( 1 > fwritejamindex ( Base_PS->IdxFile_PS,&Index_S ) ) {
         Base_PS->Errno_I = errno;
         return JAM_IO_ERROR;
     }
