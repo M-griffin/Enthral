@@ -28,7 +28,6 @@
 # include <cstdio>
 # include <csignal>
 # include <cerrno>
-
 # include <cstring>
 # include <cstdlib>
 
@@ -37,7 +36,6 @@
 # include <pty.h>
 # include <termios.h>
 # include <sys/stat.h>
-
 
 using namespace std;
 
@@ -71,8 +69,6 @@ int  UserLoggedIn     = FALSE;
 int  TERM_HEIGHT      = 25;
 int  TERM_WIDTH       = 80;
 int  MAX_NODES        = 5;
-
-
 
 // Ansi Terminal Detected.
 int isANSI = FALSE;
@@ -185,7 +181,6 @@ int main(int argc, char *argv[])
     (void) signal (SIGINT,  killazombie);
     (void) signal (SIGILL,  killazombie);
     (void) signal (SIGKILL, killazombie);
-
     (void) signal (SIGABRT, killazombie);
     (void) signal (SIGQUIT, killazombie);
 
@@ -195,7 +190,6 @@ int main(int argc, char *argv[])
     // Masked Signals.
     (void) signal (SIGTTOU, SIG_IGN);
     (void) signal (SIGCHLD, SIG_IGN);
-
 
     ConsoleIO _io;
     users   _usr;
@@ -275,7 +269,6 @@ int main(int argc, char *argv[])
 
     // Open and Read Config file
     parseconfig();
-
 
     // Get Users incomming IP Address
     // Unless being kicked off locally.

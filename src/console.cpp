@@ -96,7 +96,6 @@ wchar_t CP437TABLE[] = {
     L'\u207F', L'\u00B2', L'\u25A0', L'\u00A0'
 };
 
-
 static int conin = 0;
 static int conout = 0;
 static int conon = 0;
@@ -113,7 +112,6 @@ static struct sockaddr_un sock;
  */
 static void create_internode_socket()
 {
-
     char socket_name[4096] = {0};
     if ((sockfd = socket(AF_UNIX, SOCK_DGRAM, 0)) < 0) {
         fprintf(stderr,"%s ***cannot create communication socket, check permissions!",ENTHRALTMP);
@@ -135,7 +133,6 @@ static void create_internode_socket()
  */
 void clear_nodes()
 {
-
     char buff[512] = {0};
 
     finalize_console();
@@ -152,9 +149,7 @@ void clear_nodes()
     // Clear Terminal file from Telnetd
     snprintf(buff, sizeof(buff), "%s", CLIENT_TERM);
     remove(buff);
-
 }
-
 
 /**
  * Initalize And Create Node Sockets
@@ -163,7 +158,6 @@ int init_nodes()
 {
     serhandle = open(ttyname(0), O_RDWR);
 
-    // Create communication fifos for Snoop
     create_internode_socket();
     if (init_console() == -1) {
         fprintf(stderr,"%s ***communication socket(s) failed to init, check permissions!",ENTHRALTMP);
@@ -177,7 +171,6 @@ int init_nodes()
  */
 int set_blocking_mode(int fd, int mode)
 {
-
     int fl;
     if ((fl = fcntl(fd, F_GETFL)) == -1)
         return -1;
@@ -190,7 +183,6 @@ int set_blocking_mode(int fd, int mode)
  */
 ssize_t safe_read(int fd, void *buf, size_t buflen)
 {
-
     char *p;
     ssize_t bread, n;
 
@@ -215,7 +207,6 @@ ssize_t safe_read(int fd, void *buf, size_t buflen)
  */
 ssize_t safe_write(int fd, const void *buf, size_t buflen)
 {
-
     char *p;
     ssize_t bwrite, n;
 
@@ -368,7 +359,6 @@ int console_getc(void)
     }
 }
 
-
 /**
  * Used for printing multibyte (UTF-8) Characters
  * To Console / STDOUT
@@ -390,7 +380,6 @@ void print_wide(const std::wstring& wstr)
         }
     }
 }
-
 
 /**
  * Main Translation loop from cp437 to Wide Unicode.

@@ -87,6 +87,7 @@
       <File Name="../../src/jamlib/memmessage.h"/>
       <File Name="../../src/jamlib/structrw.h"/>
     </VirtualDirectory>
+    <File Name="../../src/jam.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

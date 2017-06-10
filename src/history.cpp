@@ -59,7 +59,6 @@ int history::daily_lockSet(int onoff)
  */
 int history::daily_write(History *hist)
 {
-
     time_t t;
     tm *tm;
     char datestr[81]= {0};
@@ -165,7 +164,6 @@ int history::hist_lockSet(int onoff)
  */
 int history::hist_write(History *hist)
 {
-
     std::string path = DATAPATH;
     path   += "history.dat";
     int x   = 0;
@@ -191,7 +189,6 @@ int history::hist_write(History *hist)
  */
 int history::hist_read(History *hist)
 {
-
     std::string path = DATAPATH;
     path   += "history.dat";
     int x   = 0;

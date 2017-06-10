@@ -163,7 +163,6 @@ char *fts_time(char *string, struct tm *tmdate)
 }
 
 uint32_t jam_lastnum;
-//long jam_utcoffset;
 long jam_utcoffset = 0xbaadf00d;
 
 /**
