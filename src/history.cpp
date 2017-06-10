@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -11,12 +11,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: history.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/history.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # include "history.h"
 # include "struct.h"
@@ -35,7 +29,6 @@ using namespace std;
  */
 int history::daily_lockSet(int onoff)
 {
-
     std::string path = LOCKPATH;
     path += "daily.lck";
 
@@ -44,14 +37,12 @@ int history::daily_lockSet(int onoff)
         return TRUE;
     }
 
-    //While lock file missing, create, or loop until it disapears.
     FILE *stream;
     while(1) {
         stream = fopen(path.c_str(),"rb+");
         if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
             if(stream == NULL) {
-                //elog("Error history.lck!");
                 return FALSE;
             } else {
                 fclose(stream);
@@ -71,12 +62,11 @@ int history::daily_write(History *hist)
 
     time_t t;
     tm *tm;
-    char datestr[81]= {0}; //,buf2[2100]={0};
+    char datestr[81]= {0};
 
     t  = time(NULL);
     tm = localtime(&t);
     strftime(datestr,81,"%Y%m%d",tm);
-    //sprintf(buf2,"%s",datestr,buffer);
 
     std::string
     path    = DATAPATH;
@@ -90,7 +80,6 @@ int history::daily_write(History *hist)
     if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
         if(stream == NULL) {
-            //elog("Error hist_write!");
             daily_lockSet(FALSE);
             return x;
         }
@@ -107,15 +96,13 @@ int history::daily_write(History *hist)
  */
 int history::daily_read(History *hist)
 {
-
     time_t t;
     tm *tm;
-    char datestr[81]= {0}; //,buf2[2100]={0};
+    char datestr[81]= {0};
 
     t  = time(NULL);
     tm = localtime(&t);
     strftime(datestr,81,"%Y%m%d",tm);
-    //sprintf(buf2,"%s",datestr,buffer);
 
     std::string
     path    = DATAPATH;
@@ -129,7 +116,6 @@ int history::daily_read(History *hist)
     if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
         if(stream == NULL) {
-            //elog("Error hist_read!");
             daily_lockSet(FALSE);
             return x;
         }
@@ -149,7 +135,6 @@ int history::daily_read(History *hist)
  */
 int history::hist_lockSet(int onoff)
 {
-
     std::string path = LOCKPATH;
     path += "history.lck";
 
@@ -158,14 +143,12 @@ int history::hist_lockSet(int onoff)
         return TRUE;
     }
 
-    //While lock file missing, create, or loop until it disapears.
     FILE *stream;
     while(1) {
         stream = fopen(path.c_str(),"rb+");
         if(stream == NULL) {
             stream = fopen(path.c_str(), "wb");
             if(stream == NULL) {
-                //elog("Error history.lck!");
                 return FALSE;
             } else {
                 fclose(stream);
@@ -192,7 +175,6 @@ int history::hist_write(History *hist)
     if(stream == NULL) {
         stream = fopen(path.c_str(), "wb");
         if(stream == NULL) {
-            //elog("Error hist_write!");
             hist_lockSet(FALSE);
             return x;
         }
@@ -219,7 +201,6 @@ int history::hist_read(History *hist)
     if(stream == NULL) {
         stream=fopen(path.c_str(), "wb");
         if(stream == NULL) {
-            //elog("Error hist_read!");
             hist_lockSet(FALSE);
             return x;
         }

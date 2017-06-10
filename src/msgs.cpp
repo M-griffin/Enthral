@@ -348,7 +348,7 @@ int msgs::writelr(LastRead *lr, int idx, mb_list_rec *mb)
 ulong msgs::JamAreaGetLast(long usernum, mb_list_rec *mb)
 {
 
-    SESSION _s;
+    ConsoleIO _s;
 
     LastRead lr;
     memset(&lr,0,sizeof(LastRead));
@@ -432,7 +432,7 @@ unsigned long msgs::CountMsgs(unsigned long mbnum, UserRec *usr)
 unsigned long msgs::CountNewMsgs(unsigned long mbnum, UserRec *usr)
 {
 
-    SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
+    ConsoleIO       s(usr); // Pass User Incase there are MCI Codes for User Info.
 
     mb_list_rec mr;
 

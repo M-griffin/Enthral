@@ -28,7 +28,7 @@
 
 using namespace std;
 
-typedef struct msg_readll : private SESSION {
+typedef struct msg_readll : private ConsoleIO {
 
 public:
     // Main List for Holding All Data

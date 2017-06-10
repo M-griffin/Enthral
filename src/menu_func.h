@@ -29,7 +29,7 @@
 # include "language.h"
 # include "conio.h"
 
-class menu_func : private SESSION,
+class menu_func : private ConsoleIO,
     language,
     users,
     msgs,

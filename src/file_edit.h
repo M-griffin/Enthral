@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
- *   Purpose:                                                              *
+ *   Purpose: Incomplete!                                                  *
  *                                                                         *
  *                                                                         *
  *                                                                         *
@@ -12,12 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: file_edit.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/file_edit.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef FILE_EDIT_H
 # define FILE_EDIT_H
 
@@ -25,8 +19,7 @@
 # include "files.h"
 # include "conio.h"
 
-
-class file_edit : private SESSION
+class file_edit : private ConsoleIO
 {
 
 private:
@@ -44,7 +37,6 @@ public:
     int  list_file_bases(int page);
     void insert_fbase();
     void edit_aka(fb_list_rec *fr);
-    //void ACS(ACSrec *acs, char *fstr);
     void mod_fbase(int fbnum);
     void modify_fbase();
     void swap_fbase(int iFrom, int iTo);

@@ -412,7 +412,7 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
     result.reserve( elist.size() );
     result.resize( elist.size() );
 
-    SESSION       s(thisuser); // Pass User Incase there are MCI Codes for User Info.
+    ConsoleIO       s(thisuser); // Pass User Incase there are MCI Codes for User Info.
 
 // WIP Private vs Public Title Scan Themes!!
 // Need to check here for ini file and if private area, pull ansi filename

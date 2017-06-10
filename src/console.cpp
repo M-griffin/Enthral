@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Working on IPC Node Chat                                     *
@@ -12,45 +12,29 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: console.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/console.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 #include "console.h"
 #include "struct.h"
 
 #include <cstdio>
 #include <cstdlib>
 
-
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
 
-
-#include <sys/types.h>  //mkfifo gcc 3.x
-#include <sys/stat.h>   //mkfifo gcc 3.x
-
+#include <sys/types.h> 
+#include <sys/stat.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-
-//#include <unistd.h>
-//#include <syslog.h>
-//#include <sys/ioctl.h>
 #include <termios.h>
-//#include <sys/wait.h>
 
-// Unicode Output Encoding.
-#include <iostream> // cout
-#include <clocale>  // locale
-#include <cwchar>   // wchar_t wide characters
-#include <string>   // string and wstring
-#include <fstream>  // ifstream file streams.
+#include <iostream>
+#include <clocale>
+#include <cwchar>
+#include <string>
+#include <fstream>
 
 std::string screen_buffer;
-
 
 /**
  * Wijnand Modderman-Lenstra
@@ -67,11 +51,11 @@ std::string screen_buffer;
  * -- Micahel Griffin
  */
 wchar_t CP437TABLE[] = {
-    L'\u0000', L'\u263A', L'\u263B', L'\u2665', L'\u2666', L'\u2663', // 5
-    L'\u2660', L'\u2022', L'\u0008', L'\u0009', L'\u000A', L'\u2642', // 11
-    L'\u2640', L'\u000D', L'\u266C', L'\u263C', L'\u25BA', L'\u25C4', // 17
-    L'\u2195', L'\u203C', L'\u00B6', L'\u00A7', L'\u25AC', L'\u21A8', // 23
-    L'\u2191', L'\u2193', L'\u2192', L'\u001B', L'\u221F', L'\u2194', // 29
+    L'\u0000', L'\u263A', L'\u263B', L'\u2665', L'\u2666', L'\u2663',
+    L'\u2660', L'\u2022', L'\u0008', L'\u0009', L'\u000A', L'\u2642',
+    L'\u2640', L'\u000D', L'\u266C', L'\u263C', L'\u25BA', L'\u25C4',
+    L'\u2195', L'\u203C', L'\u00B6', L'\u00A7', L'\u25AC', L'\u21A8',
+    L'\u2191', L'\u2193', L'\u2192', L'\u001B', L'\u221F', L'\u2194',
     L'\u25B2', L'\u25BC', L'\u0020', L'\u0021', L'\u0022', L'\u0023',
     L'\u0024', L'\u0025', L'\u0026', L'\u0027', L'\u0028', L'\u0029',
     L'\u002A', L'\u002B', L'\u002C', L'\u002D', L'\u002E', L'\u002F',
@@ -122,7 +106,6 @@ int sockfd;
 int serhandle;
 struct List *olms;
 
-//static struct termios oldtty;
 static struct sockaddr_un sock;
 
 /**
@@ -178,7 +161,6 @@ void clear_nodes()
  */
 int init_nodes()
 {
-
     serhandle = open(ttyname(0), O_RDWR);
 
     // Create communication fifos for Snoop
@@ -187,7 +169,6 @@ int init_nodes()
         fprintf(stderr,"%s ***communication socket(s) failed to init, check permissions!",ENTHRALTMP);
     }
 
-    //atexit(clear_nodes);
     return 1;
 }
 
@@ -267,7 +248,6 @@ int console_active()
  */
 int init_console()
 {
-
     char buffer[4096] = {0};
     struct sigaction sigact;
     sigset_t sigset;
@@ -285,7 +265,6 @@ int init_console()
     snprintf(buffer, sizeof buffer, "%s/enthral%dw", ENTHRALTMP, NODE_NUM);
     unlink(buffer);
     if (mkfifo(buffer, 0777) == -1) {
-        //syslog(LOG_ERR, "cannot mkfifo(\"%.200s\"): %m", buffer);
         fprintf(stderr,"%s Cannot create communication FIFO\r\n",ENTHRALTMP);
         exit(1);
     }
@@ -339,7 +318,6 @@ void finalize_console()
  */
 void open_console()
 {
-
     if (conon != 2)
         conon = 1;
 }
@@ -349,7 +327,6 @@ void open_console()
  */
 void close_console()
 {
-
     if (conon != 2)
         conon = 0;
 }
@@ -359,7 +336,6 @@ void close_console()
  */
 int console_select_input(int maxfd, fd_set *set)
 {
-
     FD_SET(conin, set);
     return maxfd < conin ? conin : maxfd;
 }
@@ -432,10 +408,9 @@ void cp437toUTF8(std::string cp347)
             wstr = CP437TABLE[ascii_value];
         else
             wstr = cp347[i];
-        print_wide(wstr); // Normal UTF8 Output
+        print_wide(wstr);
     }
 }
-
 
 /**
  * Main call to write output to console
@@ -444,13 +419,6 @@ void cp437toUTF8(std::string cp347)
 int console_putsn(char *str, size_t n, int buffering)
 {
     int writecnt = 0;
-
-    /*
-     * New UTF8- Translation Code Here.
-     * If UTF8 is Active, translate all output to Unicode
-     * And Use Wide Char Array and Output function for local display only
-     * Node Spy should do this also!
-     */
 
     std::string::size_type id1 = 0;
     std::string myCP437;

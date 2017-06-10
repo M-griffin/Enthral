@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
- *   Purpose:                                                              *
+ *   Purpose: Incomplete                                                   *
  *                                                                         *
  *                                                                         *
  *                                                                         *
@@ -12,17 +12,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: files.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/files.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef FILES_H
 # define FILES_H
 
 # include "struct.h"
-
 # include <string>
 
 typedef struct files {
@@ -43,7 +36,6 @@ typedef struct files {
     // Inpot File Functions.
     int import_filedir();
 
-
     // Files.Dat area listing.
     int  read_fbaselist(fb_list_rec *fr, int recno);
     int  save_fbasetemp(fb_list_rec *fr, int recno);
@@ -56,16 +48,6 @@ typedef struct files {
     int  readlr(LastRead *lr, int idx, fb_list_rec *fb);
     int  writelr(LastRead *lr, int idx, fb_list_rec *fb);
 
-    /*
-    unsigned long
-    JamAreaGetLast(long usernum, fb_list_rec *fb);
-    void JamAreaSetLast(long usernum, long filenum, fb_list_rec *fb);
-    */
-    /* Useless, Can't determine deleted messages!
-    int  readidx(JamIndex *dx, int idx, mb_list_rec *mb);
-    int  countidx(mb_list_rec *mb);
-    */
-
     unsigned long
     CountFiles(unsigned long fbnum),
                CountNewFiles(unsigned long fbnum, UserRec *usr),
@@ -75,8 +57,6 @@ typedef struct files {
 
     void ParseFArea(UserRec *usr, std::string &tmp);
     void FileAreaScan(int newscan);
-
-    //void filearea_list(UserRec *usr);
 
 } files;
 

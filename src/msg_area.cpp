@@ -311,7 +311,7 @@ vector< mb_list_rec > msg_area::read_areas()
         cout << "\r\nSQL: Not Connected!" << endl;
     }*/
 
-    SESSION s;
+    ConsoleIO s;
     mb_list_rec mbl;
     std::vector< mb_list_rec > result;
 
@@ -390,7 +390,7 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
     std::vector<list_bar>    result;
     std::vector<mb_list_rec> mareas;
 
-    SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
+    ConsoleIO       s(usr); // Pass User Incase there are MCI Codes for User Info.
 
 //    s . errlog((char *)" * build_areas * ");
 
@@ -860,7 +860,7 @@ char *msg_area::StartList()
 
 //	 errlog((char *)"Build AreaList - ThisUserID %lu, %s",usr.idx, usr.handle);
 
-    SESSION s(&usr);
+    ConsoleIO s(&usr);
 
     _mnuf.menu_setuser(thisuser);
     mLink.initList(sTEXT_COLOR, TRUE);

@@ -353,39 +353,19 @@ bool users::check_password(char *name, char *pass)
     temp1 = (char *)r.password;
     temp2 = pass;
 
-    SESSION s;
-    s.errlog2 ((char *)"* NAME %s,%i",name,idx);
-    s.errlog2 ((char *)"* PASS %s",pass);
-    s.errlog2 ((char *)"Password Database [%s], Match [%s]",(char *)temp1.c_str(),(char *)temp2.c_str());
+    ConsoleIO s;
 
     if (temp2.find("\r",0) != std::string::npos)
-        s.errlog2 ((char *)"Password found CR!");
+        s.errlog ((char *)"Password found CR!");
 
     if (temp2.find("\n",0) != std::string::npos)
-        s.errlog2 ((char *)"Password found LF!");
+        s.errlog ((char *)"Password found LF!");
 
     if (temp2.find("\0",0) != std::string::npos)
-        s.errlog2 ((char *)"Password found \0!");
+        s.errlog ((char *)"Password found \0!");
 
     if(temp1 == temp2)
         return true;
-    else return false;
+    
+    return false;
 }
-
-
-/**
- * Check Who's Birthday is today (WIP)
- */
-/*
-int users::getAllBDays() {
-
-    UserRec usr;
-    int  i = 0, iResult;
-    long dtBdate;
-
-    while(users_read(&usr,i++))
-        iResult = isBday(dtBdate);
-    }
-}
-
-*/

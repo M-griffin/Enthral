@@ -25,7 +25,7 @@
 # include "msgs.h"
 # include "conio.h"
 
-class msg_edit : private SESSION
+class msg_edit : private ConsoleIO
 {
 
 private:

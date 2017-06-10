@@ -109,7 +109,7 @@ int node::node_exists(int nodenum)
  */
 int node::node_socket_exists(int nodenum)
 {
-    SESSION s;
+    ConsoleIO s;
     char path[255]= {0};
     //sprintf(path,"%snode%i.dat",NODEPATH,nodenum);
     snprintf(path, sizeof path, "%s/enthral_sock%d", ENTHRALTMP, nodenum);
@@ -192,7 +192,7 @@ void node::whoisonline()
     UserRec user;
     char buffer[255]= {0};
 
-    SESSION s;
+    ConsoleIO s;
     s.ansiPrintf((char *)"whois");
 
     // Add config option for how many to display!

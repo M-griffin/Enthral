@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
- *   Purpose:                                                              *
+ *   Purpose: Incomplete!                                                  *
  *                                                                         *
  *                                                                         *
  *                                                                         *
@@ -12,22 +12,14 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: file_area.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/file_area.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef FILE_AREA_H
 # define FILE_AREA_H
 
-//# include <time.h>
 
 # include "struct.h"
-# include "mb_api.h"       // Mainly for SESSION and i/o functions.
+# include "mb_api.h"
 # include "files.h"
 
-// pickup thisuser and session from msg_api
 # include <string>
 
 typedef struct filearea_ini {
@@ -48,14 +40,13 @@ typedef struct filearea_ini {
     char sTEXT_COLOR[10];
     char sTEXT_HILIGHT[10];
     char sMAX_AREAS[20];
-    // Theme
+
     char sANSI_FILE[10];
     char sANSI_HELP[10];
     char sTHEME_NAME[20];
     char sMENU_PROMPT[20];
     char sMENU_PROMPT2[20];
 
-    // Message Read .ini File
     bool filea_exists();
     void filea_create();
     void filea_chkpar(std::string &data);
@@ -66,8 +57,6 @@ typedef struct filearea_ini {
 
 class file_area : private mbapi_jam, filearea_ini, files
 {
-
-    //private:
     UserRec *thisuser;
 
 public:

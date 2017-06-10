@@ -401,7 +401,7 @@ int usr_list::change_theme(int idx)
 vector< UserRec > usr_list::read_users()
 {
 
-    SESSION s;
+    ConsoleIO s;
     UserRec urecord;
     std::vector< UserRec > result;
 
@@ -432,7 +432,7 @@ vector< list_bar > usr_list::build_userlist(UserRec *usr, std::string &temp)   /
     std::vector<list_bar>    result;
     std::vector<UserRec>     ulist;
 
-    SESSION       s(usr); // Pass User Incase there are MCI Codes for User Info.
+    ConsoleIO       s(usr); // Pass User Incase there are MCI Codes for User Info.
 
 //    s . errlog((char *)" * build_users * ");
 

@@ -857,7 +857,7 @@ void *ScrollingText(void *p1)
 {
     // Thanks to Darkwing for original reference code :)
     PASSING *p = (PASSING*)p1;
-    SESSION s;
+    ConsoleIO s;
 
     //s.////errlog2("ScrollingText!! 1");
 
@@ -949,7 +949,7 @@ void *DelayedOneliners(void *p1)
     // Thanks to Darkwing for original reference code :)
 
     PASSING *p = (PASSING*)p1;
-    SESSION s;
+    ConsoleIO s;
 
     //s.////errlog2("ScrollingText!! 1");
 

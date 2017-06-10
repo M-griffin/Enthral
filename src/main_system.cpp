@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,12 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: main_system.cpp 6 2014-04-02 03:42:27Z merc $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/main_system.cpp $
-// $LastChangedDate: 2014-04-01 22:42:27 -0500 (Tue, 01 Apr 2014) $
-// $LastChangedRevision: 6 $
-// $LastChangedBy: merc $
-
 # include "pyenthral.h"
 # include "struct.h"
 # include "menu_func.h"
@@ -29,7 +23,7 @@
 # include <cstring>
 # include <cstdlib>
 # include <ctime>
-# include <unistd.h> // gcc 4.7
+# include <unistd.h>
 
 # include <iostream>
 # include <string>
@@ -38,14 +32,13 @@
 using namespace std;
 
 char OSSYSTEM[1024]   = {0};
-// Globals for MCI Codes..
-// Should pass this but i hate passing everything!
+
 int  CURRENT_MAREA    = 0;
 int  CURRENT_FAREA    = 0;
 int  CURRENT_MSGTITLE = 0;
 int  CURRENT_ULIST    = 0;
 
-int  UTF8Output = FALSE; // Add detection for UTF8
+int  UTF8Output = FALSE;
 
 /**
  * String Control Chars from String
@@ -67,11 +60,8 @@ void strip(char *ostr)
  */
 void main_system::start(UserRec *user)
 {
-    // Startup Friend Classes
     language    _lang;
-    //users       _usr;
     UserRec     tmp;
-
 
     // Setup Default CP437 Encoding.  Add Detection from TelnetD here also!
     write(1, "\x1b" , 1); // Back to ISO Char Set
@@ -84,7 +74,6 @@ void main_system::start(UserRec *user)
 
     // Start Control Sequence Resetting... Will be ignored by Non Ansi Systems.
     pipe2ansi((char *)"|CS");
-
 
     fflush(stdout);
     open_keyboard();
@@ -100,15 +89,6 @@ void main_system::start(UserRec *user)
     FILE *uname;
     char os[255]     = {0};
     int lastchar     = 0;
-
-
-    /// FIXME If no script exists, reset signals so that bbs will catch!!
-
-    // Need to Add variable / Config item for pre-startup script.
-    // Make Startup 1 py. Then Startup 2 py after detection.
-//	if (strlen(STARTUP_SCRIPT) > 0)
-//		pybbs_run(STARTUP_SCRIPT, &tmp);
-
 
     // Set Char Set in Console default CP437.
     ansiPrintf((char *)"encode");
@@ -127,11 +107,11 @@ void main_system::start(UserRec *user)
 
         case 'C':
             std::setlocale(LC_ALL, "en_US.utf8");
-            write(1, "\x1b" , 1); // Back to ISO Char Set
+            write(1, "\x1b" , 1);
             write(1, "%@" , 2);
             cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-            write(1, "\x1b" , 1); // Enable CP437
+            write(1, "\x1b" , 1);
             write(1, "(U" , 2);
             cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
             UTF8Output = FALSE;
@@ -140,7 +120,7 @@ void main_system::start(UserRec *user)
             break;
 
         case 'U':
-            write(1, "\x1b" , 1); // UTF-8
+            write(1, "\x1b" , 1);
             write(1, "%G" , 2);
             cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
             UTF8Output = TRUE;
@@ -151,16 +131,16 @@ void main_system::start(UserRec *user)
         case 10: // ENTER Done.
             encode_done = TRUE;
             if (rightLeft) {
-                write(1, "\x1b" , 1); // Back to ISO Char Set
+                write(1, "\x1b" , 1);
                 write(1, "%@" , 2);
                 cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-                write(1, "\x1b" , 1); // Enable CP437
+                write(1, "\x1b" , 1);
                 write(1, "(U" , 2);
                 cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
                 UTF8Output = FALSE;
             } else {
-                write(1, "\x1b" , 1); // UTF-8
+                write(1, "\x1b" , 1);
                 write(1, "%G" , 2);
                 cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
                 UTF8Output = TRUE;
@@ -172,11 +152,11 @@ void main_system::start(UserRec *user)
         case 27: // Get Arrow Key
             if (EscapeKey[0] == '[') {
                 if (EscapeKey[1] == 'D' && rightLeft == FALSE) {
-                    write(1, "\x1b" , 1); // Back to ISO Char Set
+                    write(1, "\x1b" , 1);
                     write(1, "%@" , 2);
                     cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-                    write(1, "\x1b" , 1); // Enable CP437
+                    write(1, "\x1b" , 1);
                     write(1, "(U" , 2);
                     cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
@@ -188,7 +168,7 @@ void main_system::start(UserRec *user)
                 }
                 if (EscapeKey[1] == 'C' && rightLeft == TRUE) {
                     std::setlocale(LC_ALL, "en_US.utf8");
-                    write(1, "\x1b" , 1); // UTF-8
+                    write(1, "\x1b" , 1);
                     write(1, "%G" , 2);
                     cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
@@ -211,11 +191,11 @@ void main_system::start(UserRec *user)
         // So we want to set this part so the user can see it.
 
         if (!encode_done) {
-            write(1, "\x1b" , 1); // Back to ISO Char Set
+            write(1, "\x1b" , 1);
             write(1, "%@" , 2);
             cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
-            write(1, "\x1b" , 1); // Enable CP437
+            write(1, "\x1b" , 1);
             write(1, "(U" , 2);
             cout << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << "\x1b[D \x1b[D" << flush;
 
@@ -241,14 +221,14 @@ void main_system::start(UserRec *user)
     open_keyboard();
 
     // Thanks to Frank for this quickie! :)
-    uname = popen("uname -sm", "r");
+    uname = popen("uname -orm", "r");
 
     lastchar = fread(os, 1, 80, uname);
     os[lastchar] = '\0';
     pclose(uname);
 
     strip(os);
-    sprintf(OSSYSTEM,"(PI/2 %s)",os);
+    sprintf(OSSYSTEM,"(%s)",os);
 
     sprintf(sCmd,"%s %s Telnet Node %i",BBSVERSION, OSSYSTEM, NODE_NUM);
     cspacing(sCmd);
@@ -257,17 +237,7 @@ void main_system::start(UserRec *user)
     strcat(sCmd,(char *)"\r\n");
     putline(sCmd);
 
-    // Add a config setting to display or omit this from displaying
-    // Some people don't like to give system info!
-    /*
-    	sprintf(sCmd,"GCC: %s", __VERSION__);
-        cspacing(sCmd);
-
-        // have to put newline in after center spacing, or it throws it all off.
-        strcat(sCmd,(char *)"\r\n");
-        putline(sCmd);*/
-
-    sprintf(sCmd,"Copyright (c) Michael Griffin 2004-2015, All Rights Reserved");
+    sprintf(sCmd,"Copyright (c) Michael Griffin 2004-2017, All Rights Reserved");
     cspacing(sCmd);
     strcat(sCmd,(char *)"\r\n");
     pipe2ansi(sCmd);
@@ -282,7 +252,7 @@ void main_system::start(UserRec *user)
 
     putline((char *)"\r\n");
     _lang.lang_get(text,1);
-    //cspacing(text);
+
     sprintf(text,"%s\r\n",text);
     pipe2ansi(text);
 
@@ -294,33 +264,26 @@ void main_system::start(UserRec *user)
     // Detect if were compitable.
     if (!getxy()) {
         _lang.lang_get(text,51);
-        //cspacing(text);
-        //sprintf(text,"%s\r\n\r\n",sCmd);
 
         sprintf(text,"%s\r\n\r\n",text);
         putline(text);
 
         _lang.lang_get(text2,52);
-        //sprintf(text2," .\b\b", text2);
-        //strcat(text2," .\b\b");
         pipe2ansi(text2);
         do {
             c = getkey(true);
             switch(toupper(c)) {
             case 10:
-                //putkey('Y');
                 isANSI = FALSE;
                 done = TRUE;
                 break;
 
             case 'Y':
-                //putkey('Y');
                 isANSI = FALSE;
                 done = TRUE;
                 break;
 
             case 'N':
-                //putkey('N');
                 isANSI = TRUE;
                 done = TRUE;
                 break;
@@ -332,12 +295,10 @@ void main_system::start(UserRec *user)
 
     } else {
         _lang.lang_get(text,2);
-        //cspacing(text);
         sprintf(text,"%s",text);
         pipe2ansi(text);
 
         _lang.lang_get(text2,53);
-        //sprintf(text2,"%s .\b\b",text2);
         pipe2ansi(text2);
 
         done = FALSE;
@@ -345,19 +306,16 @@ void main_system::start(UserRec *user)
             c = getkey(true);
             switch(toupper(c)) {
             case 10:
-                //putkey('Y');
                 isANSI = TRUE;
-                done = TRUE;            //putkey(ch);
+                done = TRUE;
                 break;
 
             case 'Y':
-                //putkey('Y');
                 isANSI = TRUE;
                 done = TRUE;
                 break;
 
             case 'N':
-                //putkey('N');
                 isANSI = FALSE;
                 done = TRUE;
                 break;
@@ -388,55 +346,7 @@ void main_system::start(UserRec *user)
         isANSI = TRUE;
     }
 
-    // If were doing unit Testing, load unit test menu, where we can jump directly to interfaces.
-    // If menu exists, then we run it!
-
     menu_func mnf;
-
-    /*
-    mnf._premenu.clear();
-    mnf._gosub.clear();
-    mnf._curmenu = "unittest";
-    mnf._loadnew = true;
-
-    // Start unit test menu, skip matrix and login.
-    // Ask for System Password lateron for Sysop Quick Login!!
-
-    if ( mnf.menu_exists() )  // Testing purposes only, maybe passworded features lateron
-    {
-    //		errlog((char *)"Starting UnitTest Menu!");
-        // Set default users to 0, sysop
-        _usr.users_read(user,0);
-    //		errlog((char *)"Forced Login to: %s",user->handle);
-
-        // When user logs in, always reset last area and msg to 0.
-        user->lastmbarea = 0;
-        user->lastmsg = 0;
-        CURRENT_MAREA = 0;
-        _usr.users_write(user,0);
-
-        node _node;
-        _node.node_write(user,NODE_NUM);
-        UserLoggedIn = TRUE;
-        isSysop = TRUE;
-
-        mnf.menu_mainloop(user);
-        return;
-    }*/
-
-    /*
-    //	errlog((char *)"Starting Matrix Menu");
-    _mnf._premenu.clear();
-    _mnf._gosub.clear();
-    _mnf._curmenu = "matrix";
-    _mnf._loadnew = true;
-
-    // Display Welcome Screen
-    ansiPrintf((char *)"welcome");
-    _mnf.menu_mainloop(user);*/
-
-    // Load Menu System sepeartly for init pre-system script.
-
 
     mnf._premenu.clear();
     mnf._gosub.clear();
@@ -446,5 +356,4 @@ void main_system::start(UserRec *user)
     // Display Welcome Screen
     ansiPrintf((char *)"welcome");
     mnf.menu_mainloop(user);
-    //delete pre_mnf;
 }
