@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -11,12 +11,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: menu_func.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/menu_func.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # ifndef MENU_FUNC_H
 # define MENU_FUNC_H
@@ -72,26 +66,24 @@ public:
     unsigned long cntEscCmds;  // = 0;
 
     int c, cc;
-    bool  EscHit;//  = false; // Is Input key Escaped char, or Normal Key
+    bool  EscHit;             // Is Input key Escaped char, or Normal Key
     char  outBuff[1024];      // Holds Formatted Lightbar Data
     std::string output;       // Buffer for writing all lightbars at the same time
-    short sRand;//   = 0;     // Randmise Text Scrollies
-    PASSING   *p;//  = 0;     // For passing Menu command to new thread
+    short sRand;              // Randmise Text Scrollies
+    PASSING   *p;             // For passing Menu command to new thread
     pthread_t ahThread;
     bool      tScroll;
     int       executed;       // Test's for hot keys commands excuted, if non pass through loop
+    
     // This is so scrolling isn't killed with invalid menu input!
-    int exe;// = 0;
+    int exe;
 
     uint32_t CURRENT_AREA;    // Lightbar Starting Position for Interfaces.
-    // This needs access from ie Title Scan Class.
 
     menu_func();
     menu_func(UserRec *tu);
 
     ~menu_func();
-
-    //void start_menu_func(UserRec *user);
 
     // Below here are Menu Processing Functions
     bool _loadnew;
@@ -126,27 +118,19 @@ public:
     void menu_proc(char *mString, uint32_t area=0);
 
     // Initalizes the User Logon / Application Process
-    int  logon_system(unsigned char c);   // Init Logon Sequence / Application
+    int  logon_system(unsigned char c);
 
 
     void fileedit_system();
     void filearea_change(int change);
     void filearea_list();
 
-    void msgedit_system();                // Init Message Base Editor
+    void msgedit_system();
 
-    //int  msgread_system(unsigned char c, char *mString=0); // Init Message Reader System
-    // For the Email Reader
-//    int  emailread_system(unsigned char c, char *mString=0);
     int  msgscan_system(unsigned char c, char *mString=0);
 
     void msgemail_system();
     void msgpost_system(char *mString=(char *)"\0");
-
-    // WIP Not finished@@@
-    void msgpack_system(int all);
-    void msgtrunc_system(int all);
-    // WIP Not finished@@@
 
     void msgarea_change(int change);
     void msgarea_list();

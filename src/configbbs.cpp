@@ -109,7 +109,6 @@ void checkcfg(std::string cfgdata)
     if (temp[0] == '#') return;
 
     // Sets if LOGGING is on / off
-    id1 = 0;
     id1 = temp.find("Set SYSOP_NAME", 0);
     if (id1 != std::string::npos) {
         std::string temp1;

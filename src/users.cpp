@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Basic User Data I/O                                          *
@@ -12,25 +12,15 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: users.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/users.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # include "users.h"
 # include "struct.h"
-# include "conio.h" // testing. elog
+# include "conio.h"
 
 # include <cstdio>
 # include <cctype>
-# include <cstring>        // gcc 4.3
-//# include <algorithm>    // gcc 4.3 transform() (Doesn't work!)
-//# include <iterator>
-//# include <parallel/algo.h>
-
+# include <cstring>
 # include <string>
-# include <unistd.h> // gcc 4.7
+# include <unistd.h>
 
 using namespace std;
 
@@ -39,7 +29,6 @@ using namespace std;
  */
 int users::users_lockSet(int onoff)
 {
-
     std::string path = LOCKPATH;
     path += "users.lck";
 
@@ -48,7 +37,6 @@ int users::users_lockSet(int onoff)
         return TRUE;
     }
 
-    //While lock file missing, create, or loop until it disapears.
     FILE *stream;
     while(1) {
         stream = fopen(path.c_str(),"rb+");
@@ -72,7 +60,6 @@ int users::users_lockSet(int onoff)
  */
 int users::uidx_lockSet(int onoff)
 {
-
     std::string path = LOCKPATH;
     path += "uidx.lck";
 
@@ -81,7 +68,6 @@ int users::uidx_lockSet(int onoff)
         return TRUE;
     }
 
-    //While lock file missing, loop untill it disapears.
     FILE *stream;
     while(1) {
         stream = fopen(path.c_str(),"rb+");
@@ -92,7 +78,7 @@ int users::uidx_lockSet(int onoff)
                 return FALSE;
             } else {
                 fclose(stream);
-                return TRUE;    // Created Lock File
+                return TRUE;
             }
         }
         fclose(stream);
@@ -105,7 +91,6 @@ int users::uidx_lockSet(int onoff)
  */
 int users::users_writet(UserRec *usr, int idx)
 {
-
     std::string path = DATAPATH;
     path += "users.tmp";
 
@@ -129,7 +114,6 @@ int users::users_writet(UserRec *usr, int idx)
  */
 int users::users_write(UserRec *usr, int idx)
 {
-
     std::string path = DATAPATH;
     path += "users.dat";
 
@@ -156,7 +140,6 @@ int users::users_write(UserRec *usr, int idx)
  */
 int users::users_read(UserRec *usr, int idx)
 {
-
     std::string path = DATAPATH;
     path += "users.dat";
 
@@ -186,7 +169,6 @@ int users::users_read(UserRec *usr, int idx)
  */
 int users::idx_writet(UserIdx *usr, int idx)
 {
-
     std::string path = DATAPATH;
     path += "uidx.tmp";
 
@@ -210,7 +192,6 @@ int users::idx_writet(UserIdx *usr, int idx)
  */
 int users::idx_write(UserIdx *usr, int idx)
 {
-
     std::string path = DATAPATH;
     path += "uidx.dat";
 
@@ -237,7 +218,6 @@ int users::idx_write(UserIdx *usr, int idx)
  */
 int users::idx_read(UserIdx *usr, int idx)
 {
-
     std::string path = DATAPATH;
     path += "uidx.dat";
 
@@ -267,7 +247,6 @@ int users::idx_read(UserIdx *usr, int idx)
  */
 int users::idx_count()
 {
-
     UserIdx usr;
     int i = 0;
     while(idx_read(&usr,i)) {
@@ -284,22 +263,18 @@ int users::idx_count()
  */
 int users::idx_find(char *name)
 {
-
     UserIdx usr;
     int idx = 0;
     std::string temp1, temp2;
 
     temp1 = (name);
 
-    //move temp1 to lower case for testing!
     for (std::string::size_type i = 0; i < temp1.size(); ++i ) {
         temp1[i] = tolower( temp1[i] );
     }
 
     while(idx_read(&usr,idx)) {
         temp2 = (char *)(usr.handle);
-        //  transform(temp1.begin(),temp1.end(), temp1.begin(), tolower);
-        //  transform(temp2.begin(),temp2.end(), temp2.begin(), tolower);
         for (std::string::size_type i = 0; i < temp2.size(); ++i ) {
             temp2[i] = tolower( temp2[i] );
         }
@@ -315,7 +290,6 @@ int users::idx_find(char *name)
  */
 bool users::idx_match(char *name)
 {
-
     int index =- 1;
     index = idx_find(name);
     if (index == -1) return false;
@@ -327,13 +301,11 @@ bool users::idx_match(char *name)
  */
 void users::idx_new(char *name, int idx)
 {
-
     UserIdx usr;
     memset(&usr,0,sizeof(UserIdx));
     strcpy((char *)usr.handle, name);
     usr.num = idx;
     idx_write(&usr,idx);
-
 }
 
 /**
@@ -341,7 +313,6 @@ void users::idx_new(char *name, int idx)
  */
 bool users::check_password(char *name, char *pass)
 {
-
     UserRec r;
     memset(&r,0,sizeof(UserRec));
     int idx = 0;

@@ -231,14 +231,6 @@ BOOST_PYTHON_MODULE(bbs_io)
     def("pyStartPause"    , pyStartPause);
 }
 
-
-
-//------------------------------------------------------------------------------
-// Name: main()
-// Desc: Application's main entry point.
-// Note: Scripts should import gc and call gc.collect() to free memory at end.
-//------------------------------------------------------------------------------
-
 /*
  * Python Interface pass script and reference to user record.
  */

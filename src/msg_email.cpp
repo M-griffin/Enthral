@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -11,12 +11,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: msg_email.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_email.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "language.h"
@@ -34,7 +28,7 @@
 # include <cctype>
 # include <cstring>
 # include <cstdlib>
-# include <unistd.h> //gcc 4.7
+# include <unistd.h>
 
 using namespace std;
 
@@ -126,7 +120,6 @@ void msgemail_ini::msga_create()
  */
 void msgemail_ini::msga_check(std::string cfgdata)
 {
-
     std::string temp = cfgdata;
     std::string::size_type id1 = 0;
 
@@ -134,7 +127,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     if (temp[0] == '#') return;
 
     // Sets if LOGGING is on / off
-    id1 = -1;
     id1 = temp.find("set TOP ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -155,7 +147,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets Download Path
-    id1 = -1;
     id1 = temp.find("set BOT ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -176,7 +167,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set PAGENUM ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -196,7 +186,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set PAGETOTAL ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -216,7 +205,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREUP ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -236,7 +224,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREUP_CHAR ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -256,7 +243,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREDOWN ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -276,7 +262,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREDOWN_CHAR ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -296,7 +281,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREMSG_ON ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -316,7 +300,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREMSG_WORD_ON ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -335,8 +318,7 @@ void msgemail_ini::msga_check(std::string cfgdata)
         return;
     }
 
-// Sets XY PAGE Num
-    id1 = -1;
+    // Sets XY PAGE Num
     id1 = temp.find("set MOREMSG_OFF ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -356,7 +338,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREMSG_WORD_OFF ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -376,7 +357,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set INPUT_BOX ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -396,7 +376,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set TEXT_COLOR ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -416,7 +395,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MAX_AREAS ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -434,49 +412,6 @@ void msgemail_ini::msga_check(std::string cfgdata)
         strcpy(sMAX_AREAS,(char *)temp1.c_str());
         return;
     }
-
-    /*
-    // Sets XY PAGE Num
-    id1 = -1;
-    id1 = temp.find("set TEXT_HILIGHT ", 0);
-    if (id1 != std::string::npos) {
-        std::string temp1;
-        int st1 = -1;
-        int st2 = -1;
-        signed int  ct = -1;
-
-        st1 = temp.find('"', 0);
-        st2 = temp.find('"', st1+1);
-        ++st1;
-        temp1 = temp.substr(st1,st2);
-        ct = st2 - st1;
-        if (temp1.length() > ct)
-            temp1.erase(ct,temp1.length());
-        strcpy(sTEXT_HILIGHT,(char *)temp1.c_str());
-        return;
-    }*/
-
-
-    // Sets XY PAGE Num
-    /*
-    id1 = -1;
-    id1 = temp.find("set TOT_MSG ", 0);
-    if (id1 != std::string::npos) {
-        std::string temp1;
-        int st1 = -1;
-        int st2 = -1;
-        signed int  ct = -1;
-
-        st1 = temp.find('"', 0);
-        st2 = temp.find('"', st1+1);
-        ++st1;
-        temp1 = temp.substr(st1,st2);
-        ct = st2 - st1;
-        if (temp1.length() > ct)
-            temp1.erase(ct,temp1.length());
-        strcpy(sTOT_MSG,(char *)temp1.c_str());
-        return;
-    }*/
 }
 
 /**

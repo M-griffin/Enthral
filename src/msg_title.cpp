@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Message Title Full Screen Listing                            *
@@ -11,12 +11,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: msg_title.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_title.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "users.h"
@@ -31,7 +25,7 @@
 # include <fstream>
 # include <string>
 # include <vector>
-# include <algorithm> // Sort and Reverse
+# include <algorithm>
 
 # include <cstdio>
 # include <ctime>
@@ -89,7 +83,6 @@ bool msgtitle_ini::mtitle_exists()
  */
 void msgtitle_ini::mtitle_create()
 {
-
     std::string name = INIPATH;
     name += sININAME;
 
@@ -130,7 +123,6 @@ void msgtitle_ini::mtitle_chkpar(std::string &data)
  */
 void msgtitle_ini::mtitle_check(std::string cfgdata)
 {
-
     std::string::size_type id1 = 0;
     std::string temp = cfgdata;
     if (temp[0] == '#') return;
@@ -204,27 +196,21 @@ void msgtitle_ini::mtitle_check(std::string cfgdata)
  */
 int msgtitle_ini::mtitle_parse(int idx)
 {
-
     if (!mtitle_exists()) {
         printf("Error unable to parse msgtitle.ini, check permissions!");
     }
 
-    //mtitle_create();
-
     char name[355]  = {0};
     char name2[355] = {0};
 
-    // Set for Theme, check idx number for Themeing,.
     sprintf(name, "%s%s",INIPATH,sININAME);
     sprintf(name2,"%s%s%i.ini",INIPATH,sININAME,idx);
 
     if (idx != 0) strcpy(name,name2);
 
-    // Check if Theme Exists, if not return FALSE.
     FILE *stream;
     stream = fopen(name,"rb+");
     if(stream == NULL) {
-        // File is not Present
         return FALSE;
     }
     fclose(stream);
@@ -246,7 +232,6 @@ int msgtitle_ini::mtitle_parse(int idx)
     return TRUE;
 }
 
-
 /**
  * Start of Message Title Class
  */
@@ -255,8 +240,6 @@ msg_title::msg_title()
     tTop          = 1;
     tBot          = 1;
     CURRENT_BAR   = 0;
-
-    //CURRENT_BAR = 0;
 }
 
 /**
@@ -264,7 +247,6 @@ msg_title::msg_title()
  */
 void msg_title::ParseHeader(char *filename)
 {
-
     std::string temp;
     std::string path = ANSIPATH;
     path += filename;
@@ -272,7 +254,7 @@ void msg_title::ParseHeader(char *filename)
 
     mb_list_rec mr;
 
-    char MCI[3]     = {0};   // Holds MCI Codes to Parse
+    char MCI[3]     = {0};
     char sTemp[255] = {0};
     int  space = 0, foundr = 0 , foundl = 0;
 
@@ -280,16 +262,10 @@ void msg_title::ParseHeader(char *filename)
 
     // Reads in Ansi file into Buffer Only
     readinAnsi(filename, buff);
-
-    /* NOTE
-    MAKE THIS THE USERLIST!!!
-    */
     read_mbaselist(&mr, CURRENT_MAREA);
 
     std::string::size_type id1 = 0;
     while (id1 != std::string::npos) {
-        // parse justify spacing right / left passing in string before
-        // replacing mci code. to Properly Space Output Ansi.
         id1 = buff.find("%", 0);
         if (id1 == std::string::npos) break;
         memset(&MCI,0,sizeof(MCI));
@@ -297,28 +273,25 @@ void msg_title::ParseHeader(char *filename)
         // Check if MCI Code is Justified then Process this.
         if (buff[id1+3] == '{') {
             // Left Justify
-            //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
-            MCI[0] = buff[id1+4]; // Get first Digit
-            MCI[1] = buff[id1+5]; // Get Second Digit
+            MCI[0] = buff[id1+4];
+            MCI[1] = buff[id1+5];
             space  = atoi(MCI);
             foundr = FALSE;
             foundl = TRUE;
         } else if (buff[id1+3] == '}') {
             // Right Justify
-            //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
-            MCI[0] = buff[id1+4]; // Get first Digit
-            MCI[1] = buff[id1+5]; // Get Second Digit
+            MCI[0] = buff[id1+4];
+            MCI[1] = buff[id1+5];
             space  = atoi(MCI);
-            //elog("right justify: %i",space);
             foundl = FALSE;
             foundr = TRUE;
         }
+
         // Now Get MCI Code
-        MCI[0] = buff[id1+1]; // Get first Digit
-        MCI[1] = buff[id1+2]; // Get Second Digit
+        MCI[0] = buff[id1+1];
+        MCI[1] = buff[id1+2];
 
         memset(&sTemp,0,sizeof(sTemp));
-        // Insert MCI Parsing here so we can reaplace full result with propering spacing.
 
         if (strcmp(MCI,"M#") == 0) {
             sprintf(sTemp,"%lu", (ulong)CURRENT_MAREA+1);
@@ -340,7 +313,7 @@ void msg_title::ParseHeader(char *filename)
         buff.replace(id1,6,sTemp):
         buff.replace(id1,3,sTemp);
     }
-    //elog("Finished Parsing MCI Codes...");
+
     pipe2ansi((char *)buff.c_str());
 }
 
@@ -349,17 +322,12 @@ void msg_title::ParseHeader(char *filename)
  */
 void msg_title::SetupList(UserRec *user, int isPrivate)
 {
-
-    // Still WIP, Need to update .ans pull from ini file.
-    // Use a different theme ansi for Public vs Private Title Scans
     (isPrivate) ?
-    sprintf(sININAME,"%s",(char *)"msgtitle_private.ini"):
-    sprintf(sININAME,"%s",(char *)"msgtitle_public.ini");
+        sprintf(sININAME,"%s",(char *)"msgtitle_private.ini"):
+        sprintf(sININAME,"%s",(char *)"msgtitle_public.ini");
 
 
     thisuser = user;
-
-    //this->start_session(thisuser);
 
     // Check What Theme user has selected.
     if (mtitle_parse(thisuser->readertheme) == FALSE) {
@@ -369,20 +337,16 @@ void msg_title::SetupList(UserRec *user, int isPrivate)
     tBot = iBot;
 }
 
-
 /**
  * Title Scan - Change ANSI Template Theme
  */
 int msg_title::change_theme(int idx)
 {
-    // Check What Theme user has selected.
     if (mtitle_parse(idx) == FALSE) {
-        // Theme Doesn't Exist.
         return FALSE;
     }
     thisuser->readertheme = idx;
 
-    // Save User Settings.
     UserRec usr;
     usr = *thisuser;
     users _usr;
@@ -408,54 +372,30 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
     std::vector<list_bar>    result;
 
     //Set the default size of the vector
-    //The Fill each element with defaults
     result.reserve( elist.size() );
     result.resize( elist.size() );
 
-    ConsoleIO       s(thisuser); // Pass User Incase there are MCI Codes for User Info.
-
-// WIP Private vs Public Title Scan Themes!!
-// Need to check here for ini file and if private area, pull ansi filename
-// from ini file!! Also need to fix hardcloded titlescan lightbars.
-
-//    s . errlog((char *)" * build_titles * ");
-//    strcpy(sININAME,(char *)"msgtitle.ini");
+    ConsoleIO       s(thisuser);
 
     int c = 0;
-    //std::string temp = "";
     std::string path  = "";
     std::string temp3 = "";
 
     FILE *inStream;
     long  idx = 1;
     long  i   = 0;
-//    long  lr  = 0;
 
     char  MCI[3]= {0};
     char  temp2[100]= {0};
     int   space  = 0;
     int   foundr = FALSE;
     int   foundl = FALSE;
-//    int   reset  = FALSE;
 
     std::string ans  = "";
     std::string ans1 = "";
     std::string ans2 = "";
     std::string ans3 = "";
     std::string ans4 = "";
-
-    // Prefetch ansi lightbar themes
-    // These ansi are used as the light bars to be displayed,
-    // We rotate between 4 ansi lightbars.
-    //
-    // 1. Unread Messages
-    // 2. New Messages
-    // 3. Current Selection of Unread
-    // 4. Current Selection of New
-    //
-    // We cache array with all four choices so we can
-    // easily switch between them in the listing.
-
 
     path = ANSIPATH;
     path += "mtitlemid1.ans";
@@ -527,49 +467,29 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
 
     ulong current_msg = 0;  // Read Message Number
     ulong max_titles = elist.size();
-
-    // Get Last Read, to tell which are new.
-    // Not used yet, if we want to compile list of only new messages
-    // instead of entire message area, we should use num_titles = cnt
-    // instead of cnt = 0 on new scans only!
-
     ulong cnt = JamAreaGetLast(thisuser->idx, &mr);
-
     ulong num_titles = 0;
+    
     while(num_titles < max_titles) {
         if (num_titles == max_titles) break;
 
         current_msg = elist[num_titles];
-
-//        s . errlog2((char *)"build_titlelist current %lu, num %lu, max %lu", current_msg, num_titles, max_titles);
-
         res = jamapi_readmsg(&mr, current_msg, &mm, areakind, thisuser);
+        
         if (res) {
-
-            // Should get here anymore, deleted and not found messages are now skipped
-            // over when in the readmsg function above.
-
             // Check return value,  if messaege = NO_MESSAGE, then deleted, skip to next!
             // And there are more messages in this area.
             if (res == JAM_NO_MESSAGE && current_msg <= mm.HighWater) {
-                //++num_titles;
-                //continue; // Skip and goto next message
-//                errlog2((char *)" *** res == JAM_NO_MESSAGE && num_titles < mm.HighWater");
-                MessageDeleted(&mm); // Populated Generic Deleted Message.
+                MessageDeleted(&mm);
             } else {
-                //++num_titles;
-                //continue;  // Skip and goto next message
-//                errlog2((char *)" *** 2. ReadMsgArea: !jamapi_readmsg(&mr, thisuser->lastmsg %lu, &mm) ",thisuser->lastmsg);
-                MessageNotFound(&mm); // Populated Generic Deleted Message.
+                MessageNotFound(&mm);
             }
         }
 
-//      errlog((char *)"2 *** ReadMsgArea: Done, Populate mm2MsgInfo(); ");
         mm2MsgInfo(&mm);
 
         ans = ans2; // Display HighLight None. Current Selection
         ans = ans1; // Dispaly Lowlight None
-
         ans = ans4; // Dispaly HighLight (New Messages) Current Selection
         ans = ans3; // Dispaly LowLight (New Messages)
 
@@ -645,8 +565,6 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
                             foundr = FALSE;
                         }
 
-//                          errlog((char *)" ### mm.Curm CurrentMsg, cnt, num_titles %lu, %lu, %lu, %lu) ",mm.CurrMsg,current_msg, cnt, num_titles);
-                        // New Messages Setup count
                         if (num_titles < cnt) {
                             tbar.isnew = FALSE;
                         } else {
@@ -714,16 +632,6 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
                         }
                         temp3 += temp2;
 
-                        /*
-                        // New Messages Setup count
-                        if (cnt == 0) { // no new
-                            tbar.isnew = FALSE;
-                        }
-                        else {
-                            tbar.isnew = TRUE;
-                        }*/
-
-                        //temp3 += temp2;
                     } else {
                         temp3 += c;
                         temp3 += MCI;
@@ -731,7 +639,6 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
                     break;
 
                 case '\n' :
-                    //  temp3 += '\r';
                     break;
 
                 default :
@@ -762,35 +669,17 @@ vector< list_bar > msg_title::build_titlelist(vector< unsigned long > &elist) //
 
             temp3.erase();
 
-        } // End of (4) Look for each string.
-
-        // Testing only!
-        //      s . errlog((char *)"mbar: 1 %s",tbar . ansi_1.c_str());
-        //      s . errlog((char *)"mbar: 2 %s",tbar . ansi_2.c_str());
-        //      s . errlog((char *)"mbar: 3 %s",tbar . ansi_3.c_str());
-        //      s . errlog((char *)"mbar: 4 %s",tbar . ansi_4.c_str());
-
-
-//        s . pipe2ansi((char *)tbar . ansi_1.c_str());
-//        s . pipe2ansi((char *)tbar . ansi_2.c_str());
-//        s . pipe2ansi((char *)tbar . ansi_3.c_str());
-//        s . pipe2ansi((char *)tbar . ansi_4.c_str());
-
-        //s . startpause();
-
+        }
+        
         result[num_titles] = tbar;
         temp3.erase();
 
         ++num_titles;
         ++idx;
-
     }
 
-//    s . errlog((char *)"build_titles Done!");
-//    s . errlog((char *)"Done, import - return result vector list");
     return result;
 }
-
 
 /**
  * Title Scan - Start Interface
@@ -821,9 +710,7 @@ int msg_title::StartTitleList(int newscan,
 
     // Build Title Scan into Vector List
     vector<list_bar> result;
-    result = build_titlelist(elist); //, qry);
-
-    // populate list with vector class
+    result = build_titlelist(elist);
     mLink.GetVector(result);
 
     std::string _output;
@@ -839,41 +726,29 @@ int msg_title::StartTitleList(int newscan,
     std::string tmp;
     std::string::size_type id1 = 0;
 
-    // Passed From Reader.
-    // Current_BAR is the current light bar position in the list
-    // It's global to the entire class untill we exit back to the msg class.
     CURRENT_BAR = currmsg;
-
 
     // Run through Main Reader Loop until exit from user - This Loop Probably not needed anymore.
     do {
-//      errlog((char *)"* 1. Msg_title Scan - thisuser->lastmsg %lu, CURRENT_BAR %lu",thisuser->lastmsg, CURRENT_BAR);
-
         ParseHeader(sANSI_FILE);
 
-        // Jump to Current Page
         boxsize =  mLink.Bot - mLink.Top;
         CurrentPage = CURRENT_BAR / boxsize;
 
-        //  Make sure we have areas.
         if (result.size() > 0) {
             mLink.box_start_vector(CurrentPage, CURRENT_BAR);
         } else {
-            // No Messages, return.
             return EOF;
         }
 
         mLink.Tot = result.size();
 
         do {
-//          errlog((char *)"3. title_start msg_title() while()");
-//          errlog((char *)"4. *** title_start CurrentPage %lu, CURRENT_BAR %lu",CurrentPage, CURRENT_BAR);
-
             _output.erase();
-            _output = "|16"; // Clear Color Bleeding, reset background to black.
+            _output = "|16"; // Clear Color Bleeding
             more = false;
             showmore = false;
-            //if (mLink.line_count() > 0) more = true;
+
             if (mLink.Page+1 != mLink.TotPages) more = true;
 
             // Show Down Arrow More!
@@ -912,12 +787,9 @@ int msg_title::StartTitleList(int newscan,
 
             pipe2ansi((char *)_output.c_str());
 
-            // Blank out the previous menu so we can reload, / redraw on restart.
-            //memset(&_mnuf._premenu,0,sizeof(_mnuf._premenu));
-
             // Make Msgqp2 Prompt Optional, Use if exists!
             // Also Let user Toggle on / off
-            if (_mnuf.cmdexist(sMENU_PROMPT2,0)) { /*&& thisuser->msgp2*/
+            if (_mnuf.cmdexist(sMENU_PROMPT2,0)) {
                 if ((more == TRUE) ||(mLink.Page > 1)) {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = sMENU_PROMPT2;
@@ -930,7 +802,6 @@ int msg_title::StartTitleList(int newscan,
                 _mnuf._curmenu = sMENU_PROMPT;
             }
 
-
 JMPINPUT1:
 
             _mnuf.menu_readin();
@@ -940,7 +811,7 @@ JMPINPUT1:
             strcpy(text,sINPUT_BOX);
 
             sprintf(outBuffer,"%d",mLink.Tot);
-            len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
+            len = strlen(outBuffer)+1;
 
             memset(&text,0, sizeof(text));
             strcpy(text,sINPUT_BOX);
@@ -949,8 +820,6 @@ JMPINPUT1:
             _output += "|16";
 
             pipe2ansi((char *)_output.c_str());
-
-//          errlog((char *)"* 5. Msg_title Scan - thisuser->lastmsg %lu, CURRENT_BAR %lu",thisuser->lastmsg, CURRENT_BAR);
 
             _mnuf.menu_proc(mString, CURRENT_BAR);
             ch = mString[1];
@@ -967,9 +836,6 @@ JMPINPUT1:
                 case 'U': // Page Up
                     if (CurrentPage != 0) {
                         --CurrentPage;
-
-                        // Reset Bar to first Listing on each Page.
-                        // CurrentPage = CURRENT_BAR / boxsize;
                         CURRENT_BAR = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                     } else
@@ -979,9 +845,6 @@ JMPINPUT1:
                 case 'D': // Page Down
                     if (CurrentPage+1 != mLink.TotPages) {
                         ++CurrentPage;
-
-                        // Reset Bar to first Listing on each Page.
-                        // CurrentPage = CURRENT_BAR / boxsize;
                         CURRENT_BAR = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                     } else
@@ -991,9 +854,7 @@ JMPINPUT1:
                     // hit ENTER
                 case 'E': // Read Selected Message
                     mLink.dispose_list();
-                    vector<list_bar>() . swap(result); // Free Vector Up.
-
-                    // -3 Means to Read CURRENT_BAR.
+                    vector<list_bar>() . swap(result);
                     return -3;
 
                 case '+': // Next Message - Move Down
@@ -1002,19 +863,11 @@ JMPINPUT1:
                         goto JMPINPUT1;
 
                     ++CURRENT_BAR;
-
-//                    PreviousPage = CurrentPage;
-
-                    //Calculate if we go down, ++Current Area, are we on next page or not.
-                    // Becasue 0 Based, need to add +1
-                    // Test if we moved to next page.
                     if ((signed)CURRENT_BAR+1 < (boxsize*(CurrentPage+1))+1) {
                         // Still on Same Page
                         if (mLink.listing[CURRENT_BAR-1].isnew) {
-                            // Lowlight Current, then Highlight Next.
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR-1].ansi_3.c_str());
                         } else {
-                            // Lowlight Current, then Highlight Next.
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR-1].ansi_1.c_str());
                         }
 
@@ -1029,7 +882,7 @@ JMPINPUT1:
                         pipe2ansi((char *)_output.c_str());
                         _output.erase();
 
-                        goto JMPINPUT1; //Not moving down a page.
+                        goto JMPINPUT1;
 
                     } else {
                         // Move to next Page!
@@ -1038,21 +891,13 @@ JMPINPUT1:
                         break;
                     }
                 case '-': // Previous Messasge - Move Up
-
                     // Skipping to JMPINPUT bypasses redraws, much faster!
                     if (CURRENT_BAR > 0 && mLink.listing.size() != 0)
                         --CURRENT_BAR;
                     else
                         goto JMPINPUT1;
 
-//                    PreviousPage = CurrentPage;
-
-                    //Calculate if we go down, --Current Area, are we on next page or not.
-                    // Becasue 0 Based, need to add +1
-                    // Test if we moved to next page.
                     if ((signed)CURRENT_BAR+1 > (boxsize*(CurrentPage))) {
-                        // Still on Same Page
-                        // Lowlight Current, then Highlight Next.
                         if (mLink.listing[CURRENT_BAR+1].isnew) {
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_BAR+1].ansi_3.c_str());
                         } else {
@@ -1072,44 +917,33 @@ JMPINPUT1:
                         goto JMPINPUT1; //Not moving down a page.
 
                     } else {
-                        // Move to next Page!
                         --CurrentPage;
                         mLink.box_start_vector(CurrentPage,CURRENT_BAR);
-                        //goto JMPINPUT1;
                     }
                     break;
 
                 case 'Q': // Quit Received, Hard Exit.
                     mLink.dispose_list();
-                    vector<list_bar>() . swap(result); // Free Vector Up.
+                    vector<list_bar>() . swap(result);
                     return EOF;
 
                 case '?': // Help FileAreaScan (
-
-                    ansiPrintf(sANSI_HELP); // Display Ansi Help file,
+                    ansiPrintf(sANSI_HELP);
                     getkey(true);
-                    ParseHeader(sANSI_FILE); // Redisplay Display Ansi
+                    ParseHeader(sANSI_FILE);
                     mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                     break;
-
-                    // Pass through, any functionaly that should
-                    // Be handeled in Reader.
-                    // to the Message Reader. ie post ,reply, delete...
+                    
                 default :
-
                     mLink.dispose_list();
-                    vector<list_bar>() . swap(result); // Free Vector Up.
-
-                    // Don't exit, just return with pass through command.
-                    //CURRENT_BAR = EOF;
+                    vector<list_bar>() . swap(result);
                     return (char)toupper(ch);
                 }
             } else if (mString[0] == '#') {
-                // received Digit Input From Menu Prompt
                 memset(&rBuffer,0, sizeof(rBuffer));
                 memset(&text,0, sizeof(text));
                 strcpy(text,sINPUT_BOX);
-                //len = 14;
+
                 inputfield(text,len);
                 pipe2ansi(text);
                 sprintf(sNum,"%c",ch);
@@ -1119,30 +953,24 @@ JMPINPUT1:
                 id1 = atoi(rBuffer);
 
                 if (id1 > mLink.listing.size() || id1 < 1) {
-                    // Redraw input box
                     memset(&text,0, sizeof(text));
                     strcpy(text,sINPUT_BOX);
-                    //len = 14;
                     inputfield(text,len);
                     pipe2ansi(text);
                     goto JMPINPUT1;
                 } else {
                     CURRENT_BAR = id1-1;
-
-                    // Jump to Current Page
                     CurrentPage = CURRENT_BAR / boxsize;
-                    ParseHeader(sANSI_FILE); // Display Ansi
+                    ParseHeader(sANSI_FILE);
                     mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                 }
             } else { // End [#]
                 // For Escaped Key Input
-                //startpause();  // Shouldn't get here...
                 ch = mString[0];
                 switch (toupper(ch)) {
                 case 'A':
                     if (CurrentPage != 0) {
                         --CurrentPage;
-                        // Reset Bar to first Listing on each Page.
                         CURRENT_BAR = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                     } else
@@ -1152,7 +980,6 @@ JMPINPUT1:
                 case 'B':
                     if (CurrentPage+1 != mLink.TotPages) {
                         ++CurrentPage;
-                        // Reset Bar to first Listing on each Page.
                         CURRENT_BAR = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                     } else
@@ -1160,13 +987,12 @@ JMPINPUT1:
                     break;
 
                 default :
-                    // Redraw and refresh listing.
-                    vector<list_bar>() . swap(result); // Free Vector Up.
+                    vector<list_bar>() . swap(result);
                     tmp.erase();
-                    result = build_titlelist(elist); //, qry);
+                    result = build_titlelist(elist);
                     mLink.GetVector(result);
 
-                    ParseHeader(sANSI_FILE); // Display Ansi
+                    ParseHeader(sANSI_FILE);
                     mLink.box_start_vector(CurrentPage,CURRENT_BAR);
                     break;
                 } // Switch ch

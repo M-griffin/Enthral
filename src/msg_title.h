@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,25 +12,17 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: msg_title.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_title.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef MSG_TITLE_H
 # define MSG_TITLE_H
 
 
 # include "struct.h"
-# include "mb_api.h"       // Mainly for SESSION and i/o functions.
+# include "mb_api.h"
 # include "msgs.h"
 
 # include <string>
 # include <vector>
 # include <stdint.h>
-
-//# define ulong unsigned long
 
 typedef struct msgtitle_ini {
 
@@ -70,8 +62,6 @@ typedef struct msgtitle_ini {
 
 class msg_title : private mbapi_jam, msgtitle_ini, msgs
 {
-
-    //private:
     UserRec *thisuser;
 
 public:
@@ -84,7 +74,7 @@ public:
     msg_title();
 
     std::vector<list_bar>
-    build_titlelist(vector<unsigned long> &elist);//, Query &qry);
+    build_titlelist(vector<unsigned long> &elist);
 
     void  ParseHeader(char *filename);
     int   change_theme(int idx);

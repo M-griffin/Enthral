@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,16 +12,9 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: msg_area.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_area.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef MSG_AREA_H
 # define MSG_AREA_H
 
-//# include <time.h>
 # include <string>
 # include <vector>
 
@@ -79,16 +72,13 @@ public:
     void init_db();
 
     std::vector<mb_list_rec> read_areas();
-    std::vector<list_bar> build_arealist(UserRec *usr, std::string &temp);//, Query &qry);
+    std::vector<list_bar> build_arealist(UserRec *usr, std::string &temp);
 
 
     void ParseHeader(char *filename);
     int  change_theme(int idx);
     void SetupList(UserRec *user);
-    //char *StartList(char *OrgMsg);
-
     char *StartList();
-    //char *StartList(Query &qry);
 
 };
 

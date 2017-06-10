@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Message Area Full Screen Listing                             *
@@ -11,12 +11,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: msg_area.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_area.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "language.h"
@@ -199,13 +193,10 @@ void msgarea_ini::msga_check(std::string cfgdata)
  */
 int msgarea_ini::msga_parse(int idx)
 {
-
     if (!msga_exists()) {
         perror("Error unable to read msgarea.ini, check permissions!");
         return 0;
     }
-
-    //msga_create();
 
     char name[255]= {0};
     char name2[255]= {0};
@@ -247,40 +238,15 @@ int msgarea_ini::msga_parse(int idx)
  */
 msg_area::msg_area()
 {
-
     tTop     = 1;
     tBot     = 1;
 }
-
 
 /**
  * Message Area - Startup
  */
 void msg_area::init_db()
 {
-
-
-    /*
-    bbs_cfg bcfg;
-    bcfg.parseconfig();
-
-    // Setup in Config file now.
-    std::string node = bcfg.SQL_LOGINSERVER,
-        base = bcfg.SQL_DATABASENAME,
-        user = bcfg.SQL_LOGINNAME,
-        pass = bcfg.SQL_LOGINPASSWORD;
-
-    StderrLog       log;
-    std::string     err;
-    Database::Mutex mutex;
-
-    Database db(mutex,node,user,pass,base, (IError*)&log);
-    Query q(db);
-    if (!q.Connected()) {
-        cout << "\r\nSQL: Not Connected!" << endl;
-    }
-    StartList(q);
-    */
     StartList();
 }
 
@@ -290,32 +256,9 @@ void msg_area::init_db()
  */
 vector< mb_list_rec > msg_area::read_areas()
 {
-
-    /*
-    bbs_cfg bcfg;
-    bcfg.parseconfig();
-
-    // Setup in Config file now.
-    std::string node = bcfg.SQL_LOGINSERVER,
-        base = bcfg.SQL_DATABASENAME,
-        user = bcfg.SQL_LOGINNAME,
-        pass = bcfg.SQL_LOGINPASSWORD;
-
-    StderrLog       log;
-    std::string     err;
-    Database::Mutex mutex;
-
-    Database db(mutex,node,user,pass,base, (IError*)&log);
-    Query q(db);
-    if (!q.Connected()) {
-        cout << "\r\nSQL: Not Connected!" << endl;
-    }*/
-
     ConsoleIO s;
     mb_list_rec mbl;
     std::vector< mb_list_rec > result;
-
-//    s . errlog((char *)"read_areas");
 
     ulong idx = 0; //Start at 1, 0 is Email, skip email is public area listing
     while(read_mbaselist(&mbl,idx)) {
@@ -324,53 +267,6 @@ vector< mb_list_rec > msg_area::read_areas()
         ++idx;
     }
 
-    /*
-        ulong in = 0;
-        q . get_result("SELECT msg_area, msg_desc, msg_type, msg_status, msg_group_id, msg_security_id FROM marea_cfg order by sortorder");
-        ulong numrows = q . num_rows(); // get how many rows returned.
-
-        //cout << "\r\nNumrows: " << numrows << endl;
-        s . errlog((char *)"Numrows: ",numrows);
-
-        in = 0;
-        while(q . fetch_row()) {
-            //s . errlog((char *)"loop");
-            ++in;
-            std::string str;
-
-            str = q . getstr(0);
-            //s . errlog((char *)"msg_area: %s",str.c_str());
-            snprintf((char *)mbl . msg_area, sizeof(mbl . msg_area), "%s", str.c_str());
-
-            str = q . getstr(1);
-            //s . errlog((char *)"msg_desc: %s",str.c_str());
-            snprintf((char *)mbl . msg_desc, sizeof(mbl . msg_desc), "%s", str.c_str());
-
-            mbl . msg_type         = q . getval(2);
-            mbl . msg_status       = q . getval(3);
-            mbl . msg_group_id     = q . getval(4);
-            mbl . msg_security_id  = q . getval(5);
-
-            result . push_back(mbl);
-        }
-
-
-        //s . errlog((char *)"read_areas cnt: %lu", in);
-        q . free_result();
-
-        s . errlog((char *)"read_areas Done!");
-
-        // Just looping through to test results not really needed.
-        ulong max_areas = result.size();
-        s . errlog((char *)"vector max_areas: %lu",max_areas);
-    */
-
-
-    /*  Testing.
-    for (ulong i = 0; i != max_areas; i++) {
-        s . errlog((char *)"vector str1: %s",(char *)result[i].msg_area);
-        s . errlog((char *)"vector str2: %s",(char *)result[i].msg_desc);
-    } */
     return result;
 }
 
@@ -383,16 +279,13 @@ vector< mb_list_rec > msg_area::read_areas()
  */
 vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   //, Query &qry) {
 {
-
     mb_list_rec mbl;
 
     list_bar                 mbar;
     std::vector<list_bar>    result;
     std::vector<mb_list_rec> mareas;
 
-    ConsoleIO       s(usr); // Pass User Incase there are MCI Codes for User Info.
-
-//    s . errlog((char *)" * build_areas * ");
+    ConsoleIO       s(usr);
 
     int c = 0;
     //std::string temp = "";
@@ -405,16 +298,12 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
     long  idx = 1;
     long  cnt = 0;
     long  i   = 0;
-//    long  basenum = 0;
-//    long  lr  = 0;
 
     char  MCI[3]= {0};
     char  temp2[100]= {0};
     int   space  = 0;
     int   foundr = FALSE;
     int   foundl = FALSE;
-//    int   reset  = FALSE;
-//    int   dont   = FALSE;
 
     std::string ans  = "";
     std::string ans1 = "";
@@ -467,33 +356,16 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
     }
     fclose(inStream);
 
-    int area_cnt = 0;
-
-    /*
-    qry.get_result("SELECT COUNT(*) FROM marea_cfg");
-    qry.fetch_row();
-    basenum = qry.getval();
-    qry.free_result();
-    */
-    //while(read_mbaselist(&mb,idx)) {
-    // Read All Areas
-    mareas          = read_areas();
-
+    int area_cnt   = 0;    
+    mareas         = read_areas();
     long num_areas = 0;
     long max_areas = mareas.size();
-
-
-    //s . errlog((char *)"build_arealist basenum   %lu", basenum);
-//    s . errlog((char *)"build_arealist max_areas %lu", max_areas);
-    usr->lastmsg = 0;
+    usr->lastmsg   = 0;
 
     while(area_cnt < max_areas) {
 
         if (num_areas == max_areas) break;
         mbl = mareas[num_areas];
-
-//		s . errlog((char *)"build_arealist mbl . idx %lu", mbl.idx);
-
         ++num_areas;
         ++idx;
 
@@ -502,10 +374,7 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
 
         ans = ans4; // Dispaly HighLight (New Messages)
         ans = ans3; // Dispaly LowLight (New Messages)
-
-//        reset = FALSE;
         temp3.erase();
-
 
         for (int icnt = 0; icnt < 4; icnt++) {
 
@@ -603,26 +472,6 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
                         // Count how many unread messages
                         cnt = CountNewMsgs(mbl . idx,usr);
 
-                        /*
-                        if (cnt == -1) cnt = 0;
-                        //else ++cnt;
-
-                        lr = JamAreaGetLast(usr->idx,&mbl);
-                        lr = 0;
-                        if (lr == -1)   lr = 0;
-                        if (lr > cnt )  lr = cnt;
-                        else if (lr != 0) --lr;
-                        if (cnt == 0)   lr = 0;
-
-                        // Re-Process and Reset to Correct Mid Ansi
-                        //if (cnt-lr >= 1 && reset == FALSE && (ans != ans2 || ans != ans4)) {
-                        //    reset = TRUE;
-                        //    goto RESTART;
-                        //}
-
-                        */
-
-                        // sprintf(temp2,"%ld",cnt-lr);
                         sprintf(temp2,"%ld",cnt);
                         if (foundl) {
                             s.lspacing(temp2,space);
@@ -646,7 +495,6 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
                     break;
 
                 case '\n' :
-                    //  temp3 += '\r';
                     break;
 
                 default :
@@ -676,36 +524,15 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
                 break;
             }
 
-            //result . push_back(mbar);
-            //temp += temp3;
             temp3.erase();
 
-        } // End of (4) Look for each string.
-
-        /*
-        s . errlog((char *)"mbar: 1 %s",mbar . ansi_1.c_str());
-        s . errlog((char *)"mbar: 2 %s",mbar . ansi_2.c_str());
-        s . errlog((char *)"mbar: 3 %s",mbar . ansi_3.c_str());
-        s . errlog((char *)"mbar: 4 %s",mbar . ansi_4.c_str());
-
-
-        s . pipe2ansi((char *)mbar . ansi_1.c_str());
-        s . pipe2ansi((char *)mbar . ansi_2.c_str());
-        s . pipe2ansi((char *)mbar . ansi_3.c_str());
-        s . pipe2ansi((char *)mbar . ansi_4.c_str());
-        */
-        //s . startpause();
+        }
 
         result . push_back(mbar);
         temp3.erase();
 
         ++area_cnt;
-        //s . errlog((char *)"area_cnt: %i",area_cnt);
-
     }
-    // Update Clear Screen
-//    s . errlog((char *)"build_areas Done!");
-//    s . errlog((char *)"Done, import - return result vector list");
     return result;
 }
 
@@ -716,7 +543,6 @@ vector< list_bar > msg_area::build_arealist(UserRec *usr, std::string &temp)   /
  */
 void msg_area::ParseHeader(char *filename)
 {
-
     std::string temp;
     std::string path = ANSIPATH;
     path += filename;
@@ -727,7 +553,6 @@ void msg_area::ParseHeader(char *filename)
     char MCI[3]     = {0};   // Holds MCI Codes to Parse
     char sTemp[255] = {0};
     int  space = 0, foundr = 0 , foundl = 0;
-//    int  c = 0;
     std::string buff;
 
     // Reads in Ansi file into Buffer Only
@@ -736,32 +561,27 @@ void msg_area::ParseHeader(char *filename)
 
     int id1 = 0;
     while (id1 != -1) {
-        // parse justify spacing right / left passing in string before
-        // replacing mci code. to Properly Space Output Ansi.
         id1 = buff.find("%", 0);
         if (id1 == -1) break;
         memset(&MCI,0,sizeof(MCI));
         space = 0;
-        // Check if MCI Code is Justified then Process this.
+
         if (buff[id1+3] == '{') { // Left Justify
-            //elog("left justify: %c%c",buff[id1+4],buff[id1+5]);
-            MCI[0] = buff[id1+4]; // Get first Digit
-            MCI[1] = buff[id1+5]; // Get Second Digit
+            MCI[0] = buff[id1+4];
+            MCI[1] = buff[id1+5];
             space  = atoi(MCI);
             foundr = FALSE;
             foundl = TRUE;
         } else if (buff[id1+3] == '}') { // Right Justify
-            //elog("right justify: %c%c",buff[id1+4],buff[id1+5]);
-            MCI[0] = buff[id1+4]; // Get first Digit
-            MCI[1] = buff[id1+5]; // Get Second Digit
+            MCI[0] = buff[id1+4];
+            MCI[1] = buff[id1+5];
             space  = atoi(MCI);
-            //elog("right justify: %i",space);
             foundl = FALSE;
             foundr = TRUE;
         }
         // Now Get MCI Code
-        MCI[0] = buff[id1+1]; // Get first Digit
-        MCI[1] = buff[id1+2]; // Get Second Digit
+        MCI[0] = buff[id1+1];
+        MCI[1] = buff[id1+2];
 
         memset(&sTemp,0,sizeof(sTemp));
         // Insert MCI Parsing here so we can reaplace full result with propering spacing.
@@ -770,7 +590,6 @@ void msg_area::ParseHeader(char *filename)
         } else if (strcmp(MCI,"TH") == 0) {
             sprintf(sTemp,"%s", (char *)sTHEME_NAME);
         }
-
 
         // MCI Translation .
         if (foundl == TRUE) {
@@ -781,10 +600,9 @@ void msg_area::ParseHeader(char *filename)
 
         //If we Parsed Justify, then Erase that MCI Code as well.
         (space != 0) ?
-        buff.replace(id1,6,sTemp):
-        buff.replace(id1,3,sTemp);
+            buff.replace(id1,6,sTemp):
+            buff.replace(id1,3,sTemp);
     }
-    //elog("Finished Parsing MCI Codes...");
     pipe2ansi((char *)buff.c_str());
 }
 
@@ -794,9 +612,7 @@ void msg_area::ParseHeader(char *filename)
  */
 void msg_area::SetupList(UserRec *user)
 {
-
     thisuser = user;
-    // Check What Theme user has selected.
     if (msga_parse(thisuser->readertheme) == FALSE) {
         msga_parse();
     }
@@ -809,10 +625,8 @@ void msg_area::SetupList(UserRec *user)
  */
 int msg_area::change_theme(int idx)
 {
-
     // Check What Theme user has selected.
     if (msga_parse(idx) == FALSE) {
-        // Theme Doesn't Exist.
         return FALSE;
     }
     thisuser->readertheme = idx;
@@ -830,13 +644,11 @@ int msg_area::change_theme(int idx)
     return TRUE;
 }
 
-
 /**
  * Message Areas - Area List Startup.
  */
 char *msg_area::StartList()
 {
-
     bool more 		 = false;
     bool showmore    = false;
     char mString[10] = {0};
@@ -844,8 +656,6 @@ char *msg_area::StartList()
     std::string _output;
     char outBuffer[200];
 
-    // Startup Friend Classes
-    //language    _lang;
     menu_func   _mnuf;
     msg_readll  mLink;
 
@@ -857,8 +667,6 @@ char *msg_area::StartList()
     // Then ReRead before passing copy to message system.
     _usr.users_write(thisuser,thisuser->idx);
     _usr.users_read(&usr,thisuser->idx);
-
-//	 errlog((char *)"Build AreaList - ThisUserID %lu, %s",usr.idx, usr.handle);
 
     ConsoleIO s(&usr);
 
@@ -874,65 +682,49 @@ char *msg_area::StartList()
     std::string rBuff;
 
     std::string::size_type id1 = 0; //id2,
-//    int num, num2;
     int len;
 
     std::string tmp;
-//    UserRec trec;
 
     // For Next / Prev Message Areas
     int CurrentPage  = 0;
-//    int PreviousPage = 0;
     int bSize        = 0;
     int boxsize      = 0;
 
     bSize = tBot - tTop;
     ++bSize;
 
-
-    //CURRENT_MAREA   = 0;
-    //usr.lastmbarea = 0;
-
-    // Run through Main Loop until exit from user - This Loop Probably not needed anymore.
     vector<list_bar> result;
-
-//    errlog((char *)"Build AreaList - UserID %lu, %lu",usr.idx, usr.handle);
-    result = build_arealist(&usr, tmp); //, qry);
+    result = build_arealist(&usr, tmp);
 
     mLink.GetVector(result);
 
     while (1) {
-        // Jump to Current Page
         boxsize =  mLink.Bot - mLink.Top;
         CurrentPage = CURRENT_MAREA / boxsize;
 
-        ParseHeader(sANSI_FILE);	      // Display Ansi
-        //tmp.erase();
+        ParseHeader(sANSI_FILE);
 
-//        errlog((char *)"PutBuffer msg_area()");
-        //  Make sure we have areas.
         if (result.size() > 0) {
-            mLink.box_start_vector(CurrentPage,CURRENT_MAREA);            // Draw Message Inside of Box
+            mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
         } else {
             return NULL;
         }
 
-//        errlog((char *)"box_start done msg_area()");
         // Start Input Loop.
         while(1) {
             _output.erase();
             _output = "|16";
             more = false;
             showmore = false;
-            //if (mLink.line_count() > 0) more = true;
             if (mLink.Page+1 != mLink.TotPages) more = true;
 
             // Show Down Arrow More!
             if (more) {
-                sprintf(outBuffer,"%s\x19",sMOREDOWN); 	// On
+                sprintf(outBuffer,"%s\x19",sMOREDOWN);
                 showmore = true;
             } else {
-                sprintf(outBuffer,"%s ",sMOREDOWN);		// Off
+                sprintf(outBuffer,"%s ",sMOREDOWN);
             }
             _output += outBuffer;
 
@@ -963,12 +755,9 @@ char *msg_area::StartList()
 
             pipe2ansi((char *)_output.c_str());
 
-            // Blank out the previous menu so we can reload, / redraw on restart.
-            //memset(&_mnuf._premenu,0,sizeof(_mnuf._premenu));
-
             // Make Msgqp2 Prompt Optional, Use if exists!
             // Also Let user Toggle on / off
-            if (_mnuf.cmdexist(sMENU_PROMPT2,0) /*&& thisuser->msgp2*/ ) {
+            if (_mnuf.cmdexist(sMENU_PROMPT2,0)) {
                 if (more || mLink.Page > 1) {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = sMENU_PROMPT2;
@@ -981,8 +770,7 @@ char *msg_area::StartList()
                 _mnuf._curmenu = sMENU_PROMPT;
             }
 
-            // Readin the Menu Prompt and get or wait for input.
-// So we don't reload all of the menu and propmts for a bad key, just ask again!
+            // Readin the Menu Prompt and get or wait for input.        
 JMPINPUT:
 
             // Draw Input Box
@@ -990,13 +778,12 @@ JMPINPUT:
             strcpy(text,sINPUT_BOX);
 
             sprintf(outBuffer,"%d",mLink.Tot);
-            len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
+            len = strlen(outBuffer)+1;
             inputfield(text,len);
 
             _output = text;
             _output += "|16";
             pipe2ansi((char *)_output.c_str());
-
 
             _mnuf.menu_readin();
             _mnuf.menu_proc(mString);
@@ -1007,18 +794,13 @@ JMPINPUT:
                 switch (toupper(ch)) {
                 case 'Q': // Quit
                     mLink.dispose_list();
-                    //_mnuf.~menu_func();
                     memcpy(thisuser,&usr,sizeof(UserRec));
-//						errlog((char *)thisuser->handle);
-                    vector<list_bar>() . swap(result); // Free Vector Up.
-                    return NULL; //qBuf;
+                    vector<list_bar>() . swap(result);
+                    return NULL;
 
                 case 'U':  // UP
                     if (CurrentPage != 0) {
                         --CurrentPage;
-
-                        // Reset Bar to first Listing on each Page.
-                        // CurrentPage = CURRENT_MAREA / boxsize;
                         CURRENT_MAREA = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                     } else
@@ -1028,9 +810,6 @@ JMPINPUT:
                 case 'D': // DN
                     if (CurrentPage+1 != mLink.TotPages) {
                         ++CurrentPage;
-
-                        // Reset Bar to first Listing on each Page.
-                        // CurrentPage = CURRENT_MAREA / boxsize;
                         CURRENT_MAREA = CurrentPage * boxsize;
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                     } else
@@ -1038,62 +817,38 @@ JMPINPUT:
                     break;
 
                 case '+': // Next Area - Move Down
-
-//		                s . errlog((char *)"CURRENT_MAREA+1: %i. Listing: %i ", CURRENT_MAREA+1,mLink.listing.size());
                     if (CURRENT_MAREA+1 == (signed)mLink.listing.size() || (signed)mLink.listing.size() == 0)
                         goto JMPINPUT;
 
                     ++CURRENT_MAREA;
                     thisuser->lastmbarea = CURRENT_MAREA;
-
-//		                s . errlog((char *)"CurrentPage: %i. PreviousPage: %i ", CurrentPage, PreviousPage);
-//		                s . errlog((char *)"boxsize: %i. TotPages: %i. Page: %i ", boxsize, mLink.TotPages,  mLink.Page);
-//                    PreviousPage = CurrentPage;
-
-                    //Calculate if we go down, ++Current Area, are we on next page or not.
-                    // Becasue 0 Based, need to add +1
-                    // Test if we moved to next page.
                     if (CURRENT_MAREA+1 < (boxsize*(CurrentPage+1))+1) {
                         // Still on Same Page
                         if (mLink.listing[CURRENT_MAREA-1].isnew) {
-//								errlog((char *)"!!! isNEW = 'Y' 3");
-//								s . errlog((char *)"CURRENT_MAREA+1 %i < (boxsize*CurrentPage+1)+1, %i",CURRENT_MAREA+1,boxsize*(CurrentPage+1)+1);
-                            // Lowlight Current, then Highlight Next.
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA-1].ansi_3.c_str());
-//								s . errlog((char *)rBuffer);
                         } else {
-//								errlog((char *)"!!! isNEW = 'N' 1");
-//								s . errlog((char *)"CURRENT_MAREA+1 %i < (boxsize*CurrentPage+1)+1, %i",CURRENT_MAREA+1,boxsize*(CurrentPage+1)+1);
-                            // Lowlight Current, then Highlight Next.
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA-1].ansi_1.c_str());
-//								s . errlog((char *)rBuffer);
                         }
 
                         _output += rBuffer;
                         mLink.current_selection += 1;
                         if (mLink.listing[CURRENT_MAREA].isnew) {
-///								errlog((char *)"!!! isNEW = 'Y' 4");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_4.c_str());
-//								s . errlog((char *)rBuffer);
                         } else {
-//								errlog((char *)"!!! isNEW = 'N' 2");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_2.c_str());
-//								s . errlog((char *)rBuffer);
                         }
                         _output += rBuffer;
                         pipe2ansi((char *)_output.c_str());
                         _output.erase();
-                        goto JMPINPUT; //Not moving down a page.
+                        goto JMPINPUT;
                     } else {
                         // Move to next Page!
-//		                    s . errlog((char *)"DN - CURRENT_MAREA !< Move next Page");
                         ++CurrentPage;
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                     }
                     break;
 
                 case '-': // Previous Area - Move Up
-                    // Skipping to JMPINPUT bypasses redraws, much faster!
                     if (CURRENT_MAREA != 0)
                         --CURRENT_MAREA;
                     else
@@ -1103,67 +858,38 @@ JMPINPUT:
                         goto JMPINPUT;
 
                     thisuser->lastmbarea = CURRENT_MAREA;
-
-//				        s . errlog((char *)"!!! CurrentPage: %i. PreviousPage: %i ", CurrentPage, PreviousPage);
-//				        s . errlog((char *)"boxsize: %i. TotPages: %i. Page: %i ", boxsize, mLink.TotPages,  mLink.Page);
-//                    PreviousPage = CurrentPage;
-
-//						s . errlog((char *)"!!! CurrentPage: %i. PreviousPage: %i ", CurrentPage, PreviousPage);
-                    //Calculate if we go down, --Current Area, are we on next page or not.
-                    // Becasue 0 Based, need to add +1
-                    // Test if we moved to next page.
                     if (CURRENT_MAREA+1 > (boxsize*(CurrentPage))) {
-                        // Still on Same Page
-//				            s . errlog((char *)"CURRENT_MAREA+1 %i > (boxsize*CurrentPage+1)+1, %i",CURRENT_MAREA+1, ((boxsize*CurrentPage)+1) );
-                        // Lowlight Current, then Highlight Next.
                         if (mLink.listing[CURRENT_MAREA+1].isnew) {
-//								errlog((char *)"!!! isNEW = 'Y' 1");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA+1].ansi_3.c_str());
-//								s . errlog((char *)rBuffer);
+
                         } else {
-//								errlog((char *)"!!! isNEW = 'N' 3");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA+1].ansi_1.c_str());
-//								s . errlog((char *)rBuffer);
                         }
 
                         _output = rBuffer;
                         mLink.current_selection -= 1;
 
                         if (mLink.listing[CURRENT_MAREA].isnew) {
-//								errlog((char *)"!!! isNEW = 'Y' 4");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_4.c_str());
-//								s . errlog((char *)rBuffer);
                         } else {
-//								errlog((char *)"!!! isNEW = 'N' 2");
                             sprintf(rBuffer, "\x1b[%i;%iH|16%s", mLink.current_selection, 1, (char *)mLink.listing[CURRENT_MAREA].ansi_2.c_str());
-//								s . errlog((char *)rBuffer);
                         }
                         _output += rBuffer;
 
                         pipe2ansi((char *)_output.c_str());
                         _output.erase();
-//							s . errlog((char *)"CurrentPage: %i. PreviousPage: %i ", CurrentPage, PreviousPage);
-//				            s . errlog((char *)"boxsize: %i. TotPages: %i. Page: %i ", boxsize, mLink.TotPages,  mLink.Page);
-                        goto JMPINPUT; //Not moving down a page.
+                        goto JMPINPUT;
                         break;
                     } else {
-                        // Move to next Page!
-//				            s . errlog((char *)"2!!!! UP - CURRENT_MAREA !< Move prev Page");
-//							s . errlog((char *)"First CurrentPage: %i. PreviousPage: %i ", CurrentPage, PreviousPage);
                         --CurrentPage;
-//							s . errlog((char *)"Now CurrentPage: %i. PreviousPage: %i ", CurrentPage, PreviousPage);
-//				            s . errlog((char *)"boxsize: %i. TotPages: %i. Page: %i ", boxsize, mLink.TotPages,  mLink.Page);
-
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
-                        //goto JMPINPUT;
                     }
                     break;
 
                 default : // Executing a menu command and returning back to list.
-                    //goto JMPINPUT;
-                    vector<list_bar>() . swap(result); // Free Vector Up.
+                    vector<list_bar>() . swap(result);
                     tmp.erase();
-                    result = build_arealist(&usr, tmp); //, qry);
+                    result = build_arealist(&usr, tmp);
                     mLink.GetVector(result);
 
                     ParseHeader(sANSI_FILE);
@@ -1173,64 +899,43 @@ JMPINPUT:
             } // of IF [!]
             else {
                 if (mString[0] == '#') {
-//		            s . errlog((char *)"# - CURRENT_MAREA ");
-                    // received Digit Input From Menu Prompt
                     memset(&rBuffer,0, sizeof(rBuffer));
                     memset(&text,0, sizeof(text));
                     strcpy(text,sINPUT_BOX);
 
                     sprintf(outBuffer,"%d",mLink.Tot);
-                    len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
+                    len = strlen(outBuffer)+1;
 
                     inputfield(text,len);
                     pipe2ansi(text);
                     sprintf(sNum,"%c",ch);
                     getline(rBuffer,len,sNum);
-//                    num = 0;
-//                    num2 = 0;
-                    // Catch any invalid input
                     id1 = atoi(rBuffer);
-
-                    //if (id1 == 0)
-                    //goto JMPINPUT;
 
                     // Verify Area Input Range.
                     if (id1 > mLink.listing.size() || id1 < 1) {
-//		                s . errlog((char *)"# - Incorrect Input");
-                        // Redraw input box
                         memset(&text,0, sizeof(text));
                         strcpy(text,sINPUT_BOX);
-
                         sprintf(outBuffer,"%d",mLink.Tot);
-                        len = strlen(outBuffer)+1; // Last Ourbuf is Message Number
-
+                        len = strlen(outBuffer)+1;
                         inputfield(text,len);
                         pipe2ansi(text);
                         goto JMPINPUT;
                     } else {
-//		                s . errlog((char *)"# - Jump to area id1 %i",id1);
-                        //Justjump to area, then reset to page that area is in.
                         CURRENT_MAREA = id1-1;
                         thisuser->lastmbarea = CURRENT_MAREA;
-
-                        // Jump to Current Page
                         CurrentPage = CURRENT_MAREA / boxsize;
-//		                s . errlog((char *)"# - Jump to area box_start_vector - CurrentPage %i",CurrentPage);
                         ParseHeader(sANSI_FILE);
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
-                        //           mLink.box_start_vector(CurrentPage);
                     }
                 } // End if [#]
                 else {
                     // Not #, Check for Escaped Key Input
-
                     ch = mString[0];
                     switch (toupper(ch)) {
                     case 'A':  // UP
                         if (CurrentPage != 0) {
                             --CurrentPage;
-
-                            // Reset Bar to first Listing on each Page.
                             CURRENT_MAREA = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                         } else
@@ -1240,7 +945,6 @@ JMPINPUT:
                     case 'B': // DN
                         if (CurrentPage+1 != mLink.TotPages) {
                             ++CurrentPage;
-                            // Reset Bar to first Listing on each Page.
                             CURRENT_MAREA = CurrentPage * boxsize;
                             mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                         } else
@@ -1248,12 +952,10 @@ JMPINPUT:
                         break;
 
                     default :
-
-                        vector<list_bar>() . swap(result); // Free Vector Up.
+                        vector<list_bar>() . swap(result);
                         tmp.erase();
-                        result = build_arealist(&usr, tmp); //, qry);
+                        result = build_arealist(&usr, tmp);
                         mLink.GetVector(result);
-
                         ParseHeader(sANSI_FILE);
                         mLink.box_start_vector(CurrentPage,CURRENT_MAREA);
                         break;

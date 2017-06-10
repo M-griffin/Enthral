@@ -578,7 +578,7 @@ void ConsoleIO::node_message(int display)
 
             if (toupper(c) == 'Q' || c == 27) {
                 return;
-            } else if (c == 10 || c == '\n') {
+            } else if (c == '\n') {
                 continue;
             }
 
