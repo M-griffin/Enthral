@@ -24,7 +24,6 @@
 # include <string>
 # include <sstream>
 
-
 using namespace std;
 
 char *getLastCallDays(std::time_t lastcall)
@@ -90,7 +89,6 @@ char *getLastCallDays(std::time_t lastcall)
     return (char *)"error";
 }
 
-
 char *getAge(std::time_t sec)
 {
     std::time_t  theTime, birthTime;
@@ -119,7 +117,6 @@ char *getAge(std::time_t sec)
     std::string s = boost::lexical_cast<std::string>(ageInYears);
     return (char *)s.c_str();
 }
-
 
 int isBday(std::time_t sec)
 {
@@ -177,7 +174,6 @@ int isBday(std::time_t sec)
 
     return FALSE;
 }
-
 
 int VerifyBday(char *date)
 {

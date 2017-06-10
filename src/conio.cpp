@@ -28,20 +28,15 @@
 # include <cstdlib>
 # include <cstdarg>
 # include <cstring>
-
 # include <fstream>
 # include <string>
-
 # include <time.h>
-
-# define ulong unsigned long
-
 # include <termios.h>
 # include <fcntl.h>
-
 # include <sys/socket.h>
 # include <sys/un.h>
 
+# define ulong unsigned long
 
 using namespace std;
 
@@ -53,8 +48,6 @@ using namespace std;
 char INPUT_COLOR[7] = {"|15|17"};
 char HIDDEN_CHAR    = '*';
 int  USE_CHAR       = TRUE;
-
-// Glabal Bool for InputThread Kill
 int  CONT_INPUT = FALSE;
 int  PAUSE_SCROLING = FALSE;
 
@@ -116,7 +109,6 @@ void ConsoleIO::hist_update(int i, UserRec *user, int cnt)
         daily.LastCallTime = GetCurrentDTSec();
         strcpy((char *)daily.LastCaller,(char *)user->handle);
 
-        //user->dtlaston = daily.LastCallTime;
         ++hist.Calls;
         ++daily.Calls;
         ++user->Calls;
@@ -210,10 +202,8 @@ void ConsoleIO::hist_update(int i, UserRec *user, int cnt)
     _usr.users_write(user,user->idx);
 }
 
-
 void ConsoleIO::errlog (char *fmt, ...)
 {
-
     char logfile[1024]= {0};
     sprintf(logfile,"%snode%i_errlog.txt",NODEPATH,NODE_NUM);
 
@@ -240,17 +230,13 @@ void ConsoleIO::errlog (char *fmt, ...)
     } else {
         printf("\r\nUnable to open/create log file. . .");
     }
-
 }
-
 
 /**
  * Right String Padding
  */
-void ConsoleIO::rspacing(char *str, int space)   // Pad Right
+void ConsoleIO::rspacing(char *str, int space)
 {
-
-    //elog2("%i rspace",space);
     if (space == 0) return;
 
     std::string Line = str;
@@ -270,10 +256,8 @@ void ConsoleIO::rspacing(char *str, int space)   // Pad Right
 /**
  * Left String Padding
  */
-void ConsoleIO::lspacing(char *str, int space)   // Pad Left
+void ConsoleIO::lspacing(char *str, int space)
 {
-
-    //elog2("%i lspace",space);
     if (space == 0) return;
 
     std::string Line = "";
@@ -290,14 +274,11 @@ void ConsoleIO::lspacing(char *str, int space)   // Pad Left
     strcpy(str,Line.c_str());
 }
 
-
 /**
  * Center String Padding
  */
 void ConsoleIO::cspacing(char *str)
 {
-
-    //calc center
     int iLen = strlen(str);
     int space = 79 - iLen;
 
@@ -327,7 +308,7 @@ void ConsoleIO::mask(char *str)
 /**
  * Send Raw Input to Screen, no MCI Codes
  */
-void ConsoleIO::putline(char *str)   //, ...) {
+void ConsoleIO::putline(char *str)
 {
     console_putsn(str,strlen(str));
 }
@@ -348,7 +329,6 @@ void ConsoleIO::putkey(char ch)
  */
 char ConsoleIO::onekey(char *chlist)
 {
-
     bool done = false;
     char ch   = 0,
          ch1  = 0;
@@ -942,22 +922,17 @@ int ConsoleIO::getkey(bool bWait)
                 return 27;
             }
 
-            // Catch Multi-Node Messages Between Node Communication
-            // If we have any waiting, then post them to STDOUT.
-            // -- Update this to a link list buffer for later
-            // say if the user is writting email messages.
-
             read_input();
-
         }
+        
     } while (bWait);
 
     // Translater ENTER Key, Some Terms send CR
     if (ch == '\r') {
         ch = '\n';
     }
-    return ch;
 
+    return ch;
 }
 
 /**
@@ -990,11 +965,8 @@ void ConsoleIO::getline(char *line,     // Returns Input into Line
     }
 
     // This is a list of Valid inPut Keys
-    // We will only grab chars in this list
-    // Only if a list is passed to the Function.
     if (chlist != 0) {
         // Append ESC, CTRL Y, BACKSPACE, ENTER
-        // For Line Movement and End of Line Keys so they are always valid input.
         sprintf(sLine,"%c%c%c%c%c%c%c",(char)27,(char)25,(char)0x7f,(char)0x08,(char)10,char(8),char(207));
         sprintf(sList,"%s%s",chlist,sLine);
     }
@@ -1003,9 +975,7 @@ RESTART:
         c = getkey(true);
         if (c == '\r') c = '\n';
 
-        // Valid Key List Checking....
         if (chlist != 0) {
-            //if (strlen(sList) > 0) {
             if(c >= 'a' && c <= 'z') {
                 c = toupper(c);
             }
@@ -1030,10 +1000,8 @@ RESTART:
             case '3' : // Delete
                 if (i != 0 || Col != 0) {
                     if (USE_CHAR) {
-                        //write(0,"\x1b[D�\x1b[D",7);
                         console_putsn((char *)"\x1b[D�\x1b[D",7);
                     } else {
-                        //write(0,"\x1b[D \x1b[D",7);
                         console_putsn((char *)"\x1b[D \x1b[D",7);
                     }
                     input.erase(Col-1,1);
@@ -1042,24 +1010,6 @@ RESTART:
                 }
                 break;
 
-                /*  Need Fixing Lateron to Handle Movement Correctly.
-                                case 'D':   lt_arrow();
-                                    //input = sInput;
-                                    i = Col;
-                                    break;
-                                case 'C':   rt_arrow();
-                                    //input = sInput;
-                                    i = Col;
-                                    break;
-                */
-                /*
-                                case 'H':   home_cursor();
-                                    i = Col;
-                                    break;
-                                case '4':
-                                case 'K':   end_cursor();
-                                    i = Col;
-                                    break;*/
             default :
                 break;
             }
@@ -1067,7 +1017,6 @@ RESTART:
         } else if ((int)c == 25) {
             // CTRL Y - Clear Line
             input.erase();
-            //memset(&sInput,0,sizeof(sInput));
             while (1) {
                 scroll = rt_arrow();
                 if (!scroll) break;
@@ -1075,10 +1024,8 @@ RESTART:
             i = Col;
             for (; i != 0; i--) {
                 if (USE_CHAR) {
-                    //write(0,"\x1b[D�\x1b[D",7);
                     console_putsn((char *)"\x1b[D�\x1b[D",7);
                 } else {
-                    //write(0,"\x1b[D \x1b[D",7);
                     console_putsn((char *)"\x1b[D�\x1b[D",7);
                 }
             }
@@ -1086,10 +1033,8 @@ RESTART:
             Col = i;
         }
         
-        // delete 127
         // Do destructive backspace
         // on VT100 Terms 127 DEL == BS!
-        // Since we have no DELETE in this, delete on 1 liens will works like BS.
         else if ((int)c == 0x08 || (int)c == 127 || int(c) == 8 || int(c) == 207 || (int)c == 0x7f) {
             if (i != 0 || Col != 0) {
                 if (USE_CHAR) {
@@ -1157,8 +1102,6 @@ int ConsoleIO::rt_arrow()
 int ConsoleIO::lt_arrow()
 {
     if (Col != 0) {
-        // Not at Begng of Line
-        //write(0,"\x1b[D",3);
         console_putsn((char *)"\x1b[D",3);
         --Col;
         return TRUE;
@@ -1286,7 +1229,6 @@ void ConsoleIO::ansi_bg(char *data, int bg)
     data[0] = '\x1b';
 }
 
-
 /**
  * Parse String with MCI Code value, then return value in the MCI Codes Place.
  */
@@ -1320,7 +1262,6 @@ void ConsoleIO::afilecon(std::string &AnsiString, int buffer)
     ansiPrintf((char *)tmp2.c_str(), buffer);
     AnsiString = tmp.erase(id1,tmp2.size()+2);
 }
-
 
 /**
  * Main Output for All String Data, Parses PIPE color and MCI Codes.
@@ -1751,7 +1692,6 @@ void ConsoleIO::pipe2ansi(char* szString, int buffer)
     console_putsn((char*)AnsiString.c_str(),AnsiString.size(),buffer);
 }
 
-
 /**
  * Parses and Retuns a String with Pipe and MCI Codes.
  *
@@ -2172,7 +2112,6 @@ BOOL ConsoleIO::ansiPrintf(char *filename, int delay, int abort)
     std::string line;
     std::string::size_type id1;
 
-
     //return false so we can generate menu commands.
     if (strcmp(filename,"") == 0)
         return FALSE;
@@ -2184,7 +2123,6 @@ BOOL ConsoleIO::ansiPrintf(char *filename, int delay, int abort)
     // Add Custom Options for Which ansi to delay lateron
     // Maybe an MCI Code or soo...
     CONT_INPUT = FALSE;
-
 
     if (strcmp(filename,"welcome") == 0) {
         delay = TRUE;
@@ -2334,8 +2272,6 @@ BOOL ConsoleIO::ansiPrintf(char *filename, int delay, int abort)
     return TRUE;
 }
 
-
-
 /**
  * Reads in Ansi file into Buffer Only
  */
@@ -2374,8 +2310,6 @@ void ConsoleIO::readinAnsi(std::string FileName, std::string &buff)
 
     fclose(fp);
 }
-
-
 
 /**
  * Start Animated Pause
@@ -2581,7 +2515,6 @@ CONT:
         //now get x[xx;##
         if(ch==';') {
             i = 0;
-            //memset(&xy,0,sizeof(xy));
             ansi_x = atoi(xy);
         }
         //now get end of sequence.

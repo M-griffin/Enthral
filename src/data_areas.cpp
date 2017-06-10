@@ -62,7 +62,6 @@ int data_area::data_lockSet(int onoff)
     }
 }
 
-
 void data_area::chkparse(std::string &temp)
 {
     std::string temp1;
@@ -146,7 +145,6 @@ int data_area::da_read(char *FileName)
     iNS3.close();
     return TRUE;
 }
-
 
 void data_area::rec_parse(std::string cfgdata, int idx)
 {
@@ -299,7 +297,6 @@ int data_area::rec_cnt(char *MenuName)
     return cnt;
 }
 
-
 int data_area::rec_read(char *FileName, int idx)
 {
     std::string path = DAPATH;
@@ -420,7 +417,6 @@ void data_area::data_area_clear()
     inexecnum = 0;
     inArray   = 0;
 }
-
 
 // Processing for Menu's with Lightbars & Hotkeys.
 void data_area::process_data_area()
@@ -1245,7 +1241,6 @@ void data_area::read_file_records()
     return;
 }
 
-
 void data_area::truncate_da_buffer()
 {
     std::string path = DAPATH;
@@ -1273,7 +1268,6 @@ void data_area::truncate_da_buffer()
     ostr.close();
     data_lockSet(FALSE);
 }
-
 
 void data_area::save_da_buffer()
 {

@@ -30,7 +30,6 @@ using namespace std;
  */
 bool configdataexists()
 {
-
     std::string path = INIPATH;
     path += "config.ini";
 
@@ -44,13 +43,11 @@ bool configdataexists()
     return true;
 }
 
-
 /**
  * Create Defaut Config if Doesn't exist
  */
 void createconfig()
 {
-
     std::string name = INIPATH;
     name += "config.ini";
 
@@ -97,7 +94,6 @@ void createconfig()
  */
 void checkcfg(std::string cfgdata)
 {
-
     std::string temp = cfgdata;
     std::string::size_type id1 = 0;
 
@@ -124,7 +120,6 @@ void checkcfg(std::string cfgdata)
         return;
     }
 
-    id1 = 0;
     id1 = temp.find("Set SYSTEM_NAME", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -140,7 +135,6 @@ void checkcfg(std::string cfgdata)
         return;
     }
 
-    id1 = 0;
     id1 = temp.find("Set TEMP_PATH", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -156,7 +150,6 @@ void checkcfg(std::string cfgdata)
         return;
     }
 
-    id1 = 0;
     id1 = temp.find("Set MAX_NODES", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -168,14 +161,11 @@ void checkcfg(std::string cfgdata)
         ct = st2 - st1;
         if (temp1.length() > ct)
             temp1.erase(ct,temp1.length());
-        // String to Int
-
 
         istringstream ( temp1 ) >> MAX_NODES;
         return;
     }
 
-    id1 = 0;
     id1 = temp.find("Set STARTUP_SCRIPT ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -192,7 +182,6 @@ void checkcfg(std::string cfgdata)
         return;
     }
 
-    id1 = 0;
     id1 = temp.find("Set STARTUP_SCRIPT2 ", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -215,7 +204,6 @@ void checkcfg(std::string cfgdata)
  */
 void parseconfig()
 {
-
     std::string name = INIPATH;
     name += "config.ini";
 
