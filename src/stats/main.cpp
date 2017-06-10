@@ -21,7 +21,7 @@
 
 using namespace std;
 
-char BBSPATH[255]    = {0};
+char BBSPATH[4096] = {0};
 
 int main(void)
 {

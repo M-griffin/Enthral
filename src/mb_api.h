@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:  This file is a mix of old SMAPI libs types that were used   *
@@ -12,16 +12,9 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: mb_api.h 5 2014-03-31 05:44:49Z merc $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/mb_api.h $
-// $LastChangedDate: 2014-03-31 00:44:49 -0500 (Mon, 31 Mar 2014) $
-// $LastChangedRevision: 5 $
-// $LastChangedBy: merc $
-
 # ifndef MSG_MBAPI_JAM_H
 # define MSG_MBAPI_JAM_H
 
-//# include "typedefs.h"
 # include "language.h"
 # include "msg_readll.h"
 # include "msgs.h"
@@ -32,16 +25,10 @@
 using namespace std;
 
 
-class mbapi_jam : public SESSION
+class mbapi_jam : public ConsoleIO
 {
 
 public:
-
-    /*
-     *  Mb Message API is a WIP, Interface originally for husky SMAPI
-     *  Rewritten to keep original compability with already written functions
-     *  With new JamLib API.  Have to sort through and remove variables lateron not used anymore.
-     */
 
     typedef dword UMSGID;
 
@@ -53,7 +40,6 @@ public:
     };
 
     typedef struct _xmsg {
-        /* Bitmasks for 'attr' */
 
 #define MSGPRIVATE 0x0001
 #define MSGCRASH   0x0002
@@ -72,10 +58,10 @@ public:
 #define MSGARQ     0x4000
 #define MSGURQ     0x8000
 #define MSGSCANNED 0x00010000L
-#define MSGUID     0x00020000L /* xmsg.uid field contains umsgid of msg */
-#define MSGIMM     0x00040000L /* Use only if msgtype == MSGTYPE_JAM !
-        Used to map the Jam "immediate" attribute. */
-#define MSGLOCKED  0x40000000L /* this seems to be a feature of golded  */
+#define MSGUID     0x00020000L /* xmsg.uid field contains umsgid of msg      */
+#define MSGIMM     0x00040000L /* Use only if msgtype == MSGTYPE_JAM !       */
+                               /* Used to map the Jam "immediate" attribute. */
+#define MSGLOCKED  0x40000000L /* this seems to be a feature of golded       */
 
         dword attr;
 
@@ -87,22 +73,20 @@ public:
         unsigned char to[XMSG_TO_SIZE];
         unsigned char subj[XMSG_SUBJ_SIZE];
 
-        _netaddr orig;               /* Origination and destination addresses */
+        _netaddr orig;                 /* Origination and destination addresses */
         _netaddr dest;
 
-        struct _stamp date_written;   /* When user wrote the msg (UTC) */
+        struct _stamp date_written;    /* When user wrote the msg (UTC) */
         struct _stamp date_arrived;    /* When msg arrived on-line (UTC) */
 
-        sword utc_ofs;              /* Offset from UTC of message writer, in minutes. */
+        sword utc_ofs;                 /* Offset from UTC of message writer, in minutes. */
 
 
-#define MAX_REPLY 9            /* Max number of stored replies to one msg */
+#define MAX_REPLY 9                    /* Max number of stored replies to one msg */
 
         UMSGID replyto;
         UMSGID replies[MAX_REPLY];
-        dword umsgid;               /* UMSGID of this message, if (attr&MSGUID) */
-        /* This field is only stored on disk -- it  *
-         * is not read into memory.                 */
+        dword umsgid;
 
         byte __ftsc_date[20];       /* Obsolete date information.  If it weren't
 		                             * for the fact that FTSC standards say that
@@ -118,26 +102,20 @@ public:
     XMSG;
 
     struct _msgh {
-        //    MSG *sq;
         dword id;
-
         dword bytes_written;
         dword cur_pos;
     };
 
     struct _msgapi {
         dword id;                   /* Must always equal MSGAPI_ID */
-
         word len;                   /* LENGTH OF THIS STRUCTURE! */
         word type;
-
         dword num_msg;
         dword cur_msg;
         dword high_msg;
         dword high_water;
-
         word sz_xmsg;
-
         byte locked;                /* Base is locked from use by other tasks */
         byte isecho;                /* Is this an EchoMail area?              */
 
@@ -161,7 +139,6 @@ public:
     UserRec *thisuser;
 
     typedef struct {
-
         unsigned char From[XMSG_FROM_SIZE];
         unsigned char To[XMSG_TO_SIZE];
         unsigned char Subj[XMSG_SUBJ_SIZE];
@@ -175,7 +152,6 @@ public:
         unsigned long attr;
         _netaddr orig;
         _netaddr dest;
-
     } MsgInfoRec;
 
     // Message API Handles
@@ -203,13 +179,11 @@ public:
     msgs           _msgf;
 
     // Mesage Packing Variables
-    unsigned long msgCopied,   msgProcessed;   // per Area
+    unsigned long msgCopied,   msgProcessed;
     unsigned long totaloldMsg, totalmsgCopied;
 
-
-    // Constructor - Initalize MSGAPI!
+    // Constructor
     mbapi_jam() {
-
         start_session(thisuser);
     }
 
@@ -229,9 +203,6 @@ public:
 
     // Main Read Message Per Area Function
     int ReadMsgArea(unsigned long mbnum, int email = FALSE);
-
-//   time_t stampToTimeT(struct _stamp *st);
-//   struct _stamp *timeTToStamp(time_t tt);
 
     void FidoFlags(char *fflags);
     void SetupMsgHdr();

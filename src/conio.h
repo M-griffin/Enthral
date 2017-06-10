@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,13 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: conio.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/conio.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
-
 # ifndef CONIO_H
 # define CONIO_H
 
@@ -30,21 +23,19 @@
 
 using namespace std;
 
-
-//input class
-class SESSION : public history
+class ConsoleIO : public history
 {
 
 public:
 
-    History  hist;  // Struct
-    UserRec  *user; // For MCI Codes
+    History  hist;
+    UserRec  *user;
 
     char EscapeKey[10];
-    SESSION();
-    SESSION(UserRec *thisuser);
+    ConsoleIO();
+    ConsoleIO(UserRec *thisuser);
 
-    PASSING   *p;  // For passing Menu command to new thread
+    PASSING   *p;
     pthread_t ahThread;
 
 private:
@@ -67,8 +58,8 @@ public:
     void start_session(UserRec *thisuser);
     void hist_display(); // Testing Func.
     void hist_update(int i, UserRec *user, int cnt = 0);
+
     void errlog(char *fmt, ...);
-    void errlog2(char *fmt, ...); // Used for Debugging, commented out for easy removal.
 
     void open_keyboard();
     void close_keyboard();

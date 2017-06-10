@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Global Data Structures                                       *
@@ -12,30 +12,20 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: struct.h 10 2014-04-03 06:52:26Z merc $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/struct.h $
-// $LastChangedDate: 2014-04-03 01:52:26 -0500 (Thu, 03 Apr 2014) $
-// $LastChangedRevision: 10 $
-// $LastChangedBy: merc $
-
 # ifndef STRUCT_H
 # define STRUCT_H
 
 #include <string>
-#include <stdint.h> // int32_t etc type for 32/64 Bit.
+#include <stdint.h>
 #include <limits.h>
 
 using namespace std;
 
-# define BBSVERSION            "Enthral BBS v.635"
+# define BBSVERSION            "Enthral BBS v.700"
 extern char OSSYSTEM[1024];
 extern int UTF8Output;
 
 extern std::string screen_buffer;
-
-//typedef uint32_t ulong;    /* must be 32 bits wide */  // in <stdint.h>
-//typedef uint16_t ushort;   /* must be 16 bits wide */
-//typedef uint8_t  uchar;    /* must be  8 bits wide */
 
 # define CTLLEN 1024
 
@@ -118,7 +108,7 @@ extern char CLIENT_TERM[255];
 extern char STARTUP_SCRIPT[255];
 extern char STARTUP_SCRIPT2[255];
 
-extern int  isANSI;             // Detected and useing ANSI Terminal.
+extern int  isANSI;             // Detected ANSI Terminal.
 extern int  isANSIMATION;
 extern int  TOGGLE_BACKSPACE;
 extern int  PAUSE_SCROLING;     // Used to Pause Scrolling Text during Node Messages / Notifications.
@@ -131,8 +121,6 @@ extern  struct termios old_termios;
 # define BitTst(arg,posn) BOOL((arg) & (1L << (posn)))
 # define BitFlp(arg,posn) ((arg) ^ (1L << (posn)))
 
-//extern int TRUE;
-//extern int FALSE;
 #define TRUE 1
 #define FALSE 0
 
@@ -452,17 +440,6 @@ typedef struct __attribute__((packed)) JamIndex {
 
 } JamIndex;
 
-/*
-typedef struct __attribute__((packed)) MsgStats {
-
-    uint32_t Views;    // # of times message was viewed
-    uint32_t Replies;  // # of Replies to this message
-    uint32_t Date;     // Date Posted.
-    uint32_t From[40]; // Posted From
-    uint8_t  Subj[90]; // Message Subject
-
-} MsgStats; */
-
 
 typedef struct __attribute__((packed)) NewScan {
     uint16_t set;      // TRUE / FALSE if this area is to be scanned.
@@ -482,20 +459,20 @@ typedef struct DataArea {
 
 
 typedef struct DataRec {
-    uint16_t idx;                    // Command #, Used Internal for Input Record #.
+    uint16_t idx;               // Command #, Used Internal for Input Record #.
     std::string Desc;           // # Description
     std::string Prompt;         // # Text Prompt To Display on Input Commands.
-    uint32_t Size;         // # Max Number of Chars on Input
+    uint32_t Size;              // # Max Number of Chars on Input
     std::string CKeys;          // # Accepted Input Keys
     std::string CmdType;        // # Command Type
     std::string MString;        // # Data to be Written {UserName}
     std::string MciCode;        // # MCI Code in ANSI For this Field
     std::string HiString;       // # LightBar High String
     std::string LoString;       // # LightBar Low String
-    uint16_t Xcoord;                 // # X Coord of Lightbar
-    uint16_t Ycoord;                 // # Y Coord of Lightbar
-    uint16_t LBarCmd;                // # Is This a Lightbar Command?
-    uint16_t MCICmd;                 // # Is This a MCI Code, Skip Input and Translate.
+    uint16_t Xcoord;            // # X Coord of Lightbar
+    uint16_t Ycoord;            // # Y Coord of Lightbar
+    uint16_t LBarCmd;           // # Is This a Lightbar Command?
+    uint16_t MCICmd;            // # Is This a MCI Code, Skip Input and Translate.
 
 } DataRec;
 

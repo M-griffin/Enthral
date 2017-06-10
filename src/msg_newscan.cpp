@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Message NewScan Toggles for Active and Inactive Areas        *
@@ -12,35 +12,20 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: msg_newscan.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_newscan.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # include "struct.h"
 # include "msg_newscan.h"
 
 # include <cstdio>
 # include <string>
-# include <unistd.h> // gcc 4/7
+# include <unistd.h>
 
 using namespace std;
-
-/*
-  (WIP)
-  When ever a message base is created, a newscan file /record should be created for
-  each user with a default of TRUE
-
-  When a new user is added they should be added to each newscan dat
- */
 
 /**
  * NewScan Config - Lock File
  */
 int msg_newscan::new_lockSet(int onoff)
 {
-
     std::string path = LOCKPATH;
     path += "mnewscan.lck";
 
@@ -49,7 +34,6 @@ int msg_newscan::new_lockSet(int onoff)
         return TRUE;
     }
 
-    //While lock file missing, loop untill it disapears.
     FILE *stream;
     while(1) {
         stream = fopen(path.c_str(),"rb+");
@@ -73,7 +57,6 @@ int msg_newscan::new_lockSet(int onoff)
  */
 int msg_newscan::new_read(NewScan *ns, int idx, char *mbase)
 {
-
     char path[255];
     sprintf(path,"%s%s.ns", MESGPATH, mbase);
     new_lockSet(TRUE);
@@ -100,7 +83,6 @@ int msg_newscan::new_read(NewScan *ns, int idx, char *mbase)
  */
 int msg_newscan::new_write(NewScan *ns, int idx, char *mbase)
 {
-
     char path[255];
     sprintf(path,"%s%s.ns", MESGPATH, mbase);
     new_lockSet(TRUE);
@@ -129,7 +111,6 @@ int msg_newscan::new_write(NewScan *ns, int idx, char *mbase)
  */
 int msg_newscan::new_count(char *mbase)
 {
-
     int i = 0;
     NewScan ns;
 
@@ -146,7 +127,6 @@ int msg_newscan::new_count(char *mbase)
  */
 int msg_newscan::read_mbase(mb_list_rec *mr, int rec)
 {
-
     int x = 0;
     std::string path = DATAPATH;
     path += "forums.dat";
@@ -172,7 +152,6 @@ int msg_newscan::read_mbase(mb_list_rec *mr, int rec)
  */
 int msg_newscan::check_mbase(UserRec *thisuser)
 {
-
     mb_list_rec mr;
     NewScan ns;
     int i;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,12 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: msg_readll.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_readll.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef MSG_READLL_H
 # define MSG_READLL_H
 
@@ -28,17 +22,14 @@
 
 using namespace std;
 
-typedef struct msg_readll : private SESSION {
+typedef struct msg_readll : private ConsoleIO {
 
 public:
-    // Main List for Holding All Data
     LineRec *head;
     LineRec *current_node;
     LineRec *last;
 
     AreaRec *node;
-
-    // Passing Lightbars between Interfaces
     std::vector<list_bar> listing;
 
     int Row;
@@ -81,11 +72,9 @@ public:
 
     // Copy message from link lists to buffer
     void stripCRONLY(char *ostr);
-    //char *GetBuffer();
     void GetBuffer(std::string &tbuf);
 
     void GetVector(std::vector<list_bar> listb);
-
     char *PopulateQuoter();
 
     // Copy From buffer into Link List (UserSig) Clean
@@ -108,29 +97,19 @@ public:
     void Last_Line();
     void dispose();
     void dispose_list();
-    // Line Reader - old school scrolling.
+
     char *parseReadColorScroller(char *cap,std::string data);
     char *parsereadcolors(char *cap,int row, int col, std::string data);
-    // Line Reader - old school scrolling.
+
     void box_scroll_reader();
     void box_pgdn_scroll();
-    // Normal Lightbar...
+
     void box_start(unsigned long CURRENT); // CURRENT = ARea MAREA or ULIST etc...
     void box_scrolldn();
     void box_pgdn();
     void box_pgup();
     void box_refresh(unsigned long CURRENT);
     void box_overdraw(unsigned long CURRENT);
-
-    // New std::vector list parsing.
-    // Not in use - box_start_vector replaces all 3.
-    void box_pgup_vector();
-    void box_scrolldn_vector();
-    void box_pgdn_vector();
-
-    // Working Up and Down, need to add Scroll Down now.
-    //void box_start_vector(unsigned long CURRENT); // Area Listing.
-
 
     void box_start_vector(unsigned long page, unsigned long list);
 

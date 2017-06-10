@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,22 +12,15 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: configbbs.cpp 6 2014-04-02 03:42:27Z merc $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/configbbs.cpp $
-// $LastChangedDate: 2014-04-01 22:42:27 -0500 (Tue, 01 Apr 2014) $
-// $LastChangedRevision: 6 $
-// $LastChangedBy: merc $
-
 # include "struct.h"
-//# include "config.h"
 
 # include <stdio.h>
 # include <string>
 # include <fstream>
 # include <sstream>
 
-# include <cstring> // gcc 4.3
-# include <cstdlib> // gcc 4.3
+# include <cstring>
+# include <cstdlib>
 
 using namespace std;
 
@@ -116,7 +109,6 @@ void checkcfg(std::string cfgdata)
     if (temp[0] == '#') return;
 
     // Sets if LOGGING is on / off
-    id1 = 0;
     id1 = temp.find("Set SYSOP_NAME", 0);
     if (id1 != std::string::npos) {
         std::string temp1;
@@ -216,8 +208,6 @@ void checkcfg(std::string cfgdata)
         sprintf(STARTUP_SCRIPT2,"%s",(char *)temp1.c_str());
         return;
     }
-
-
 }
 
 /**

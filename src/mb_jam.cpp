@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Jamlib interface functions rewritten from crashmail          *
@@ -11,12 +11,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: mb_jam.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/mb_jam.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # include "struct.h"
 # include "conio.h"
@@ -526,7 +520,7 @@ s_JamBase *jam_openbase(struct jam_Area *area)
 {
 //    int c;
 
-    SESSION _s;
+    ConsoleIO _s;
 
     std::string path = (char *)MESGPATH;
     path += (char *)area->area->mbfile;
@@ -577,7 +571,7 @@ s_JamBase *jam_openbase(struct jam_Area *area)
 struct jam_Area *jam_getarea(mb_list_rec *area)
 {
 
-    SESSION _s;
+    ConsoleIO _s;
 
 //	_s.errlog((char*)"6. jam_getarea(): ");
     struct jam_Area *ja;
@@ -663,7 +657,7 @@ struct jam_Area *jam_getarea(mb_list_rec *area)
 BOOL jamapi_purgemsg(mb_list_rec *area, uint32_t msgnum)
 {
 
-    SESSION _s;
+    ConsoleIO _s;
     struct jam_Area *ja;
     int res;
 
@@ -723,7 +717,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     uint32_t msgsize, msgpos;
     int res;
 
-    SESSION _s;
+    ConsoleIO _s;
 
     // Get an area to write to
 
@@ -1092,7 +1086,7 @@ BOOL jamapi_editmsg(struct MemMessage *mm, mb_list_rec *area)
     uint32_t msgsize,msgpos;
     int res;
 
-    SESSION _s;
+    ConsoleIO _s;
 
     // Get an area to write to
 
@@ -1610,7 +1604,7 @@ uint32_t jamapi_countmsgs(mb_list_rec *area, UserRec *thisuser)
     uint32_t idx=0;
 
     struct jam_Area *ja;
-    SESSION _s;
+    ConsoleIO _s;
 
     // Open the area
     if(!(ja=jam_getarea(area))) {
@@ -1694,7 +1688,7 @@ vector < unsigned long > jamapi_build_private(mb_list_rec *area, UserRec *thisus
 
     struct jam_Area *ja;
 
-    SESSION _s;
+    ConsoleIO _s;
 
     // Open the area
     if(!(ja = jam_getarea(area))) {
@@ -1771,7 +1765,7 @@ vector < unsigned long > jamapi_build_public(mb_list_rec *area, UserRec *thisuse
     s_JamSubPacket* SubPacket_PS;
     s_JamMsgHeader  Header_S;
 
-    SESSION _s;
+    ConsoleIO _s;
 
 //	msgs _msgf;
 
@@ -1892,7 +1886,7 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
     res = 0;
 //    uint32_t ret = 0;
 
-    SESSION _s;
+    ConsoleIO _s;
 
     if (num != 0)
         --num;
@@ -2791,7 +2785,7 @@ uint32_t jamapi_readmsgid(mb_list_rec *area, uint32_t num, std::string &tmpMsgId
     res = 0;
 //    uint32_t ret = 0;
 
-    SESSION _s;
+    ConsoleIO _s;
 
     if (num != 0)
         --num;
@@ -2887,7 +2881,7 @@ uint32_t buildmsgid(uint32_t MsgID, mb_list_rec *area)
     struct jam_Area *ja;
     std::string tmp;
 
-    SESSION _s;
+    ConsoleIO _s;
 
     if(!(ja=jam_getarea(area)))
         return(0L);

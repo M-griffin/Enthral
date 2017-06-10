@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,13 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: data_areas.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/data_areas.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
-
 # ifndef DATA_AREAS_H
 # define DATA_AREAS_H
 
@@ -29,7 +22,7 @@
 
 using namespace std;
 
-typedef struct data_area : public SESSION {
+typedef struct data_area : public ConsoleIO {
 
 public:
     UserRec      *thisuser;
@@ -51,9 +44,6 @@ public:
     data_area(UserRec *usr) {
         dataSaved = FALSE;
         thisuser = usr;
-        // Pass to CONIO for Pipe2Ansi MCI Codes.
-        // For User MCI Data.
-
         datar2    = 0;
         cmdr2     = 0;
         inexecnum = 0;
@@ -75,21 +65,16 @@ public:
     int  rec_cnt(char  *FileName);
     int  rec_read(char *FileName, int idx);
 
-    // Read in Current Data File
-    // Hold Commands Per Menu being Read in.
     void insert_cmdr();
     int  data_area_readin();
     void data_area_clear();
-    // Menu System Loop.
-    // Processing for Menu's with Lightbars & Hotkeys.
     void process_data_area();
-    // Parse Menu Keys from Menu Selection
     void parsemci(DataRec *cmdr);
     void parseinput(DataRec *cmdr);
-    // Write Output of Buffer.
+
     unsigned long
     count_file_records();
-    // Process Output Data File
+
     void create_ansifile();
     void read_file_records();
     void truncate_da_buffer();
@@ -99,7 +84,6 @@ public:
 
     void display_commands();
     void data_loop();
-
 
 } data_area;
 

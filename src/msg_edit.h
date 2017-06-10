@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,12 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: msg_edit.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_edit.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef MSG_EDIT_H
 # define MSG_EDIT_H
 
@@ -25,7 +19,7 @@
 # include "msgs.h"
 # include "conio.h"
 
-class msg_edit : private SESSION
+class msg_edit : private ConsoleIO
 {
 
 private:
@@ -41,7 +35,7 @@ public:
 
     void insert_mbase();
     void edit_aka(mb_list_rec *mr);
-    //void ACS(ACSrec *acs, char *fstr);
+
     void mod_mbase(int mbnum);
     void modify_mbase();
     void swap_mbase(int iFrom, int iTo);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,12 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: msg_quote.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_quote.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # include "struct.h"
 # include "msg_readll.h"
 # include "menu_func.h"
@@ -29,19 +23,17 @@
 # include <cstdio>
 # include <ctime>
 # include <cctype>
-# include <cstring> // gcc 4.3
-# include <cstdlib> // gcc 4.3
-# include <unistd.h> // gcc 4.7
+# include <cstring>
+# include <cstdlib>
+# include <unistd.h>
 
 using namespace std;
-
 
 /*
  * Message FullScreen Quoter INI - INI Exists
  */
 bool msgquote_ini::msg_exists()
 {
-
     iTop = 0;
     iBot = 0;
 
@@ -78,7 +70,6 @@ bool msgquote_ini::msg_exists()
  */
 void msgquote_ini::msg_create()
 {
-
     std::string name = INIPATH;
     name += "msgquote.ini";
 
@@ -124,7 +115,6 @@ void msgquote_ini::msg_create()
  */
 void msgquote_ini::msg_chkpar(std::string &data)
 {
-
     std::string temp1;
     std::string::size_type st1 = 0;
     std::string::size_type st2 = 0;
@@ -145,7 +135,6 @@ void msgquote_ini::msg_chkpar(std::string &data)
  */
 void msgquote_ini::msg_check(std::string cfgdata)
 {
-
     std::string temp = cfgdata;
     int id1 = -1;
 
@@ -153,7 +142,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     if (temp[0] == '#') return;
 
     // Sets if LOGGING is on / off
-    id1 = -1;
     id1 = temp.find("set TOP ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -163,7 +151,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets Download Path
-    id1 = -1;
     id1 = temp.find("set BOT ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -173,7 +160,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set PAGENUM ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -182,7 +168,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set PAGETOTAL ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -191,7 +176,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREUP ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -200,7 +184,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREUP_CHAR ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -209,7 +192,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREDOWN ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -218,7 +200,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREDOWN_CHAR ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -227,7 +208,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREMSG_ON ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -236,7 +216,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREMSG_WORD_ON ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -244,8 +223,7 @@ void msgquote_ini::msg_check(std::string cfgdata)
         return;
     }
 
-// Sets XY PAGE Num
-    id1 = -1;
+    // Sets XY PAGE Num
     id1 = temp.find("set MOREMSG_OFF ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -254,7 +232,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set MOREMSG_WORD_OFF ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -262,8 +239,7 @@ void msgquote_ini::msg_check(std::string cfgdata)
         return;
     }
 
-    // Sets XY PAGE Num
-    id1 = -1;
+    // Sets XY PAGE Num    
     id1 = temp.find("set INPUT_BOX ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -272,7 +248,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set TEXT_COLOR ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -281,7 +256,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set TEXT_HILIGHT ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -290,7 +264,6 @@ void msgquote_ini::msg_check(std::string cfgdata)
     }
 
     // Sets XY PAGE Num
-    id1 = -1;
     id1 = temp.find("set QUOTE_RANGE ", 0);
     if (id1 != -1) {
         msg_chkpar(temp);
@@ -304,14 +277,12 @@ void msgquote_ini::msg_check(std::string cfgdata)
  */
 void msgquote_ini::msg_parse()
 {
-
     std::string name = INIPATH;
     name += "msgquote.ini";
 
     ifstream inStream;
     inStream.open( name.c_str() );
     if (!inStream.is_open()) {
-        //printf("Couldn't Open Config File: %s\n", name.c_str());
         perror("Error unable to parse msgquote.ini, check permissions!");
         return;
     }
@@ -326,13 +297,11 @@ void msgquote_ini::msg_parse()
     return;
 }
 
-
 /*
  * Message FullScreen Quoter - Class
  */
 msg_quote::msg_quote()
 {
-
     tTop    = 1;
     tBot    = 1;
 }
@@ -342,13 +311,12 @@ msg_quote::msg_quote()
  */
 void msg_quote::ParseMQuote(char *filename)
 {
-
     int c = 0;
     std::string temp;
     std::string path = ANSIPATH;
     path += filename;
     path += ".ans";
-    // Get Filesize to Allocate Buffer
+
     FILE *inStream;
     std::string::size_type id1 = 0;
 
@@ -357,8 +325,9 @@ void msg_quote::ParseMQuote(char *filename)
         return;
     }
 
-    char MCI[3] = {0}; // Holds MCI Codes to Parse
-    temp = "";   // Holds Ansi
+    char MCI[3] = {0};
+    temp = "";
+    
     do {
         memset(&MCI,0,sizeof(MCI));
         c = getc(inStream);
@@ -366,12 +335,9 @@ void msg_quote::ParseMQuote(char *filename)
             MCI[0] = getc(inStream);
             MCI[1] = getc(inStream);
 
-            /* ie example...
-            if (strcmp(MCI,"TI") == 0)      { temp += mHead.time;       }
-            else if (strcmp(MCI,"FM") == 0) { temp += mHead.from;       }
-            */
             c = getc(inStream);
             if (c != EOF) temp += c;
+            
         } else if (c == '\n') {} //temp += '\r';
         else {
             if (c != EOF) temp += c;
@@ -381,14 +347,14 @@ void msg_quote::ParseMQuote(char *filename)
 
     temp += "\n"; // Extra Space to Fix Next Ansi Sequence
 
-    do { // Fix, adds ESC[h - Home Cusror to Clear SCreen for Redraws.
+    // Fix, adds ESC[h - Home Cusror to Clear Screen for Redraws.
+    do { 
         id1 = temp.find("\x1b[2J",0);
         if (id1 != std::string::npos-1) {
             temp.replace(id1,4,"|CS");
         }
     } while(id1 != std::string::npos);
 
-    //write(0,(char *)temp.c_str(),temp.size());
     pipe2ansi((char *)temp.c_str());
 }
 
@@ -397,18 +363,15 @@ void msg_quote::ParseMQuote(char *filename)
  */
 void msg_quote::setup_quoter()
 {
-
-    // Do quick Message Quoter ini parsing
     if (!msg_exists()) {
         perror("Error unable to read msgquote.ini, check permissions!");
         return;
-        //msg_create();
     }
+    
     msg_parse();
     tTop = iTop;
     tBot = iBot;
 }
-
 
 /*
  * Message FullScreen Quoter - Insert Lines into Quoters Link List.
@@ -416,8 +379,6 @@ void msg_quote::setup_quoter()
  */
 void msg_quote::insert_lines(LineRec *orgLink, msg_readll *mLink)
 {
-
-
     int count = 1;
     std::string::size_type id1 = 0, id2 = 0;
     std::string currLine;
@@ -452,31 +413,18 @@ void msg_quote::insert_lines(LineRec *orgLink, msg_readll *mLink)
             } else break;
         }
 
-        // Add to Vecor for New Parsing.
         newList.push_back(lineTmp->data);
-
-        // Next Line
         if (lineTmp->dn_link == 0)
             break;
 
         lineTmp = lineTmp->dn_link;
     }
 
-
     newLine.erase();
     std::string qInitials;
 
-    //Loop Vecor List and Word Wrap
     for(std::string str : newList) {
 
-        // When quoting quoted text, removing starting "> "
-        // This doesn't wrap properly.
-
-        //id1 = str.find(" II> ");  Find initial.
-
-
-        // When quoting quoted text, removing starting "> "
-        // This doesn't wrap properly.
         id1 = str.find("> ");
         if (id1 != std::string::npos) {
             if (id1 == 0)
@@ -550,11 +498,9 @@ void msg_quote::insert_lines(LineRec *orgLink, msg_readll *mLink)
         if ((signed)str.size() > 74) {
             id1 = str.rfind(" ",74);
             if (id1 != std::string::npos) {
-                // Space in Line, cut at last Word
                 mLink->add_to_list(str.substr(0,id1));
                 newLine = str.substr(id1+1);
             } else {
-                // No Spaces in line, cut and wrap at 74.
                 mLink->add_to_list(str.substr(0,74));
                 newLine = str.substr(75);
             }
@@ -577,13 +523,11 @@ void msg_quote::insert_lines(LineRec *orgLink, msg_readll *mLink)
     return;
 }
 
-
 /*
  * Message FullScreen Quoter - Parse Range and Selections
  */
 void msg_quote::par_qstring(char *rBuffer, msg_readll *mLink)
 {
-
     char cBuff2[20]= {0};
     char cBuff3[20]= {0};
     std::string rBuff;
@@ -598,10 +542,9 @@ void msg_quote::par_qstring(char *rBuffer, msg_readll *mLink)
         rBuff = rBuffer;
         id1   = rBuff.find("-",0);
         id2   = rBuff.find(",",0);
-        // Check if Range and Single Line Selection Are both Present
+
         if (id1 != std::string::npos &&
             id2 != std::string::npos) {
-            // Chop up String between each ',' char... then process seperatly.
             num2 = id2;
             memset(&cBuff2,0, sizeof(cBuff2));
             for (int i = 0; i != (signed)id2; i++) {
@@ -642,9 +585,7 @@ void msg_quote::par_qstring(char *rBuffer, msg_readll *mLink)
                 if ((signed)id1 > mLink->Tot || (signed)id1 == 0) break;
                 mLink->flag_line(id1);
             }
-            // Done, Loop Though and Process next part of Original String.
         }
-        // Then check if only Range ... 1-6 - Working!
         else if (id1 != std::string::npos) { // id1 = '-' Position
             num = id1;
             memset(&cBuff2,0, sizeof(cBuff2));
@@ -669,7 +610,6 @@ void msg_quote::par_qstring(char *rBuffer, msg_readll *mLink)
             }
             break;
         }
-        // Then check if only Selections 1,6 - Working!
         else if (id2 != std::string::npos) {   // id2 = ',' Position
             num2 = id2;
             num  = id2;
@@ -703,7 +643,6 @@ void msg_quote::par_qstring(char *rBuffer, msg_readll *mLink)
  */
 void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
 {
-
     bool more        = false;
     bool showmore    = false;
     char mString[10] = {0};
@@ -711,7 +650,6 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
     std::string _output;
     char outBuffer[1024] = {0};
 
-    // Startup Message Reader Link List for Holding Message Lines
     menu_func   _mnuf; // Menu System for Lightbars
     msg_readll  mLink; // Link List for Holding Message Quote Data
 
@@ -729,24 +667,12 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
     std::string::size_type id1 = 0, id2 = 0;
     int len;
 
-    // Quote Buffer to return to FSE.
-    // We Return
-    //static char qBuf[BUFLEN];
-    //memset(&qBuf,0,BUFLEN);
-
     std::string qbuf;
     qbuf.erase();
-
-
-    //errlog2((char *)" &&& Start Quote!");
-    insert_lines(orgLink,&mLink);   // Take Original List and Copy it to Message Quoter
-    //mLink.line_total();
-
-    //errlog2((char *)" &&& Start Quote 2 !");
+    insert_lines(orgLink,&mLink);
 
     // Run through Main Reader Loop until exit from user - This Loop Probably not needed anymore.
     while (1) {
-        // Setup a new Message Quoter ansi
         ansiPrintf((char *)"mquote");
         mLink.box_refresh(CURRENT_MAREA); // So Always Displayed Highlighting on Current Page!
 
@@ -755,8 +681,7 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
             more = false;
             showmore = false;
             if (mLink.Page != mLink.TotPages) more = true;
-            /*-------------------------------------------------------*/
-            // Show Down Arrow More!
+
             if (more) {
                 sprintf(outBuffer,"%s\x19",sMOREDOWN);  // On
                 showmore = true;
@@ -785,19 +710,16 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
             _output += outBuffer;
             sprintf(outBuffer,"%s%.2d",sPAGETOTAL,mLink.TotPages);
             _output += outBuffer;
+
             // Max Quote Range
             sprintf(outBuffer,"%s%d",sQUOTE_RANGE,mLink.Tot);
             _output += outBuffer;
-            /*-------------------------------------------------------*/
-            pipe2ansi((char *)_output.c_str());
-            // If more, Select Menu Prompt with PGDN as Default
-            // Otherwise Select Prompt with Next as Default!
 
-            // Make Msgqp2 Prompt Optional, Use if exists!
-            // Also Let user Toggle on / off
+            pipe2ansi((char *)_output.c_str());
+
             _mnuf._premenu.clear();
             _mnuf._premenu = _mnuf._curmenu;
-            if (_mnuf.cmdexist((char *)"msg_qprompt2",0) /*&& thisuser->msgp2*/ ) {
+            if (_mnuf.cmdexist((char *)"msg_qprompt2",0)) {
                 if (more || mLink.Page > 1) {
                     _mnuf._curmenu.clear();
                     _mnuf._curmenu = "msg_qprompt2";
@@ -810,12 +732,8 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
                 _mnuf._curmenu = "msg_qprompt";
             }
 
-            // Readin the Menu Prompt
             _mnuf.menu_readin();
-            // Process Messeage Promt with lightbar menu
             _mnuf.menu_proc(mString);
-            // Process Return Input from Lightbars, Next, Prev, Quit ...
-            //mString[0] should = !
             ch = mString[1];
 
             // For Menu CmdKey Input
@@ -823,10 +741,8 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
                 switch (toupper(ch)) {
 
                 case 'Q': // Quit Message Reading
-                    //strcpy(qBuf,mLink.GetBuffer());
                     mLink.GetBuffer(retbuf);
                     mLink.dispose_list();
-                    //_mnuf.~menu_func();
                     return;
 
                 case 'U': // Page UP
@@ -841,19 +757,16 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
                     ansiPrintf((char *)"mreadhlp");
                     getkey(true);
                     ansiPrintf((char *)"mquote");
-                    //mLink.box_refresh();
                     mLink.box_overdraw(CURRENT_MAREA);
                     break;
 
                 case 'A': // Select all Text To Quote
                     mLink.select_all();
-                    //mLink.box_refresh();
                     mLink.box_overdraw(CURRENT_MAREA);
                     break;
 
                 case 'C': // Clear All Quoted Text.
                     mLink.clear_all();
-                    //mLink.box_refresh();
                     mLink.box_overdraw(CURRENT_MAREA);
                     break;
 
@@ -861,7 +774,6 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
                     break;
                 } // end of case
             else if (mString[0] == '#') {
-                // received Digist Input From Menu Prompt, Start Input for Quoting Text!
                 memset(&rBuffer,0, sizeof(rBuffer));
                 memset(&text,0, sizeof(text));
                 strcpy(text,sINPUT_BOX);
@@ -873,11 +785,9 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
                 getline(rBuffer,len,sNum,FALSE,(char *)"1234567890,-");
 
                 rBuff = rBuffer;
-                // For # & ENTER, Then DIGIT & ENTER Again.
                 id1 = rBuff.find("-",0);
                 id2 = rBuff.find(",",0);
 
-                // If a Single #, Check if Valid
                 if (id1 == std::string::npos &&
                     id2 == std::string::npos) {
                     id1 = atol(rBuffer);
@@ -905,13 +815,10 @@ void msg_quote::StartQuoter(LineRec *orgLink, std::string &retbuf)
                 ch = mString[0];
                 switch (toupper(ch)) {
                 case 'A':
-                    // Scroll Up 1 Line ( forced to paeg up / down for now)
-                    // Don't care much for single scrolling, anoying online!
-                    // Page is much nicer and faster ;)
                     mLink.box_pgup();
                     break;
 
-                case 'B': // Scroll down 1 Line ( forced to paeg up / down for now)
+                case 'B':
                     mLink.box_pgdn();
                     break;
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2013 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,17 +12,10 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: msg_fse.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_fse.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # ifndef MSG_FSE_H
 # define MSG_FSE_H
 
 # include "struct.h"
-//# include "msg_api.h"
 
 # include "mb_api.h"
 # include "msg_readll.h"
@@ -32,13 +25,12 @@
 
 using namespace std;
 
-class msg_fse :
-    //private msg_api
-private mbapi_jam
+class msg_fse 
+    : private mbapi_jam
 {
 
 private:
-    // Main List for Holding All Data
+
     LineRec     *head;          // Pointer to Fist in List
     LineRec     *current_node;  // Current Pointer in List
     LineRec     *last;          // Pointer to Last Element in List.
@@ -47,7 +39,6 @@ private:
     msg_readll  *reader_list;
     MsgHead      mHLocal;
 
-    // Editor Variables
     int Row,       // Y - Row    [Lines]
         Col,       // X - Colume [Char in Line]
         Len,       // Line Length
@@ -60,18 +51,17 @@ private:
 
     bool MSG_REPLY;
 
-    // Holds String Data for Current Line in use
     std::string Line;   // Line Data
     std::string TLine;  // Temp Line Data
 
     bool OVERWRITE;     // Do Replace or Insert
 
-    int  TRow;      // Temp Row, that were Line Wrapping On (garbage NOT IN USE!)
-    bool cont;      // If continious wrappign is on or off (word wrap es, NOT IN USE!)
-    int  bPush;     // If were pushing from the middle of the line
+    int  TRow;          // Temp Row, that were Line Wrapping On (garbage NOT IN USE!)
+    bool cont;          // If continious wrappign is on or off (word wrap es, NOT IN USE!)
+    int  bPush;         // If were pushing from the middle of the line
 
-    char sRow[15];  // Row
-    char sCol[15];  // Colume for FSE Ansi Display
+    char sRow[15];
+    char sCol[15];
     char sANSI_FILE[15];
     char sTHEME_NAME[20];
     char sTEXT_COLOR[15];
@@ -83,7 +73,6 @@ public:
 
     std::string buffer;
 
-    // Link List Functions  -  Note can move this to reference msg_ll.cpp / h
     void add_to_list(std::string);
     void stripCRONLY(char *ostr);
     void PutBuffer(char *mBuff);
@@ -135,7 +124,7 @@ public:
     int  poll_chr(int reply, int msg_edit, MsgHead *mH, msg_readll *mL = 0);
 
 private:
-    // fse.ini
+
     int  change_theme(int idx=0);
     void ansi_file(char *filename);
     bool fse_exists();

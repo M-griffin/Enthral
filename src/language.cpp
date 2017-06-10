@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -12,25 +12,17 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: language.cpp 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/language.cpp $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
-
 # include "language.h"
 # include "struct.h"
 
 # include <cstdio>
 # include <cctype>
-# include <cstring> // gcc 4.3
-# include <cstdlib> // gcc 4.3
+# include <cstring>
+# include <cstdlib>
 
 # include <string>
 # include <fstream>
-# include <sstream>    // Stream Numbers to Strings.
-
-
+# include <sstream>
 
 using namespace std;
 
@@ -39,7 +31,6 @@ using namespace std;
  */
 void language::lang_remove()
 {
-
     std::string path = DATAPATH;
     path += "language.dat";
     remove(path.c_str());
@@ -50,7 +41,6 @@ void language::lang_remove()
  */
 int language::lang_write(LangRec *lang, int idx)
 {
-
     std::string path = DATAPATH;
     path += "language.dat";
     int x = 0;
@@ -74,8 +64,6 @@ int language::lang_write(LangRec *lang, int idx)
  */
 int language::lang_read(LangRec *lang, int idx)
 {
-
-
     std::string path = DATAPATH;
     path += "language.dat";
 
@@ -103,7 +91,6 @@ int language::lang_read(LangRec *lang, int idx)
  */
 int language::lang_count()
 {
-
     int i = 0;
     LangRec lang;
 
@@ -120,7 +107,6 @@ int language::lang_count()
  */
 void language::lang_get(char *lang, int idx)
 {
-
     int id1 = 0;
     id1 = lang_count();
     LangRec l1;
@@ -138,10 +124,7 @@ void language::lang_get(char *lang, int idx)
  */
 void language::lang_check(std::string lang)
 {
-
     std::string temp2;
-    // Disgards any Config lines starting with the # or ; Character
-
     char Num[255] = {0};
     int LangNum = 0;
     int cnt     = 0;
@@ -160,7 +143,7 @@ void language::lang_check(std::string lang)
         }
     }
 
-    std::stringstream iconvert(Num);   // In
+    std::stringstream iconvert(Num);
 
     // Convert String to Int
     if (iconvert >> LangNum) {
@@ -185,7 +168,6 @@ void language::lang_check(std::string lang)
  */
 void language::lang_compile()
 {
-
     std::string name = INIPATH;
     name += "language.txt";
 

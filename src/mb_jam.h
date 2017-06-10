@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -11,12 +11,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: mb_jam.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/mb_jam.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # ifndef MSG_MBJAM_H
 # define MSG_MBJAM_H
@@ -96,15 +90,11 @@ struct MemMessage {
     uint8_t Type;
     uint16_t Flags;
 
-    uint32_t HighWater; // Total Messages (Includes Deleted)
-    uint32_t Active;    // Active Messages (Excludes Deleted)
-    uint32_t CurrMsg;   // Current Message
+    uint32_t HighWater;
+    uint32_t Active;
+    uint32_t CurrMsg;
 
     std::string TextChunks;
-
-    //struct jbList TextChunks;
-    //struct jbList SeenBy;
-    //struct jbList Path;
 };
 
 struct openbase {
@@ -115,13 +105,13 @@ struct openbase {
 
 struct jam_Area {
     struct jam_Area *Next;
-    mb_list_rec *area; //   struct Area *area;
+    mb_list_rec *area;
     s_JamBase *Base_PS;
     uint32_t BaseNum;
     uint32_t OldNum;
     uint32_t OldHighWater;
     uint32_t HighWater;
-    uint32_t Active;    // Only Active, Excluding delete messages.
+    uint32_t Active;
     BOOL newmsg;
 };
 

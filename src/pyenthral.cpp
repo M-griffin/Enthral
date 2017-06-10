@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose: Embedding Python for Scripting BBS functions                 *
@@ -12,13 +12,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-// Enthral SVN: $Id: pyenthral.cpp 4 2014-03-30 05:54:32Z merc $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/pyenthral.cpp $
-// $LastChangedDate: 2014-03-30 00:54:32 -0500 (Sun, 30 Mar 2014) $
-// $LastChangedRevision: 4 $
-// $LastChangedBy: merc $
-
-
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 #define BOOST_FILESYSTEM_DYN_LINK
 
@@ -26,7 +19,6 @@
 # include "conio.h"
 # include "menu_func.h"
 
-// Start of new Boost::Python Embedding.
 # include <boost/python.hpp>
 
 # include <boost/filesystem.hpp>
@@ -41,8 +33,6 @@ UserRec *pyUser;
 
 using namespace boost::python;
 using namespace boost::filesystem;
-
-// BBS IO Python Modules:
 
 /*
  * Python Hook into Menu System Class.
@@ -71,7 +61,6 @@ public:
         menu_readin();
     }
 
-    // Run a specific Menu CommandRec
     // Must first populate the cmdr record
     void docmd() {
         menu_docmd (&cmdr);
@@ -109,7 +98,7 @@ int pyGetTermWidth()
  */
 void pyAnsiPrintf(std::string str)
 {
-    SESSION s(pyUser);
+    ConsoleIO s(pyUser);
     if ((signed)str.size() > 0)
         s.ansiPrintf((char *)str.c_str());
     return;
@@ -131,7 +120,7 @@ std::string pyGetKeyExtended()
  */
 std::string pyPipe2String(std::string str)
 {
-    SESSION s(pyUser);
+    ConsoleIO s(pyUser);
     return s.pipe2string(str);
 }
 
@@ -140,7 +129,7 @@ std::string pyPipe2String(std::string str)
  */
 std::string pyGetKey()
 {
-    SESSION s(pyUser);
+    ConsoleIO s(pyUser);
     int ch = 0;
 
     ch = s.getkey(true);
@@ -158,8 +147,7 @@ std::string pyGetKey()
  */
 std::string pyGetLine(int len)
 {
-    SESSION s(pyUser);
-
+    ConsoleIO s(pyUser);
     char str[1024]= {0};
     s.getline(str,len);
     std::string sstr = str;
@@ -172,8 +160,7 @@ std::string pyGetLine(int len)
  */
 std::string pyInputField(std::string str, int len)
 {
-    SESSION s(pyUser);
-
+    ConsoleIO s(pyUser);
     char instr[1024]= {0};
 
     // Make sure string in not passed to big!
@@ -193,8 +180,7 @@ std::string pyInputField(std::string str, int len)
  */
 void pyPipe2Ansi(std::string str)
 {
-    SESSION s(pyUser);
-    //  s.errlog2((char *)str.c_str());
+    ConsoleIO s(pyUser);
     if ((signed)str.size() > 0)
         s.pipe2ansi((char *)str.c_str());
     return;
@@ -205,7 +191,7 @@ void pyPipe2Ansi(std::string str)
  */
 void pyPutLine(std::string str)
 {
-    SESSION s(pyUser);
+    ConsoleIO s(pyUser);
     if ((signed)str.size() > 0)
         s.putline((char *)str.c_str());
     return;
@@ -216,27 +202,16 @@ void pyPutLine(std::string str)
  */
 void pyStartPause()
 {
-    SESSION s(pyUser);
+    ConsoleIO s(pyUser);
     s.startpause();
     return;
 }
-
 
 /*
  * Python Hook - Setup C++ Fucntion Hooks
  */
 BOOST_PYTHON_MODULE(bbs_io)
 {
-
-    // Access to Menu System
-//	boost::python::class_<pyMenuSystem>("pyMenuSystem")
-//		.def("set", &pyMenuSystem::set)
-//		.def("readin", &pyMenuSystem::readin)
-//		.def("docmd", &pyMenuSystem::docmd)
-//		.def("clearcmd", &pyMenuSystem::clearcmd)
-//		.def("startmenu", &pyMenuSystem::startmenu);
-
-
     // Terminal
     def("pyGetTermHeight" , pyGetTermHeight);
     def("pyGetTermWidth"  , pyGetTermWidth);
@@ -256,21 +231,12 @@ BOOST_PYTHON_MODULE(bbs_io)
     def("pyStartPause"    , pyStartPause);
 }
 
-
-
-//------------------------------------------------------------------------------
-// Name: main()
-// Desc: Application's main entry point.
-// Note: Scripts should import gc and call gc.collect() to free memory at end.
-//------------------------------------------------------------------------------
-
 /*
  * Python Interface pass script and reference to user record.
  */
 void pybbs_run( std::string script, UserRec *usr )
 {
-
-    SESSION _io;
+    ConsoleIO _io;
     pyUser = usr;
 
     // Setup scripts path.
@@ -278,14 +244,10 @@ void pybbs_run( std::string script, UserRec *usr )
     path = SCRIPTS;
     path += script;
 
-
     // Clear for initial run.
     KeyCombination.erase();
 
-
-    sigset_t signal_set; // We don't need oldset in this program. You can add it,
-    //but it's best to use different sigsets for the second
-    //and third argument of sigprocmask.
+    sigset_t signal_set;
     sigemptyset(&signal_set);
 
     // Block Signals in Python, casue then the BBS doesn't get them.
@@ -303,45 +265,11 @@ void pybbs_run( std::string script, UserRec *usr )
 
     try {
 
-        //function should be called before Py_Initialize() to inform
-        //the interpreter about paths to Python run-time libraries.
-        //Next, the Python interpreter is initialized with Py_Initialize(),
-        //followed by the execution of a hard-coded Python script that
-        //prints the date and time.
-
-        //Py_SetProgramName(BBSPATH);
-
-        /* Simple Test Code
-        PyRun_SimpleString("result = 5 ** 2");
-
-        object module(handle<>(borrowed(PyImport_AddModule("__main__"))));
-        object dictionary = module.attr("__dict__");
-        object result = dictionary["result"];
-
-        int result_value = extract<int>(result);
-        std::cout << result_value << std::endl;
-
-        dictionary["result"] = 20;
-        PyRun_SimpleString("print result");
-
-        initbbs_io(); // initialize Pointless
-
-        PyRun_SimpleString("import bbs_io");
-        PyRun_SimpleString("print bbs_io.add_five(4)");
-        */
-
-        // Testing
-        //path += "MyModule.py";
-
-        if (boost::filesystem::exists(path.c_str())) { // does actually exist?
-            //if (boost::filesystem::is_regular_file(path.c_str()))        // is p a regular file?
-            //	std::cout << path.c_str() << " size is " << boost::filesystem::file_size(path.c_str()) << endl;
-        } else {
-            std::cout << "\n *** ERROR: \n" << path.c_str() << " NOT FOUND!" << endl;
+        if (!boost::filesystem::exists(path.c_str())) {
             return;
-        }
+        } 
 
-        _io.errlog2((char *)"Starting Boost_Python %s",path.c_str());
+        _io.errlog((char *)"Starting Boost_Python %s",path.c_str());
 
         Py_Initialize();
 
@@ -350,38 +278,24 @@ void pybbs_run( std::string script, UserRec *usr )
         object module = import("__main__");
         object name_space = module.attr("__dict__");
 
-        // Setup global variables for script.
-        //Only works for wavlues set before scripts, is not dynamic!
-        //name_space["KeyCombination"]=KeyCombination;
-
         object result = exec_file(path.c_str(), name_space, name_space);
 
-        _io.errlog2((char *)"Exiting Boost_Python");
+        _io.errlog((char *)"Exiting Boost_Python");
 
     } catch(error_already_set const &) {
         PyErr_Print();
-        /*
-        boost::python::object sys(
-        	boost::python::handle<>(PyImport_ImportModule("sys"))
-        );
-        boost::python::object err = sys.attr("stderr");
-        std::string err_text = boost::python::extract<std::string>(err.attr("getvalue")());
-        //MessageBox(0, err_text.c_str(), "Python Error", MB_OK);
-        _io.errlog2((char *)err_text.c_str());*/
-        _io.errlog2((char *)"Python Exception");
+
+        _io.errlog((char *)"Python Exception");
 
         // Only Exit if a user, not if sysop debuging!
         if (isSysop == FALSE)
             exit(1);
     }
 
-    _io.errlog2((char *)"Finished Boost_Python");
+    _io.errlog((char *)"Finished Boost_Python");
 
     // Unblock Signals
     sigprocmask(SIG_UNBLOCK, &signal_set, NULL);
 
-    //do not call this, causes issue memory leaks in BOOST_PYTHON
-    // can't run more anymore scripts if this is called!
-    // Py_Finalize();
     return;
 }

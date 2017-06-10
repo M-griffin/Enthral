@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004-2014 by Michael Griffin                            *
+ *   Copyright (C) 2004-2017 by Michael Griffin                            *
  *   mrmisticismo@hotmail.com                                              *
  *                                                                         *
  *   Purpose:                                                              *
@@ -9,12 +9,6 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
-
-// Enthral SVN: $Id: msg_read.h 1 2014-03-29 07:30:21Z mercyful $
-// Source: $HeadURL: file:///home/merc/repo/enthral/trunk/src/msg_read.h $
-// $LastChangedDate: 2014-03-29 02:30:21 -0500 (Sat, 29 Mar 2014) $
-// $LastChangedRevision: 1 $
-// $LastChangedBy: mercyful $
 
 # ifndef MSG_READ_H
 # define MSG_READ_H
@@ -145,7 +139,6 @@ public:
     int  SetupUserSig();
 
     void get_address(XMSG *xm);
-//    void get_address(struct MemMessage *xm);
 
     void DoPostEmail(int Reply);
     void DoPost(int mbnum, int Reply);
