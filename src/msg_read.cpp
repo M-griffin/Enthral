@@ -24,6 +24,7 @@
 # include "msg_title.h"
 # include "msg_email.h"
 
+# include <iostream>
 # include <string>
 # include <fstream>
 # include <sstream>
@@ -511,7 +512,7 @@ int msg_read::ReadMessages(ulong marea)
 void msg_read::JumpToMessage()
 {
     std::string AnsiString = "";
-    char choice[100]   = {0};
+    char choice[500]   = {0};
     char szReplace[10] = {0};
 
     std::string::size_type id1 =  0;
@@ -848,7 +849,7 @@ void msg_read::get_address(XMSG *xm)
 {
     char *zone,*net,*node,*pt;
     char faddr[21]= {0};
-    char text[100]= {0};
+    char text[500]= {0};
     int len = 15;
 
     xm->dest.zone=0;
@@ -887,7 +888,7 @@ void msg_read::get_address(XMSG *xm)
 void msg_read::DoPostEmail(int Reply)
 {
     time_t timet;
-    char rep[51]= {0}, text[100]= {0};
+    char rep[51]= {0}, text[500]= {0};
     char faddr[81]= {0};
     int  save, idx;
     std::string tmp;
@@ -938,14 +939,16 @@ void msg_read::DoPostEmail(int Reply)
     if (!Reply) {
         strcpy(to, (char *)uidx.handle);
     }
+    
     pipe2ansi(to);
 
     // Get SUBJECT:
     _lang.lang_get(text,48);
+    
     len = 60;
-    inputfield(text,len);
+    inputfield(text,len);    
     pipe2ansi(text);
-
+    
     // Mesasge Reply, Data Alreadt in mHead for Current Message.
     if (Reply) {
         strcpy(subj,mHead.subj);
@@ -1037,10 +1040,12 @@ void msg_read::DoPostEmail(int Reply)
 
     SaveMsg(0,0,TRUE);
 
+    memset(&text, 0, sizeof(100));
+
     _lang.lang_get(text,34);
     pipe2ansi(text);
 
-    hist_update(HIST_EMAILS,thisuser);
+    //hist_update(HIST_EMAILS,thisuser);
 }
 
 /**
@@ -1049,7 +1054,7 @@ void msg_read::DoPostEmail(int Reply)
 void msg_read::DoPost(int mbnum, int Reply)
 {
     time_t timet;
-    char text[100]= {0};
+    char text[500]= {0};
     int  save;
     char faddr[81]= {0};
     std::string tmp;
@@ -1237,10 +1242,10 @@ void msg_read::SetupMsgPost()
 void msg_read::DoEdit(int mbnum)
 {
     time_t timet;
-    char faddr[100]  = {0};
-    char tag[100]    = {0};
-    char origin[100] = {0};
-    char text[100]   = {0};
+    char faddr[500]  = {0};
+    char tag[500]    = {0};
+    char origin[500] = {0};
+    char text[500]   = {0};
 
     int  save        = FALSE;
 
@@ -1324,7 +1329,7 @@ void msg_read::DoEdit(int mbnum)
  */
 void msg_read::EditMessage()
 {
-    char text[100]= {0};
+    char text[500]= {0};
     unsigned char ch;
 
     _lang.lang_get(text,31);
@@ -1950,7 +1955,7 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
 {
     std::string AnsiString;
     char        mString[1024]   = {0};
-    char        szReplace[100]  = {0};
+    char        szReplace[500]  = {0};
     char        text[1024]      = {0};
 
     int         rtnval          = TRUE;
@@ -2266,7 +2271,13 @@ int msg_read::StartReader(int newmsg, ulong msgidx)
                     }
 
                     mLink.Lines = 0;
+                    
+                    std::cout << "dispose" << std::endl;
+                    
                     mLink.dispose();
+                    
+                    std::cout << "dispose done" << std::endl;
+                    
                     same = FALSE; // Refresh Message
                     pipe2ansi((char *)"|CS");
                     _mnuf.choice = 0;
