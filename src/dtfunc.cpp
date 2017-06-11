@@ -15,7 +15,6 @@
 # include "conio.h"
 # include "dtfunc.h"
 
-# include <boost/lexical_cast.hpp>
 # include <iostream>
 # include <time.h>
 # include <cstdio>
@@ -26,7 +25,7 @@
 
 using namespace std;
 
-char *getLastCallDays(std::time_t lastcall)
+std::string getLastCallDays(std::time_t lastcall)
 {
     std::time_t  theTime, callTime;
     theTime = time(0);
@@ -82,14 +81,12 @@ char *getLastCallDays(std::time_t lastcall)
                 ss << secs  << ") Second";
         }
 
-        s = ss.str();
-        return (char *)s.c_str();
-
+        return ss.str();
     }
-    return (char *)"error";
+    return "error";
 }
 
-char *getAge(std::time_t sec)
+std::string getAge(std::time_t sec)
 {
     std::time_t  theTime, birthTime;
     std::tm     *aTime,   *bTime;
@@ -114,7 +111,7 @@ char *getAge(std::time_t sec)
     else if (birthmonth == currentmonth && birthday >= currentday)
         --ageInYears;
 
-    std::string s = boost::lexical_cast<std::string>(ageInYears);
+    std::string s = std::to_string(ageInYears);
     return (char *)s.c_str();
 }
 
@@ -131,7 +128,7 @@ int isBday(std::time_t sec)
     strftime(date, 256, "%m/%d/%Y", t2);
 
     ConsoleIO s;
-    strcpy(date2,Sec2Date(sec));
+    strcpy(date2,Sec2Date(sec).c_str());
 
     int i = 0, t = 0, mm, dd;
     char dt[5]= {0};
@@ -218,7 +215,7 @@ time_t GetCurrentDTSec()
 }
 
 //Seconds to Date Format Birthday
-char *Sec2Date(std::time_t sec)
+std::string Sec2Date(std::time_t sec)
 {
     std::time_t currnetTime;
     std::tm     *tStamp;
@@ -230,7 +227,7 @@ char *Sec2Date(std::time_t sec)
     strftime(buf, 256, "%m/%d/%Y", tStamp);
 
     std::string s = buf;
-    return (char *)s.c_str();
+    return s;
 }
 
 time_t Date2Sec(char *strdate)
@@ -283,7 +280,7 @@ time_t Date2Sec(char *strdate)
     return (tmp_t);
 }
 
-char *Sec2DateTM(std::time_t time, int format)
+std::string Sec2DateTM(std::time_t time, int format)
 {
     std::time_t  the_time;
     std::tm *tm_ptr;
@@ -325,12 +322,11 @@ char *Sec2DateTM(std::time_t time, int format)
     }
 
     std::string s = buff;
-    return (char *)s.c_str();
+    return s;
 }
 
 time_t StampToDosTime(struct _stamp *st)
 {
-
     time_t tt;
     struct tm tms;
     tms.tm_sec   = st->time.ss << 1;
@@ -346,7 +342,6 @@ time_t StampToDosTime(struct _stamp *st)
 
 struct _stamp *DosTimeToStamp(time_t tt)
 {
-
     struct tm *tmsp;
     static struct _stamp st;
     tmsp = localtime(&tt);

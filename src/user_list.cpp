@@ -565,7 +565,7 @@ vector< list_bar > usr_list::build_userlist(UserRec *usr, std::string &temp)   /
                         }
                         temp3 += temp2;
                     } else if (strcmp(MCI,"UN") == 0) {
-                        sprintf(temp2,"%s",urecord . handle);
+                        sprintf(temp2,"%s",urecord.handle);
                         if (foundl) {
                             s.lspacing(temp2,space);
                             foundl = FALSE;
@@ -585,7 +585,7 @@ vector< list_bar > usr_list::build_userlist(UserRec *usr, std::string &temp)   /
                         }
                         temp3 += temp2;
                     } else if (strcmp(MCI,"LO") == 0) {
-                        sprintf(temp2,"%s",Sec2Date(urecord . dtlaston));
+                        sprintf(temp2,"%s",Sec2Date(urecord.dtlaston).c_str());
                         if (foundl) {
                             s.lspacing(temp2,space);
                             foundl = FALSE;

@@ -472,7 +472,7 @@ void logon::ParseVerify(char *filename, UserRec *u)
             if (u->sex == 'f' || u->sex == 'F') sprintf(sTemp,"female");
             else sprintf(sTemp,"male");
         } else if (strcmp(MCI,"BD") == 0) {
-            sprintf(sTemp,"%s", Sec2Date(u->dtbday));
+            sprintf(sTemp,"%s", Sec2Date(u->dtbday).c_str());
         } else if (strcmp(MCI,"NO") == 0) {
             sprintf(sTemp,"%s", u->usernote);
         } else if (strcmp(MCI,"CQ") == 0) {
@@ -770,13 +770,13 @@ int logon::logon_system(UserRec *urec)
     // Last On
     id1 = buff.find("%LO",0);
     if (id1 != -1) {
-        sprintf(text,"%s",Sec2DateTM(urec->dtlaston,2));
+        sprintf(text,"%s",Sec2DateTM(urec->dtlaston,2).c_str());
         buff.replace(id1,3,text);
     }
     // Last On
     id1 = buff.find("%BD",0);
     if (id1 != -1) {
-        sprintf(text,"%s",Sec2Date(urec->dtbday));
+        sprintf(text,"%s",Sec2Date(urec->dtbday).c_str());
         buff.replace(id1,3,text);
     }
 
