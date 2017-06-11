@@ -1499,7 +1499,7 @@ void ConsoleIO::pipe2ansi(char* szString, int buffer)
                     AnsiString.replace(id1,3,szReplace);
                 }
                 else if (strcmp(szTmp,"LD") == 0) {
-                    sprintf(szReplace,"%s",getLastCallDays(user->dtlaston));
+                    sprintf(szReplace,"%s",getLastCallDays(user->dtlaston).c_str());
                     AnsiString.replace(id1,3,szReplace);
                 } 
                 else if (strcmp(szTmp,"EN") == 0) { // CP437 | UTF8 Encoding
@@ -1586,22 +1586,22 @@ void ConsoleIO::pipe2ansi(char* szString, int buffer)
                         break;
 
                     case 'B' :
-                        sprintf(szReplace,"%s",Sec2Date(user->dtbday));
+                        sprintf(szReplace,"%s",Sec2Date(user->dtbday).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case 'F' :
-                        sprintf(szReplace,"%s",Sec2DateTM(user->dtfirston,1));
+                        sprintf(szReplace,"%s",Sec2DateTM(user->dtfirston,1).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case 'L' :
-                        sprintf(szReplace,"%s",Sec2DateTM(user->dtlaston,1));
+                        sprintf(szReplace,"%s",Sec2DateTM(user->dtlaston,1).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case 'X' :
-                        sprintf(szReplace,"%s",getAge(user->dtbday));
+                        sprintf(szReplace,"%s",getAge(user->dtbday).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
@@ -1619,32 +1619,32 @@ void ConsoleIO::pipe2ansi(char* szString, int buffer)
                 case 'D' : // Date Time
                     switch (szTmp[1]) {
                     case '1' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),1));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),1).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '2' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),2));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),2).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '3' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),3));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),3).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '4' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),4));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),4).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '5' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),5));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),5).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '6' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),6));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),6).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
                         // Display a file
@@ -1923,7 +1923,7 @@ std::string ConsoleIO::pipe2string(std::string szString)
                     sprintf(szReplace,"%ld",(mf.CountAllNewMsgs(user)));
                     AnsiString.replace(id1,3,szReplace);
                 } else if (strcmp(szTmp,"LD") == 0) {
-                    sprintf(szReplace,"%s",getLastCallDays(user->dtlaston));
+                    sprintf(szReplace,"%s",getLastCallDays(user->dtlaston).c_str());
                     AnsiString.replace(id1,3,szReplace);
                 } else if (strcmp(szTmp,"EN") == 0) { // CP437 | UTF8 Encoding
                     if (UTF8Output)
@@ -2006,22 +2006,22 @@ std::string ConsoleIO::pipe2string(std::string szString)
                         break;
 
                     case 'B' :
-                        sprintf(szReplace,"%s",Sec2Date(user->dtbday));
+                        sprintf(szReplace,"%s",Sec2Date(user->dtbday).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case 'F' :
-                        sprintf(szReplace,"%s",Sec2DateTM(user->dtfirston,1));
+                        sprintf(szReplace,"%s",Sec2DateTM(user->dtfirston,1).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case 'L' :
-                        sprintf(szReplace,"%s",Sec2DateTM(user->dtlaston,1));
+                        sprintf(szReplace,"%s",Sec2DateTM(user->dtlaston,1).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case 'X' :
-                        sprintf(szReplace,"%s",getAge(user->dtbday));
+                        sprintf(szReplace,"%s",getAge(user->dtbday).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
@@ -2039,32 +2039,32 @@ std::string ConsoleIO::pipe2string(std::string szString)
                 case 'D' : // Date Time
                     switch (szTmp[1]) {
                     case '1' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),1));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),1).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '2' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),2));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),2).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '3' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),3));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),3).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '4' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),4));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),4).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '5' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),5));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),5).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
                     case '6' :
-                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),6));
+                        sprintf(szReplace,"%s",Sec2DateTM(GetCurrentDTSec(),6).c_str());
                         AnsiString.replace(id1,3,szReplace);
                         break;
 
