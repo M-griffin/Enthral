@@ -405,7 +405,7 @@ void ConsoleIO::inputfield(char *text, int &len)
 
     for(int i = 0; i != len; i++) {
         if (USE_CHAR) {
-            repeat += "�";
+            repeat += "\xb0";
         } else {
             repeat += " ";
         }
@@ -637,7 +637,7 @@ int ConsoleIO::processmsg(struct nodemessage *nmsg)
     std::string node_msg;
 
     myolm = new struct olm;
-    strcpy(myolm->olm_msg, nmsg->str); //, sizeof myolm->olm_msg);
+    strcpy(myolm->olm_msg, nmsg->str);
     myolm->olm_number = 0;
 
     ansiPrintf((char *)"nodemsg");
@@ -924,7 +924,7 @@ int ConsoleIO::getkey(bool bWait)
 
             read_input();
         }
-        
+
     } while (bWait);
 
     // Translater ENTER Key, Some Terms send CR
@@ -1000,7 +1000,7 @@ RESTART:
             case '3' : // Delete
                 if (i != 0 || Col != 0) {
                     if (USE_CHAR) {
-                        console_putsn((char *)"\x1b[D�\x1b[D",7);
+                        console_putsn((char *)"\x1b[D\xB0\x1b[D",7);
                     } else {
                         console_putsn((char *)"\x1b[D \x1b[D",7);
                     }
@@ -1024,21 +1024,21 @@ RESTART:
             i = Col;
             for (; i != 0; i--) {
                 if (USE_CHAR) {
-                    console_putsn((char *)"\x1b[D�\x1b[D",7);
+                    console_putsn((char *)"\x1b[D\xB0\x1b[D",7);
                 } else {
-                    console_putsn((char *)"\x1b[D�\x1b[D",7);
+                    console_putsn((char *)"\x1b[D \x1b[D",7);
                 }
             }
             i = 0;
             Col = i;
         }
-        
+
         // Do destructive backspace
         // on VT100 Terms 127 DEL == BS!
         else if ((int)c == 0x08 || (int)c == 127 || int(c) == 8 || int(c) == 207 || (int)c == 0x7f) {
             if (i != 0 || Col != 0) {
                 if (USE_CHAR) {
-                    console_putsn((char *)"\x1b[D�\x1b[D",7);
+                    console_putsn((char *)"\x1b[D\xB0\x1b[D",7);
                 } else {
                     console_putsn((char *)"\x1b[D \x1b[D",7);
                 }
@@ -1083,17 +1083,17 @@ int ConsoleIO::rt_arrow()
         // Not at End of Line
         //if (Col >= strlen((char *)input.c_str())-1) {
         if (Col+1 < (signed)input.size()) {
-            ++Col;            
+            ++Col;
         }
         else {
-            return FALSE;            
+            return FALSE;
         }
 
         console_putsn((char *)"\x1b[C",3);
         return TRUE;
     }
 
-    return FALSE;        
+    return FALSE;
 }
 
 /**
@@ -1106,7 +1106,7 @@ int ConsoleIO::lt_arrow()
         --Col;
         return TRUE;
     }
-     
+
     return FALSE;
 }
 
@@ -1402,7 +1402,7 @@ void ConsoleIO::pipe2ansi(char* szString, int buffer)
 
                 // Replace pipe code with Ansi Sequence
                 if (strcmp(szReplace,"") != 0) {
-                    AnsiString.replace(id1,3,szReplace);                    
+                    AnsiString.replace(id1,3,szReplace);
                 }
             }
             // Else not a Pipe Color / Parse for Screen Modification
@@ -1501,15 +1501,14 @@ void ConsoleIO::pipe2ansi(char* szString, int buffer)
                 else if (strcmp(szTmp,"LD") == 0) {
                     sprintf(szReplace,"%s",getLastCallDays(user->dtlaston).c_str());
                     AnsiString.replace(id1,3,szReplace);
-                } 
+                }
                 else if (strcmp(szTmp,"EN") == 0) { // CP437 | UTF8 Encoding
                     if (UTF8Output) {
                         sprintf(szReplace,"UTF-8");
                     }
                     else {
-                        sprintf(szReplace,"CP437");                    
+                        sprintf(szReplace,"CP437");
                     }
-                    
                     AnsiString.replace(id1,3,szReplace);
                 } else if (strcmp(szTmp,"TT") == 0) { // Client Terminal Type
                     // Read in Unique FileAreaScan
@@ -2295,7 +2294,7 @@ void ConsoleIO::readinAnsi(std::string FileName, std::string &buff)
     do {
         c = getc(fp);
         if (c != EOF) {
-            buff += c;            
+            buff += c;
         }
     } while (c != EOF);
 
