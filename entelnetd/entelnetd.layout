@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="config.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="0" topLine="0" />
+	<File name="config.hpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="config.hpp" open="0" top="0" tabpos="3">
-		<Cursor position="0" topLine="0" />
+	<File name="telnet_daemon.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="5927" topLine="234" />
+	<File name="main.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="telnet_daemon.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="4944" topLine="158" />
+	<File name="telnet_decoder.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="telnet_daemon.hpp" open="1" top="0" tabpos="2">
-		<Cursor position="1159" topLine="18" />
+	<File name="telnet_decoder.hpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7362" topLine="262" />
+		</Cursor>
 	</File>
-	<File name="telnet_decoder.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="15" topLine="0" />
+	<File name="telnet_daemon.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="246" />
+		</Cursor>
 	</File>
-	<File name="telnet_decoder.hpp" open="1" top="0" tabpos="4">
-		<Cursor position="1202" topLine="24" />
+	<File name="config.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
