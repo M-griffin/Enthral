@@ -22,8 +22,10 @@
 # include <cstdio>
 # include <cstring>
 # include <cstdlib>
-
+# include <cctype>
 # include <string>
+# include <iomanip>
+# include <iostream>
 
 using namespace std;
 
@@ -60,6 +62,44 @@ char *mbapi_jam::faddr2char(char *s,fidoaddr *fa)
     return(s);
 }
 
+
+// http://blog.refu.co/?p=804
+static char hexset [] = { '0', '1', '2', '3', '4', '5', '6', '7',
+                        '8', '9' ,'A', 'B', 'C', 'D', 'E', 'F' };
+
+int uintToHexStr(unsigned long num, char* buff)
+{
+    int len = 0;
+    do
+    {
+        buff[len] = hexset[num & 0xF];
+        len++;
+        num = num >> 4;
+
+    } while(num != 0);
+
+    for(int i = 0; i < len / 2; i++)
+    {
+        buff[i] ^= buff[len-i - 1];
+        buff[len-i - 1] ^= buff[i];
+        buff[i] ^= buff[len-i -1];
+    }        
+
+    buff[len] = '\0';
+    
+    // Move all Hex Letters to Lowercase.
+    for (int i = 0; i < len; i++) 
+    {
+        if (buff[i] >= 'A' && buff[i] <= 'Z') {
+            buff[i] += 32;
+        }        
+    }
+    
+    
+    return len;
+}
+
+
 /**
  * Message API - Save JAM Message
  */
@@ -67,6 +107,10 @@ int mbapi_jam::SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply
 {
     MemMessage mm;
     mm.msgnum = msgnum;
+
+    //enough for 64 bits integer
+    char msgIdbuff[16] = {0}; 
+    char newMsgId[200] = {0};
 
     if(mr.Kind == NETMAIL) {
         mm.Area[0] = 0;
@@ -99,8 +143,8 @@ int mbapi_jam::SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply
     mm.TextChunks = buff;
 
     char adrs[21]= {0};
-    unsigned long num;
-    unsigned long MsgId;
+    unsigned long num = 0;
+    unsigned long MsgId = 0;
 
     time((time_t *)&num);
 
@@ -111,11 +155,14 @@ int mbapi_jam::SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply
     mm.REPLY_CRC = 0;
     mm.MSGID_CRC = 0;
 
-    sprintf((char *)mm.MSGID,"%s %ld", (const char *)adrs, num);
+    uintToHexStr(num, msgIdbuff);
 
-    std::string tmpMsgId;
+    sprintf((char *)newMsgId,"%s@%s %8.8s", (const char *)mr.mbfile, (const char *)adrs, msgIdbuff);    
+    strncpy((char *)mm.MSGID, newMsgId, 79);
+
+    std::string tmpMsgId = "";
     if (NewReply) {
-        MsgId = jamapi_readmsgid(&mr,msgnum,tmpMsgId);
+        MsgId = jamapi_readmsgid(&mr, msgnum, tmpMsgId);
         sprintf((char *)mm.REPLY,"%s",(char *)tmpMsgId.c_str());
         mm.REPLY_CRC = MsgId; // keep as CRC32, no need to convert back and forth.
     } else {
@@ -123,7 +170,9 @@ int mbapi_jam::SaveMsg(unsigned long msgarea, unsigned long msgnum, int NewReply
         sprintf((char *)mm.REPLY,"%s",(char *)tmpMsgId.c_str());
     }
 
-    return (jamapi_writemsg(&mm, &mr));
+    int result = jamapi_writemsg(&mm, &mr);
+
+    return (result);
 }
 
 /**
@@ -581,9 +630,9 @@ void mbapi_jam::MsgSetupTxt()
             if(mLink.current_node == 0) {
                 break;
             }
-            
+
             // And Not At top of list, don't delete lines below
-            tmp = mLink.current_node;      
+            tmp = mLink.current_node;
 
             if (mLink.current_node->up_link == 0) break;
             mLink.current_node = mLink.current_node->up_link;

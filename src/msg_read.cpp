@@ -1211,7 +1211,7 @@ void msg_read::DoPost(int mbnum, int Reply)
     strcpy((char*)xmsg.subj, mHLocal.subj);
 
     memset(&text,0,sizeof(text));
-    SaveMsg(mbnum,MI.cur_msg+1,Reply);
+    SaveMsg(mbnum, MI.cur_msg+1, Reply);
 
     _lang.lang_get(text,34);
     pipe2ansi(text);
