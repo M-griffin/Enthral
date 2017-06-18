@@ -27,6 +27,7 @@
 
 # include <vector>
 # include <string>
+# include <iostream>
 
 # define ulong unsigned long
 
@@ -752,7 +753,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
 
 //   _s.errlog((char *)"4. MB_JAM() - TextChunks.size()");
     msgsize = (uint32_t)mm->TextChunks.size();
-
+    
     // Later on convert this to string for unicode support aginst char *;)
     if(msgsize != 0) {
         msgtext = new uint8_t [msgsize]; //  (uint8_t *)osAlloc(msgsize)))
@@ -765,7 +766,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
             ja = 0;
             return(FALSE);
         }
-    } else { // Can;t save message with no text!
+    } else { // Can;t save message with no text!   
         JAM_DelSubPacket(SubPacket_PS);
         JAM_CloseMB(ja->Base_PS);
         free(ja->Base_PS);
@@ -774,11 +775,11 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
         return(FALSE);
     }
 
-
 //   _s.errlog((char *)"3. MB_JAM() - Do Header");
     // Do header
     // Header_S.DateProcessed = NULL;
     // Header_S.DateWritten = time(NULL); //FidoToTime(mm->DateTime);
+    
 
     // Damned time zones... dates should be in local time in JAM
     Header_S.DateProcessed = 0L; //NULL; //mm->DateTime; // Processed for Crashmail!
@@ -787,10 +788,13 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     Header_S.Cost = mm->Cost;
 
     Header_S.MsgIdCRC = JAM_Crc32(mm->MSGID,strlen((char *)mm->MSGID));
-    Header_S.ReplyCRC = JAM_Crc32(mm->REPLY,strlen((char *)mm->REPLY));
-
     jam_addfield(SubPacket_PS,JAMSFLD_MSGID,mm->MSGID);
-    jam_addfield(SubPacket_PS,JAMSFLD_REPLYID,mm->REPLY);
+    
+    if (strlen((char *)mm->REPLY) > 0) {
+        Header_S.ReplyCRC = JAM_Crc32(mm->REPLY,strlen((char *)mm->REPLY));
+        jam_addfield(SubPacket_PS,JAMSFLD_REPLYID,mm->REPLY);
+    }
+    
     jam_addfield(SubPacket_PS,JAMSFLD_PID, (uint8_t *)BBSVERSION);
 
 //   _s.errlog((char *)"Write: F: %s, T: %s, S: %s",(char *)mm->From,(char *)mm->To,(char *)mm->Subject);
@@ -1034,7 +1038,7 @@ BOOL jamapi_writemsg(struct MemMessage *mm, mb_list_rec *area)
     }
 
 //   _s.errlog((char *)"3. MB_JAM() - AddMessage!");
-    res=JAM_AddMessage(ja->Base_PS,&Header_S,SubPacket_PS,msgtext,msgpos);
+    res = JAM_AddMessage(ja->Base_PS,&Header_S,SubPacket_PS,msgtext,msgpos);
 
 //   _s.errlog((char *)"3. MB_JAM() - UnLockMB");
     JAM_UnlockMB(ja->Base_PS);
@@ -2069,8 +2073,8 @@ BOOL jamapi_readmsg(mb_list_rec *area, uint32_t num, struct MemMessage *mm, int 
             mystrncpy(mm->Subject,buf,72);
             break;
 
-            /*  Make this a sysop toggle.
-            	WE are only reading a message.
+           /*  Make this a sysop toggle.
+           // 	WE are only reading a message.
 
 
                     case JAMSFLD_MSGID:
