@@ -359,7 +359,7 @@ int msg_fse::line_total()
 }
 
 /**
- * Full Screen Editor - Delete Line and Move up 
+ * Full Screen Editor - Delete Line and Move up
  * One Line then to the End (for Backspaces)
  */
 void msg_fse::delete_line_up()
@@ -371,7 +371,7 @@ void msg_fse::delete_line_up()
     }
 
     if ( current_node->up_link != 0) {
-    
+
         tmp = current_node;
         if (current_node->dn_link != 0) {
             current_node->up_link->dn_link = current_node->dn_link;
@@ -729,14 +729,14 @@ int msg_fse::format_paragraph()
                     sTmpLine.erase((int)sTmpLine.size()-1,1);
                 else break;
             }
-            
+
             current_node->data = sTmpLine;
             ++Tot;
             current_node = current_node->up_link;
             return FALSE;
         }
     }
-    
+
     return FALSE;
 }
 
@@ -862,7 +862,7 @@ void msg_fse::add_char(unsigned char c)
             Line += sCharTemp;
         }
     }
-    
+
     ++Col;
     ++iColPos;
     iLineSize = Line.size();
@@ -1064,7 +1064,7 @@ int msg_fse::options_prompt(unsigned char c)
 
     char mString[10] = {0};
     unsigned char ch;
-    char qText[100]= {0};
+    char qText[255]= {0};
 
     std::string qbuf;
     std::string QuoteStr;
@@ -1212,7 +1212,7 @@ int msg_fse::options_prompt(unsigned char c)
 }
 
 /**
- * Full Screen Editor - Insert Lines Comming from Message 
+ * Full Screen Editor - Insert Lines Comming from Message
  * Reader stright into FSE List for Message Edit.
  * Used on Reply or Edit.
  */
